@@ -73,14 +73,14 @@ describe('improveAnswer targets the next marking level, not a new essay', () => 
   afterEach(() => vi.unstubAllGlobals());
 
   it('aims a band above the student, and reports that target back', async () => {
-    const result = await improveAnswer('A short attempt at caching.', prompt, evaluation);
-
-    // 4/8 on a Tier 4 verb is Band 2; the next band starts at 5/8. The point of
-    // the assertion is the BAND moving, not the arithmetic: a rewrite the
-    // student is told is an improvement must not come back in the band they
-    // were already in.
-    const target = getNextLevelTarget(4, 8, 4);
-    expect(target.targetBand).toBeGreaterThan(getBandForMark(4, 8, 4));
+    // 2/8 on a Tier 4 verb is Band 2, and Band 3 starts one mark on, at 3/8. The
+    // point of the assertion is the BAND moving: a rewrite the student is told is
+    // an improvement must not come back in the band they were already in. (From
+    // 4/8 the next mark is still Band 3, which runs from 3 to 7 on this question.)
+    const weaker = { ...evaluation, overallMark: 2, overallBand: 2 };
+    const result = await improveAnswer('A short attempt at caching.', prompt, weaker);
+    const target = getNextLevelTarget(2, 8, 4);
+    expect(target.targetBand).toBeGreaterThan(getBandForMark(2, 8, 4));
     expect(result.mark).toBe(target.targetMark);
     expect(result.band).toBe(target.targetBand);
 

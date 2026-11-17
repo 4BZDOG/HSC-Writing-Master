@@ -586,7 +586,7 @@
                         "mark": 3,
                         "answer": "Simulation lets drivers practise routines safely before real deliveries. Gamification with points and badges can motivate drivers to complete their online training, which supports learning, though the benefit may fade.",
                         "feedback": "Analyses two tools, simulation and gamification, with some links to training outcomes, which meets the 3-mark row. To reach 4 marks, analyse augmented reality as well, with a clear link to driver learning.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-04-n0-n1-s3",
@@ -836,7 +836,7 @@
                         "mark": 2,
                         "answer": "Social media lets her share the film and get comments, and creative commons music is free to use.",
                         "feedback": "Identifies a benefit of each resource, which meets the 2-mark row, but the claim that creative commons music is free overlooks its licence conditions. To reach 3 marks, describe both resources with a link to the filmmaker.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -951,7 +951,7 @@
                         "mark": 3,
                         "answer": "Push notifications and step counts may encourage residents to walk regularly, though the effect may fade. Voice navigation lets residents with vision impairment explore the trails without a printed map.",
                         "feedback": "Examines one influence on walking and one accessibility feature, with some reasoning, which meets the 3-mark row. To reach 4 marks, examine both with relevant reasons in more depth.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-07-n0-n1-s3",
@@ -1073,7 +1073,7 @@
                         "mark": 3,
                         "answer": "Pop-ups create urgency with a limited-time discount, so the customer may decide quickly. Autofill makes checkout faster by filling in card details, which reduces effort.",
                         "feedback": "Analyses two techniques, pop-up urgency and autofill, with some links to behaviour, which meets the 3-mark row. To reach 4 marks, link the two techniques more clearly to the purchase decision.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-08-n0-n1-s3",
@@ -4697,7 +4697,7 @@
                         "mark": 2,
                         "answer": "Office staff are watched by their manager. Remote staff use a project board and an activity log.",
                         "feedback": "Identifies two monitoring methods, which meets the 2-mark row. To reach 3 marks, describe how one group's monitoring works, with some reference to the other.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -4807,7 +4807,7 @@
                         "mark": 3,
                         "answer": "The workflow tracks invoices, so the firm knows where each one is, and the audit trail shows who approved each invoice. This is a benefit. However, the supervisor's weak phone signal is a limitation, because approvals may be late.",
                         "feedback": "Explains a benefit and a limitation with links to the firm, which meets the 3-mark row. To reach 4 marks, analyse the features that cause each one and link them to the firm's approvals.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-swe-stg11-02-n0-n1-s3",
@@ -5406,7 +5406,7 @@
                         "mark": 2,
                         "answer": "Fibre-optic cable is better for a long link because it loses less signal over distance than copper cable.",
                         "feedback": "Explains ONE advantage of fibre-optic cable for the link, referring to signal loss, which meets the 2-mark row. To reach 3 marks, explain why it suits the link and contrast it with twisted-pair cable.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-02-n0-n1-s3",
@@ -5767,7 +5767,7 @@
                         "mark": 3,
                         "answer": "Device C is central because it has four links, so the network depends on it. If C fails, devices D and E cannot reach the other devices, so the network is split.",
                         "feedback": "Examines how device C's central position affects connectedness, linking it to devices D and E, which meets the 3-mark row. To reach 4 marks, propose a layout change linked to the graph.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-05-n0-n1-s3",
@@ -13201,7 +13201,7 @@
                         "mark": 2,
                         "answer": "A structured decision, such as stock reordering, is made automatically by the DSS. An unstructured decision, such as a merger, is one where the DSS only gives data and the managers decide.",
                         "feedback": "Gives examples for two categories with the DSS role explained briefly, which meets the 2-mark row. To reach 3 marks, add a semi-structured example and give a basic DSS role for each category.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -13276,7 +13276,7 @@
                         "mark": 2,
                         "answer": "Intelligent systems can use machine learning to find patterns in large amounts of data. A decision support system helps managers by analysing data and suggesting options.",
                         "feedback": "Meets the 2-3 row by identifying features of decision support systems and intelligent systems, such as 'analysing data' and 'machine learning', without saying how they assist any category of decision-making. To reach 4 marks, it must show an understanding of how the systems assist decision-making and refer to one example from the stimulus.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -13386,7 +13386,7 @@
                         "mark": 3,
                         "answer": "The expert system has a knowledge base of rules and an inference engine that applies them to the patient's symptoms. It can also raise an alert when vital signs go outside safe ranges.",
                         "feedback": "Describes both components with brief reference to diagnosis and monitoring, which meets the 3-mark row. To reach 4 marks, analyse the role of one component in one application, such as how the rules lead to an alert.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-03-n0-n1-s3",
@@ -14950,7 +14950,7 @@
                         "mark": 3,
                         "answer": "The forecast from machine learning shows the buyer what demand is likely, and the dashboard shows the stock position. However, the buyer still needs to check unusual trends before accepting the system's recommended orders.",
                         "feedback": "Describes two components with a general link to the buyer, which meets the 3-mark row. To reach 4 marks, explain how two components work together, with a clear reason.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-15-n0-n1-s3",
@@ -15784,7 +15784,7 @@
                         "mark": 3,
                         "answer": "If the light is only probably on (CF 0.7), a rule with CF 0.9 gives a lower CF of 0.63 for the next conclusion, so the tree is less certain than either value alone.",
                         "feedback": "Shows a correct calculation for one rule, with the certainty falling down the tree, which meets the 3-mark row. To reach 4 marks, carry the calculation through the second rule and explain the compounding.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-cis-stg12-02-n0-n1-s3",
@@ -16496,7 +16496,7 @@
                         "mark": 2,
                         "answer": "A self-driving car has sensors and a computer that makes driving decisions. An expert system can stop the car when a pedestrian is detected.",
                         "feedback": "Identifies sensors and planning in general terms, which meets the 2-mark row. To reach 3 marks, describe the role of one expert system, with the rules it uses.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false

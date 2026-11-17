@@ -1030,7 +1030,7 @@
                         "mark": 3,
                         "answer": "Academic pressure and social media comparison are causes of psychological distress, and they add to the stress of young people with less family support. Poor sleep is a health behaviour that often accompanies the distress.",
                         "feedback": "Explains a cause and links it to a determinant of health, which meets the 3-mark row. The answer does not show how the health behaviours and protective factors interact, so it stops short of the 5-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-3-1-n0-n1-s3",
@@ -1496,7 +1496,7 @@
                         "mark": 3,
                         "answer": "Past advocacy, such as the petition about healthy food, shows young people what a clear request can achieve. Current advocacy on sleep could build on it, and individuals in a community can speak up at meetings to strengthen it.",
                         "feedback": "Future advocacy is described with some reference to earlier work and to individuals, but the reasoning is brief.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-4-1-n0-n1-s3",
@@ -1734,7 +1734,7 @@
                         "mark": 2,
                         "answer": "Partnerships with communities can help people feel involved in health programs.",
                         "feedback": "Partnerships are described in general terms, with no explanation of how they strengthen health.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -1981,7 +1981,7 @@
                         "mark": 2,
                         "answer": "The quadriceps are on the front of the thigh and straighten the knee. The hamstrings are on the back and bend the knee.",
                         "feedback": "Places both muscles and gives a correct basic action for each, without explaining the contraction types or the relationship.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -2215,7 +2215,7 @@
                         "mark": 2,
                         "answer": "Her resting heart rate will probably fall with training. Her heart will pump more efficiently.",
                         "feedback": "Identifies two outcomes without explaining the mechanism for either.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -2324,7 +2324,7 @@
                         "mark": 3,
                         "answer": "Adrenaline increases the breakdown of glycogen in the liver and muscles, which raises the glucose available for the race. Blood flow is redirected away from the stomach and intestines, so digestion of the meal slows and is less efficient.",
                         "feedback": "Describes both effects accurately and links them to digestion, but the analysis of why they matter for performance is missing.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-1-4-n0-n1-s3",
@@ -2449,7 +2449,7 @@
                         "mark": 2,
                         "answer": "Jordan has small motor units and Leo has large motor units, so their force output differs.",
                         "feedback": "Identifies the motor unit size for each athlete, but does not explain how this relates to control or force.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -2558,7 +2558,7 @@
                         "mark": 3,
                         "answer": "Chen's sprint needs fast nerve signals to fast-twitch muscle fibres, and his energy comes mainly from the ATP-PCr system. Ruby's jog relies on slow-twitch fibres and aerobic energy, with a steady heart rate.",
                         "feedback": "Describes the two movements accurately with links to fibre type and energy supply, but does not analyse the cardiovascular or respiratory differences.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-1-6-n0-n1-s3",
@@ -2799,7 +2799,7 @@
                         "mark": 3,
                         "answer": "The ATP-PCr system supplies ATP first, then the glycolytic system takes over as the effort continues. The aerobic system contributes a smaller share throughout, and fatigue builds as hydrogen ions and depleted phosphocreatine limit the energy supply.",
                         "feedback": "Describes the sequence of energy systems and two causes of fatigue accurately, without linking them to the falling power.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-2-1-n0-n1-s3",
@@ -5504,7 +5504,7 @@
                         "mark": 3,
                         "answer": "Telehealth changes the relationship between patients and health practitioners, because consultations can happen by video. Patients gain access to care without travel, but some find it harder to build trust online, which can affect the quality of the relationship.",
                         "feedback": "Meets the 3-mark row by explaining how one technology changes the relationship, with a benefit and a limitation. It does not analyse several technologies or reach a judgement.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-3-1-n0-n1-s3",
@@ -5967,7 +5967,7 @@
                         "mark": 3,
                         "answer": "SDG 4 Quality Education can build health literacy, so residents understand health information and seek care early. SDG 10 Reduced Inequalities addresses income and access barriers that also affect the health of a community.",
                         "feedback": "Meets the 3-mark row by explaining the link between each goal and health, with relevant detail. It does not analyse how the two goals interact or what this means for the council.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-4-1-n0-n1-s3",
@@ -6442,7 +6442,7 @@
                         "mark": 3,
                         "answer": "Morgan's 2 km time fades at the end, so the program should include interval training to improve the finish. A retest after twelve weeks would show whether the program is working.",
                         "feedback": "The fading finish is linked to interval training, which is one analytical link, but the answer does not address intensity or progression, so it sits in the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-1-3-n0-n1-s3",
@@ -6797,7 +6797,7 @@
                         "mark": 3,
                         "answer": "Progressive overload in the heavy sessions causes muscle hypertrophy, mainly in fast-twitch fibres, which helps Quinn produce more force. Sprint sessions train the same fibres, so the adaptations are specific to the event.",
                         "feedback": "Progressive overload is linked to hypertrophy in fast-twitch fibres and specificity is noted, but the answer does not fully explain the link to sprint performance, so it sits in the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-2-3-n0-n1-s3",
@@ -6927,7 +6927,7 @@
                         "mark": 2,
                         "answer": "The tennis player needs individual skill practice, and the netball team needs team tactics.",
                         "feedback": "One difference is identified in general terms, with no comparison of the two designs.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -7507,7 +7507,7 @@
                         "mark": 2,
                         "answer": "The physiotherapist could ask players how they slept. Players should drink water during the tournament.",
                         "feedback": "Identifies some routines with minimal explanation of how monitoring would show when they need to change.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -8078,7 +8078,7 @@
                         "mark": 2,
                         "answer": "The physiotherapist would assess the ankle, and then the player would do exercises.",
                         "feedback": "Identifies some procedures with minimal explanation of the stages or the return-to-play decision.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }

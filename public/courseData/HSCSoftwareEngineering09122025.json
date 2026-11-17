@@ -332,7 +332,7 @@
                         "mark": 2,
                         "answer": "Procedural programming uses functions and shared data, while OOP uses classes and objects.",
                         "feedback": "Identifies a feature of each approach with a brief comparison, which meets the 2-mark row. To reach the 3-mark row, link each approach to the stock program.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -925,7 +925,7 @@
                         "mark": 2,
                         "answer": "Code optimisation makes programs faster. However, optimised code can be harder to read.",
                         "feedback": "Identifies the effect of optimisation on performance, with brief detail on readability, which meets the 2-mark row. To reach the 3-mark row, describe an optimisation with a general link to the timetable program.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -2276,7 +2276,7 @@
                         "mark": 2,
                         "answer": "A motor driver is needed because the motor draws more current than the microcontroller can give.",
                         "feedback": "Describes the limit of the microcontroller pins, which meets the 2-mark row. To reach 3 marks, explain one reason the motor should not connect directly to the pins.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -2755,7 +2755,7 @@
                         "mark": 3,
                         "answer": "The robot reads its front distance sensor and reverses when the reading is less than 15 cm. Otherwise it drives forward. Because the sensor faces forward only, objects at the sides are not checked.",
                         "feedback": "Describes the sensor input and the two actions, with a brief limitation about side objects, which meets the 3-mark row. To reach 4 marks, explain how this limitation affects the robot in a changing classroom.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-swe-11-12-cp-pmc-dca-stg11-03-n0-n1-s3",
@@ -4211,7 +4211,7 @@
                         "mark": 2,
                         "answer": "Both strategies break a problem into smaller parts.",
                         "feedback": "Identifies one similarity, which meets the 2-mark row. To reach 3 marks, describe how each strategy works.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -4331,7 +4331,7 @@
                         "mark": 2,
                         "answer": "A flowchart and pseudocode both show the steps of an algorithm.",
                         "feedback": "Identifies a flowchart and pseudocode as ways to show algorithm steps, which meets the 2-mark row. To reach 3 marks, explain where the subprogram appears.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -4442,7 +4442,7 @@
                         "mark": 3,
                         "answer": "Abstraction shows the main modules of a system, and refinement adds detail to each module. Top-down design uses both in a new project with clear requirements, while bottom-up design suits existing tested components.",
                         "feedback": "Explains the role of abstraction and refinement, with a link to the new project, which meets the 3-mark row. To reach 4 marks, develop when bottom-up design suits the second project.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-04-n0-n1-s3",
@@ -4561,7 +4561,7 @@
                         "mark": 3,
                         "answer": "Desk checking traces the algorithm with test marks to confirm its logic. Peer checking asks a classmate to look for mistakes the author has missed, such as an error in the call to the Average function.",
                         "feedback": "Explains what each checking method does, with an example of an error peer checking could catch, which meets the 3-mark row. To reach 4 marks, explain how the call and the returned value must match.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-05-n0-n1-s3",
@@ -6408,7 +6408,7 @@
                       "secure coding",
                       "key management"
                     ],
-                    "markingCriteria": "6-7 marks: Evaluates which of data protection or vulnerability prevention is more effective, with a sustained, well-reasoned judgement\n5 marks: Evaluates both focus areas with relevant reasoning and a clear overall position\n4 marks: Discusses both focus areas with some relevant reasoning and a basic judgement\n3 marks: Describes data protection and vulnerability prevention, with some link to effectiveness\n2 marks: Makes brief statements about one or both approaches\n1 mark: Makes one relevant point about security priorities",
+                    "markingCriteria": "7 marks: Evaluates which of data protection or vulnerability prevention is more effective, with a sustained, well-reasoned judgement\n6 marks: Evaluates both focus areas with relevant reasoning and a clear overall position\n5 marks: Discusses both focus areas with some relevant reasoning and a basic judgement\n3-4 marks: Describes data protection and vulnerability prevention, with some link to effectiveness\n2 marks: Makes brief statements about one or both approaches\n1 mark: Makes one relevant point about security priorities",
                     "sampleAnswers": [
                       {
                         "id": "sa-b45ad2a2-343b-4679-aa73-b957baadc449",
@@ -6483,7 +6483,7 @@
                       "Threat modelling",
                       "Secure coding practices"
                     ],
-                    "markingCriteria": "11-12 marks: Critically evaluates the extent of the benefits in all three areas, weighing limitations in the FinTech context to reach a nuanced judgement\n9-10 marks: Evaluates the benefits in all three areas with well-linked evidence and a clear judgement, with some weighing of limitations\n7-8 marks: Explains and assesses the benefits with relevant examples from the FinTech scenario, and reaches a judgement\n5-6 marks: Describes benefits in the three areas, linking some to the FinTech context, with a mostly descriptive evaluation\n3-4 marks: Identifies general benefits of secure software, with some reference to the context\n1-2 marks: Makes brief, general statements about secure software",
+                    "markingCriteria": "12 marks: Critically evaluates the extent of the benefits in all three areas, weighing limitations in the FinTech context to reach a nuanced judgement\n10-11 marks: Evaluates the benefits in all three areas with well-linked evidence and a clear judgement, with some weighing of limitations\n8-9 marks: Explains and assesses the benefits with relevant examples from the FinTech scenario, and reaches a judgement\n5-7 marks: Describes benefits in the three areas, linking some to the FinTech context, with a mostly descriptive evaluation\n3-4 marks: Identifies general benefits of secure software, with some reference to the context\n1-2 marks: Makes brief, general statements about secure software",
                     "sampleAnswers": [
                       {
                         "id": "prompt-489efc0f-c59b-46b0-b82f-a6b82acad463-s1",
@@ -6507,7 +6507,7 @@
                         "mark": 2,
                         "answer": "Secure software protects customers' financial data from being stolen. It also helps reduce cyber attacks on the FinTech app.",
                         "feedback": "Identifies two general benefits, which meets the 1-2 mark row. To reach 3 marks, name specific practices and link each benefit to the company.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -6576,7 +6576,7 @@
                         "mark": 2,
                         "answer": "In the design phase, you plan security by deciding who can use which parts of the program, so different users have different access. This stops people doing things they should not. In the testing phase, you check that the security worked by running the software and seeing if someone can get past the login screen. If you do not test, the code might have security issues.",
                         "feedback": "Identifies access control in design and a login check in testing, which meets the 2-mark row. To reach 3 marks, describe the security practice in each phase and how it protects the application.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-b9821ea6-4a27-427a-8bbf-bfd10a970b42",
@@ -6871,7 +6871,7 @@
                       "Human factor",
                       "end users"
                     ],
-                    "markingCriteria": "6-7 marks: Discusses the statement with a sustained, well-reasoned judgement, weighing security against usability for different end users\n5 marks: Discusses both sides of the tension, with reasoning about friction and workarounds, and reaches a clear position\n3-4 marks: Describes the tension between strong controls and usability, with relevant examples and a basic judgement\n2 marks: Makes a brief point about security or usability, with some link between them\n1 mark: Makes a general statement about security or usability",
+                    "markingCriteria": "7 marks: Discusses the statement with a sustained, well-reasoned judgement, weighing security against usability for different end users\n5-6 marks: Discusses both sides of the tension, with reasoning about friction and workarounds, and reaches a clear position\n3-4 marks: Describes the tension between strong controls and usability, with relevant examples and a basic judgement\n2 marks: Makes a brief point about security or usability, with some link between them\n1 mark: Makes a general statement about security or usability",
                     "sampleAnswers": [
                       {
                         "id": "sa-6fa6df29-5b5b-4586-9889-9f2bed5c87e6",
@@ -6976,7 +6976,7 @@
                         "mark": 2,
                         "answer": "Authentication is logging in with a username and password so the system knows it is really you. Authorisation is about what parts of the system you can use after you have logged in. For example, some users can only view things, while others can change them.",
                         "feedback": "Describes both concepts with some accuracy, which meets the 2-mark row. To reach 3 marks, define each concept precisely and then compare them directly.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-40dc044a-1e0e-4c15-8d63-e48850511b02",
@@ -7143,7 +7143,7 @@
                       "Denial of Service",
                       "Trade-offs"
                     ],
-                    "markingCriteria": "6-7 marks: Discusses the tension between availability and strong security with a sustained judgement, weighing risks on both sides and a nuanced conclusion\n5 marks: Discusses both sides of the tension, with relevant examples of strict controls and denial of service attacks, and a clear position\n3-4 marks: Describes how stronger controls affect availability and how weak security causes outages, with relevant examples and a basic judgement\n2 marks: Makes a brief point about availability or security controls, with some link between them\n1 mark: Makes a general statement about availability or security",
+                    "markingCriteria": "7 marks: Discusses the tension between availability and strong security with a sustained judgement, weighing risks on both sides and a nuanced conclusion\n5-6 marks: Discusses both sides of the tension, with relevant examples of strict controls and denial of service attacks, and a clear position\n3-4 marks: Describes how stronger controls affect availability and how weak security causes outages, with relevant examples and a basic judgement\n2 marks: Makes a brief point about availability or security controls, with some link between them\n1 mark: Makes a general statement about availability or security",
                     "sampleAnswers": [
                       {
                         "id": "sa-c8b91a1e-467d-485f-876d-e6628b8b0cb6",
@@ -7267,7 +7267,7 @@
                       "Regulatory compliance",
                       "Data privacy"
                     ],
-                    "markingCriteria": "7-8 marks: Evaluates Zero Trust against the perimeter model for this app with sustained judgement, weighing limitations and compliance, using specific features\n6 marks: Evaluates both models with relevant reasoning and examples, and reaches a supported judgement\n5 marks: Compares Zero Trust with the perimeter model and identifies relevant strengths, with a basic judgement\n3-4 marks: Describes Zero Trust and perimeter security with some reference to the app's data and compliance needs\n2 marks: Makes brief statements about one approach\n1 mark: Makes one general point about security for the app",
+                    "markingCriteria": "8 marks: Evaluates Zero Trust against the perimeter model for this app with sustained judgement, weighing limitations and compliance, using specific features\n7 marks: Evaluates both models with relevant reasoning and examples, and reaches a supported judgement\n5-6 marks: Compares Zero Trust with the perimeter model and identifies relevant strengths, with a basic judgement\n3-4 marks: Describes Zero Trust and perimeter security with some reference to the app's data and compliance needs\n2 marks: Makes brief statements about one approach\n1 mark: Makes one general point about security for the app",
                     "sampleAnswers": [
                       {
                         "id": "sa-851adadf-cd8e-4a9b-97e8-754cb86cc6e8",
@@ -7283,7 +7283,7 @@
                         "mark": 7,
                         "answer": "For a FinTech startup's mobile application handling sensitive user data, a Zero Trust Architecture (ZTA) is significantly more effective than a traditional perimeter-based security model in ensuring data protection, security, privacy and regulatory compliance.\n\nA traditional perimeter security model assumes everything inside the network boundary is trusted, and focuses defences on firewalls and intrusion detection. While this offers a basic level of protection, it is inherently vulnerable to insider threats or attacks that breach the perimeter. Once an attacker gets into the trusted network, they can move laterally with relative ease, compromising bank account details and transaction history.\n\nIn contrast, ZTA follows a 'never trust, always verify' approach that assumes no implicit trust, whether a user is inside or outside the network. Key features include Multi-Factor Authentication (MFA) for all critical access points, least privilege access so that a support agent sees only masked transaction data, and micro-segmentation that contains breaches. Continuous verification monitors behaviour for anomalies, and data encryption at rest and in transit adds a further layer of protection.\n\nFor regulatory compliance and data privacy, ZTA is easier to demonstrate because access to sensitive data is tightly controlled and auditable. Overall, ZTA is the superior choice for protecting user trust, although it is more complex to implement than a perimeter model. The additional identity infrastructure is a real cost, but it is proportionate to the regulatory exposure of an app holding bank details, and it reduces the chance that a single breach becomes a catastrophic loss.",
                         "feedback": "Evaluates the two models with relevant features and a clear judgement, which meets the 7-8 mark row. To go further, weigh the implementation cost of Zero Trust against its benefits for this app.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-d75b231e-0dca-4d92-b4db-dab8657a91fc",
@@ -7444,7 +7444,7 @@
                         "mark": 2,
                         "answer": "Cryptography helps make software secure by protecting information, like locking up important data so only the right people can see it. For example, a website encrypts information so it cannot be stolen. Sandboxing is another way to make software safe because it creates a separate area for an application to run in. If something goes wrong there, it cannot spread to other parts of the computer.",
                         "feedback": "Explains cryptography and sandboxing in general terms with one example, which meets the 2-mark row. To reach 3 marks, name the design decision for each technique.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-2d0a1e6a-596d-475f-bd2b-560bace39a79",
@@ -7580,7 +7580,7 @@
                         "mark": 2,
                         "answer": "Privacy by design means that when you are making software, you put privacy first right from the start. It is proactive because it is about thinking ahead and including privacy at the beginning. This helps with user privacy because privacy settings are included early, so users can trust the system. For example, an online store would make sure its website is secure when it is first built.",
                         "feedback": "Explains that privacy should be considered from the start, with a brief explanation, which meets the 2-mark row. To reach 3 marks, name one design feature and explain how it protects user privacy.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-8b28f4ba-557a-4587-9075-0c11eb0d50e7",
@@ -7639,7 +7639,7 @@
                         "mark": 3,
                         "answer": "Privacy as the default means the app should keep a student's data private without them needing to change settings. For example, a mood check-in is only shown to the student. This protects students because their information is not shared by accident. It is better to build privacy in from the start than to add it later.",
                         "feedback": "Describes the default setting with an example, which meets the 3-mark row. To reach 4 marks, explain what opt-in sharing prevents and compare it with retrofitting.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-1762992228798-w9b30kg-n1-s3",
@@ -7758,7 +7758,7 @@
                       "Data availability",
                       "Redundancy"
                     ],
-                    "markingCriteria": "7-8 marks: Evaluates a hot site against a cold site for this banking platform with a sustained, justified recommendation, weighing recovery time, cost and continuity risk\n6 marks: Evaluates both site types with relevant reasoning and a supported recommendation\n5 marks: Compares hot and cold sites with some relevant reasoning and a recommendation\n3-4 marks: Describes hot and cold sites with some reference to the banking scenario\n2 marks: Makes brief statements about one site type\n1 mark: Makes one general point about disaster recovery",
+                    "markingCriteria": "8 marks: Evaluates a hot site against a cold site for this banking platform with a sustained, justified recommendation, weighing recovery time, cost and continuity risk\n7 marks: Evaluates both site types with relevant reasoning and a supported recommendation\n5-6 marks: Compares hot and cold sites with some relevant reasoning and a recommendation\n3-4 marks: Describes hot and cold sites with some reference to the banking scenario\n2 marks: Makes brief statements about one site type\n1 mark: Makes one general point about disaster recovery",
                     "sampleAnswers": [
                       {
                         "id": "sa-c1ba145c-fb6c-4faa-9d8c-3cda8cef55ea",
@@ -7963,7 +7963,7 @@
                       "Data Confidentiality",
                       "Data Integrity"
                     ],
-                    "markingCriteria": "7-8 marks: Evaluates the effectiveness of combined SAST, DAST and penetration testing for the platform; Makes a judgement on relative importance of each method\n6 marks: Evaluates the effectiveness of combined SAST, DAST and penetration testing for the platform, with a supported judgement\n5 marks: Explains the value of each of SAST, DAST and penetration testing for the platform\n3-4 marks: Describes SAST, DAST and penetration testing, with some reference to the platform\n2 marks: Outlines ONE OR MORE testing methods\n1 mark: Provides some relevant information",
+                    "markingCriteria": "8 marks: Evaluates the effectiveness of combined SAST, DAST and penetration testing for the platform; Makes a judgement on relative importance of each method\n7 marks: Evaluates the effectiveness of combined SAST, DAST and penetration testing for the platform, with a supported judgement\n5-6 marks: Explains the value of each of SAST, DAST and penetration testing for the platform\n3-4 marks: Describes SAST, DAST and penetration testing, with some reference to the platform\n2 marks: Outlines ONE OR MORE testing methods\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
                       {
                         "id": "sa-9f95d709-853f-4f7d-9fa9-6b9925a91ac1",
@@ -8519,7 +8519,7 @@
                       "Scalability",
                       "Statefulness"
                     ],
-                    "markingCriteria": "6-7 marks: Analyses the trade-offs between server-side and client-side session management for a large distributed application\n4-5 marks: Analyses the main trade-offs between server-side and client-side session management\n2-3 marks: Describes server-side and client-side session management, with one advantage or disadvantage of each\n1 mark: Provides some relevant information",
+                    "markingCriteria": "7 marks: Analyses the trade-offs between server-side and client-side session management for a large distributed application\n5-6 marks: Analyses the main trade-offs between server-side and client-side session management\n3-4 marks: Describes server-side and client-side session management, with one advantage or disadvantage of each\n1-2 marks: Provides some relevant information",
                     "sampleAnswers": [
                       {
                         "id": "sa-320060d4-304b-45bf-9791-128f2aebb462",
@@ -8532,7 +8532,7 @@
                       {
                         "id": "sa-ee42834f-c9da-443a-9a50-b3f44db329a2",
                         "source": "AI",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Server-side sessions are where the server remembers who you are. It gives you a cookie with an ID. This is secure because the server is in control. Client-side sessions, like JWTs, are where all your information is in a token that you send with every request. This is good for scalability because the server doesn't have to remember you. The trade-off is that server-side is more secure but harder to scale, and JWTs are easier to scale but can be less secure if the token is stolen.",
                         "mark": 4,
                         "feedback": "Describes both approaches and analyses the main trade-off between control and scalability, which meets the 4-5 marks row. To reach 6-7 marks, analyse these trade-offs for a large distributed application."
@@ -9355,7 +9355,7 @@
                       "Workforce displacement",
                       "Algorithmic bias"
                     ],
-                    "markingCriteria": "7-8 marks: Evaluates the extent of social and ethical ramifications for people and enterprises; Weighs employment and data security effects in a supported conclusion\n6 marks: Evaluates the ramifications for people and enterprises; Refers to employment and data security\n5 marks: Discusses social and ethical ramifications for people and enterprises; Refers to employment or data security\n3-4 marks: Describes social or ethical issues arising from digital disruption\n2 marks: Outlines ONE social or ethical issue of digital disruption\n1 mark: Provides some relevant information",
+                    "markingCriteria": "8 marks: Evaluates the extent of social and ethical ramifications for people and enterprises; Weighs employment and data security effects in a supported conclusion\n7 marks: Evaluates the ramifications for people and enterprises; Refers to employment and data security\n5-6 marks: Discusses social and ethical ramifications for people and enterprises; Refers to employment or data security\n3-4 marks: Describes social or ethical issues arising from digital disruption\n2 marks: Outlines ONE social or ethical issue of digital disruption\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
                       {
                         "id": "sa-5aaaa509-3d5a-4e00-92c1-1535747559b4",
@@ -9472,7 +9472,7 @@
                       "Surveillance capitalism",
                       "Secure software"
                     ],
-                    "markingCriteria": "7-8 marks: Discusses the ethical tensions of collecting user location data; Refers to the conflict between business objectives and the right to privacy\n5-6 marks: Discusses the business and privacy perspectives of collecting user location data\n4 marks: Describes the tension between business objectives and the right to privacy\n2-3 marks: Outlines a business or privacy point about collecting user location data OR Identifies a business objective and a privacy concern\n1 mark: Provides some relevant information",
+                    "markingCriteria": "8 marks: Discusses the ethical tensions of collecting user location data; Refers to the conflict between business objectives and the right to privacy\n6-7 marks: Discusses the business and privacy perspectives of collecting user location data\n4-5 marks: Describes the tension between business objectives and the right to privacy\n2-3 marks: Outlines a business or privacy point about collecting user location data OR Identifies a business objective and a privacy concern\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
                       {
                         "id": "sa-2c469616-ab2c-4726-bbc3-75714af63664",
@@ -10343,7 +10343,7 @@
                       "allow-listing",
                       "defence in depth"
                     ],
-                    "markingCriteria": "6-7 marks: Evaluates the effectiveness of sanitisation, prepared statements and CSP in preventing injection and XSS; Makes a supported judgement on their limits\n5 marks: Evaluates each named practice against injection or XSS, with a supported judgement\n4 marks: Explains how each practice works against injection or XSS, with some evaluation\n3 marks: Describes all the named practices in relation to injection or XSS\n2 marks: Describes ONE OR TWO of the named practices\n1 mark: Provides some relevant information",
+                    "markingCriteria": "7 marks: Evaluates the effectiveness of sanitisation, prepared statements and CSP in preventing injection and XSS; Makes a supported judgement on their limits\n6 marks: Evaluates each named practice against injection or XSS, with a supported judgement\n5 marks: Explains how each practice works against injection or XSS, with some evaluation\n3-4 marks: Describes all the named practices in relation to injection or XSS\n2 marks: Describes ONE OR TWO of the named practices\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
                       {
                         "id": "sa-9279757b-f679-46b9-8a3a-755c617eecf6",
@@ -10515,7 +10515,7 @@
                       "Scalability",
                       "Ethical challenges"
                     ],
-                    "markingCriteria": "7-8 marks: Evaluates the architectural and ethical challenges of recommendation-driven streaming services; Makes a judgement on their relative significance\n6 marks: Evaluates both architectural and ethical challenges of recommendation-driven streaming services\n5 marks: Explains architectural and ethical challenges of data mining user behaviour, with some judgement\n3-4 marks: Describes some architectural or ethical challenges of data mining user behaviour\n2 marks: Identifies a challenge of a recommendation engine\n1 mark: Provides some relevant information",
+                    "markingCriteria": "8 marks: Evaluates the architectural and ethical challenges of recommendation-driven streaming services; Makes a judgement on their relative significance\n7 marks: Evaluates both architectural and ethical challenges of recommendation-driven streaming services\n5-6 marks: Explains architectural and ethical challenges of data mining user behaviour, with some judgement\n3-4 marks: Describes some architectural or ethical challenges of data mining user behaviour\n2 marks: Identifies a challenge of a recommendation engine\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
                       {
                         "id": "sa-153c98cc-d407-4919-89f3-b8dea46e3bab",
@@ -10592,7 +10592,7 @@
                         "mark": 3,
                         "answer": "Distributed file systems spread large datasets across many machines, so the company can store petabytes of logs without relying on one server. Columnar databases store each column together, which speeds up analytical queries across many users, although they are less efficient for frequent single-row updates.",
                         "feedback": "Describes both technologies, with a benefit for each, which meets the 3-mark row. To reach 4 marks, explain the roles of each in meeting the company's big data demands.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-new-bigdata-2025-s3",
@@ -11020,7 +11020,7 @@
                     "totalMarks": 7,
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: EduGlobal is a software company developing a web-based learning management system intended for students in Australia, Japan, and Egypt.",
-                    "markingCriteria": "5-7 marks: Explains the W3C's role in developing standards, and how internationalisation standards help EduGlobal serve students in Australia, Japan and Egypt\n3-4 marks: Explains the W3C's role in developing standards, and gives one internationalisation standard for the system\n1-2 marks: Provides some relevant information about the W3C or internationalisation",
+                    "markingCriteria": "7 marks: Explains the W3C's role in developing standards, and how internationalisation standards help EduGlobal serve students in Australia, Japan and Egypt\n4-6 marks: Explains the W3C's role in developing standards, and gives one internationalisation standard for the system\n1-3 marks: Provides some relevant information about the W3C or internationalisation",
                     "keywords": [
                       "W3C",
                       "Standards",
@@ -11053,7 +11053,7 @@
                         "mark": 1,
                         "answer": "The W3C makes web standards for websites.",
                         "feedback": "Gives a general description of the W3C, which meets the 1-2 marks row. To reach 3 marks, explain the W3C's role in developing standards and name one internationalisation standard for the system.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false,
@@ -11118,7 +11118,7 @@
                         "answer": "The W3C makes the rules for the web, like the rules for HTML and CSS. This is important so that websites work the same in Chrome, Firefox, and Safari. The implication for developers is that they have to follow these rules when they build websites. This stops the web from being a mess where nothing works properly everywhere.",
                         "mark": 3,
                         "feedback": "Identifies the W3C's role in making rules and describes one implication for developers, which meets the 3-mark row. To reach 4 marks, explain how the rules keep sites working across browsers.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-241405fb-cd84-4ff8-8461-cf239c0f1c7e",
@@ -11815,7 +11815,7 @@
                     "totalMarks": 7,
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: A development team is creating a web-based project management tool intended to replace a legacy desktop application. Users need to be able to view and edit tasks even when they lose their internet connection while travelling.",
-                    "markingCriteria": "5-7 marks: Explains how browser storage lets a PWA store and synchronise data offline for the tool; Differentiates between the storage technologies available\n3-4 marks: Explains one or two browser storage or offline technologies and how they support the PWA\n1-2 marks: Provides some relevant information",
+                    "markingCriteria": "7 marks: Explains how browser storage lets a PWA store and synchronise data offline for the tool; Differentiates between the storage technologies available\n4-6 marks: Explains one or two browser storage or offline technologies and how they support the PWA\n1-3 marks: Provides some relevant information",
                     "keywords": [
                       "Client-side storage",
                       "LocalStorage",
@@ -11849,7 +11849,7 @@
                         "mark": 1,
                         "answer": "A PWA can work without the internet.",
                         "feedback": "Provides some relevant information that a PWA can work offline, which meets the 1-2 marks row. To reach 3 marks, name one storage technology and its offline function.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false,
@@ -12401,7 +12401,7 @@
                       "Maintainability",
                       "front-end"
                     ],
-                    "markingCriteria": "7-8 marks: Evaluates an all-in-one framework against a library-based approach for a long-term enterprise project, with a sustained, nuanced judgement on their trade-offs\n6 marks: Evaluates both approaches against clear criteria with specific evidence, acknowledging that each is valid\n5 marks: Evaluates both approaches against TWO criteria, contrasting an opinionated framework with a flexible library\n3-4 marks: Describes a framework and a library and compares them in general terms for an enterprise project\n2 marks: Identifies a difference between frameworks and libraries\n1 mark: Provides some relevant information",
+                    "markingCriteria": "8 marks: Evaluates an all-in-one framework against a library-based approach for a long-term enterprise project, with a sustained, nuanced judgement on their trade-offs\n7 marks: Evaluates both approaches against clear criteria with specific evidence, acknowledging that each is valid\n5-6 marks: Evaluates both approaches against TWO criteria, contrasting an opinionated framework with a flexible library\n3-4 marks: Describes a framework and a library and compares them in general terms for an enterprise project\n2 marks: Identifies a difference between frameworks and libraries\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
                       {
                         "id": "sa-a99f0906-5069-46a2-a5e0-5f042b41c264",
@@ -12612,7 +12612,7 @@
                     "totalMarks": 7,
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: A development team is creating a dynamic e-commerce website that requires complex data manipulation and the display of thousands of unique product pages based on database records.",
-                    "markingCriteria": "5-7 marks: Explains the significance of integrating code libraries and the role of template engines in a data-driven web application, and differentiates template engines from general-purpose libraries by function and benefit to the developer\n3-4 marks: Explains the significance of code libraries and the role of template engines, with some differentiation from general-purpose libraries\n1-2 marks: Provides some relevant information",
+                    "markingCriteria": "7 marks: Explains the significance of integrating code libraries and the role of template engines in a data-driven web application, and differentiates template engines from general-purpose libraries by function and benefit to the developer\n4-6 marks: Explains the significance of code libraries and the role of template engines, with some differentiation from general-purpose libraries\n1-3 marks: Provides some relevant information",
                     "keywords": [
                       "Code Libraries",
                       "Template Engines",
@@ -12646,7 +12646,7 @@
                         "mark": 1,
                         "answer": "Code libraries are collections of code that people use.",
                         "feedback": "Provides some relevant information that libraries are collections of code, which meets the 1-2 marks row. To reach 3 marks, explain one benefit and mention template engines.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false,
@@ -13292,7 +13292,7 @@
                     "totalMarks": 7,
                     "verb": "COMPARE",
                     "scenario": "Hypothetical: A software company is developing a secure, high-traffic web application for managing electronic health records (EHR).",
-                    "markingCriteria": "5-7 marks: Compares the specific contributions of front-end and back-end development to the EHR application, with detailed, well-linked points of comparison\n3-4 marks: Describes the contributions of front-end and back-end development to the EHR application, with some comparison of responsibilities\n1-2 marks: Provides some relevant information",
+                    "markingCriteria": "7 marks: Compares the specific contributions of front-end and back-end development to the EHR application, with detailed, well-linked points of comparison\n4-6 marks: Describes the contributions of front-end and back-end development to the EHR application, with some comparison of responsibilities\n1-3 marks: Provides some relevant information",
                     "keywords": [
                       "Front-end",
                       "Back-end",
@@ -13327,7 +13327,7 @@
                         "mark": 1,
                         "answer": "The front-end is the part users see and the back-end is the part they do not see.",
                         "feedback": "Provides some relevant information by describing the layers' visibility, which meets the 1-2 marks row. To reach 3 marks, describe the contribution of each layer to the EHR application.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false,
@@ -14822,7 +14822,7 @@
                         "mark": 3,
                         "answer": "The system is for searching books. A functional requirement is that you can search by a book's title. A non-functional requirement is that it has to be easy to use. The data would be stored in a record with fields for the book's name and author.",
                         "feedback": "Identifies a functional and a non-functional requirement and a basic data structure, which meets the 3-mark row. To reach 4 marks, define the boundaries, such as what the kiosk excludes, and make the non-functional requirement measurable.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-reqs-1-3",
@@ -15432,7 +15432,7 @@
                       "Methodology",
                       "software development approach"
                     ],
-                    "markingCriteria": "9-10 marks: Justifies the approach by assessing the project's safety-critical, fixed-requirement and certification characteristics against Waterfall, Agile and WAgile, with sustained reasoning and a clear conclusion\n7-8 marks: Justifies the approach with clear reasoning that assesses the project's characteristics against the methodologies, with a conclusion\n5-6 marks: Justifies one approach with relevant reasons linked to the safety-critical context, and comments briefly on the alternatives\n3-4 marks: Identifies a relevant approach and gives basic reasons for it\n1-2 marks: Names an approach, OR makes an unsupported statement about one",
+                    "markingCriteria": "10 marks: Justifies the approach by assessing the project's safety-critical, fixed-requirement and certification characteristics against Waterfall, Agile and WAgile, with sustained reasoning and a clear conclusion\n8-9 marks: Justifies the approach with clear reasoning that assesses the project's characteristics against the methodologies, with a conclusion\n5-7 marks: Justifies one approach with relevant reasons linked to the safety-critical context, and comments briefly on the alternatives\n3-4 marks: Identifies a relevant approach and gives basic reasons for it\n1-2 marks: Names an approach, OR makes an unsupported statement about one",
                     "sampleAnswers": [
                       {
                         "id": "sa-99fd7d11-acc4-4229-8ff1-06ebdd7c7e07",
@@ -15456,7 +15456,7 @@
                         "mark": 1,
                         "answer": "You should use Agile because it is the best one.",
                         "feedback": "Names Agile and gives no reasons, which meets the 1-2 mark row. To reach 3-4 marks, justify the choice with basic reasons tied to the alert system's requirements and safety demands.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -15742,7 +15742,7 @@
                       "privacy",
                       "contractual obligation"
                     ],
-                    "markingCriteria": "7-8 marks: Discusses the competing responsibilities to the client, the public and the profession, weighs the consequences of the feature for users' mental health, and reaches a reasoned position\n5-6 marks: Discusses the main ethical responsibilities and their conflict, with reasoning about consequences for users\n4 marks: Identifies the ethical conflict between the client and wider responsibilities, and makes a reasoned point\n2-3 marks: Identifies the engineer's obligations or the feature's effects\n1 mark: Identifies one ethical issue raised by the feature, with a basic reason",
+                    "markingCriteria": "8 marks: Discusses the competing responsibilities to the client, the public and the profession, weighs the consequences of the feature for users' mental health, and reaches a reasoned position\n6-7 marks: Discusses the main ethical responsibilities and their conflict, with reasoning about consequences for users\n4-5 marks: Identifies the ethical conflict between the client and wider responsibilities, and makes a reasoned point\n2-3 marks: Identifies the engineer's obligations or the feature's effects\n1 mark: Identifies one ethical issue raised by the feature, with a basic reason",
                     "sampleAnswers": [
                       {
                         "id": "sa-506c4dfb-b300-45a1-bd0b-0a61358353ec",
@@ -17883,7 +17883,7 @@
                         "mark": 3,
                         "answer": "The login feedback should come first because most testers found it confusing. The team should change the login screen and test it again.",
                         "feedback": "Describes the login feedback and proposes a response to one issue, which meets the 3-mark row. To reach 4 marks, analyse the main feedback, not just the login issue, and give reasons for the priorities.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-swe-11-12-cp-sep-tae-stg12-03-n0-n1-s3",
@@ -18057,7 +18057,7 @@
                       "Black-box Testing",
                       "Quality Assurance"
                     ],
-                    "markingCriteria": "6-7 marks: Constructs a complete, structured test plan with path and boundary test cases, each with test data and an expected output\n4-5 marks: Constructs a plan with test cases covering the main paths and at least one boundary value, with an expected output for each\n2-3 marks: Constructs a few relevant test cases, with expected outputs for path testing OR boundary values\n1 mark: Identifies a test or states a general intention to test the login",
+                    "markingCriteria": "7 marks: Constructs a complete, structured test plan with path and boundary test cases, each with test data and an expected output\n5-6 marks: Constructs a plan with test cases covering the main paths and at least one boundary value, with an expected output for each\n3-4 marks: Constructs a few relevant test cases, with expected outputs for path testing OR boundary values\n1-2 marks: Identifies a test or states a general intention to test the login",
                     "sampleAnswers": [
                       {
                         "id": "sa-test-plan-1-1",
@@ -18073,7 +18073,7 @@
                         "mark": 4,
                         "answer": "My test plan would be:\n1. Test a correct username and password. Expect it to log in.\n2. Test a wrong username. Expect an error.\n3. Test a wrong password. Expect an error.\n4. Test a password that is too short. Expect an error.\n5. Test a password that is too long. Expect an error.",
                         "feedback": "Covers the main login paths and invalid inputs with expected outputs, which meets the 4-5 mark row. To reach 6 marks, add tests at exactly the minimum and maximum password lengths, with test data for each.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-test-plan-1-3",
@@ -19159,7 +19159,7 @@
                         "mark": 2,
                         "answer": "Decision trees are better because you can see the flowchart. Neural networks are like a brain so they are hard to understand. The doctor needs to know the answer so they should use the tree.",
                         "feedback": "Describes one model's interpretability, which meets the 2-mark row. To reach 3 marks, identify a difference between the two models and compare their suitability for the medical tool.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false

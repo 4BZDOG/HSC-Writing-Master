@@ -444,7 +444,7 @@
                         "mark": 3,
                         "answer": "The question should include sunlight as well as nutrients. The hypothesis is that more sunlight means more algae. Shade one part of the pond and compare the algae with the part in full sun.",
                         "feedback": "Meets the 3-mark row by revising the question and hypothesis using the new evidence, with a relevant way to test them. The design does not say what is kept constant, so it does not reach the 5-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-1-3-n0-n1-s3",
@@ -681,7 +681,7 @@
                         "mark": 3,
                         "answer": "The gauge should be placed in an open area, away from the wall. Readings should be taken after each storm, not once a week.",
                         "feedback": "Meets the 3-mark row by explaining two steps that improve the gauge plan, with reference to the scenario. It does not explain how each step improves reliability, so it does not reach the 5-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-2-2-n0-n1-s3",
@@ -915,7 +915,7 @@
                         "mark": 3,
                         "answer": "Hazard: wet, sloped ground. Risk: slipping. Control measure: walk on the flat path. Hazard: the road. Risk: being hit by a car. Control measure: stay behind the fence.",
                         "feedback": "Meets the 3-mark row by constructing a risk assessment with two hazards, their risks and some control measures. The controls are brief and are not matched to the seriousness of each risk, so it does not reach the 5-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-2-4-n0-n1-s3",
@@ -1271,7 +1271,7 @@
                         "mark": 3,
                         "answer": "Students could use a tray and a dropper bottle to contain spills, and wear safety goggles and gloves. The teacher could also demonstrate the test first, which is one of the controls on the hierarchy.",
                         "feedback": "Meets the 3-mark row by identifying relevant controls for the splash hazard, with some reference to the hierarchy. The controls are not ranked by level, so the hierarchy is not applied.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-3-1-n0-n1-s3",
@@ -1745,7 +1745,7 @@
                         "mark": 3,
                         "answer": "She could use the table for the pH values and the paragraph for the gully sites. The flow chart gives background only.",
                         "feedback": "Meets the 3-mark row by identifying some relevant information in the sources, with limited reasons. The combination of the two types is not explained.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-4-1-n0-n1-s3",
@@ -5033,7 +5033,7 @@
                         "mark": 3,
                         "answer": "The fossils found on separated continents and the rift valley mapped by Tharp both suggest the continents and seafloor have moved. These pieces of evidence show that the matching coastlines are not the only evidence against the claim.",
                         "feedback": "Meets the 3-mark row by explaining how evidence from both scientists responds to the claim, with some analysis. It needs to say how the fossils and rift valley together show movement to reach the higher rows.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-1-n0-n1-s3",
@@ -5145,7 +5145,7 @@
                         "mark": 3,
                         "answer": "With less heat, the warm syrup is less buoyant and rises more slowly. Gravity still pulls the cooler syrup down, but the convection currents in the model become weaker.",
                         "feedback": "Meets the 3-mark row by explaining how reduced heating weakens convection, with some application to the model. It needs to explain the density difference more fully to reach the higher rows.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-2-n0-n1-s3",
@@ -5369,7 +5369,7 @@
                         "mark": 3,
                         "answer": "The sea floor is youngest at the ridge and older further out, which suggests it has moved outwards. Magnetic reversal stripes are symmetrical on either side of the ridge, which also supports movement.",
                         "feedback": "Meets the 3-mark row by explaining how the age pattern and magnetic reversals respond to the claim. It needs to explain why the trenches matter to reach the higher rows.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-4-n0-n1-s3",
@@ -5480,7 +5480,7 @@
                         "mark": 3,
                         "answer": "Seafloor spreading pushes new crust outwards from the ridge, which moves the tectonic plates. The older crust then reaches the subduction zone, where it sinks into the mantle.",
                         "feedback": "Meets the 3-mark row by explaining how seafloor spreading moves the plates, with reference to the subduction zone. It does not yet link the ridge and the trench as one cycle.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-5-n0-n1-s3",
@@ -6272,7 +6272,7 @@
                         "mark": 3,
                         "answer": "The trench and the islands show a subduction zone, and the earthquakes deepening away from the trench show a plate sinking. There is no continental crust, so the islands are an ocean-ocean volcanic island arc.",
                         "feedback": "Analyses two features and deduces the subduction type with some support, which meets the 3-mark row but gives no mechanism.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-4-n0-n1-s3",
@@ -6831,7 +6831,7 @@
                         "mark": 3,
                         "answer": "The valley is bounded by normal faults, which form as the crust is stretched and the floor drops. Lava flows and volcanic cones sit on the valley floor, and shallow earthquakes occur along the faults.",
                         "feedback": "Labels the rift valley and faults and links the faults to stretching, which meets the 3-mark row. The volcanic and earthquake features are named but not explained.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-9-n0-n1-s3",
@@ -6943,7 +6943,7 @@
                         "mark": 3,
                         "answer": "The continents move together and the sediments fold along thrust faults, which thickens the crust and forms mountains.",
                         "feedback": "Describes the collision and the faulting with a feature named, which meets the 3-mark row but does not give the stages in full.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-10-n0-n1-s3",
@@ -7020,7 +7020,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A science class is comparing the early idea of continental drift, the model of seafloor spreading and the modern theory of plate tectonics. Students have data on fossils, rock ages, magnetic stripes and earthquake distributions to use in their evaluation.",
-                    "markingCriteria": "7-8 marks: Evaluates the scientific evidence and models in a sustained way, weighing the strengths and limitations of continental drift, seafloor spreading and plate tectonics and making a supported judgement about which best explains the geological features\n6 marks: Evaluates the evidence and models with an explicit strength and limitation for each, supporting a judgement with some integrated evidence\n5 marks: Explains how continental drift and seafloor spreading contribute to plate tectonics, with some evidence\n3-4 marks: Describes evidence or a model for the geological features with some link to plate movement\n2 marks: Identifies a relevant piece of evidence or model\n1 mark: Provides some relevant information",
+                    "markingCriteria": "8 marks: Evaluates the scientific evidence and models in a sustained way, weighing the strengths and limitations of continental drift, seafloor spreading and plate tectonics and making a supported judgement about which best explains the geological features\n7 marks: Evaluates the evidence and models with an explicit strength and limitation for each, supporting a judgement with some integrated evidence\n5-6 marks: Explains how continental drift and seafloor spreading contribute to plate tectonics, with some evidence\n3-4 marks: Describes evidence or a model for the geological features with some link to plate movement\n2 marks: Identifies a relevant piece of evidence or model\n1 mark: Provides some relevant information",
                     "keywords": [
                       "scientific evidence",
                       "geological features",
@@ -7293,7 +7293,7 @@
                         "mark": 3,
                         "answer": "Rock Y comes from an island arc above an ocean-ocean subduction zone, and rock Z comes from a continental arc above an ocean-continent subduction zone.",
                         "feedback": "Deduces the plate boundary for both rocks with limited support, which meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-1-2-n0-n1-s3",
@@ -7629,7 +7629,7 @@
                         "mark": 3,
                         "answer": "Heat from the intrusion changes the shale into hornfels in a narrow zone, while regional compression in the mountain belt produces foliated slate or schist over a large area.",
                         "feedback": "Describes both processes and names a rock for each with limited explanation, which meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-1-5-n0-n1-s3",
@@ -7859,7 +7859,7 @@
                         "mark": 3,
                         "answer": "Stretching formed a sedimentary basin, and later folding and faulting let hot fluids move through the rock and deposit lead, zinc and silver.",
                         "feedback": "Analyses two factors and links them to the ore deposit with limited explanation, which meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-2-1-n0-n1-s3",
@@ -8195,7 +8195,7 @@
                         "mark": 3,
                         "answer": "Remote sensing covers the region cheaply and shows altered rock, and the geological map narrows where the drilling should go.",
                         "feedback": "Describes two methods focusing the search with a link to cost, which meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-2-5-n0-n1-s3",
@@ -8384,7 +8384,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A state government is reviewing four extraction projects. Project 1 is an open pit gold mine in an arid inland area, where the ore lies in a wide layer near the surface. Project 2 is an underground copper mine beneath farmland near a regional town. Project 3 is offshore drilling for gas beneath the continental shelf, and Project 4 is onshore drilling for gas beneath a national park.",
-                    "markingCriteria": "7-8 marks: Evaluates how well each extraction technique suits its location in a sustained judgement that weighs the benefits and drawbacks of each technique against the features of all four projects\n6 marks: Evaluates the techniques for most projects, weighing benefits and drawbacks with relevant reasons, although one project is treated briefly\n5 marks: Assesses the techniques for the projects with relevant reasons and some judgement of how well each suits its location\n3-4 marks: Describes the techniques and some features of the locations, with a limited link to how suitable each technique is\n2 marks: Identifies one technique or one feature of a location, without any evaluation\n1 mark: Provides some relevant information about extraction techniques",
+                    "markingCriteria": "8 marks: Evaluates how well each extraction technique suits its location in a sustained judgement that weighs the benefits and drawbacks of each technique against the features of all four projects\n7 marks: Evaluates the techniques for most projects, weighing benefits and drawbacks with relevant reasons, although one project is treated briefly\n5-6 marks: Assesses the techniques for the projects with relevant reasons and some judgement of how well each suits its location\n3-4 marks: Describes the techniques and some features of the locations, with a limited link to how suitable each technique is\n2 marks: Identifies one technique or one feature of a location, without any evaluation\n1 mark: Provides some relevant information about extraction techniques",
                     "keywords": [
                       "open pit mining",
                       "underground mining",
@@ -9889,7 +9889,7 @@
                         "mark": 3,
                         "answer": "The oceans hold most of Earth's water and are salty. Ice caps hold a large share of freshwater, but they are a small share of all water. The lakes, rivers and atmosphere each hold only a small share.",
                         "feedback": "Distinguishes between reservoirs with some relevant detail, so it meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-1-n0-n1-s3",
@@ -10110,7 +10110,7 @@
                         "mark": 3,
                         "answer": "Ice caps hold the largest share of freshwater, but the water is frozen. Groundwater and surface water are much more accessible to terrestrial organisms, so the town's wells and river matter.",
                         "feedback": "Analyses the relative amounts with some links to the scenario, so it meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-3-n0-n1-s3",
@@ -10331,7 +10331,7 @@
                         "mark": 3,
                         "answer": "Less evaporation means less water vapour in the atmosphere, so there is less rain over the land. Lower rainfall also reduces runoff into rivers.",
                         "feedback": "Analyses one chain of effects with some reasoning, so it meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-5-n0-n1-s3",
@@ -10441,7 +10441,7 @@
                         "mark": 3,
                         "answer": "Water's high thermal capacity means the surface warms slowly. Warm water is less dense, so it stays on top of the colder water and the layers do not mix.",
                         "feedback": "Analyses one property and its effect on the layers with some reasoning, so it meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-6-n0-n1-s3",
@@ -10551,7 +10551,7 @@
                         "mark": 3,
                         "answer": "The egg floats higher as the salt concentration increases, which shows that the solution is becoming denser. The egg rises as the density of the solution increases.",
                         "feedback": "Interprets the trend and links it to density, so it meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-7-n0-n1-s3",
@@ -10662,7 +10662,7 @@
                         "mark": 3,
                         "answer": "Warm water is less dense than cold water, so it stays on top. In the second tank, stirring mixes the warm and cold water, so the layers disappear.",
                         "feedback": "Analyses the link between temperature, density and layering with some reference to the tanks, so it meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-8-n0-n1-s3",
@@ -10883,7 +10883,7 @@
                         "mark": 3,
                         "answer": "In El Niño, the trade winds weaken and warm water moves east. The air above the warm water rises, which changes atmospheric pressure, so the pressure gradient that drives the trade winds weakens further.",
                         "feedback": "Analyses one link between ocean currents and atmospheric pressure with some reasoning, so it meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-10-n0-n1-s3",
@@ -10993,7 +10993,7 @@
                         "mark": 3,
                         "answer": "In El Niño years, lower rainfall reduces dam levels, so water availability for farmers falls. In La Niña years, higher rainfall refills dams, which raises water availability.",
                         "feedback": "Analyses one link between an ENSO phase and water availability with some reference to the source, so it meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-11-n0-n1-s3",
@@ -11323,7 +11323,7 @@
                         "mark": 3,
                         "answer": "Irrigating a sports field needs the full set of stages, because people may come into contact with the water. Cooling water for a factory may need only primary and secondary treatment.",
                         "feedback": "Analyses one link between an end use and treatment stages with some reasoning, so it meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-14-n0-n1-s3",
@@ -11771,7 +11771,7 @@
                         "mark": 3,
                         "answer": "High winter rainfall causes leaching, which washes clay out of the upper layer. The steep slope also causes erosion, so the topsoil is thinner.",
                         "feedback": "Analyses one factor and its effect on the horizons with some reasoning, so it meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-2-1-n0-n1-s3",
@@ -14258,7 +14258,7 @@
                         "mark": 3,
                         "answer": "She could compare her insect counts with the council's rainfall totals to see whether they match. Her hypothesis would be that more rain means fewer insects, which she could test by counting insects after different rainfall levels.",
                         "feedback": "Meets the 3-mark row by explaining how the insect counts and rainfall totals could support a hypothesis about rain and insects. It does not weigh primary against secondary data or use the scientific knowledge of runoff, so it stays below the 5-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-1-1-n0-n1-s3",
@@ -14835,7 +14835,7 @@
                         "mark": 3,
                         "answer": "The council report is more reliable, because it gives dates and a method. The website gives no source details, so its nitrate values should not decide where the student samples.",
                         "feedback": "Meets the 3-mark row by explaining the reliability of the council report and how it bears on the sampling sites. It does not weigh the limits of the report or plan the sites in detail, so it stays below the 5-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-2-3-n0-n1-s3",
@@ -17310,7 +17310,7 @@
                         "mark": 3,
                         "answer": "The council should build the seawall, because the beach lost sand over one season. Peer review would check the data.",
                         "feedback": "Meets the 3-mark row by identifying relevant evidence and making a basic claim. The claim rests on one season of data and peer review is not explained, so it does not reach the 4-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-7-1-n0-n1-s3",
@@ -17532,7 +17532,7 @@
                         "mark": 3,
                         "answer": "'Laid down by the water' should be 'deposited by water as sedimentary layers'. 'A very long time ago' should be replaced with an age in Ma.",
                         "feedback": "Meets the 3-mark row by identifying vague language and replacing it with appropriate terms in two places. It does not explain the changes or address the fossil claim.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-7-3-n0-n1-s3",
@@ -17878,7 +17878,7 @@
                         "mark": 3,
                         "answer": "The shells lying the same way up suggest a stable seabed, and the burrows show that animals lived in the sediment after the shells were deposited. Together these suggest ecosystem interactions among seabed animals.",
                         "feedback": "Meets the 3-mark row by interpreting two observations to infer an ecosystem interaction, with environmental conditions only partly covered.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-1-2-n0-n1-s3",
@@ -17989,7 +17989,7 @@
                         "mark": 3,
                         "answer": "The Quaternary period is much longer than the Pleistocene and Holocene epochs, and the Holocene is the shortest. Periods show broad geological changes, while epochs show more specific features, such as the ice sheets of the Pleistocene.",
                         "feedback": "Meets the 3-mark row by distinguishing the divisions by length and features, with limited development of the biological differences.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-1-3-n0-n1-s3",
@@ -18612,7 +18612,7 @@
                         "mark": 3,
                         "answer": "Zircon crystals contain uranium, which decays to lead, so their ages date when each crystal formed. Meteorites are also dated by radiometric dating, and together the two give evidence for the age of the Earth.",
                         "feedback": "Meets the 3-mark row by analysing the zircon and meteorite evidence with some reasons, but the difference between the two ages is not explained.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-1-9-n0-n1-s3",
@@ -18724,7 +18724,7 @@
                         "mark": 3,
                         "answer": "The dyke cuts the sandstone and the fault, so it is younger than both. The limestone is not cut by the dyke, so it is younger than the dyke.",
                         "feedback": "Meets the 3-mark row by applying one principle to order some events, with a limited explanation of the full sequence.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-1-10-n0-n1-s3",
@@ -18955,7 +18955,7 @@
                         "mark": 3,
                         "answer": "The gas mixture may not match the early atmosphere, and the products were trapped, so the experiment does not copy the early Earth. Its short timescale is also a limitation of the model.",
                         "feedback": "Meets the 3-mark row by examining two limitations with some reasons, with limited reference to the early Earth.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-2-1-n0-n1-s3",
@@ -19032,7 +19032,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A research review lists three sources of evidence for the origin of organic molecules on Earth. Some laboratory experiments under vent-like conditions have produced organic compounds from simple gases. Carbonaceous chondrites, such as the Murchison meteorite that fell in Victoria in 1969, contain amino acids. Hot springs have been proposed as settings where wet-dry cycles could concentrate organic molecules.",
-                    "markingCriteria": "7-8 marks: Evaluates the evidence from all three sources in a sustained judgement, weighing the strengths and limitations of each and reaching a supported conclusion on the strongest source\n6 marks: Evaluates the evidence from most sources, weighing strengths and limitations with relevant reasons, although one source is treated briefly\n5 marks: Assesses the evidence from the sources with relevant reasons, with some judgement of which source is strongest\n3-4 marks: Describes the sources and some evidence for each, with a limited evaluation of their strengths\n2 marks: Identifies one source or one piece of evidence, without evaluating it\n1 mark: Provides some relevant information about the origin of organic molecules",
+                    "markingCriteria": "8 marks: Evaluates the evidence from all three sources in a sustained judgement, weighing the strengths and limitations of each and reaching a supported conclusion on the strongest source\n7 marks: Evaluates the evidence from most sources, weighing strengths and limitations with relevant reasons, although one source is treated briefly\n5-6 marks: Assesses the evidence from the sources with relevant reasons, with some judgement of which source is strongest\n3-4 marks: Describes the sources and some evidence for each, with a limited evaluation of their strengths\n2 marks: Identifies one source or one piece of evidence, without evaluating it\n1 mark: Provides some relevant information about the origin of organic molecules",
                     "keywords": [
                       "evidence",
                       "origin",
@@ -19354,7 +19354,7 @@
                         "mark": 3,
                         "answer": "Photosynthetic life produced oxygen, and oxygen in the atmosphere formed the ozone layer. The ozone layer absorbed ultraviolet light, which made land easier to live on.",
                         "feedback": "Meets the 3-mark row by analysing the link for most steps, with a limited explanation of why land colonisation was possible.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-2-5-n0-n1-s3",
@@ -19582,7 +19582,7 @@
                         "mark": 3,
                         "answer": "Ediacaran fossils are preserved as impressions in sandstone because they have soft bodies. Cambrian animals have shells, so they are preserved better. This means the Cambrian animals are easier to study.",
                         "feedback": "Describes the preservation difference with a loose link to physical characteristics, but does not analyse how it changes the conclusions.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-3-2-n0-n1-s3",
@@ -19804,7 +19804,7 @@
                         "mark": 3,
                         "answer": "Cambrian animals burrowed into the sediment, which broke up the microbial mats. This changed the sea floor, because animals were now living in the sediment rather than only on top of it.",
                         "feedback": "Describes the change in bedding with a link to ecosystem interactions, but does not analyse the wider effects.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-3-4-n0-n1-s3",
@@ -20027,7 +20027,7 @@
                         "mark": 3,
                         "answer": "Shallow water gave shelter from ultraviolet radiation, and wet mud gave some food. This helped early animals to move onto land.",
                         "feedback": "Describes an environmental condition of shallow habitats with some link to the conquest of land, but does not analyse transitional forms.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-3-6-n0-n1-s3",
@@ -20360,7 +20360,7 @@
                         "mark": 3,
                         "answer": "The wax is the mantle and the paper pieces are continents. Pushing them together and pulling them apart shows the supercycle, although it happens quickly.",
                         "feedback": "Describes components of the model and a stage it represents, with a limited link to a limitation, but no detailed plan.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-3-9-n0-n1-s3",
@@ -20471,7 +20471,7 @@
                         "mark": 3,
                         "answer": "Rifting releases carbon dioxide from volcanoes, which can warm the climate. Continents moving apart also isolate species, which may lead to new species.",
                         "feedback": "Describes a process and its effect on climate or species, with some link to species evolution, but no analysis of biomes.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-3-10-n0-n1-s3",
@@ -20817,7 +20817,7 @@
                         "mark": 3,
                         "answer": "Basaltic magma has low viscosity, so gas escapes and lava flows out, producing an effusive eruption. Rhyolitic magma is more viscous and can be explosive.",
                         "feedback": "Describes how magma viscosity affects eruption type, but does not analyse the role of dissolved gas or fragmentation.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-natural-hazards-1-2-n0-n1-s3",
@@ -21366,7 +21366,7 @@
                         "mark": 3,
                         "answer": "Pinatubo is on a subduction zone and had a large explosive eruption, which cooled the global climate. Eyjafjallajökull is in Iceland and disrupted air travel in Europe.",
                         "feedback": "Describes the setting and one effect of each volcano, with a link between them, but does not analyse how the settings shaped the differences.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-natural-hazards-1-7-n0-n1-s3",
@@ -21703,7 +21703,7 @@
                         "mark": 3,
                         "answer": "Friction along a fault converts some of the stored energy into heat. This means less energy goes into the seismic waves.",
                         "feedback": "Describes an energy transformation with a link to wave strength, but does not analyse the rock properties or the effect of distance.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-natural-hazards-2-2-n0-n1-s3",
@@ -21813,7 +21813,7 @@
                         "mark": 3,
                         "answer": "Earthquake foci near the trench are shallow, and foci further inland are deeper. This shows the depth changes across the subduction zone.",
                         "feedback": "Describes the depth of foci in a subduction zone with a link to the plate boundary, but does not analyse the subducting plate.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-natural-hazards-2-3-n0-n1-s3",
@@ -22101,7 +22101,7 @@
                         "mark": 3,
                         "answer": "Soft soils can make ground motion stronger, so buildings on them may be damaged more. Falling fittings can also hurt people inside.",
                         "feedback": "Describes a hazard from ground motion with a link to site conditions, but does not analyse resonance or how the factors combine.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-natural-hazards-2-6-n0-n1-s3",
@@ -22737,7 +22737,7 @@
                         "mark": 3,
                         "answer": "A tropical cyclone forms over warm water, while a hailstorm forms in a thunderstorm. The cyclone causes flooding from heavy rain, but the hailstorm damages roofs and crops.",
                         "feedback": "Meets the 3-mark row by explaining a difference in cause and a difference in physical impact. It does not explain the mechanisms or the difference in scale.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-natural-hazards-3-1-n0-n1-s3",
@@ -23385,7 +23385,7 @@
                         "mark": 3,
                         "answer": "A weaker circulation would move less heat energy from the tropics, so the upper ocean would warm near the equator. Coastal areas that receive warm currents would cool, and their winters would become colder.",
                         "feedback": "Meets the 3-mark row by explaining how the change moves heat energy and how coastal regions would be affected. It does not weigh the effects on rainfall or the time over which they build.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-1-1-n0-n1-s3",
@@ -23725,7 +23725,7 @@
                         "mark": 3,
                         "answer": "The Drake Passage opened and let a current flow around Antarctica. Closing the Isthmus of Panama redirected warm water into the Atlantic, which changed the ocean currents that carry heat northwards.",
                         "feedback": "Meets the 3-mark row by explaining how each gateway opening or closure changes ocean currents. It does not compare the two effects or link them to the plate tectonic supercycle.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-1-4-n0-n1-s3",
@@ -24241,7 +24241,7 @@
                         "mark": 3,
                         "answer": "Carbon dioxide builds up when its natural sinks weaken, because the natural sources keep releasing it. Methane is removed within about a decade, so changes in its sources show quickly.",
                         "feedback": "Meets the 3-mark row by explaining how natural sinks and sources control the amount of two gases. It does not compare all four gases or the stratospheric sinks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-1-9-n0-n1-s3",
@@ -24465,7 +24465,7 @@
                         "mark": 3,
                         "answer": "Ice reflects sunlight, so when glacier and sea ice melt, the darker surface absorbs more heat. This extra warming melts more ice, which amplifies global climate change.",
                         "feedback": "Meets the 3-mark row by explaining how a change in surface reflectivity feeds back into warming. It does not use the two cases or analyse the scale of the amplification.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-1-11-n0-n1-s3",
@@ -25033,7 +25033,7 @@
                         "mark": 3,
                         "answer": "Colder water and a larger ice sheet both raise the oxygen-18 share of seawater, so a rise in the record does not show temperature alone. A second proxy is needed to separate the two causes.",
                         "feedback": "Meets the 3-mark row by explaining how both temperature and ice volume change the ratio. It does not name the independent proxy or the sea level record.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-2-3-n0-n1-s3",
@@ -25594,7 +25594,7 @@
                         "mark": 3,
                         "answer": "The paintings show a marsupial that no longer lives there, and a wetter environment, so the art suggests climate variation. The pollen record could confirm whether the vegetation matches the painted scene.",
                         "feedback": "Meets the 3-mark row by explaining how the painted species and environment indicate past climate, with reference to the pollen record. It identifies no limitation.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-2-8-n0-n1-s3",
@@ -25822,7 +25822,7 @@
                         "mark": 3,
                         "answer": "The natural greenhouse effect is the warming that occurs without humans. The anthropogenic greenhouse effect is extra warming caused by gases from fossil fuels and farming, so it adds to the natural effect.",
                         "feedback": "Meets the 3-mark row by explaining the difference between the two effects, with some reference to human sources. It names no gases.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-3-1-n0-n1-s3",
@@ -26046,7 +26046,7 @@
                         "mark": 3,
                         "answer": "The ice core shows a steady concentration before the Industrial Revolution, and the Mauna Loa record shows a steep rise since 1958 with a seasonal pattern. Combining them gives a continuous record.",
                         "feedback": "Meets the 3-mark row by explaining the change in each record and a reason for combining them. It does not analyse the trend in depth.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-3-3-n0-n1-s3",
@@ -26381,7 +26381,7 @@
                         "mark": 3,
                         "answer": "Clearing forest releases carbon dioxide and removes a carbon sink. Draining wetlands releases carbon from peat, so the concentration of greenhouse gases increases over time.",
                         "feedback": "Meets the 3-mark row by explaining how land use changes alter the concentration of greenhouse gases. It covers only two changes and no nitrous oxide.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-3-6-n0-n1-s3",
@@ -26603,7 +26603,7 @@
                         "mark": 3,
                         "answer": "Ocean acidification weakens the shells of plankton and the skeletons of corals, so the fish that feed on them decline. This affects the reef food web and the species that depend on it.",
                         "feedback": "Meets the 3-mark row by explaining the effect on shells and one flow-on effect. It does not trace the link to the biosphere.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-3-8-n0-n1-s3",
@@ -27598,7 +27598,7 @@
                         "mark": 3,
                         "answer": "Coal provides jobs and income, but it is non-renewable and adds emissions. A wind farm is renewable, but it needs storage to supply power when the wind is calm.",
                         "feedback": "Meets the 3-mark row by explaining a benefit and drawback of each option. It does not weigh the transition as a whole.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-sustainability-1-2-n0-n1-s3",
@@ -27949,7 +27949,7 @@
                         "mark": 3,
                         "answer": "Returning glass bottles for reuse and repairing appliances keep materials in use, so fewer new products must be made and less waste goes to landfill.",
                         "feedback": "Meets the 3-mark row by explaining how two programs keep materials in use. It does not trace the effect in depth or note what the benefit depends on.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-sustainability-1-6-n0-n1-s3",
@@ -28247,7 +28247,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A city council introduces three waste reduction strategies: a deposit scheme for drink containers, a ban on single-use plastic bags, and a food waste campaign that cuts the amount of food sent to landfill. A review of the program records lower landfill volumes, fewer plastic bags in waterways and reduced methane emissions from landfill. It also notes that the deposit scheme needs collection trucks, and that some bags have been replaced with thicker plastic bags.",
-                    "markingCriteria": "7-8 marks: Evaluates the effect of the strategies on each sphere, weighing gains against trade-offs such as truck emissions and thicker bags, and reaches a supported overall judgement\n6 marks: Evaluates the effects on several spheres with sound reference to the scenario, including at least one trade-off\n5 marks: Analyses the effect of the waste reduction strategies on at least two spheres with some reference to the scenario\n3-4 marks: Describes or explains an effect of a waste reduction strategy on one sphere\n2 marks: Identifies an effect of waste reduction on a sphere or a strategy from the scenario\n1 mark: Provides some relevant information",
+                    "markingCriteria": "8 marks: Evaluates the effect of the strategies on each sphere, weighing gains against trade-offs such as truck emissions and thicker bags, and reaches a supported overall judgement\n7 marks: Evaluates the effects on several spheres with sound reference to the scenario, including at least one trade-off\n5-6 marks: Analyses the effect of the waste reduction strategies on at least two spheres with some reference to the scenario\n3-4 marks: Describes or explains an effect of a waste reduction strategy on one sphere\n2 marks: Identifies an effect of waste reduction on a sphere or a strategy from the scenario\n1 mark: Provides some relevant information",
                     "keywords": [
                       "waste reduction",
                       "geosphere",
@@ -29292,7 +29292,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A federal committee is reviewing a proposal to reduce transport dependence on crude oil by 2040 through electric vehicles, biofuels and hydrogen, and must evaluate the proposal's impact before advising the government.",
-                    "markingCriteria": "7-8 marks: Evaluates the impact of reducing crude oil dependence on fuel security, the economy and emissions, weighing the conditions under which each benefit holds and reaching a supported judgement\n6 marks: Evaluates the impact on at least two of fuel security, the economy and emissions, with a supported judgement\n5 marks: Discusses the impact on fuel security, the economy or emissions, with some link to the energy resources that could replace crude oil\n3-4 marks: Describes the effect of reducing crude oil dependence on transport, with limited assessment of its impact\n2 marks: Identifies one effect of reducing crude oil dependence for transport\n1 mark: Provides some relevant information about crude oil and transport",
+                    "markingCriteria": "8 marks: Evaluates the impact of reducing crude oil dependence on fuel security, the economy and emissions, weighing the conditions under which each benefit holds and reaching a supported judgement\n7 marks: Evaluates the impact on at least two of fuel security, the economy and emissions, with a supported judgement\n5-6 marks: Discusses the impact on fuel security, the economy or emissions, with some link to the energy resources that could replace crude oil\n3-4 marks: Describes the effect of reducing crude oil dependence on transport, with limited assessment of its impact\n2 marks: Identifies one effect of reducing crude oil dependence for transport\n1 mark: Provides some relevant information about crude oil and transport",
                     "keywords": [
                       "crude oil",
                       "energy resource",

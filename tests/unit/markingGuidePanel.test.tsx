@@ -44,7 +44,7 @@ describe('MarkingGuidePanel subtitle', () => {
   });
 
   it('names the marks, then the ceiling band of the question once a guide is written', () => {
-    // EVALUATE on 4 marks reaches Band 6 at full marks.
+    // EVALUATE on 4 marks reaches Band 5 at full marks: six marks or fewer stop there.
     render(
       <MarkingGuidePanel
         prompt={prompt({ markingCriteria: '4 marks: Judges the reform' })}
@@ -52,7 +52,7 @@ describe('MarkingGuidePanel subtitle', () => {
         onMarkingCriteriaChange={vi.fn()}
       />
     );
-    expect(toggle().textContent).toMatch(/4 marks · written to band 6/i);
+    expect(toggle().textContent).toMatch(/4 marks · written to band 5/i);
   });
 });
 
@@ -83,7 +83,7 @@ describe('MarkingGuidePanel is a secondary hero', () => {
 
     fireEvent.click(toggle());
     expect(root.className).toContain('band-lit');
-    expect(root.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(6));
+    expect(root.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(5));
   });
 });
 
@@ -101,9 +101,9 @@ describe('MarkingGuidePanel icon tile', () => {
     const tile = iconTile(container);
     expect(tile.className).toContain('band-solid');
     const owner = tile.closest('[style*="--band-rgb"]') as HTMLElement;
-    expect(owner.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(6));
-    // The fixed band the panel used to draw in, 5, is not on the panel.
-    expect(owner.style.getPropertyValue('--band-rgb')).not.toBe(getBandRgb(5));
+    expect(owner.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(5));
+    // The verb's own Band 6 is not drawn: a question of 4 marks stops at Band 5.
+    expect(owner.style.getPropertyValue('--band-rgb')).not.toBe(getBandRgb(6));
   });
 
   it('follows a different tier, so a Describe question draws Band 2', () => {

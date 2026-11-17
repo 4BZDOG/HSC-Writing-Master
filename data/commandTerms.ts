@@ -1167,29 +1167,35 @@ export const getQuestionBandCeiling = (totalMarks: number, tier: number = 4): nu
  *
  * - At or below the ceiling, one band per mark, counted down from it: 4 marks under
  *   a Band 5 ceiling read [2, 3, 4, 5].
- * - Above it, full marks earn the ceiling and each mark below steps down one band.
- *   The extra rungs (marks minus ceiling) have to go somewhere, so they are given
- *   to the middle bands: Band 3 first, then Band 4, alternating while both lie
- *   below the ceiling. A ceiling of 3 gives them all to Band 2. A ceiling of 2 or
- *   less gives them to Band 1, so the bottom still reaches Band 1 at one mark.
+ * - Above it, only full marks earn the ceiling. The other marks are shared evenly
+ *   between the bands below it, and any left over go to the middle bands first:
+ *   Band 3, then Band 4, then Band 2, then Band 1. So no band swallows the ladder
+ *   when a question has many more marks than its ceiling has bands.
  *
  * Examples: 6 marks at a Band 5 ceiling → [1, 2, 3, 3, 4, 5]; 8 marks at Band 6 →
  * [1, 2, 3, 3, 4, 4, 5, 6]; 7 marks at Band 6 → [1, 2, 3, 3, 4, 5, 6]; 8 marks at
- * Band 3 → [1, 2, 2, 2, 2, 2, 2, 3]. The list never falls as marks rise.
+ * Band 3 → [1, 1, 1, 2, 2, 2, 2, 3]; 8 marks at Band 4 → [1, 1, 2, 2, 3, 3, 3, 4].
+ * The list never falls as marks rise.
  */
 export const shortQuestionBands = (totalMarks: number, ceiling: number): number[] => {
   const top = Math.max(1, Math.floor(ceiling));
   const marks = Math.max(0, Math.floor(totalMarks));
   if (marks <= top) return Array.from({ length: marks }, (_, i) => top - marks + i + 1);
 
-  // How many marks each band takes: one each, then the extra rungs.
-  const copies = new Map<number, number>();
-  for (let band = 1; band <= top; band++) copies.set(band, 1);
-  const middle = [3, 4].filter((band) => band <= top - 1);
-  const fallback = Math.max(1, top - 1);
-  for (let k = 0; k < marks - top; k++) {
-    const band = middle.length > 0 ? middle[k % middle.length] : fallback;
-    copies.set(band, (copies.get(band) ?? 0) + 1);
+  // Full marks alone earn the ceiling. The other marks are shared evenly between the
+  // bands below it, and any left over go to the middle bands first (3, then 4, 2, 1).
+  const copies = new Map<number, number>([[top, 1]]);
+  const below = top - 1;
+  if (below === 0) {
+    copies.set(1, marks);
+  } else {
+    const share = Math.floor((marks - 1) / below);
+    for (let band = 1; band <= below; band++) copies.set(band, share);
+    const order = [3, 4, 2, 1, 5].filter((band) => band <= below);
+    for (let k = 0; k < (marks - 1) % below; k++) {
+      const band = order[k];
+      copies.set(band, (copies.get(band) ?? 0) + 1);
+    }
   }
 
   const ladder: number[] = [];

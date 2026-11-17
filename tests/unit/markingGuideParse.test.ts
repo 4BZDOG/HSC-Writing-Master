@@ -52,8 +52,8 @@ describe('parseMarkingCriteria: the numeric ladder', () => {
       [2, 2],
       [1, 1],
     ]);
-    // ANALYSE on 5 marks: 5 and 4 earn Band 4, then 3, 2, 1.
-    expect(items.map((i) => i.band)).toEqual([4, 4, 3, 2, 1]);
+    // ANALYSE on 5 marks: 5 earns Band 4, 4 and 3 share Band 3, then 2 and 1.
+    expect(items.map((i) => i.band)).toEqual([4, 3, 3, 2, 1]);
     expect(items[0].description).toMatch(/Analyses effectively/);
   });
 
@@ -100,23 +100,23 @@ describe('parseMarkingCriteria: range rows', () => {
 
 describe('parseMarkingCriteria: band-labelled rows', () => {
   it('draws a Band row at the mark that starts that band on this question', () => {
-    // EVALUATE on 4 marks: Band 6 is reached first at mark 4.
-    const [only] = parseMarkingCriteria('Band 6: Comprehensive, sustained evaluation', 4, EVALUATE);
+    // EVALUATE on 4 marks: Band 5 is reached first at mark 4.
+    const [only] = parseMarkingCriteria('Band 5: Comprehensive, sustained evaluation', 4, EVALUATE);
 
-    expect(only.markLabel).toBe('Band 6');
+    expect(only.markLabel).toBe('Band 5');
     expect(only.markRange).toEqual([4, 4]);
-    expect(only.band).toBe(6);
+    expect(only.band).toBe(5);
     expect(only.description).toMatch(/Comprehensive, sustained evaluation/);
   });
 
   it('snaps a band the question cannot award onto the lowest band it can', () => {
-    // A 4-mark EVALUATE runs Band 6 at mark 4 down to Band 3 at mark 1; Band 2
-    // is unreachable, so the row a student would read as Band 2 is Band 3 at 1.
-    const [only] = parseMarkingCriteria('Band 2: Elementary statements only', 4, EVALUATE);
+    // A 4-mark EVALUATE runs Band 5 at mark 4 down to Band 2 at mark 1; Band 1
+    // is unreachable, so the row a student would read as Band 1 is Band 2 at 1.
+    const [only] = parseMarkingCriteria('Band 1: Elementary statements only', 4, EVALUATE);
 
-    expect(only.markLabel).toBe('Band 3');
+    expect(only.markLabel).toBe('Band 2');
     expect(only.markRange).toEqual([1, 1]);
-    expect(only.band).toBe(3);
+    expect(only.band).toBe(2);
   });
 
   it('caps a band above a Describe question ceiling at the band it can earn', () => {
@@ -310,23 +310,23 @@ describe('exemplarMarkForItem', () => {
   });
 
   it('matches a band row by the band each exemplar mark earns on this question', () => {
-    // EVALUATE on 4 marks: marks 4, 3, 2, 1 earn Bands 6, 5, 4, 3.
+    // EVALUATE on 4 marks: marks 4, 3, 2, 1 earn Bands 5, 4, 3, 2.
     const band3 = row('Band 3', [1, 1], 3);
-    expect(exemplarMarkForItem(band3, [{ mark: 1 }, { mark: 2 }], 4, EVALUATE)).toBe(1);
-    expect(exemplarMarkForItem(band3, [{ mark: 2 }], 4, EVALUATE)).toBeUndefined();
+    expect(exemplarMarkForItem(band3, [{ mark: 1 }, { mark: 2 }], 4, EVALUATE)).toBe(2);
+    expect(exemplarMarkForItem(band3, [{ mark: 1 }], 4, EVALUATE)).toBeUndefined();
   });
 
   it('matches a band row on its band even when the exemplar mark is outside its range', () => {
-    // Mark 4 is not in the row's [1,1] range, but it earns Band 6, which is the row's band.
-    const band6 = row('Band 6', [4, 4], 6);
-    expect(exemplarMarkForItem(band6, [{ mark: 4 }], 4, EVALUATE)).toBe(4);
+    // Mark 4 is not in the row's [1,1] range, but it earns Band 5, which is the row's band.
+    const band5 = row('Band 5', [1, 1], 5);
+    expect(exemplarMarkForItem(band5, [{ mark: 4 }], 4, EVALUATE)).toBe(4);
   });
 
   it('returns undefined for a band no exemplar earns, including one the question cannot award', () => {
-    // A 4-mark EVALUATE cannot award Band 2, so no exemplar can sit on that row.
-    const band2 = row('Band 2', [1, 1], 2);
+    // A 4-mark EVALUATE cannot award Band 1, so no exemplar can sit on that row.
+    const band1 = row('Band 1', [1, 1], 1);
     expect(
-      exemplarMarkForItem(band2, [{ mark: 1 }, { mark: 2 }, { mark: 3 }, { mark: 4 }], 4, EVALUATE)
+      exemplarMarkForItem(band1, [{ mark: 1 }, { mark: 2 }, { mark: 3 }, { mark: 4 }], 4, EVALUATE)
     ).toBeUndefined();
   });
 

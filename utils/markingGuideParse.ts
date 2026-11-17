@@ -158,7 +158,8 @@ export const questionCeilingBand = (
   totalMarks: number,
   verb: PromptVerb | undefined,
   bandCeiling?: number
-): number => getBandForMark(totalMarks, totalMarks, getPromptTermInfo({ verb, bandCeiling, totalMarks }).tier);
+): number =>
+  getBandForMark(totalMarks, totalMarks, getPromptTermInfo({ verb, bandCeiling, totalMarks }).tier);
 
 /**
  * A row written against a band rather than a mark. Its `markRange` is the single

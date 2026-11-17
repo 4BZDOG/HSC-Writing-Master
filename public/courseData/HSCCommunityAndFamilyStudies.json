@@ -470,7 +470,7 @@
                         "mark": 3,
                         "answer": "Priya’s job loss is an economic factor that causes money worries, and these worries affect her sleep and emotional wellbeing. This shows that the two factors are linked and can have an impact on her wellbeing.",
                         "feedback": "Analyses a relevant relationship between the factors and says how it affects wellbeing, but the chain is not developed beyond the first link. This meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-1-1-3-n0-n1-s3",
@@ -701,7 +701,7 @@
                         "mark": 3,
                         "answer": "Mikhail’s income is unstable, so his need for safety and security is not met. Maslow’s hierarchy suggests he should first satisfy basic needs such as food and shelter, and then his need for belonging.",
                         "feedback": "Applies the hierarchy to two needs with a relevant link to the scenario, but does not explain the order in depth. This meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-1-1-5-n0-n1-s3",
@@ -815,7 +815,7 @@
                         "mark": 3,
                         "answer": "For Hamish, employment is about building skills for his apprenticeship. For Olivia, it is about supporting her two children, so the need is more urgent for her.",
                         "feedback": "Differentiates the significance for the two individuals with some reference to the scenario, but the reasons are short. This meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-1-1-6-n0-n1-s3",
@@ -893,7 +893,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A community health worker is preparing a training session on human needs. She plans to use Maslow’s hierarchy, but a colleague argues that a model developed decades ago may not reflect the needs of people in today’s communities.",
-                    "markingCriteria": "7-8 marks: Evaluates the relevance and validity of Maslow’s hierarchy in a sustained and perceptive way, weighing contemporary views on human needs to reach a supported conclusion\n6 marks: Evaluates the relevance and validity of Maslow’s hierarchy with sound reasoning and relevant reference to contemporary views on human needs\n5 marks: Evaluates aspects of the relevance or validity of Maslow’s hierarchy, with some reference to contemporary views\n3-4 marks: Describes strengths or limitations of Maslow’s hierarchy, with limited evaluation of its relevance or validity\n2 marks: Identifies a limited point about Maslow’s hierarchy or human needs\n1 mark: Provides some relevant information about human needs",
+                    "markingCriteria": "8 marks: Evaluates the relevance and validity of Maslow’s hierarchy in a sustained and perceptive way, weighing contemporary views on human needs to reach a supported conclusion\n7 marks: Evaluates the relevance and validity of Maslow’s hierarchy with sound reasoning and relevant reference to contemporary views on human needs\n5-6 marks: Evaluates aspects of the relevance or validity of Maslow’s hierarchy, with some reference to contemporary views\n3-4 marks: Describes strengths or limitations of Maslow’s hierarchy, with limited evaluation of its relevance or validity\n2 marks: Identifies a limited point about Maslow’s hierarchy or human needs\n1 mark: Provides some relevant information about human needs",
                     "keywords": [
                       "Maslow’s hierarchy",
                       "relevance",
@@ -1044,7 +1044,7 @@
                         "mark": 3,
                         "answer": "Setting a goal to save money can help Noah feel more secure about his housing, because he has a plan to follow. This links goal setting to his need for safety and security.",
                         "feedback": "Analyses how goal setting could help the need, with some reference to the scenario, but the analysis is not developed. This meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-1-1-8-n0-n1-s3",
@@ -1278,7 +1278,7 @@
                         "mark": 3,
                         "answer": "Lena's car is a non-human resource that helps her get to job interviews, so it supports her need for employment.",
                         "feedback": "Meets the 3-mark row: describes one resource and how it assists Lena, with some reference to her situation. Adding a second resource and explaining how the two work together would move it up the ladder.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-1-1-10-n0-n1-s3",
@@ -2239,7 +2239,7 @@
                         "mark": 3,
                         "answer": "Jordan could schedule study on Monday and Wednesday evenings and use Sunday to review, so his work and caring commitments are not disrupted.",
                         "feedback": "Meets the 3-mark row: describes parts of a plan with some reference to Jordan's challenges. Adding the refinement for a changed shift and a skill that makes the plan work would move it up the ladder.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-1-2-6-n0-n1-s3",
@@ -2479,7 +2479,7 @@
                         "mark": 3,
                         "answer": "Marco could ask a sibling to take some caring shifts, which would give him time for paid work. He could also use respite services for a break.",
                         "feedback": "Meets the 3-mark row: applies two relevant strategies to Marco's situation, but explains how each would help only briefly and does not show the effect on his savings.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-1-3-1-n0-n1-s3",
@@ -3130,7 +3130,7 @@
                         "mark": 3,
                         "answer": "The Men's Shed formed because retired men wanted social contact and a place to work on projects. The Parents and Citizens association formed because parents want to help the school. Both groups help the community by bringing people together.",
                         "feedback": "Meets the 3-mark row: explains the reasons both groups formed, with some explanation of their contribution. The contribution to the community is general and not developed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-2-1-2-n0-n1-s3",
@@ -3245,7 +3245,7 @@
                         "mark": 3,
                         "answer": "The group has formed because members share a sexual or gender identity and want to talk with others who understand their experiences. Meeting fortnightly at the library gives them a regular chance to build friendships.",
                         "feedback": "Meets the 3-mark row: explains a reason for the group's formation with some link to members. Analysis of how the second reason adds to the first is missing.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-2-1-3-n0-n1-s3",
@@ -3484,7 +3484,7 @@
                         "mark": 3,
                         "answer": "The norm of arriving early helps the team bond, because players talk before training. Hana does not follow it at first, so she misses that bonding, which weakens her link with the team.",
                         "feedback": "Meets the 3-mark row: explains how the norm affects cohesiveness, with some links to the members. The answer does not analyse conformity or reach a judgement.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-2-2-1-n0-n1-s3",
@@ -3600,7 +3600,7 @@
                         "mark": 3,
                         "answer": "Ben represents students on the council, so his role is to present their views. Maddie leads the netball team and organises training, so her role is about getting tasks done. The roles differ in what they aim to achieve.",
                         "feedback": "Meets the 3-mark row: distinguishes the roles with some reference to what each achieves. The reasons for the difference are brief and the groups are not developed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-2-2-2-n0-n1-s3",
@@ -3947,7 +3947,7 @@
                         "mark": 3,
                         "answer": "Tahlia's education gives her leadership skills, so she can take initiative in training. Her culture encourages her to listen and show respect to older players, which limits how often she leads.",
                         "feedback": "Meets the 3-mark row: explains how the two factors shape the role, but the interaction between them is not examined.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-2-2-5-n0-n1-s3",
@@ -4185,7 +4185,7 @@
                         "mark": 3,
                         "answer": "Gender expectations suggest debating is a male activity, so teammates may doubt Aisha as a speaker. The newsletter also features boys as leaders, which reinforces this view.",
                         "feedback": "Meets the 3-mark row: explains how each influence could shape Aisha's role, with some reference to the scenario, but without a judgement.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-2-2-7-n0-n1-s3",
@@ -4423,7 +4423,7 @@
                         "mark": 3,
                         "answer": "Gender expectations limit Tomas, because members expect a male volunteer to do heavy lifting rather than take the secretary role. Maya is accepted in a leading role, which shows the expectations also favour some individuals.",
                         "feedback": "Meets the 3-mark row: explains how gender expectations affect roles with some reference to the scenario, but does not analyse both directions in depth.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-2-2-9-n0-n1-s3",
@@ -4543,7 +4543,7 @@
                         "mark": 3,
                         "answer": "Ben should write a checklist of roles, such as leader and mediator, and record what each student does at set times during each rehearsal.",
                         "feedback": "Meets the 3-mark row: describes how observations could be recorded with some reference to the scenario, but does not cover the presentation of findings.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-2-2-10-n0-n1-s3",
@@ -5021,7 +5021,7 @@
                         "mark": 3,
                         "answer": "Oscar could set his own goals to manage his nerves, which is self-leadership. He could also vary his approach to suit different players.",
                         "feedback": "Meets the 3-mark row: describes self-leadership with reference to the scenario, but does not apply leadership adaptability to the different players.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-2-3-3-n0-n1-s3",
@@ -6271,7 +6271,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A council is considering building a skate park. A residents' association wants it away from houses to reduce noise, while a youth group wants it near the library where young people gather. A council-appointed mediator has offered to bring both groups together, and an independent advocate has offered support to the youth group.",
-                    "markingCriteria": "7-8 marks: Evaluates the extent to which support people can assist conflict resolution, making a sustained judgement supported by detailed evidence from the scenario\n6 marks: Evaluates how far support people can assist conflict resolution, with a judgement supported by relevant evidence\n5 marks: Assesses the role of support people in the conflict, with some judgement and relevant examples\n3-4 marks: Describes the role of support people in the conflict, with limited judgement\n2 marks: Identifies a support person and a role in the conflict, with little explanation\n1 mark: Provides some relevant information about conflict resolution",
+                    "markingCriteria": "8 marks: Evaluates the extent to which support people can assist conflict resolution, making a sustained judgement supported by detailed evidence from the scenario\n7 marks: Evaluates how far support people can assist conflict resolution, with a judgement supported by relevant evidence\n5-6 marks: Assesses the role of support people in the conflict, with some judgement and relevant examples\n3-4 marks: Describes the role of support people in the conflict, with limited judgement\n2 marks: Identifies a support person and a role in the conflict, with little explanation\n1 mark: Provides some relevant information about conflict resolution",
                     "keywords": [
                       "current conflict",
                       "support people",
@@ -7136,7 +7136,7 @@
                         "mark": 3,
                         "answer": "Daniel's mother and stepfather share parenting roles at home, and his stepsister is part of the household. When he stays with his father, he takes on different responsibilities, so his roles change between households.",
                         "feedback": "Meets the 3-mark row: describes roles in the blended family and notes the change between households, but the explanation of how the structure causes this is limited.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-3-1-7-n0-n1-s3",
@@ -7957,7 +7957,7 @@
                         "mark": 3,
                         "answer": "A local youth group meets the need for a place to belong, but it reaches only young people in one town. A state service can reach more young people.",
                         "feedback": "Meets the 3-mark row: two groups are described in terms of the needs they meet, with limited analysis of scale. Explaining why scale changes what each group can offer would move it to the 4-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-3-2-7-n0-n1-s3",
@@ -8665,7 +8665,7 @@
                         "mark": 3,
                         "answer": "The residents' petition could influence councillors, and parking changes would affect shop owners' customers. Both factors could shape the outcomes of the decision.",
                         "feedback": "Meets the 3-mark row: analyses two factors that could influence the decision, with some link to outcomes. Explaining how the petition changes councillors' weighing of the proposal would lift it to the 5-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-11-3-2-13-n0-n1-s3",
@@ -10458,7 +10458,7 @@
                         "mark": 3,
                         "answer": "The sample group is members of one club, so the results only describe that club. The records are secondary data, which supports the survey.",
                         "feedback": "Meets the 3-mark row: describes the sample group and a source of data, with a limited link to the conclusions. Explaining how the small sample restricts what can be generalised would raise it.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-1-1-2-n0-n1-s3",
@@ -10727,7 +10727,7 @@
                         "mark": 2,
                         "answer": "Sampling is when a researcher chooses people to take part in their research. Valid and reliable research is important.",
                         "feedback": "Meets the some-understanding row: it describes sampling and mentions validity and reliability, but does not explain how sampling affects either.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": true,
@@ -10913,7 +10913,7 @@
                         "mark": 2,
                         "answer": "Some of the practices were not ethical, such as putting names on the questionnaires.",
                         "feedback": "Meets the 2-3 mark row: some understanding of ethical practice in the research, with one breach named and no judgement of the extent. Giving a verdict and assessing a second practice against an ethical principle would lift it to the 4-5 mark row.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "A student has conducted an Independent Research Project on the effects of technology on adolescents. The following practices occurred during the research process.\n• Permission was granted prior to the interviews\n• Participant names were recorded on the questionnaires that were distributed\n• Questionnaires were given to 15 male and 3 female students\n• Questionnaires were discarded in a rubbish bin in the school playground\n• Results were amended to reflect the hypothesis\n• Names were removed from the analysis and discussion\n• A bibliography was included in the project",
@@ -11390,7 +11390,7 @@
                         "mark": 3,
                         "answer": "A questionnaire is cheap but gives little reason behind answers, so it is less suitable. The student could interview about ten volunteers from the club, asking open questions, and record their answers with consent.",
                         "feedback": "Meets the 3-mark row: applies some criteria to reject a questionnaire and chooses interviews with a reasonable justification. Budget, time and privacy are not developed, which limits the answer.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-1-1-10-n0-n1-s3",
@@ -12013,7 +12013,7 @@
                         "mark": 3,
                         "answer": "A larger share of Aged people in the community means the council must plan for more health care and home support. However, not all older residents need the same services, so planning should consider their different levels of care.",
                         "feedback": "Meets the 3-mark row: explains how the proportion of the group affects planning, with some reference to diversity. Developing how the council would use the data in more detail would lift it to the 5-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-2-2-1-n0-n1-s3",
@@ -12371,7 +12371,7 @@
                         "mark": 3,
                         "answer": "If Jade completes her training, she may be able to work more hours in better-paid work. This can help the household meet its basic costs, which lowers financial stress for the family.",
                         "feedback": "Meets the 3-mark row: explains one effect of meeting an employment need on the family, with some link to wellbeing. Adding the effect on her confidence or the family’s time would lift it to the 5-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-2-3-1-n0-n1-s3",
@@ -12558,7 +12558,7 @@
                         "mark": 2,
                         "answer": "Young people who do not get their needs met may feel unhappy and may not do well at school.",
                         "feedback": "Meets the some-understanding row: it recognises that unmet needs cause problems, but names no specific need and gives no example.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": true,
@@ -12625,7 +12625,7 @@
                         "mark": 2,
                         "answer": "Services in the country are often far away, so families have to drive.",
                         "feedback": "Meets the 2-3 row: some understanding of a feature of services and its effect, but the explanation is brief and the aspect is not named. Explaining why distance limits access, such as the time and fuel cost, would move it up.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": true,
@@ -12750,7 +12750,7 @@
                         "mark": 2,
                         "answer": "Rural families sometimes find it hard to get services because they live far away.",
                         "feedback": "Meets the some-understanding row: it notes some difficulty for rural families but names no characteristic of individuals. Linking distance to a characteristic, such as the cost of travel for a family on a low income, would lift it.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": true,
@@ -12951,7 +12951,7 @@
                         "mark": 2,
                         "answer": "Legislation such as the Disability Discrimination Act 1992 protects people with disability from unfair treatment.",
                         "feedback": "Meets the 2-3 row: some understanding of legislation and equity for the group, but no judgement and no example. Adding an example of how the Act works in practice would move it to the 4-5 row.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "[Category B groups, listed in two columns on the paper: Aged; Culturally and Linguistically Diverse communities; Aboriginal and Torres Strait Islander Peoples; People with disabilities; Lesbian, Gay, Bisexual, Transgender, Queer, Intersex, Asexual plus (LGBTQIA+) communities; Sole parents; Homeless people]",
@@ -13028,7 +13028,7 @@
                     "verb": "CRITICALLY ANALYSE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A city council report states that three community organisations provide meals, short-term accommodation and health outreach to Homeless people. However, the services close by 4pm, are based only in the inner city, and rely on donations that vary from year to year.",
-                    "markingCriteria": "7-8 marks: Critically analyses the extent to which community organisations meet the specific needs of Homeless people, with sustained judgement supported by integrated evidence from the scenario\n6 marks: Critically analyses the extent of assistance from community organisations, with a sound judgement supported by relevant evidence\n5 marks: Analyses how community organisations assist Homeless people, with some judgement on the extent of that assistance\n3-4 marks: Describes services provided by community organisations, with limited analysis of their extent\n2 marks: Identifies a community organisation that assists Homeless people, with limited description\n1 mark: Provides some relevant information about Homeless people or community organisations",
+                    "markingCriteria": "8 marks: Critically analyses the extent to which community organisations meet the specific needs of Homeless people, with sustained judgement supported by integrated evidence from the scenario\n7 marks: Critically analyses the extent of assistance from community organisations, with a sound judgement supported by relevant evidence\n5-6 marks: Analyses how community organisations assist Homeless people, with some judgement on the extent of that assistance\n3-4 marks: Describes services provided by community organisations, with limited analysis of their extent\n2 marks: Identifies a community organisation that assists Homeless people, with limited description\n1 mark: Provides some relevant information about Homeless people or community organisations",
                     "keywords": [
                       "community organisations",
                       "Homeless people",
@@ -13137,7 +13137,7 @@
                         "mark": 2,
                         "answer": "The government could give older people more money.",
                         "feedback": "Meets the 2-3 mark row: some understanding of equity issues for the aged, with a general strategy and no explanation. Explaining what the money would pay for and how that improves equity would lift it to the 4-5 mark row.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "[Category B groups, listed in two columns on the paper: Aged; Culturally and Linguistically Diverse communities; Aboriginal and Torres Strait Islander peoples; Rural and remote families; Gay, Lesbian, Bisexual, Transgender, Intersex communities; Sole parents; Homeless people]",
@@ -13204,7 +13204,7 @@
                         "mark": 2,
                         "answer": "Sole parents are part of the community and some of them need support from services.",
                         "feedback": "Meets the 2-3 row: basic information about the group, with no contribution described. Naming one way the group contributes, with an example, would lift it to the 4-5 row.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "[Category B groups, listed in two columns on the paper: Aged; Culturally and Linguistically Diverse communities; Aboriginal and Torres Strait Islander peoples; Rural and remote families; Gay, Lesbian, Bisexual, Transgender, Intersex communities; Sole parents; Homeless people]",
@@ -13337,7 +13337,7 @@
                         "mark": 2,
                         "answer": "Advocacy groups speak up for people who need help, so the community knows about their problems.",
                         "feedback": "Meets the 2-3 mark row: some understanding of advocacy and the role of the organisation, with no specific group, need or benefit. Naming one group and its specific need, then explaining how advocacy helps, would lift it to the 4-5 mark row.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "[Category B groups, listed in two columns on the paper: Aged; Culturally and Linguistically Diverse communities; Aboriginal and Torres Strait Islander peoples; Rural and remote families; Gay, Lesbian, Bisexual, Transgender, Intersex communities; Sole parents; Homeless people]",
@@ -13699,7 +13699,7 @@
                         "mark": 3,
                         "answer": "Research data shows that many primary carers feel emotional obligation to a family member. Some families also say alternative care is too costly, so the carer provides care themselves.",
                         "feedback": "Meets the 3-mark row: two reasons are described with some reference to the research data. The interaction between the reasons is not examined.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-3-1-4-n0-n1-s3",
@@ -13812,7 +13812,7 @@
                         "mark": 3,
                         "answer": "The father meets his son's specific needs by making sure he takes his medication and attends check-ups. He also builds a positive relationship by listening to his son's worries about missing sport.",
                         "feedback": "Meets the 3-mark row: two roles are applied to the father's care with some relevant detail. The promotion of wellbeing is not applied.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-3-1-5-n0-n1-s3",
@@ -13890,7 +13890,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A 64-year-old grandfather has become the primary carer of his 15-year-old granddaughter after her parents separated and she could no longer live at home. He is retired, has a modest pension and is learning how to support a teenager who has recently experienced upheaval.",
-                    "markingCriteria": "7-8 marks: Evaluates the significance of each role for the grandfather, making a reasoned judgement that weighs how the roles interact and which matters most in this situation\n6 marks: Evaluates the significance of the roles for the grandfather, with a sound judgement supported by relevant reasons\n5 marks: Evaluates some of the roles for the grandfather, with relevant reasoning but limited judgement\n3-4 marks: Describes the roles of parents and carers with some links to the grandfather's situation\n2 marks: Identifies a role of parents and carers with limited link to the scenario\n1 mark: Provides some relevant information",
+                    "markingCriteria": "8 marks: Evaluates the significance of each role for the grandfather, making a reasoned judgement that weighs how the roles interact and which matters most in this situation\n7 marks: Evaluates the significance of the roles for the grandfather, with a sound judgement supported by relevant reasons\n5-6 marks: Evaluates some of the roles for the grandfather, with relevant reasoning but limited judgement\n3-4 marks: Describes the roles of parents and carers with some links to the grandfather's situation\n2 marks: Identifies a role of parents and carers with limited link to the scenario\n1 mark: Provides some relevant information",
                     "keywords": [
                       "parents and carers",
                       "primary carer",
@@ -14039,7 +14039,7 @@
                         "mark": 3,
                         "answer": "Budgeting helps the young woman plan for costs, which may reduce stress. Her online course gives her practical knowledge of caring for a newborn.",
                         "feedback": "Meets the 3-mark row: at least one preparation is analysed with some link to the transition. The links are brief and the second preparation is not analysed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-3-1-7-n0-n1-s3",
@@ -14271,7 +14271,7 @@
                         "mark": 3,
                         "answer": "The mother supervises his insulin and blood sugar checks because of his special needs. As he gains skills, she gives him more responsibility for his own routines.",
                         "feedback": "Meets the 3-mark row: one way the special needs affect the mother's role is analysed with some relevant detail.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-3-2-1-n0-n1-s3",
@@ -14383,7 +14383,7 @@
                         "mark": 3,
                         "answer": "Her previous experience of strict rules may make her want to be firm with tantrums. Her education may encourage her to stay calm and explain the rules instead.",
                         "feedback": "Meets the 3-mark row: one influence is analysed with some relevant detail, and the second is named without a full analysis.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-3-2-2-n0-n1-s3",
@@ -14520,7 +14520,7 @@
                         "mark": 2,
                         "answer": "Culture means the shared beliefs of a group, and parents from different cultures may raise children differently.",
                         "feedback": "Meets the 2-3 row: some information about culture and parenting, but no effect is explained and there is no example. Naming one influence and explaining how it changes what parents do would move it up.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": true,
@@ -14653,7 +14653,7 @@
                     "verb": "PROPOSE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A father works full-time in a warehouse, coaches his son's football team on weekends and is the main carer for his son after school. His son has asthma, so he needs regular medication and check-ups, and the father's employer offers some flexible start times.",
-                    "markingCriteria": "7-8 marks: Proposes a range of practical, well justified strategies, showing how each one helps manage the father's commitments while supporting his son's wellbeing\n6 marks: Proposes sound strategies for managing the father's commitments, with reasons linked to the scenario\n5 marks: Proposes some relevant strategies with limited justification\n3-4 marks: Identifies strategies the father could use, with little explanation of how they help\n2 marks: Identifies a commitment or strategy with limited relevance to the scenario\n1 mark: Provides some relevant information",
+                    "markingCriteria": "8 marks: Proposes a range of practical, well justified strategies, showing how each one helps manage the father's commitments while supporting his son's wellbeing\n7 marks: Proposes sound strategies for managing the father's commitments, with reasons linked to the scenario\n5-6 marks: Proposes some relevant strategies with limited justification\n3-4 marks: Identifies strategies the father could use, with little explanation of how they help\n2 marks: Identifies a commitment or strategy with limited relevance to the scenario\n1 mark: Provides some relevant information",
                     "keywords": [
                       "multiple commitments",
                       "parents and carers",
@@ -14801,7 +14801,7 @@
                         "mark": 3,
                         "answer": "Daniel and Mei have less money because Daniel works casual shifts, and their son needs many appointments, so they may struggle with transport costs.",
                         "feedback": "A factor is described with some link to the scenario, but the answer does not explain how the parents’ roles change.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-3-2-6-n0-n1-s3",
@@ -15099,7 +15099,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A parenting researcher is writing a report for a local council on whether parents and carers in its area share responsibilities more equally than a generation ago. She has interviewed a father who takes his children to school three days a week, a mother who works full time while her partner manages the household, and a grandmother who is the main carer for her grandchildren. Her report must weigh the evidence before making recommendations.",
-                    "markingCriteria": "7-8 marks: Evaluates thoroughly the extent to which changing expectations of males and females have made parenting and caring roles more equal, weighing evidence for and against a judgement\n6 marks: Evaluates the extent to which changing expectations have made parenting and caring roles more equal, with supporting evidence\n5 marks: Evaluates how changing expectations affect the sharing of parenting and caring roles, with some supporting evidence\n3-4 marks: Describes changing expectations of males and females and links them to parenting and caring roles\n2 marks: Identifies a change in expectations with a limited link to parenting and caring\n1 mark: Provides some relevant information about gender roles",
+                    "markingCriteria": "8 marks: Evaluates thoroughly the extent to which changing expectations of males and females have made parenting and caring roles more equal, weighing evidence for and against a judgement\n7 marks: Evaluates the extent to which changing expectations have made parenting and caring roles more equal, with supporting evidence\n5-6 marks: Evaluates how changing expectations affect the sharing of parenting and caring roles, with some supporting evidence\n3-4 marks: Describes changing expectations of males and females and links them to parenting and caring roles\n2 marks: Identifies a change in expectations with a limited link to parenting and caring\n1 mark: Provides some relevant information about gender roles",
                     "keywords": [
                       "expectations",
                       "males and females",
@@ -15558,7 +15558,7 @@
                         "mark": 2,
                         "answer": "Social parents may feel stressed when they have to make decisions about a child's health, and this can affect their wellbeing.",
                         "feedback": "Meets the some-understanding row: it recognises an impact on parents making health decisions, but names no legal limit, no type of social parent and no specific wellbeing effect.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": true,
@@ -16046,7 +16046,7 @@
                         "mark": 2,
                         "answer": "The young carer could get support from a service such as Centrelink.",
                         "feedback": "Meets the 2-3 row: basic information about a support service, with no assessment or link to preparing for the carer role. Naming a service and how it would help a young carer prepare would lift it to the 4-5 row.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "isPastHSC": true,
@@ -16232,7 +16232,7 @@
                         "mark": 3,
                         "answer": "The mother can apply for an apprehended domestic violence order, which stops her former partner from contacting her and her children. Police can enforce the order if it is breached.",
                         "feedback": "Analyses some ways the Act protects the family, with links to the scenario. It does not explain how the school is covered or what the family's wider needs are.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-4-1-2-n0-n1-s3",
@@ -16489,7 +16489,7 @@
                         "mark": 2,
                         "answer": "Children should be buckled into a car seat when travelling.",
                         "feedback": "Meets the 2-3 row: some information about travel restraints, but no legislation, agency or example. Naming the rule that applies and giving one example would move it up.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": true,
@@ -19055,7 +19055,7 @@
                         "mark": 3,
                         "answer": "The dishwasher and washing machine reduce the work of some chores, so the family may share domestic tasks differently. The shared online calendar makes household tasks visible to everyone, which can help the teenagers take on more responsibility.",
                         "feedback": "Analyses two effects of household technology on sharing domestic tasks with reference to the scenario, but does not discuss how the family's choices affect the outcome.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-5-4-1-n0-n1-s3",
@@ -19170,7 +19170,7 @@
                         "mark": 3,
                         "answer": "The video call app helps the children keep in touch with their aunt, which supports their emotional wellbeing. However, the tablet in the bedrooms may be linked to later bedtimes, which can affect mood.",
                         "feedback": "Examines one support and one harm of household technology with examples from the scenario, but the examination is brief and does not consider how families manage use.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-5-4-2-n0-n1-s3",
@@ -19787,7 +19787,7 @@
                         "mark": 2,
                         "answer": "Employees have rights at work, such as training when technology is brought in.",
                         "feedback": "Meets the 2-3 row: some understanding of an employee right in relation to technology, but no responsibility and no explanation. Adding an employee responsibility and an example would move it to the 4-5 row.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": true,
@@ -19906,7 +19906,7 @@
                         "mark": 3,
                         "answer": "Security of information is an issue because the website stores customers' card details, so a hack could expose them. Copyright is also an issue because the music and photographs Lakshmi uses may belong to someone else.",
                         "feedback": "Describes both issues with clear links to the business, but neither is analysed in depth. Explaining the effect of each issue would move it to the 5-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-5-5-1-n0-n1-s3",
@@ -20354,7 +20354,7 @@
                         "mark": 3,
                         "answer": "The mobile phone has affected the economy by creating new industries such as app development. Socially, it has changed how people communicate, although it can reduce face-to-face contact.",
                         "feedback": "Describes an economic and a social impact with some explanation, but does not analyse the political impact or the issue. Adding cause and effect for each would strengthen the answer.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-5-6-2-n0-n1-s3",
@@ -20550,7 +20550,7 @@
                         "mark": 3,
                         "answer": "Work gives Marcus money for his mortgage and food, and gives Leah a steady income. Marcus may feel he has lost his sense of identity, while Leah's nursing job gives her pride in her role.",
                         "feedback": "Describes how work meets needs for both people and notes a difference, but the analysis of why the needs differ is limited. This meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-6-1-2-n0-n1-s3",
@@ -20786,7 +20786,7 @@
                         "mark": 3,
                         "answer": "Nadia values service and sees nursing as a rewarding calling, so she perceives work positively. Ben sees it as a job for pay, so his view of work is more negative.",
                         "feedback": "Explains the different perceptions with some reference to values, but the analysis of status and rewards is limited. This meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-6-1-4-n0-n1-s3",
@@ -20903,7 +20903,7 @@
                         "mark": 3,
                         "answer": "Adults aged 25 to 54 have the highest participation because most are building careers. Young adults are often studying and may work part time, while people aged 65 and over are more likely to reduce their hours.",
                         "feedback": "Explains how participation differs between the groups with some reference to part-time work, but the reasons are brief. This meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-6-1-5-n0-n1-s3",
@@ -21020,7 +21020,7 @@
                         "mark": 3,
                         "answer": "The women's participation rate has risen a lot, but the men's has hardly changed. Older people are also working for longer.",
                         "feedback": "Identifies a gender trend and an age trend with some interpretation, but the links to the labour force are limited. This meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-6-1-6-n0-n1-s3",
@@ -21137,7 +21137,7 @@
                         "mark": 3,
                         "answer": "Losing a full-time job may cause some people aged 55 to 64 to stop looking for work, which lowers labour force participation. Moving to part-time employment keeps them in the labour force but with fewer hours.",
                         "feedback": "Explains the effect of both factors on participation with some analysis. This meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-6-1-7-n0-n1-s3",
@@ -21525,7 +21525,7 @@
                         "mark": 2,
                         "answer": "Economics and technology have changed the way people work.",
                         "feedback": "Meets the 2-3 row: some understanding of economics and technology in relation to work, with no explanation and no example. Naming one technology and how it changes a job would move it to the 4-5 row.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": true,
@@ -21639,7 +21639,7 @@
                         "mark": 3,
                         "answer": "Oscar's casual work reflects changes in technology and limited local jobs. Hannah's part-time work reflects the cost of childcare after the birth of her second child.",
                         "feedback": "Explains how a social factor shapes a pattern of work for each person, with limited analysis of the wider relationship. This meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-6-2-2-n0-n1-s3",
@@ -21895,7 +21895,7 @@
                         "mark": 3,
                         "answer": "The Fair Work Act protects Mustafa's carer's leave, but his supervisor's comment suggests that workplace culture may discourage him from using it. The grievance procedure is one way he could respond.",
                         "feedback": "Explains how legislation and workplace culture affect Mustafa's leave with some analysis, but the work conditions are not discussed. This meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-cafs-12-6-3-3-n0-n1-s3",

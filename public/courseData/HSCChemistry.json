@@ -1638,7 +1638,7 @@
                         "mark": 3,
                         "answer": "The textbook is reliable because it is written for students. The website is less reliable because it has no author, so its data cannot be checked.",
                         "feedback": "Meets the 3-mark row by analysing two sources with a relevant criterion each, but does not judge all three sources.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-3-4-n0-n1-s3",
@@ -2360,7 +2360,7 @@
                         "mark": 3,
                         "answer": "The time decreases as the temperature increases, from 160 s at 10 °C to 20 s at 40 °C, so the two variables move in opposite directions. The data do not show that the time is inversely proportional to temperature.",
                         "feedback": "Meets the 3-mark row by describing the qualitative relationship with values from the data. It does not analyse why the claim fails, so it cannot reach the 4-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-5-1-n0-n1-s3",
@@ -2833,7 +2833,7 @@
                         "mark": 3,
                         "answer": "The temperature rise increases by the same amount for each equal step in mass, so the data show a linear trend. Extending this trend predicts a larger rise for 0.30 g.",
                         "feedback": "Describes the equal-step pattern and extends it, which meets the 3-mark row. It gives no assumptions or limitations, so it cannot reach 4 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-5-5-n0-n1-s3",
@@ -2912,7 +2912,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A student compares how the surface area of calcium carbonate affects the reaction rate with dilute hydrochloric acid. The powder reaches a steady mass after about 90 seconds, and the chips take about 3 minutes, with one trial each on a balance reading to 0.1 g. The flask was open to the air and the temperature of the acid was not recorded.",
-                    "markingCriteria": "7-8 marks: Evaluates the data and the method, judging the reliability and validity of the results and the significance of the weaknesses, and suggests specific improvements and further investigations that would strengthen the conclusion\n6 marks: Evaluates the reliability of the data and the method, with clear and sound suggestions for improvements and a further investigation\n5 marks: Evaluates some weaknesses of the data and the method, with suggestions for improvements that relate to them\n3-4 marks: Discusses the data with some weaknesses identified, and suggests an improvement\n2 marks: Identifies a weakness in the method or the data\n1 mark: Provides some relevant information",
+                    "markingCriteria": "8 marks: Evaluates the data and the method, judging the reliability and validity of the results and the significance of the weaknesses, and suggests specific improvements and further investigations that would strengthen the conclusion\n7 marks: Evaluates the reliability of the data and the method, with clear and sound suggestions for improvements and a further investigation\n5-6 marks: Evaluates some weaknesses of the data and the method, with suggestions for improvements that relate to them\n3-4 marks: Discusses the data with some weaknesses identified, and suggests an improvement\n2 marks: Identifies a weakness in the method or the data\n1 mark: Provides some relevant information",
                     "keywords": [
                       "data",
                       "improvements",
@@ -3305,7 +3305,7 @@
                         "mark": 3,
                         "answer": "Zinc is more reactive than iron, so it corrodes at the scratch and protects the steel. Tin is less reactive, so the iron would corrode instead.",
                         "feedback": "Explains the reactivity difference with reference to the scratch, which meets the 3-mark row. It does not explain the electron flow, so it cannot reach 4 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-6-1-n0-n1-s3",
@@ -3423,7 +3423,7 @@
                         "mark": 3,
                         "answer": "The powder reacts faster because there are more collisions between the marble and the acid. Heating the acid would make the reaction faster too.",
                         "feedback": "Explains the faster rate through more collisions, but does not link the cause to surface area or apply the model in detail.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-6-2-n0-n1-s3",
@@ -3779,7 +3779,7 @@
                         "mark": 3,
                         "answer": "The claim is probably wrong because the student only did one trial. Peer review would check whether the results can be repeated.",
                         "feedback": "Identifies one flaw in the evidence and gives a basic judgement, with a brief link to peer review. The flaws are not connected to the strength of the claim in depth.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-7-1-n0-n1-s3",
@@ -5180,7 +5180,7 @@
                         "mark": 3,
                         "answer": "Granite in Town A contains more uranium-238, thorium-232 and potassium-40, which emit radiation as they decay, so the background radiation is higher. Uranium-238 also forms radon-222, which can collect in buildings and add to the radiation people receive.",
                         "feedback": "Meets the 3-mark row by explaining how the radioisotopes in the granite raise background radiation in Town A, with some reference to radon-222. Cosmic radiation is not addressed, so it stops short of the 5-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-2-7-n0-n1-s3",
@@ -5414,7 +5414,7 @@
                         "mark": 3,
                         "answer": "Radon-222 decays to polonium-218 and an alpha particle, written ²²²₈₆Rn → ²¹⁸₈₄Po + ⁴₂He. For fission, uranium-235 and a neutron form barium-141 and krypton-92 with three neutrons, but the atomic numbers are left out of the equation.",
                         "feedback": "Meets the 3-mark row by constructing one balanced equation correctly, with the fission equation only partly correct because its atomic numbers are missing. Adding them and explaining the conservation would lift it higher.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-2-9-n0-n1-s3",
@@ -5996,7 +5996,7 @@
                         "mark": 3,
                         "answer": "Chromium is 1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁵ 4s¹ because a half-filled sublevel is more stable. The Fe²⁺ ion is 1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁴ 4s².",
                         "feedback": "Meets the 3-mark row by writing both configurations with an error in the ion, and giving a partial explanation of the chromium exception. The 4s electrons are lost first in the ion, which this sample does not show.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-2-14-n0-n1-s3",
@@ -7158,7 +7158,7 @@
                         "mark": 3,
                         "answer": "Fe2O3 is iron(III) oxide because the iron ion is Fe3+. MnO2 is manganese(IV) oxide because the manganese ion is Mn4+.",
                         "feedback": "Meets the 3-mark row by correcting two names with reasons. Correcting copper sulfate and explaining the prefix name for N2O4 would raise it further.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-4-1-n0-n1-s3",
@@ -9295,7 +9295,7 @@
                         "mark": 3,
                         "answer": "The equation shows that two moles of hydrogen react with one mole of oxygen. The masses are different because the substances have different masses per mole, so the mass ratio is not the same as the coefficients.",
                         "feedback": "Meets the 3-mark row by describing the mole ratio and noting that the mass ratio differs. It does not explain why, and it does not link the masses to the law of conservation of mass.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-quantitative-chemistry-1-1-n0-n1-s3",
@@ -9991,7 +9991,7 @@
                         "mark": 3,
                         "answer": "Relative atomic mass is a ratio to one-twelfth of a carbon-12 atom, so it has no units. It differs from the mass of one atom because it is a reference value rather than a particular mass.",
                         "feedback": "Meets the 3-mark row by describing the ratio to carbon-12 and noting that it differs from the mass of one atom. It does not explain the averaging over naturally occurring atoms, which the 4-mark row needs.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-quantitative-chemistry-2-2-n0-n1-s3",
@@ -14050,7 +14050,7 @@
                         "mark": 3,
                         "answer": "A catalyst lowers the activation energy peak on the energy profile diagram of both reactions, so more particles can react. The enthalpy change stays the same because the reactants and products stay at the same levels.",
                         "feedback": "Meets the 3-mark row by explaining that a catalyst lowers the activation energy in both reactions with reference to the diagrams. It does not analyse the rate in depth.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-chemical-reactions-3-9-n0-n1-s3",
@@ -17172,7 +17172,7 @@
                         "mark": 3,
                         "answer": "Finely ground limestone reacts faster because its particles have a greater surface area, so the soil pH rises sooner. The farmer should weigh this speed against the higher cost of the finer product.",
                         "feedback": "Meets the 3-mark row by applying reaction rate to explain why particle size matters, with a relevant reason.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-working-scientifically-6-1-n0-n1-s3",
@@ -17859,7 +17859,7 @@
                         "mark": 3,
                         "answer": "Add 25 mL of hydrochloric acid, HCl(aq), to a conical flask, then record the time taken for the colour change. The reagent is now named precisely, and the vague 'the stuff' has been removed.",
                         "feedback": "Meets the 3-mark row by applying correct nomenclature and a relevant change to the step.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-working-scientifically-7-3-n0-n1-s3",
@@ -19457,7 +19457,7 @@
                         "mark": 3,
                         "answer": "The mixture is darker in hot water and paler in ice water, so more nitrogen dioxide is present at higher temperature. Heating shifts the equilibrium towards nitrogen dioxide, so Keq increases with temperature for the endothermic forward reaction.",
                         "feedback": "Meets the 3-mark row by analysing the colour changes to show that Keq increases with temperature, with one reference to the shift.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-equilibrium-3-4-n0-n1-s3",
@@ -19569,7 +19569,7 @@
                         "mark": 3,
                         "answer": "Prepare standard solutions and plot a calibration graph of absorbance against concentration, because absorbance is proportional to concentration. Read the equilibrium concentration of the complex from the graph, using the absorbance of the mixtures.",
                         "feedback": "Meets the 3-mark row by constructing a method using absorbance and a calibration series, with one justified step.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-equilibrium-3-5-n0-n1-s3",
@@ -20383,7 +20383,7 @@
                         "mark": 3,
                         "answer": "Silver iodide is less soluble than silver chloride, so it is likely to precipitate first as silver nitrate is added.",
                         "feedback": "Meets the 3-mark row by explaining the lower solubility of silver iodide, with limited reference to the order in which the solids form.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-equilibrium-4-8-n0-n1-s3",
@@ -21543,7 +21543,7 @@
                         "mark": 3,
                         "answer": "A one-unit difference in pH means the hydrogen ion concentrations differ tenfold, so one sample is much more acidic than the other.",
                         "feedback": "Meets the 3-mark row by explaining the tenfold difference. It gives limited reference to why the size of the change matters for acidity.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-4-n0-n1-s3",
@@ -22657,7 +22657,7 @@
                         "mark": 3,
                         "answer": "Hydroxide ions react with carbonic acid to form hydrogencarbonate ions and water. The equilibrium then shifts so that more carbonic acid dissociates, which limits the change in pH.",
                         "feedback": "Meets the 3-mark row by describing the reaction of the base with carbonic acid, with some explanation of the equilibrium response. It does not explain why the pH change is small or the limit of the buffer.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-18-n0-n1-s3",
@@ -23009,7 +23009,7 @@
                         "mark": 3,
                         "answer": "The water in the tip dilutes the sodium hydroxide, so more volume is needed to neutralise the acid. The calculated concentration of the hydrochloric acid is therefore too high.",
                         "feedback": "Meets the 3-mark row by describing the dilution and its effect on the calculated concentration. It does not explain how the recorded volume overstates the amount of acid, or that the error is systematic.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-3-3-n0-n1-s3",
@@ -23191,7 +23191,7 @@
                         "mark": 3,
                         "answer": "The magnesium hydroxide is the limiting reagent because the hydrochloric acid is in excess. The acid left over is titrated with sodium hydroxide, so the amount that reacted can be found and linked back to the antacid.",
                         "feedback": "Meets the 3-mark row by identifying the limiting reagent and describing the titration of the unreacted acid. The link back to the antacid through the reaction ratio is only brief.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-3-6-n0-n1-s3",
@@ -23550,7 +23550,7 @@
                         "mark": 3,
                         "answer": "The condensed formula is CH₃CH(CH₃)CH₂CH₃, with a methyl branch on the second carbon. The expanded and skeletal forms show the same molecule with different levels of detail.",
                         "feedback": "Meets the 3-mark row by writing a condensed formula that shows the branch and relating the representations. The reason the branch position matters is not explained.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-1-n0-n1-s3",
@@ -23666,7 +23666,7 @@
                         "mark": 3,
                         "answer": "The longest chain has four carbon atoms, so the parent is butane. There are two methyl groups on carbons 2 and 3, giving 2,3-dimethylbutane.",
                         "feedback": "Meets the 3-mark row by naming the alkane correctly with its parent and substituents. The IUPAC justification for the longest chain is not given.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-2-n0-n1-s3",
@@ -23898,7 +23898,7 @@
                         "mark": 3,
                         "answer": "Alkanes have only single carbon–carbon bonds and are saturated, so they do not react with bromine water. Alkenes have a pi bond that bromine can attack, so the bromine adds across the double bond and the orange colour disappears.",
                         "feedback": "Meets the 3-mark row by describing the bonding and the reaction of alkenes, with a reason why alkanes do not react. The pi bond's role is only briefly explained.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-4-n0-n1-s3",
@@ -24477,7 +24477,7 @@
                         "mark": 3,
                         "answer": "Boiling point rises with chain length because London dispersion forces get stronger. Butane boils below room temperature, so it is a gas, while pentane boils above it, so it is a liquid.",
                         "feedback": "Meets the 3-mark row by describing the trend and linking boiling points to physical states. The link between surface area and dispersion forces is not developed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-9-n0-n1-s3",
@@ -24593,7 +24593,7 @@
                         "mark": 3,
                         "answer": "The condensed formula is BrCH₂CHClCH₃, with bromine on carbon 1 and chlorine on carbon 2. Numbering from the bromine end gives the lowest locants, so the name is 1-bromo-2-chloropropane.",
                         "feedback": "Meets the 3-mark row by writing the correct formula and applying the lowest locant rule. The alphabetical ordering of the prefixes is not explained.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-10-n0-n1-s3",
@@ -24833,7 +24833,7 @@
                         "mark": 3,
                         "answer": "Propene has a pi bond that hydrogen bromide can attack, so an addition reaction occurs. Propane has only single bonds, so it does not add reagents, but bromine can substitute a hydrogen atom under ultraviolet light.",
                         "feedback": "Meets the 3-mark row by describing the addition of propene and the substitution of propane, with a reason for the bonding difference. The free radical mechanism is only named.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-13-n0-n1-s3",
@@ -25076,7 +25076,7 @@
                         "mark": 3,
                         "answer": "The condensed formula is (CH₃)₃COH, with three methyl groups and an –OH group on the central carbon. In the skeletal structure, the –OH group is shown as a label on the central carbon.",
                         "feedback": "Meets the 3-mark row by writing the correct condensed formula and describing the skeletal structure. The reason the position matters for classification is not explained.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-1-n0-n1-s3",
@@ -25192,7 +25192,7 @@
                         "mark": 3,
                         "answer": "The longest chain containing the –OH group has four carbon atoms, so the parent is butan-1-ol. The methyl branch is on carbon 3, giving 3-methylbutan-1-ol.",
                         "feedback": "Meets the 3-mark row by naming the alcohol correctly with its parent chain and numbering. The justification for the lowest locant is not given.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-2-n0-n1-s3",
@@ -25308,7 +25308,7 @@
                         "mark": 3,
                         "answer": "Butan-1-ol has a larger surface area and forms hydrogen bonding between molecules, so its boiling point is higher. 2-methylpropan-2-ol is compact, so its boiling point is lower and it dissolves more readily in water.",
                         "feedback": "Meets the 3-mark row by describing hydrogen bonding in both and the effect of shape on boiling point. The solubility is stated without explaining the exposed –OH group.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-3-n0-n1-s3",
@@ -25424,7 +25424,7 @@
                         "mark": 3,
                         "answer": "Boiling point rises along the series because the molecules get bigger and London dispersion forces get stronger. Solubility in water falls as the chain gets longer, because the hydrocarbon part is non-polar. Both trends are linked to chain length.",
                         "feedback": "Meets the 3-mark row by describing both trends with a partial explanation of the forces. Hydrogen bonding and the constant hydroxyl group are not discussed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-4-n0-n1-s3",
@@ -25539,7 +25539,7 @@
                         "mark": 3,
                         "answer": "Pentan-1-ol is CH3CH2CH2CH2CH2OH and is a primary alcohol. Pentan-2-ol is CH3CH(OH)CH2CH2CH3 and is a secondary alcohol.",
                         "feedback": "Meets the 3-mark row by constructing correct formulas and names for two isomers, with their classification given.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-5-n0-n1-s3",
@@ -25655,7 +25655,7 @@
                         "mark": 3,
                         "answer": "The blocked stove has less oxygen, so the fuel undergoes incomplete combustion. This gives carbon monoxide and soot, which make the flame yellow.",
                         "feedback": "Meets the 3-mark row by explaining the link between restricted oxygen and incomplete combustion, with some reference to products. The conditions are not discussed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-6-n0-n1-s3",
@@ -25771,7 +25771,7 @@
                         "mark": 3,
                         "answer": "The balanced symbol equation is C8H17OH + 12O2 → 8CO2 + 9H2O. The products are carbon dioxide and water because the alcohol burns completely.",
                         "feedback": "Meets the 3-mark row by constructing a correct balanced equation, with some explanation of the products.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-7-n0-n1-s3",
@@ -25885,7 +25885,7 @@
                         "mark": 3,
                         "answer": "Enthalpy of combustion becomes more negative as the chain gets longer, so more energy is released. Longer molecules have more bonds that are broken and formed when they burn.",
                         "feedback": "Meets the 3-mark row by describing the trend with some reference to bonds. The hydroxyl group and the data are not discussed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-8-n0-n1-s3",
@@ -26113,7 +26113,7 @@
                         "mark": 3,
                         "answer": "Butan-1-ol forms but-1-ene and water when heated with concentrated sulfuric acid. The balanced symbol equation is C4H9OH → C4H8 + H2O.",
                         "feedback": "Meets the 3-mark row by constructing a correct balanced equation with the conditions stated. The reason for the single alkene is not given.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-10-n0-n1-s3",
@@ -26228,7 +26228,7 @@
                         "mark": 3,
                         "answer": "Primary alcohols give an aldehyde, which can be oxidised further, because the carbon bearing the -OH group has two hydrogen atoms. Secondary alcohols give a ketone because that carbon has one hydrogen atom. Tertiary alcohols do not react.",
                         "feedback": "Meets the 3-mark row by describing the products of primary and secondary alcohols with a reason for the difference. The tertiary case has no reason.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-11-n0-n1-s3",
@@ -26344,7 +26344,7 @@
                         "mark": 3,
                         "answer": "Ethanol reacts with HBr to form bromoethane and water: C2H5OH + HBr → C2H5Br + H2O. The conditions are heating with concentrated hydrogen bromide.",
                         "feedback": "Meets the 3-mark row by constructing one balanced equation with the product named and the conditions stated.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-12-n0-n1-s3",
@@ -26658,7 +26658,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A fuel company must choose one process to supply ethanol for a blended petrol. It is considering fermentation of plant sugars or hydration of ethene from crude oil.",
-                    "markingCriteria": "7-8 marks: Evaluates both processes with sustained judgement, weighing the renewability of the feedstock, the purity and concentration of the product, the energy used in separation and the cost, and reaches a justified conclusion about which process better suits the fuel company\n6 marks: Evaluates both processes against renewability and purity, reaching a supported conclusion\n5 marks: Compares the processes against renewability and purity, reaching a conclusion that is only partly supported\n3-4 marks: Describes features of both processes, with one relevant point of comparison\n2 marks: Describes one process, with no comparison to the other\n1 mark: Identifies that the two processes use different starting materials",
+                    "markingCriteria": "8 marks: Evaluates both processes with sustained judgement, weighing the renewability of the feedstock, the purity and concentration of the product, the energy used in separation and the cost, and reaches a justified conclusion about which process better suits the fuel company\n7 marks: Evaluates both processes against renewability and purity, reaching a supported conclusion\n5-6 marks: Compares the processes against renewability and purity, reaching a conclusion that is only partly supported\n3-4 marks: Describes features of both processes, with one relevant point of comparison\n2 marks: Describes one process, with no comparison to the other\n1 mark: Identifies that the two processes use different starting materials",
                     "keywords": [
                       "alcohol",
                       "plant",
@@ -26816,7 +26816,7 @@
                         "mark": 3,
                         "answer": "The molecular formula is C4H8O2 and the condensed structural formula is CH3CH2CH2COOH, which shows the carboxyl group. The acid is butanoic acid.",
                         "feedback": "Meets the 3-mark row by constructing two of the three formulas correctly, with the acid identified as butanoic acid.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-1-n0-n1-s3",
@@ -26930,7 +26930,7 @@
                         "mark": 3,
                         "answer": "CH3CH2CH2CH2COOH is pentanoic acid. CH3CH2CH(CH3)COOH is 2-methylbutanoic acid. (CH3)2CHCH2COOH is 3-methylbutanoic acid.",
                         "feedback": "Meets the 3-mark row by constructing and naming three of the four isomers.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-2-n0-n1-s3",
@@ -27159,7 +27159,7 @@
                         "mark": 3,
                         "answer": "CH3CH2CH2OH + [O] → CH3CH2CHO + H2O, then CH3CH2CHO + [O] → CH3CH2COOH. The mixture is heated under reflux.",
                         "feedback": "Meets the 3-mark row by constructing both equations correctly, without explaining the role of excess oxidant or reflux.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-4-n0-n1-s3",
@@ -27388,7 +27388,7 @@
                         "mark": 3,
                         "answer": "Pentane has only London dispersion forces, so it does not mix with water. Pentan-1-ol and pentanoic acid can form hydrogen bonds with water, so they dissolve slightly.",
                         "feedback": "Meets the 3-mark row by explaining the difference between pentane and the two polar compounds in terms of intermolecular forces.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-6-n0-n1-s3",
@@ -27513,7 +27513,7 @@
                         "mark": 3,
                         "answer": "The condensed structural formula is CH3CH2CH2COOCH3. The expanded structure shows the C=O double bond and the C-O-C linkage, but the ester linkage is not named.",
                         "feedback": "Meets the 3-mark row by constructing the correct condensed formula and describing the expanded structure, with the ester linkage not identified.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-4-1-n0-n1-s3",
@@ -27627,7 +27627,7 @@
                         "mark": 3,
                         "answer": "Butyl ethanoate is CH3COOCH2CH2CH2CH3. The other ester is CH3CH2CH2COOCH(CH3)2, made from butanoic acid.",
                         "feedback": "Meets the 3-mark row by constructing both formulas correctly, with only one name given.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-4-2-n0-n1-s3",
@@ -27742,7 +27742,7 @@
                         "mark": 3,
                         "answer": "Butanoic acid, CH3CH2CH2COOH, and 2-methylpropanoic acid, (CH3)2CHCOOH, are the carboxylic acids. Methyl propanoate, CH3CH2COOCH3, and ethyl ethanoate, CH3COOCH2CH3, are the esters.",
                         "feedback": "Meets the 3-mark row by constructing and naming four of the six isomers.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-4-3-n0-n1-s3",
@@ -29859,7 +29859,7 @@
                         "mark": 2,
                         "answer": "The infrared spectrum will show a broad peak for the O–H group. The ¹H NMR spectrum will show three peaks because there are three types of hydrogen.",
                         "feedback": "Meets the 2–3 row by relating two techniques to the structure at a basic level, using the O–H group and the three types of hydrogen. Predicting the carbon and mass spectra, and the splitting and integration, would lift it to the 4–5 row.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Use the data sheet provided and the information in the table to answer this question. ¹H NMR chemical shift data\nType of proton | Common functional groups | δ (ppm)\n—CH₃, —CH₂—, —CH— | hydrocarbons | 0.7–2.1\nCH₃—CO—, CH₂—CO—, CH₂—CO | aldehydes, ketones, carboxylic acids or esters | 2.1–4.5\n—CH₂—OH or —CH₂—NH | alcohols or amines | 0.5–4.8\n—COOH | carboxylic acid | 9.0–13.0\nConsider the molecule shown. [Skeletal structural formula: a carboxylic acid, HO–C(=O)– bonded to a two-carbon chain ending in a terminal CH₃ group (propanoic acid, CH₃CH₂COOH).]",

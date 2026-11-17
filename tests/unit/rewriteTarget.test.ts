@@ -26,15 +26,15 @@ describe('rewriteTarget', () => {
   });
 
   it('ignores a band the model reports and derives it from the mark instead', () => {
-    // 2/8 is Band 1 on a Tier 4 verb. The model said Band 2, and the header must
+    // 3/8 is Band 2 on a Tier 4 verb. The model said Band 3, and the header must
     // not repeat that: the band follows the mark, the same as the marker's own rule.
-    const revised: Revised = { text: 'A fuller answer.', mark: 2, band: 2, keyChanges: [] };
+    const revised: Revised = { text: 'A fuller answer.', mark: 3, band: 3, keyChanges: [] };
 
     expect(rewriteTarget(revised, 1, 8, ANALYSE)).toEqual({
-      mark: 2,
-      band: getBandForMark(2, 8, ANALYSE),
+      mark: 3,
+      band: getBandForMark(3, 8, ANALYSE),
     });
-    expect(rewriteTarget(revised, 1, 8, ANALYSE).band).toBe(1);
+    expect(rewriteTarget(revised, 1, 8, ANALYSE).band).toBe(2);
   });
 
   it('never reports a band above the verb ceiling, even when the model asks for one', () => {
@@ -135,8 +135,8 @@ describe('getNextLevelTarget lifts by one band or one mark', () => {
   it('goes up one band on a short question, where a band is at most two marks', () => {
     // 6 marks, Tier 4: 2/6 is Band 2, and Band 3 starts at 4/6.
     expect(getNextLevelTarget(2, 6, 4)).toEqual({ targetMark: 4, targetBand: 3 });
-    // 12 marks, Tier 6: 5/12 is Band 3, and Band 4 starts at 7/12.
-    expect(getNextLevelTarget(5, 12, 6).targetMark).toBe(7);
+    // 12 marks, Tier 6: 7/12 is Band 3, and Band 4 starts at 8/12.
+    expect(getNextLevelTarget(7, 12, 6)).toEqual({ targetMark: 8, targetBand: 4 });
   });
 
   it('goes up one mark when the next band is more than two marks away', () => {

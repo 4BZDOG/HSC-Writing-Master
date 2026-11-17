@@ -914,7 +914,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                   <p className={`${RIBBON_INK_CAPTION} ${PROSE_FLOW}`}>
                     {courseCeiling
                       ? `In this course, this ${activeTermInfo.term} question caps a response at Band ${getTierTargetBand(courseCeiling)}.`
-                      : `${activeTermInfo.term} questions cap a response at Band ${getTierTargetBand(activeTermInfo.tier)}.`}
+                      : `${activeTermInfo.term} questions cap a response at Band ${getTierTargetBand(activeTermInfo.tier)}${getTierTargetBand(activeTermInfo.tier) === 6 ? ' (Band 5 on 6 marks or fewer)' : ''}.`}
                   </p>
                 )}
 

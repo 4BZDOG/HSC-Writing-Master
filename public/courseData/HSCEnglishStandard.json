@@ -425,7 +425,7 @@
                       "language",
                       "extract"
                     ],
-                    "markingCriteria": "7-8 marks: Discusses how close analysis of language and literary devices produces interpretations of both texts, weighing the strengths and limits of each reading with precise textual evidence\n5-6 marks: Discusses close analysis in both texts with relevant evidence, making a developed link between literary devices and interpretation\n4 marks: Discusses the role of close analysis in one text in some depth, with brief reference to the other\n2-3 marks: Describes features of the texts and states an interpretation with limited analysis\n1 mark: Makes a relevant but unsupported comment on either text",
+                    "markingCriteria": "8 marks: Discusses how close analysis of language and literary devices produces interpretations of both texts, weighing the strengths and limits of each reading with precise textual evidence\n6-7 marks: Discusses close analysis in both texts with relevant evidence, making a developed link between literary devices and interpretation\n4-5 marks: Discusses the role of close analysis in one text in some depth, with brief reference to the other\n2-3 marks: Describes features of the texts and states an interpretation with limited analysis\n1 mark: Makes a relevant but unsupported comment on either text",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-7-1",
@@ -441,7 +441,7 @@
                         "answer": "Close analysis helps a reader understand a familiar text because the reader already knows the story, so they can notice how a symbol develops across the whole text. In the lighthouse extract, the repeated foghorn sounds and the short sentences make the keeper seem trapped, which is an interpretation a reader can build from the language. The shift to present tense also changes how the reader feels about time, so the extract is more unsettling than the familiar text in some ways. A reader has to work harder with the unfamiliar text because the meaning is not known in advance, so close analysis is more necessary there.",
                         "source": "AI",
                         "feedback": "Earns 5 marks: close analysis is discussed in both texts with relevant evidence and a link to interpretation, but the strengths and limits of each reading are not weighed, and the comparison is asserted rather than developed. The device is named only in passing, and the response does not reach a judgement.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-7-3",
@@ -449,7 +449,7 @@
                         "answer": "The familiar text is easier to understand because you know the story. The extract has short sentences, which make it harder to read.",
                         "source": "AI",
                         "feedback": "Earns 2 marks: features of each text are described and a general difference is stated, but there is no close analysis of any device and no interpretation of the extract.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: A Year 11 student is comparing a familiar text they have studied closely with an invented 120-word extract about a lighthouse keeper, written for this task. The student must show how close analysis builds an interpretation in each case.\n\n**The Foghorn at Carrow Head (an invented prose extract)**\n\nThe keeper climbed the iron stairs at dusk, as he had every evening for thirty-one winters. He trimmed the wick and wrote the pressure in the log, pressing so hard that the pencil tore the damp page. Out past the reef, the foghorn sounded.\n\nNow he stands at the glass. Fog. The foghorn sounds. The foghorn sounds again. The foghorn sounds, and the room fills with it.\n\nGrey sea. Grey sky. Grey rail. Nothing moves. He does not sit. He does not sleep. The lamp is lit. The lamp is lit.\n\nIt is always dusk now. The stairs are still there, and he is always about to go down them, and he never does. The log waits for his pencil."
@@ -650,7 +650,7 @@
                       "differences",
                       "within and between texts"
                     ],
-                    "markingCriteria": "5-7 marks: Makes a sustained comparison of the language forms, features and structures of both texts, analysing similarities and differences within and between them and the effect each has on the reader\n3-4 marks: Compares at least two aspects of language or structure across the texts, with evidence, and explains one effect\n1-2 marks: Identifies similarities or differences in language or structure with limited comparison, or makes a relevant but general statement about one text",
+                    "markingCriteria": "7 marks: Makes a sustained comparison of the language forms, features and structures of both texts, analysing similarities and differences within and between them and the effect each has on the reader\n4-6 marks: Compares at least two aspects of language or structure across the texts, with evidence, and explains one effect\n1-3 marks: Identifies similarities or differences in language or structure with limited comparison, or makes a relevant but general statement about one text",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-11-1",
@@ -674,7 +674,7 @@
                         "answer": "The news report is more formal than the diary.",
                         "source": "AI",
                         "feedback": "Earns 1 mark: a relevant but general statement about one difference, with no evidence and no comparison of structure or features.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: Two invented texts describe the same storm that closed a coastal road: a 120-word news report in a formal register, and a 90-word diary entry written by a teenager who was stuck at home. Both were written for this task and are not real documents.\n\n**Storm Closes Coastal Road (an invented news report)**\n\nThe coastal road between Marrow Head and Sandy Creek remains closed this morning after a severe storm. Emergency crews were called out after midnight, when floodwater covered sections of the bitumen and fallen trees blocked drains. Because the water rose quickly, the road was closed to all traffic by dawn, and dozens of motorists were stranded. The regional emergency service received more than forty calls for help, and several hundred homes lost power. Authorities say the closure of the coastal road will continue until engineers complete a safety inspection. Residents are asked to avoid unnecessary travel and to keep clear of flooded drains. The weather bureau has warned that further rain is expected on Thursday, and residents should remain alert.\n\n**An invented diary entry about a teenager stuck at home in the storm**\n\nBecause the coastal road closed before breakfast, and because Dad is stranded across the creek, I have spent the whole day inside this house with the power off. By noon the rain was hitting the windows like gravel, and the radio kept repeating the warnings. At three I checked the back gate. I checked it again at four. I keep thinking the water is still rising, so I go upstairs again. Then the lights flicker and die. Dark. Thunder. Water under the laundry door. Phone dead. Nobody answering. Honestly? Terrified."
@@ -770,7 +770,7 @@
                       "counter-argument",
                       "rationale"
                     ],
-                    "markingCriteria": "7-8 marks: Composes a cohesive persuasive-discursive article that explores a complex idea through a sustained, controlled argument and a developed counter-argument, using deliberate language and structure, with a rationale that justifies the choices\n5-6 marks: Composes an article that argues a position on a complex idea, with a clear structure and some counter-argument, and a rationale that describes the choices\n4 marks: Composes a coherent article that presents an opinion with limited complexity, and a rationale that identifies some choices\n2-3 marks: Composes a short text that states an opinion with minimal structure, and a rationale that restates the view\n1 mark: Composes a brief statement of opinion without structure, and no rationale",
+                    "markingCriteria": "8 marks: Composes a cohesive persuasive-discursive article that explores a complex idea through a sustained, controlled argument and a developed counter-argument, using deliberate language and structure, with a rationale that justifies the choices\n6-7 marks: Composes an article that argues a position on a complex idea, with a clear structure and some counter-argument, and a rationale that describes the choices\n4-5 marks: Composes a coherent article that presents an opinion with limited complexity, and a rationale that identifies some choices\n2-3 marks: Composes a short text that states an opinion with minimal structure, and a rationale that restates the view\n1 mark: Composes a brief statement of opinion without structure, and no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-13-1",
@@ -786,7 +786,7 @@
                         "mark": 5,
                         "answer": "AI writing tools are often treated as cheating, but the issue is more complicated than that. Students who use these tools may be learning from them, or they may be avoiding the learning altogether, and the school has to decide what counts as honest work. Some people say the tools are unfair because not everyone can access them, but others say that banning them is also unfair because it is hard to check. I think the school should allow AI for brainstorming but not for the final essay, because then students still have to write the actual essay themselves and their integrity is protected.\n\nRationale: I started with a question to get the reader thinking. I used two sides of the argument so it is not one-sided, and I finished with my opinion.",
                         "feedback": "Earns 5 marks: a clear position is argued on an issue that is treated as complex, with a counter-argument, and the structure is adequate. The complexity is named rather than explored, fairness and integrity are asserted rather than developed, and the rationale describes the choices without justifying them.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-13-3",
@@ -794,7 +794,7 @@
                         "mark": 2,
                         "answer": "AI tools are good or bad. I think they should be allowed in school because some students need help and it's fair. Teachers should decide.\n\nRationale: I wrote what I think.",
                         "feedback": "Earns 2 marks: a short text states an opinion with minimal structure and no counter-argument, and the rationale is one line that does not identify any choice.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "A student is contributing to a school magazine debate about whether students should be allowed to use AI writing tools for assessed work. The article must explore a complex idea rather than a simple yes or no, and it will be read by Year 10 and Year 11 students and their teachers.",
@@ -1112,7 +1112,7 @@
                       "purpose",
                       "storyboard"
                     ],
-                    "markingCriteria": "6-7 marks: Composes a multimodal text in which the spoken script, written caption and storyboard description are integrated, each mode contributing to the purpose and audience, with a rationale that explains how the modes work together\n5 marks: Composes a text that combines the three modes with a clear purpose and audience, with a rationale that describes the choices\n3-4 marks: Composes a text that combines the three modes with a general purpose and audience, and a rationale that identifies some choices\n2 marks: Composes a text that uses more than one mode, with limited integration and a general rationale\n1 mark: Composes a text in one mode only, or makes a relevant comment about multimodal writing",
+                    "markingCriteria": "7 marks: Composes a multimodal text in which the spoken script, written caption and storyboard description are integrated, each mode contributing to the purpose and audience, with a rationale that explains how the modes work together\n5-6 marks: Composes a text that combines the three modes with a clear purpose and audience, with a rationale that describes the choices\n3-4 marks: Composes a text that combines the three modes with a general purpose and audience, and a rationale that identifies some choices\n2 marks: Composes a text that uses more than one mode, with limited integration and a general rationale\n1 mark: Composes a text in one mode only, or makes a relevant comment about multimodal writing",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-19-1",
@@ -1339,7 +1339,7 @@
                       "persuasive",
                       "reader"
                     ],
-                    "markingCriteria": "7-8 marks: Assesses the value of specific metalanguage in the essay, judging its effect on a reader who knows little about the topic, and reflects critically on the writing with precise examples\n5-6 marks: Assesses the value of metalanguage with clear reference to the essay and reflects on its effect on the reader\n4 marks: Assesses the use of metalanguage with some examples and a general reflection on the writing\n2-3 marks: Describes or identifies metalanguage used in the essay and states whether it helped, with limited assessment and little reflection on its value\n1 mark: Makes a relevant but general comment about the essay",
+                    "markingCriteria": "8 marks: Assesses the value of specific metalanguage in the essay, judging its effect on a reader who knows little about the topic, and reflects critically on the writing with precise examples\n6-7 marks: Assesses the value of metalanguage with clear reference to the essay and reflects on its effect on the reader\n4-5 marks: Assesses the use of metalanguage with some examples and a general reflection on the writing\n2-3 marks: Describes or identifies metalanguage used in the essay and states whether it helped, with limited assessment and little reflection on its value\n1 mark: Makes a relevant but general comment about the essay",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-23-1",
@@ -1355,7 +1355,7 @@
                         "mark": 5,
                         "answer": "The essay uses anecdote and rhetorical question. The anecdote about the bus is good because it helps the reader. The question 'Who benefits from a 7 am start?' makes the reader think about the issue. Using these terms helps me understand the writing, and the teacher can see I know the techniques. Some other metalanguage, like hyperbole, is not needed.",
                         "feedback": "Earns 5 marks: metalanguage is assessed with some examples and a general reflection on the writing. The judgement that hyperbole is not needed is asserted rather than shown, the effect on a reader who knows little is not developed, and the reflection stays general.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-23-3",
@@ -1363,7 +1363,7 @@
                         "mark": 2,
                         "answer": "I used metalanguage like anecdote and rhetorical question in my essay. They are good for persuasion.",
                         "feedback": "Earns 2 marks: metalanguage is identified in the essay with little reflection on its value. It does not connect the terms to any example or to the reader.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: A Year 11 student has drafted a persuasive essay arguing that the school should adopt a later start on Mondays. The teacher has asked the student to include a reflection on the metalanguage used in the essay, such as 'anecdote', 'rhetorical question' and 'hyperbole'.\n\n**A Later Start on Mondays (an invented persuasive essay)**\n\nOn the first Monday of term, Mia stood at the bus shelter on Harbour Road and watched the 6.40 pull away without her. She had slept badly and not heard her alarm. By the time she reached the gate at 7.20, the Monday assembly had already started. Her story is why I am writing this essay.\n\nOur school asks every student to be ready for a 7 am start on Mondays. Who benefits from a 7 am start? Not the students, who arrive tired and spend the first hour fighting to stay awake. Not the teachers, who must rouse a room of yawning faces. A later start, perhaps 9.30 on Mondays, would give us time to arrive ready to think.\n\nSleep is the most important thing in a school day, and teenagers are biologically wired to fall asleep later than adults. Call it hyperbole if you like, but a student who sleeps through first period learns nothing from it. Students who rest properly remember more, argue more clearly and fall ill less often.\n\nSome will argue that the bus timetable makes a later start impossible. That is a problem of planning, not of principle. The school council can ask the bus company for a later Monday service, and the timetable can shift by one period.\n\nI therefore ask the school council to put a later Monday start to a vote this term. Mia should not have to choose between sleep and the first lesson, and neither should any of us."
@@ -1616,7 +1616,7 @@
                       "narrative",
                       "reader"
                     ],
-                    "markingCriteria": "7-8 marks: Analyses how the language features, text structures and stylistic choices work together in the digital narrative to shape the reader's experience, with precise evidence and an explanation of the consequences for the story's meaning\n5-6 marks: Analyses several language features, structures or choices and how each influences the reader's experience, with relevant evidence\n3-4 marks: Identifies and describes features of the digital narrative and states their effect on the reader, with limited analysis\n1-2 marks: Makes a relevant but general comment about the narrative's form",
+                    "markingCriteria": "8 marks: Analyses how the language features, text structures and stylistic choices work together in the digital narrative to shape the reader's experience, with precise evidence and an explanation of the consequences for the story's meaning\n5-7 marks: Analyses several language features, structures or choices and how each influences the reader's experience, with relevant evidence\n3-4 marks: Identifies and describes features of the digital narrative and states their effect on the reader, with limited analysis\n1-2 marks: Makes a relevant but general comment about the narrative's form",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-28-1",
@@ -1640,7 +1640,7 @@
                         "answer": "The narrative is a digital story with messages and pictures, which is different from a book.",
                         "source": "AI",
                         "feedback": "Earns 2 marks: a relevant but general comment about the narrative's form. No language feature, structure or choice is analysed and no effect on the reader is described.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: An invented interactive digital narrative, printed below, was written for this task, and students must analyse how its form shapes the story.\n\n**Seen at 9:42 pm (an invented interactive digital narrative)**\n\n[9:38 pm] Kai to Mum: Still @ Jordan's. Home by 10. Promise.\n\n[9:39 pm] Mum to Kai: Dad says ur car went past the house twice. U driving?\n\n[9:40 pm] Lou to Kai: Sent the photos. Delete after.\n\nGallery (3 images, linked from the messages):\n\nImage 1, 9:12 pm: A padlock hangs open on the reservoir gate.\n\nImage 2, 9:14 pm: Black water. Two empty bottles lie in the grass.\n\nImage 3, 9:15 pm: Car keys in the dirt beside a tyre, a torch still switched on.\n\nTimed choice (10 seconds). Option A: Jordan's, don't worry. Option B: It was me. I'm sorry.\n\n[9:41 pm] Your reply, Option A, sent with 3 seconds left: Jordan's, don't worry.\n\n[9:42 pm] Mum to Kai: Okay. Dad's in the drive now, looking at the car. Come inside. Don't make me ask twice.\n\n[9:42 pm] Lou to Kai: Mum's already seen image 3. Sorry."
@@ -1835,7 +1835,7 @@
                       "purpose",
                       "context"
                     ],
-                    "markingCriteria": "6-7 marks: Examines how the composer transforms and adapts the fable's characters, values and form for the teenage audience and the new context, with a judgement on the effect of the popular culture appropriation on the original meaning\n4-5 marks: Examines several strategies of transformation and adaptation and their effect on the audience, with some reference to the appropriation of popular culture\n2-3 marks: Identifies changes made to the fable and states their effect on the audience, with limited examination\n1 mark: Makes a relevant but general comment about the video series",
+                    "markingCriteria": "7 marks: Examines how the composer transforms and adapts the fable's characters, values and form for the teenage audience and the new context, with a judgement on the effect of the popular culture appropriation on the original meaning\n5-6 marks: Examines several strategies of transformation and adaptation and their effect on the audience, with some reference to the appropriation of popular culture\n3-4 marks: Identifies changes made to the fable and states their effect on the audience, with limited examination\n1-2 marks: Makes a relevant but general comment about the video series",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-32-1",
@@ -1851,7 +1851,7 @@
                         "mark": 4,
                         "answer": "The fable is made into a short video for teenagers. The fox and the crow are still in it, but the crow responds with slang and there is a meme. This makes the story feel more modern and funny for the teenage audience, so they are more likely to watch it and share it.",
                         "feedback": "Earns 4 marks: two changes (slang and a meme format) are identified and their effect on the audience is explained. The examination does not go on to discuss what the appropriation does to the original meaning, and the adaptation of character is not considered.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-en-32-3",
@@ -2053,7 +2053,7 @@
                       "emerging",
                       "mediums"
                     ],
-                    "markingCriteria": "7-8 marks: Evaluates the values and assumptions represented and communicated in the story, testing them against the features of the emerging medium and reaching a reasoned judgement on whether the medium strengthens or limits them\n6 marks: Evaluates the values and assumptions with clear reference to the story's features and reaches a judgement on the medium\n5 marks: Evaluates some values or assumptions with relevant evidence, and makes a judgement that is only partly supported\n3-4 marks: Describes the values and assumptions in the story and makes a general comment on the medium\n2 marks: Identifies a value or assumption in the story with little evaluation\n1 mark: Makes a relevant but general comment about the story or the medium",
+                    "markingCriteria": "8 marks: Evaluates the values and assumptions represented and communicated in the story, testing them against the features of the emerging medium and reaching a reasoned judgement on whether the medium strengthens or limits them\n7 marks: Evaluates the values and assumptions with clear reference to the story's features and reaches a judgement on the medium\n5-6 marks: Evaluates some values or assumptions with relevant evidence, and makes a judgement that is only partly supported\n3-4 marks: Describes the values and assumptions in the story and makes a general comment on the medium\n2 marks: Identifies a value or assumption in the story with little evaluation\n1 mark: Makes a relevant but general comment about the story or the medium",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-36-1",
@@ -2285,7 +2285,7 @@
                       "ideas",
                       "texts"
                     ],
-                    "markingCriteria": "6-7 marks: Composes a logical, ordered and cohesive argument that develops ideas drawn from both texts, with each point building on the last, and a rationale that explains the ordering choices\n5 marks: Composes an ordered argument that draws on ideas from both texts, with clear links between points and a rationale that describes the order\n3-4 marks: Composes an argument with a stated position and some ordering, with general use of both texts and a rationale that identifies the order\n2 marks: Composes a statement of position with limited ordering and little use of the source texts, and a general rationale\n1 mark: Makes a relevant comment about the texts without constructing an argument",
+                    "markingCriteria": "7 marks: Composes a logical, ordered and cohesive argument that develops ideas drawn from both texts, with each point building on the last, and a rationale that explains the ordering choices\n5-6 marks: Composes an ordered argument that draws on ideas from both texts, with clear links between points and a rationale that describes the order\n3-4 marks: Composes an argument with a stated position and some ordering, with general use of both texts and a rationale that identifies the order\n2 marks: Composes a statement of position with limited ordering and little use of the source texts, and a general rationale\n1 mark: Makes a relevant comment about the texts without constructing an argument",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-40-1",
@@ -2340,7 +2340,7 @@
                       "effective",
                       "argument"
                     ],
-                    "markingCriteria": "7-8 marks: Justifies the ordering of the argument with reasoned links between each point and the ideas from the two texts, showing why this sequence is more effective for the reader than alternatives, with precise reference to the argument's structure\n5-6 marks: Justifies the ordering of several points with clear reasons and reference to the texts, and judges the effect of the sequence on the reader\n4 marks: Justifies the ordering of several points with some reasons, with limited reference to the texts\n2-3 marks: Describes the order of the argument and gives a general reason for it, or identifies the order of points with little justification\n1 mark: Makes a relevant but general comment about the argument",
+                    "markingCriteria": "8 marks: Justifies the ordering of the argument with reasoned links between each point and the ideas from the two texts, showing why this sequence is more effective for the reader than alternatives, with precise reference to the argument's structure\n6-7 marks: Justifies the ordering of several points with clear reasons and reference to the texts, and judges the effect of the sequence on the reader\n4-5 marks: Justifies the ordering of several points with some reasons, with limited reference to the texts\n2-3 marks: Describes the order of the argument and gives a general reason for it, or identifies the order of points with little justification\n1 mark: Makes a relevant but general comment about the argument",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-41-1",
@@ -2356,7 +2356,7 @@
                         "answer": "The argument starts with the waste from the article, then talks about the poem, then answers the cost, and ends with the call to action. This order is good because the facts come first and the emotional part comes next. The cost is answered before the ending, so the reader can think about it. I think the order works well for the reader.",
                         "source": "AI",
                         "feedback": "Earns 5 marks: the ordering of several points is justified with some reasons (facts first, emotion next, the cost before the ending), with limited reference to the texts. The alternatives are not compared, and the judgement about the reader is asserted rather than explained.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-41-3",
@@ -2364,7 +2364,7 @@
                         "answer": "The argument starts with the article and then uses the poem. It ends with a call to action.",
                         "source": "AI",
                         "feedback": "Earns 2 marks: the order of points is identified with little justification. No reason is given for the sequence and the reader is not discussed.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: A Year 11 student has written a 250-word argument on whether schools should run a phone-recycling scheme. It responds to two invented texts, a 150-word article on e-waste and a short poem about a phone forgotten in a drawer. The argument opens with the article's evidence on waste, moves to the poem's image of forgetting, answers the cost objection last and ends with a call to action.\n\n**Old Phones, Hidden Waste (an invented article)**\n\nOld phones should be recycled in every school, and the reason is not complicated. Old phones contain materials that cannot be replaced cheaply, including small amounts of gold, copper and rare metals that take enormous effort to mine. Each device left in a drawer is a loss that nobody sees. Across one school, dozens of unused phones may sit in drawers and lockers.\n\nRecycling is good for the environment, but a scheme must be visible to last, because recycling works only when people can see it working. A labelled box and a term-end count make the scheme real for students.\n\nElectronic waste is one of the fastest-growing kinds of rubbish in the world. A school that collects its own phones shows students that a device is not disposable simply because it is out of date. A box at reception is the first step.\n\n**The Phone in the Drawer (an invented poem)**\n\nIts screen has a crack across one corner now,\nand the battery gives up before the afternoon.\nIt sits in a drawer, forgotten and full of photographs:\na birthday cake with one candle left unlit,\na dog asleep on a sunlit rug,\na beach at dusk, a friend laughing at the camera.\n\nA phone sits in a drawer full of photographs nobody will look at again.\n\nNobody meant to leave it there.\nIt was replaced by something faster,\nand the old one slipped beneath the takeaway menus,\nthe spare keys, the tangled chargers, the warranty card.\nEach private picture waits for a thumb to wake it,\nand each thumb has moved on to the next small glow.\n\nStill it keeps the moments no one can hold:\na first swim, a late night, the slow walk home.\nForgetting is quiet. It breaks nothing.\nIt only keeps the past in a dark space until the past is lost."
@@ -2400,7 +2400,7 @@
                       "belonging",
                       "rationale"
                     ],
-                    "markingCriteria": "7-8 marks: Composes a critical and creative text that reflects a particular value and perspective on belonging with depth and control, and a rationale that explains how the values and perspective shape the choices of form and language\n5-6 marks: Composes a text that reflects a clear value and perspective on belonging, with some control of form, and a rationale that describes the choices\n4 marks: Composes a text that states a value on belonging with limited development, and a rationale that identifies some choices\n2-3 marks: Composes a short text with a general value and minimal reflection, and little or no rationale\n1 mark: Composes a brief statement of a general value, with no reflection and no rationale",
+                    "markingCriteria": "8 marks: Composes a critical and creative text that reflects a particular value and perspective on belonging with depth and control, and a rationale that explains how the values and perspective shape the choices of form and language\n6-7 marks: Composes a text that reflects a clear value and perspective on belonging, with some control of form, and a rationale that describes the choices\n4-5 marks: Composes a text that states a value on belonging with limited development, and a rationale that identifies some choices\n2-3 marks: Composes a short text with a general value and minimal reflection, and little or no rationale\n1 mark: Composes a brief statement of a general value, with no reflection and no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-42-1",
@@ -2416,7 +2416,7 @@
                         "answer": "The cinema has been closed for months, and I remember going there with my friends when we were small. We sat together and watched films, and it was a good place to be. Now they want to turn it into flats. I think we should try to keep it open because it belongs to the whole town and everyone should be able to use it.\n\nRationale: I wrote about a place I remember and used I and we so that the reader feels part of it. My value is that the town belongs to everyone.",
                         "source": "AI",
                         "feedback": "Earns 5 marks: a clear value (the place belongs to the town) and a personal perspective are reflected, with some control of voice. The value is stated more than shown, the form is simple, and the rationale describes the choices of pronoun without explaining how the imagery expresses the value.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-42-3",
@@ -2424,7 +2424,7 @@
                         "answer": "Old places are important to people. The cinema should stay open because it belongs to everyone.\n\nRationale: I wanted to say it is important.",
                         "source": "AI",
                         "feedback": "Earns 2 marks: a general value is stated with minimal reflection, and the rationale does not identify any choice of form or language.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "A school's creative anthology is inviting students to respond to the theme 'what we owe to the places we grow up in'. The editors expect pieces that show a clear value and a perspective the writer genuinely holds, and they will read the rationale to see how the choices of form and language express it.",
@@ -2779,7 +2779,7 @@
                       "refine",
                       "present"
                     ],
-                    "markingCriteria": "7-8 marks: Discusses several processes and technologies across the stages of composition, explaining how each shapes the final form, the information and ideas presented, and the audience response\n5-6 marks: Discusses processes and technologies with clear links to the final text, with uneven depth across the stages\n4 marks: Describes processes and technologies in general terms, with some links to form\n2-3 marks: Names tools with a brief or vague link to the composition\n1 mark: Makes a general statement about technology",
+                    "markingCriteria": "8 marks: Discusses several processes and technologies across the stages of composition, explaining how each shapes the final form, the information and ideas presented, and the audience response\n6-7 marks: Discusses processes and technologies with clear links to the final text, with uneven depth across the stages\n4-5 marks: Describes processes and technologies in general terms, with some links to form\n2-3 marks: Names tools with a brief or vague link to the composition\n1 mark: Makes a general statement about technology",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-49-1",
@@ -2795,7 +2795,7 @@
                         "mark": 5,
                         "answer": "Using different processes and technologies can change how a text looks and sounds. A student might brainstorm ideas on a digital board, then search for articles to investigate the topic. Software can help her clarify the order of her ideas and organise the sections, and editing tools let her refine the audio. Each tool changes the final feature, because it affects which information she includes and how she presents it to readers.",
                         "feedback": "Covers the stages in order and links each tool to a change in form, but the analysis is brief and does not weigh one effect against another, so it sits in the 5-6 band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-49-3",
@@ -2803,7 +2803,7 @@
                         "mark": 2,
                         "answer": "Technology helps students write better texts, because they can edit and organise their ideas on a computer.",
                         "feedback": "Names technology in general with a vague link to the composition, which places it in the 2-3 band.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "A Year 11 student is composing a multimodal feature for an online literary magazine about the ethics of social media algorithms. Her teacher asks the class to document the tools used at each stage of composition, and to reflect on how those tools shaped the final text."
@@ -2958,7 +2958,7 @@
                       "sensory detail",
                       "cumulative clauses"
                     ],
-                    "markingCriteria": "7-8 marks: Analyses the relationship between language and content in depth, showing how specific choices in each combine to shape meaning and the reader's response across the text\n5-6 marks: Analyses the relationship between language and content with clear examples, and explains how they shape meaning\n3-4 marks: Explains some language choices and some content with a general link to meaning\n1-2 marks: Describes language or content without linking them",
+                    "markingCriteria": "8 marks: Analyses the relationship between language and content in depth, showing how specific choices in each combine to shape meaning and the reader's response across the text\n5-7 marks: Analyses the relationship between language and content with clear examples, and explains how they shape meaning\n3-4 marks: Explains some language choices and some content with a general link to meaning\n1-2 marks: Describes language or content without linking them",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-52-1",
@@ -2982,7 +2982,7 @@
                         "answer": "The language is short and the story is about a family losing their house.",
                         "source": "AI",
                         "feedback": "Describes language and content side by side without any link between them, so it earns the 1-2 band.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: A Year 11 student is preparing an analytical response for an assessment task on a literary text she has studied. The text is an invented short story about a family losing its home. Her teacher has asked her to move beyond describing the language and to explain how the words and the content work together.\n\n**The Door on Keel Street (an invented short story)**\n\nThe bank letter arrives on a Tuesday. Mum reads it twice and slides it under the fruit bowl. Nobody mentions it at dinner.\n\nThe house is sold in March. Dad makes a list of what to take. The list is short. The removalists are booked for the last Saturday.\n\nThe house was in its prime once. The kitchen smelled of bread and lemon oil, and afternoon light lay in long gold bars across the floorboards while the kettle ticked on the stove and the children argued in the hall about whose turn it was to feed the dog, and the smell of cut grass and the neighbour's jasmine came in through the back door.\n\nNow there is less. The fridge is unplugged. The rooms answer back when Ellie calls out. Mum wraps the good plates in newspaper and says nothing. Ellie sleeps on a mattress in the lounge and asks when the removalists are coming.\n\nEach night Dad checks the front lock. He does not check the other one. It stays unlocked, as it has since the letter came, and the cold night air comes in through the open door.\n\nOn the last morning the bed goes out first. Mum stands on the back step with her keys in her hand. She looks at the yard for a long time. Then she drops the keys into her bag and does not turn around. Behind us, for the first time, nobody closes the open door."
@@ -3426,7 +3426,7 @@
                       "literary text",
                       "ideas"
                     ],
-                    "markingCriteria": "7-8 marks: Composes an opinion piece that builds a logical, ordered and cohesive argument, developing its ideas in depth and using the protagonist's silence and the final answer to it as evidence for each claim, and the rationale explains the structural choices with precision\n5-6 marks: Argues a clear position in ordered paragraphs with some cohesion, supported by the text, and the rationale explains some structural choices\n4 marks: Makes a claim with uneven ordering or cohesion, and the rationale describes the structure in general terms\n2-3 marks: States an opinion with little argument, and the rationale is absent or only restates the piece\n1 mark: Makes an unsupported statement of opinion, with no rationale",
+                    "markingCriteria": "8 marks: Composes an opinion piece that builds a logical, ordered and cohesive argument, developing its ideas in depth and using the protagonist's silence and the final answer to it as evidence for each claim, and the rationale explains the structural choices with precision\n6-7 marks: Argues a clear position in ordered paragraphs with some cohesion, supported by the text, and the rationale explains some structural choices\n4-5 marks: Makes a claim with uneven ordering or cohesion, and the rationale describes the structure in general terms\n2-3 marks: States an opinion with little argument, and the rationale is absent or only restates the piece\n1 mark: Makes an unsupported statement of opinion, with no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-60-1",
@@ -3442,7 +3442,7 @@
                         "answer": "Silence is not always weakness. In the novel I studied, the main character stays quiet about her brother, and people think she is weak. But her silence is a sensible choice because talking would make things worse for her family. She has ideas she does not share yet, and this is an argument for patience.\n\nRationale: I wanted to show that silence can be an argument, which is my main point. I kept it short.",
                         "source": "AI",
                         "feedback": "The piece has a clear claim and some order, but the reasoning is brief and the ideas are not developed, and the rationale only restates the point. It sits in the 5-6 band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-60-3",
@@ -3450,7 +3450,7 @@
                         "answer": "Silence can be a good thing, so people should not always judge quiet people. I wanted to write about it.",
                         "source": "AI",
                         "feedback": "States an opinion with little argument and no structural rationale, so it sits in the 1-2 band.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: Year 11 student Tomas must compose a short opinion piece of about 250 words for his school's literacy blog. The text is an invented novel. The piece responds to ideas raised by a literary text he has studied, and it must be followed by a brief rationale for his choices.\n\n**The Jetty at Corrie Bay (an invented novel extract)**\n\nThe sergeant asks the question again, the way he has every Thursday since August. Jess looks at the chipped edge of the table and says nothing. She refuses to speak about her brother's disappearance, and the silence in the room stretches until the clock above the door ticks over to four.\n\nAt home it is worse, because home is where the silence is kept. Her mother sets out three plates and sits without touching hers. Her father stands at the sink with his back to the room, rinsing a cup that is already clean.\n\nJess tries once more at dinner. She tells him about Danny, the jetty, the torch on the water and the empty mooring where the family boat should be. Her father changes the subject whenever she tries to explain. He asks about her exams. He asks whether the bins went out. He says the council wants the hedge cut before the weekend.\n\nAt school people think she is weak, and a few call it cowardice. Her mother's fork stops halfway to her mouth, and nobody picks it up again.\n\nJess goes to bed with her shoes still on. Through the wall she hears her father telling her mother, very low, that the girl has to stop, that speaking now will only hurt them all. The house takes his words and holds them, like everything else in it.\n\nAbout the text: Jess refuses to speak about her brother's disappearance for most of the novel, and her father changes the subject whenever she tries to explain. In its final chapter her silence is answered by someone else. Her father finally admits that Danny took the boat out in bad weather after an argument with him, and that the family has kept quiet about it for a year.",
@@ -3788,7 +3788,7 @@
                       "personal and public worlds",
                       "human experiences"
                     ],
-                    "markingCriteria": "7-8 marks: Analyses in depth how the language, forms and features shape a range of perspectives across personal and public worlds, showing how the choices create diverse human experiences for readers\n5-6 marks: Analyses how several language and form choices shape perspectives on personal and public worlds, with clear examples\n3-4 marks: Explains some language and form choices and their effect on perspectives, with a general link to human experiences\n1-2 marks: Describes language or forms without linking them to perspectives or experiences",
+                    "markingCriteria": "8 marks: Analyses in depth how the language, forms and features shape a range of perspectives across personal and public worlds, showing how the choices create diverse human experiences for readers\n5-7 marks: Analyses how several language and form choices shape perspectives on personal and public worlds, with clear examples\n3-4 marks: Explains some language and form choices and their effect on perspectives, with a general link to human experiences\n1-2 marks: Describes language or forms without linking them to perspectives or experiences",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-66-1",
@@ -3804,7 +3804,7 @@
                         "mark": 4,
                         "answer": "The memoir uses first-person language and a kitchen setting to show the writer's private world. It then changes form to include facts about the hospital, which shows a public world. The direct address to the reader makes the experience feel shared, so readers from different backgrounds can connect with it.",
                         "feedback": "Shows several language and form choices shaping perspectives with clear examples, but the analysis of how the choices affect different readers is brief, so it sits in the 5-6 band.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-en-66-3",
@@ -3812,7 +3812,7 @@
                         "mark": 2,
                         "answer": "The memoir uses short sentences and a kitchen setting, which makes it personal.",
                         "feedback": "Describes language and setting without linking them to perspectives or human experiences, so it earns the 1-2 band.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: A Year 12 student is writing an analytical essay about a text that has been read by many different communities. The text is an invented memoir set in a small kitchen. Her teacher asks her to show how the language and forms reach readers from several perspectives and experiences.\n\n**The Kettle on Tanner Street (an invented memoir)**\n\nThe kettle is always the first thing I fill. Mum taught me that, standing at this sink in her dressing gown while the radio gave the weather. The tap coughs, the pipes knock twice, and the kitchen fills with the smell of burnt toast and the dish soap she bought by the litre. Everything here is small and close: the lino worn pale in front of the stove, the calendar still showing March, her mug with the chipped handle hanging on its hook.\n\nI keep the mug, and the calendar, though it is wrong now.\n\nThe hospital keeps its own record:\n\nEllery Hill District Hospital opened in 1961 with forty-two beds on the general ward.\nEmergency waiting times are published each quarter.\nThe car park was resurfaced in March at a cost of $212,000.\nNo ward has been named after anyone who worked there.\n\nI read the list at the kitchen table, twice, as if the numbers might tell me something about her. They do not. The car park was resurfaced in March, the ward has no name, and the kettle still boils for one. Nobody at the council has mentioned the corridor where she waited.\n\nIf you have sat in that waiting room, you already know how long an hour can be. You know the figures are printed for people who will never need them. So I fill the kettle again, and I wait for it to boil, the way she taught me."
@@ -4623,7 +4623,7 @@
                       "consistency of voice",
                       "qualified praise"
                     ],
-                    "markingCriteria": "7-8 marks: Evaluates the critic's evaluative language and metalanguage against clear criteria, reaching a sustained and explicit judgement of how well informed judgements are made, and states a considered personal perspective\n6 marks: Evaluates the language against stated criteria and reaches a clear judgement, with a personal perspective\n5 marks: Evaluates some language against criteria, with a judgement that is partly supported\n3-4 marks: Describes the critic's language and makes a general judgement\n2 marks: Identifies evaluative language with little judgement\n1 mark: Makes a general statement about the critic's opinion",
+                    "markingCriteria": "8 marks: Evaluates the critic's evaluative language and metalanguage against clear criteria, reaching a sustained and explicit judgement of how well informed judgements are made, and states a considered personal perspective\n7 marks: Evaluates the language against stated criteria and reaches a clear judgement, with a personal perspective\n5-6 marks: Evaluates some language against criteria, with a judgement that is partly supported\n3-4 marks: Describes the critic's language and makes a general judgement\n2 marks: Identifies evaluative language with little judgement\n1 mark: Makes a general statement about the critic's opinion",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-72-1",
@@ -4736,7 +4736,7 @@
                       "withdrawal motif",
                       "withholding"
                     ],
-                    "markingCriteria": "7-8 marks: Assesses the interpretation as creative, informed and sustained, weighing its use of close textual analysis against clear criteria and reaching an explicit judgement of its quality\n5-6 marks: Assesses some features of the interpretation against criteria, with a clear judgement that is partly supported by analysis, though the weighing is uneven or brief\n4 marks: Describes the interpretation and makes a general judgement with limited analysis of its creativity or evidence\n2-3 marks: Makes a broad comment on the interpretation with little analysis, or names a criterion without testing the interpretation against it\n1 mark: States an opinion of the interpretation without reasons",
+                    "markingCriteria": "8 marks: Assesses the interpretation as creative, informed and sustained, weighing its use of close textual analysis against clear criteria and reaching an explicit judgement of its quality\n6-7 marks: Assesses some features of the interpretation against criteria, with a clear judgement that is partly supported by analysis, though the weighing is uneven or brief\n4-5 marks: Describes the interpretation and makes a general judgement with limited analysis of its creativity or evidence\n2-3 marks: Makes a broad comment on the interpretation with little analysis, or names a criterion without testing the interpretation against it\n1 mark: States an opinion of the interpretation without reasons",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-74-1",
@@ -4760,7 +4760,7 @@
                         "mark": 2,
                         "answer": "The interpretation is good and the writer has thought about the text.",
                         "feedback": "Makes a broad comment with no criteria and little analysis, so it sits in the 2-3 mark band.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: A Year 12 student has written an interpretation of a literary text for her examination. The text is invented: its closing scene can be read as a resolution or as a deliberate withholding, and its second section repeats short verbs that suggest the protagonist's withdrawal. Her teacher asks the class to assess how well the interpretation is developed. An extract from her response is printed after the story.\n\n**Low Water (an invented short story)**\n\nI\n\nMarnie has not spoken to her brother since the funeral. The house on Sorrell Point is quiet in the afternoons, and she keeps the blinds half down so the neighbours cannot see her at the table. Her brother rang twice last week. She let both calls go to the message bank, and she listened to the messages in the car with the engine off until the windows fogged.\n\nII\n\nShe sits. She folds the letter. She reads it once, then sits again. She waits for the kettle, and it does not boil, so she waits again. She stops. Her hands rest on the table as if they belong to somebody else.\n\nIII\n\nOutside, the tide is pulling back across the flats. Gulls walk the wet sand in neat lines, and the light lies flat and grey on the water, the colour of an old coin. A boat crosses the channel and leaves a thin white seam behind it. A boy on a bike stops at the boat ramp to watch, then rides off when his mother calls him.\n\nHer phone lights up on the bench. Marnie reads the name for a long time. Then she draws her hand back from the screen, the way she draws back from the edge of the pier when the wind picks up, and she turns the phone face down. The tide keeps going out. She stays where she is while the room grows quieter around her.\n\n**The student's interpretation (an extract from her examination response)**\n\nMost readers take the ending of 'Low Water' as a resolution: Marnie has made her choice and the story rests. I read it instead as a deliberate withholding. The story never tells us what the call means to her, and that silence is its point.\n\nThe second section shows Marnie withdrawing before she makes any choice. Its verbs are short and repeated: 'She sits. She folds the letter.' She 'sits again' and 'waits again'. The sentences stop as often as she does, and their sparseness mirrors a woman pulling away from her own life.\n\nThe final section uses the outgoing tide to show the same retreat.\n\nBy the end, turning the phone face down is not a decision but another withdrawal. The room 'grows quieter around her', and the story withholds what she will do next."
@@ -6013,7 +6013,7 @@
                       "first-person reflection",
                       "closing line"
                     ],
-                    "markingCriteria": "6-7 marks: Composes a text that affirms or challenges the idea with critical or creative control across its structure and language, and the rationale explains the choices precisely and connects them to the range of texts studied\n5 marks: Responds clearly to the idea in a composed text with some control, and the rationale explains most choices\n3-4 marks: States a view on the idea with limited development, and the rationale describes the choices in general terms\n2 marks: Makes a general statement about the idea in a minimal text, with little or no rationale\n1 mark: Makes a general statement about the idea without a composed text",
+                    "markingCriteria": "7 marks: Composes a text that affirms or challenges the idea with critical or creative control across its structure and language, and the rationale explains the choices precisely and connects them to the range of texts studied\n5-6 marks: Responds clearly to the idea in a composed text with some control, and the rationale explains most choices\n3-4 marks: States a view on the idea with limited development, and the rationale describes the choices in general terms\n2 marks: Makes a general statement about the idea in a minimal text, with little or no rationale\n1 mark: Makes a general statement about the idea without a composed text",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-76-1",
@@ -6131,7 +6131,7 @@
                       "imperatives",
                       "short sentences"
                     ],
-                    "markingCriteria": "7-8 marks: Composes a text that reinterprets the idea for younger students through a deliberate structure, language features and stylistic elements, and the rationale explains how each choice suits the audience and the reinterpretation\n5-6 marks: Reinterprets the idea for the audience with clear choices of structure and style, and the rationale explains some choices\n4 marks: Addresses the audience with a general reinterpretation, and the rationale describes the choices in general terms\n2-3 marks: Offers little reinterpretation or does not suit the audience, and the rationale is absent or only restates the piece\n1 mark: Offers no reinterpretation for the audience, and the rationale is absent",
+                    "markingCriteria": "8 marks: Composes a text that reinterprets the idea for younger students through a deliberate structure, language features and stylistic elements, and the rationale explains how each choice suits the audience and the reinterpretation\n6-7 marks: Reinterprets the idea for the audience with clear choices of structure and style, and the rationale explains some choices\n4-5 marks: Addresses the audience with a general reinterpretation, and the rationale describes the choices in general terms\n2-3 marks: Offers little reinterpretation or does not suit the audience, and the rationale is absent or only restates the piece\n1 mark: Offers no reinterpretation for the audience, and the rationale is absent",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-78-1",
@@ -6147,7 +6147,7 @@
                         "answer": "Dear Year 7, courage is not only about heroes. The story we read has a lighthouse keeper who keeps the light on. You can be brave like that too. Remember the lighthouse when you are scared.\n\nRationale: I wrote a short letter for Year 7 because they are young. I used short sentences. The lighthouse is the main idea.",
                         "source": "AI",
                         "feedback": "Reinterprets the idea for an audience with a clear letter structure, but the language choices are few and the rationale only restates them, so it sits in the 5-6 band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-78-3",
@@ -7075,7 +7075,7 @@
                       "common sense",
                       "narrator"
                     ],
-                    "markingCriteria": "9-10 marks: Assesses the extent to which context and implicit cultural assumptions influence perspectives and ideas, weighing competing influences against evidence and reaching a sustained, explicit judgement\n7-8 marks: Assesses the influence of context and assumptions on perspectives and ideas with clear evidence, reaching a developed judgement\n5-6 marks: Assesses the influence with a clear judgement and some evidence, though the weighing of competing influences is brief\n3-4 marks: Describes context and assumptions and their effect on perspectives, with a general judgement\n1-2 marks: Makes a general statement about the author's influences with little evidence, or states that context affects authors without assessment",
+                    "markingCriteria": "10 marks: Assesses the extent to which context and implicit cultural assumptions influence perspectives and ideas, weighing competing influences against evidence and reaching a sustained, explicit judgement\n8-9 marks: Assesses the influence of context and assumptions on perspectives and ideas with clear evidence, reaching a developed judgement\n5-7 marks: Assesses the influence with a clear judgement and some evidence, though the weighing of competing influences is brief\n3-4 marks: Describes context and assumptions and their effect on perspectives, with a general judgement\n1-2 marks: Makes a general statement about the author's influences with little evidence, or states that context affects authors without assessment",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-86-1",
@@ -7091,7 +7091,7 @@
                         "mark": 4,
                         "answer": "The author's context influences the text's ideas, because the narrator shares the expectations of the author's community. The assumption that stability is good is important and affects the perspectives. The text also has some doubts later, so the influence is not complete. Overall, context has a strong effect on the perspectives.",
                         "feedback": "Makes a clear judgement with some evidence about how the context shapes perspectives, but the weighing is brief and the later doubt is noted without analysis, so it sits in the 5-6 mark band.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-en-86-3",
@@ -7099,7 +7099,7 @@
                         "mark": 2,
                         "answer": "The author's time and place affect the text, so the ideas are old.",
                         "feedback": "Makes a general statement about the author's influences with little evidence, so it sits in the 1-2 band.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: A Year 12 student is writing an evaluative essay for a critical reading task. The text is an invented novel, written in a period of rapid social change. She must assess how far the author's context and unstated cultural assumptions determine the perspectives and ideas presented in the text.\n\n**The Permanent Address (an invented novel)**\n\nChapter One\n\nThe Pryors have moved five times in eight years, and each time the street pretends not to notice. People who keep moving are restless. They never plant a hedge they will not see grow, and they never learn the names of the people on either side. In my experience they are unreliable as neighbours, and unreliable as friends, because they always keep one foot on the next road.\n\nWhen the new estate went up past the highway, the town filled with strangers who had come for the mine work and would leave when the work did. I watched them unload their vans on Saturday mornings. I told myself the streets were held together by the people who had never left them.\n\nChapter Nine\n\nLately I find myself asking questions I once answered without thinking. Why did I stay in this house for thirty years? Was it loyalty or duty, or only that I could not picture another kitchen? When the Pryors' van turned at the corner, did I envy them, or did I only pity them? Perhaps I have mistaken a habit for a virtue. I cannot yet say.\n\nAbout the text: The narrator's son takes a job in the city, and the house she has defended for decades begins to look less like a refuge and more like a cage. The mine closes in the final third, the new estate empties, and she must decide whether the people she judged were the unreliable ones. The novel never openly argues its position; its certainties give way to doubt."
@@ -7487,7 +7487,7 @@
                       "ratepayers",
                       "language features"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained judgement on the effectiveness of the language features and stylistic choices against all three criteria, supported by precise evidence and an account of how the criteria interact\n6 marks: Reaches a clear judgement against all three criteria, supported by precise evidence and a logical argument\n5 marks: Reaches a judgement against the criteria with evidence, but one criterion is treated only in passing\n3-4 marks: Describes the language features and stylistic choices with some evidence, and makes a judgement that is general or only partly linked to the criteria\n2 marks: Makes a statement about effectiveness with little evidence and no clear use of the criteria\n1 mark: Describes a feature without making any judgement",
+                    "markingCriteria": "8 marks: Makes a sustained judgement on the effectiveness of the language features and stylistic choices against all three criteria, supported by precise evidence and an account of how the criteria interact\n7 marks: Reaches a clear judgement against all three criteria, supported by precise evidence and a logical argument\n5-6 marks: Reaches a judgement against the criteria with evidence, but one criterion is treated only in passing\n3-4 marks: Describes the language features and stylistic choices with some evidence, and makes a judgement that is general or only partly linked to the criteria\n2 marks: Makes a statement about effectiveness with little evidence and no clear use of the criteria\n1 mark: Describes a feature without making any judgement",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-92-1",
@@ -7914,7 +7914,7 @@
                       "cohesive",
                       "free verse"
                     ],
-                    "markingCriteria": "7-8 marks: Composes a cohesive, informed interpretation sustained across the whole piece, supported by precise close analysis of at least three techniques, with a rationale that explains the interpretive choices clearly\n5-6 marks: Composes a cohesive interpretation with close analysis of at least three techniques, and a rationale that describes the choices\n4 marks: Composes an interpretation with some textual evidence, but the analysis of techniques is general and the cohesion is uneven\n2-3 marks: Composes a response that paraphrases the poem with little analysis, and the rationale is missing or unclear\n1 mark: Composes a response that retells the poem without analysis, and no rationale",
+                    "markingCriteria": "8 marks: Composes a cohesive, informed interpretation sustained across the whole piece, supported by precise close analysis of at least three techniques, with a rationale that explains the interpretive choices clearly\n6-7 marks: Composes a cohesive interpretation with close analysis of at least three techniques, and a rationale that describes the choices\n4-5 marks: Composes an interpretation with some textual evidence, but the analysis of techniques is general and the cohesion is uneven\n2-3 marks: Composes a response that paraphrases the poem with little analysis, and the rationale is missing or unclear\n1 mark: Composes a response that retells the poem without analysis, and no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-97-1",
@@ -7930,7 +7930,7 @@
                         "answer": "The poem is about a grandchild who misses her grandmother, and the bread tin on the bench stands for the memories of baking. In the first stanza the line breaks run on, which makes the reader keep moving down the page, and this feels like grief that does not stop. The repeated tin shows that the speaker keeps thinking about the grandmother. In the last stanza the tense changes to present, so the grandmother seems to be there again, and this makes the ending sad because the tin is still there.\n\nRationale: I looked at the enjambment and the tin, and I tried to show how the poem feels sad from start to finish.",
                         "source": "AI",
                         "feedback": "The response has a reading and analyses two techniques with some precision, but the third technique is not developed and the interpretation shifts from memory to sadness without a clear thread. The rationale describes rather than explains, which places it in the 5-6 mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-97-3",
@@ -7938,7 +7938,7 @@
                         "answer": "The poem is about a girl who misses her grandmother. The bread tin is still on the bench and the poem ends with the tin.",
                         "source": "AI",
                         "feedback": "The response paraphrases the poem's content with no technique named and no rationale, which matches the 1-2 mark line.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: Students are studying the invented 30-line free-verse poem printed below, which was written for this question.\n\n**The Tin on the Bench (an invented free-verse poem)**\n\nNan stopped baking\nyears before she died.\nThe kitchen forgot\nthe sour smell of bread.\nWhat she left was the bread tin,\nsquat on the bench, lid down.\n\nI noticed it the way\nyou notice a clock. Each morning\nI reached past the tin\nfor a cup. Its lid was always pressed\ndown tightly, a dull seam\nI never once saw lifted.\n\nMum said we could open it,\nthat there was nothing left inside\nbut crumbs. We left it.\nThe lid stayed down,\nheld by a habit\nnone of us would name.\n\nAt Christmas the cousins ate\noff paper plates. Nobody mentioned\nthe bench. Every eye drifted back\nto it, the way a tongue once found\nthe gap where a tooth had been.\nNobody asked what she would have made.\n\nTonight the house is quiet,\nand I am the one who stands\nat the bench, my hand on the tin,\nnot lifting it, not walking away.\nThe kettle clicks off. The tin is still on the bench,\nits lid pressed down tightly, and I am in the room with it.",
@@ -9563,7 +9563,7 @@
                       "drought",
                       "publication"
                     ],
-                    "markingCriteria": "7-8 marks: Discusses the relationship between context and representation with a sustained, precise account of how the historical and personal contexts shape the memoir's representation of the flood, supported by apt evidence and a considered view\n5-6 marks: Discusses the relationship between context and the memoir's representation, with clear links and relevant evidence, but the discussion of one context is less developed\n4 marks: Discusses the context and the representation with some evidence, but the relationship between them is described rather than developed\n2-3 marks: Makes general statements about context and the memoir with limited evidence\n1 mark: Identifies a context or the flood without discussing its relationship to the memoir",
+                    "markingCriteria": "8 marks: Discusses the relationship between context and representation with a sustained, precise account of how the historical and personal contexts shape the memoir's representation of the flood, supported by apt evidence and a considered view\n6-7 marks: Discusses the relationship between context and the memoir's representation, with clear links and relevant evidence, but the discussion of one context is less developed\n4-5 marks: Discusses the context and the representation with some evidence, but the relationship between them is described rather than developed\n2-3 marks: Makes general statements about context and the memoir with limited evidence\n1 mark: Identifies a context or the flood without discussing its relationship to the memoir",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-107-1",
@@ -9579,7 +9579,7 @@
                         "answer": "The memoir is shaped by its context. It was written after a drought, so the flood looks like something the community has lost. The author was a child when it happened, so the memoir uses a child's memory of the water. The child's view makes the flood feel immediate, while the adult view explains the loss of the farm. Together these contexts make the flood a personal and a public story, and the relationship between them matters to what the reader takes from it. The memoir shows how a historical moment can change the way a personal event is remembered, and the drought gives the flood a second meaning.",
                         "source": "AI",
                         "feedback": "The relationship between context and representation is discussed with clear links and relevant evidence, but the historical and personal contexts are set side by side rather than developed against each other. This is the 5-6 mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-107-3",
@@ -9587,7 +9587,7 @@
                         "answer": "The memoir is about a flood and a drought, and the author was a child. Those things change how the flood is remembered.",
                         "source": "AI",
                         "feedback": "The contexts are named and a general statement is made about their effect, with no evidence from the memoir, which matches the 2-3 mark line.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: Students are studying an invented 800-word memoir extract, written for this question, in which a woman describes the flood that destroyed her family's farm when she was eleven. The memoir was published twenty years later in a collection of rural life writing, after a long drought had changed the local community.\n\n**Water Over the Fence Line (an invented memoir extract)**\n\nI want to be honest about the first thing I remember, which is that I thought the flood was beautiful. I was eleven. The creek that had been a thin brown line all summer was suddenly a sheet of light moving between the gum trunks, as if it had somewhere better to be. On the Tuesday the water began rising over the fence line of the lower paddock. Nobody told me to be afraid, so I was not. I counted the posts as they went under.\n\nBy the Wednesday the water was over the second wire and still climbing. I could hear it before I could see it properly: a low, steady sound, like someone pouring for a very long time. At night it came up against the shed wall, and the iron rang under its weight. In the morning the whole shed smelled of wet timber and diesel, a sharp, sweet smell I could not understand at the time. I thought it was simply what a flood smelled like.\n\nI understand now what the flood cost. The lower paddock had been sown in autumn with money the bank had lent against the wheat. My father had borrowed on the strength of a dry season that had been dry before and would be dry again. The water took the crop, the fencing and most of the fodder, and the insurance paid a fraction of what had gone. That was the arithmetic he did at the kitchen table, slowly, with the pencil he kept behind his ear for the stock tallies.\n\nMy brother Tom said the flood would take the house. I believed him for one night. Mum put us to bed in our clothes so we could leave quickly, and I lay awake listening. I remember the sound of the water against the shed and the sound of Dad's boots on the verandah, back and forth, back and forth. I remember how much noise a flood makes when nobody is shouting.\n\nWe called that summer the year of plenty. The phrase came from the men at the hall, who talked about the creek lifting the soil and filling the dams, and Mum used it at the shop as if it were a kind of luck. Looking back, I can see why it was said. For a few weeks the flood looked like the best thing that had ever happened to us. Now, when I think of it, the flood is a memory of abundance, and I have to remind myself that it was also the end of the farm.\n\nOn the third day we drove the ewes up to the house paddock. They were quiet, and their wool was grey with silt. I carried a bucket of feed that was heavier than I was. The light lay on the water, pale and flat, and the tops of the fence posts stuck up through it like the teeth of something buried. I stopped to look, and Dad shouted at me to keep walking.\n\nMum kept a list on the back of the calendar. It began with the ewes and the wire and went on to the chaff bags, the pump and the old Ford that never ran again. She wrote each item in pencil, as if she might rub it out later, and she never did. I found the list years afterwards, folded inside the cookbook, and I read it standing up in the pantry.\n\nThe drought came later, after the creek had gone back into its bed and the flats had cracked like old crockery. Twenty years on, the bottom paddock is dry in most years, and the men who talk about the flood now speak of it the way you would speak of someone who left town. They say the big water without any pride. That is what changed how I remember it. The drought made the flood a story about what the district once had, as well as what our family lost.\n\nThe decision to sell was made at the kitchen table, not at the bank. Dad said the land would be better in other hands. Mum said nothing for a long time, then got up and filled the kettle. I did not understand then that the kettle was her answer. Years later I asked her about it, and she said she had been thinking about whether we would ever swim in that creek again.\n\nThe shed was the last thing the water reached and the first thing I stopped thinking about. Dad drove the tractor out before the flood reached the axle, and we watched from the rise as the roof sat level with the water and then, quite quietly, went under.\n\nThe farm was sold in March."
@@ -9679,7 +9679,7 @@
                       "detective",
                       "narrator"
                     ],
-                    "markingCriteria": "7-8 marks: Critically analyses, with a sustained and precise argument, how the story conforms to and challenges the conventions of the genre, showing the relationships between textual forms, language and stylistic choices and the reader's expectations\n6 marks: Critically analyses the conventions and their challenge with precise evidence, linking form and language to the effect on the reader\n5 marks: Analyses the story's conventions with evidence, but the critical evaluation of how far the story challenges them is limited\n3-4 marks: Describes conventions and some departures with evidence, but the analysis of their effect is partial\n2 marks: Makes general statements about the genre with little textual evidence\n1 mark: Names a convention without analysing the story",
+                    "markingCriteria": "8 marks: Critically analyses, with a sustained and precise argument, how the story conforms to and challenges the conventions of the genre, showing the relationships between textual forms, language and stylistic choices and the reader's expectations\n7 marks: Critically analyses the conventions and their challenge with precise evidence, linking form and language to the effect on the reader\n5-6 marks: Analyses the story's conventions with evidence, but the critical evaluation of how far the story challenges them is limited\n3-4 marks: Describes conventions and some departures with evidence, but the analysis of their effect is partial\n2 marks: Makes general statements about the genre with little textual evidence\n1 mark: Names a convention without analysing the story",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-109-1",
@@ -9855,7 +9855,7 @@
                       "response",
                       "rationale"
                     ],
-                    "markingCriteria": "7-8 marks: Composes a scene in which language features, form and stylistic choices are integrated so that they shape one intended response, with a rationale that explains how the choices work together and why they suit the audience\n5-6 marks: Composes a scene with language features, form and stylistic choices that shape the response, and a rationale that describes the choices\n4 marks: Composes a scene with some integration of language and form, but the choices sit side by side rather than shaping one response, and the rationale is general\n2-3 marks: Composes a piece with limited use of language and form, and a rationale that is general or unclear\n1 mark: Composes a brief piece with minimal use of language and form, and no rationale",
+                    "markingCriteria": "8 marks: Composes a scene in which language features, form and stylistic choices are integrated so that they shape one intended response, with a rationale that explains how the choices work together and why they suit the audience\n6-7 marks: Composes a scene with language features, form and stylistic choices that shape the response, and a rationale that describes the choices\n4-5 marks: Composes a scene with some integration of language and form, but the choices sit side by side rather than shaping one response, and the rationale is general\n2-3 marks: Composes a piece with limited use of language and form, and a rationale that is general or unclear\n1 mark: Composes a brief piece with minimal use of language and form, and no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-112-1",
@@ -9871,7 +9871,7 @@
                         "mark": 5,
                         "answer": "The bus leaves early and Jess is already waiting at the shelter. The timetable is out of date and the panel is cracked. Her mum waves from the window, but the wave is small. The town goes past outside, and Jess counts the stops until she reaches the city.\n\nRationale: I used a list of stops to show the town getting smaller, and short sentences to show that Jess feels flat. I wanted the reader to feel sad about leaving the town.",
                         "feedback": "A scene is constructed with language features and some form, and the choices shape a sense of leaving, but the rationale describes the choices rather than explaining how they work together. This is the 5-6 mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-112-3",
@@ -10311,7 +10311,7 @@
                       "winter",
                       "understanding"
                     ],
-                    "markingCriteria": "7-8 marks: Discusses at least two interpretations derived from different perspectives in a sustained way, showing how each changes the reader's understanding of the keeper's winter, and weighs the interpretations against each other\n5-6 marks: Discusses two interpretations from different perspectives with evidence, showing how each changes understanding, but the weighing of the interpretations is limited\n4 marks: Describes two interpretations with some evidence, with a general account of their effect on understanding\n2-3 marks: Makes general statements about the perspectives, with limited reference to the poem\n1 mark: Names a perspective without discussing an interpretation",
+                    "markingCriteria": "8 marks: Discusses at least two interpretations derived from different perspectives in a sustained way, showing how each changes the reader's understanding of the keeper's winter, and weighs the interpretations against each other\n6-7 marks: Discusses two interpretations from different perspectives with evidence, showing how each changes understanding, but the weighing of the interpretations is limited\n4-5 marks: Describes two interpretations with some evidence, with a general account of their effect on understanding\n2-3 marks: Makes general statements about the perspectives, with limited reference to the poem\n1 mark: Names a perspective without discussing an interpretation",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-115-1",
@@ -10327,7 +10327,7 @@
                         "answer": "The poem can be read in two ways. A historical reading sees the keeper's job as skilled work that is ending, so the reader feels a sense of loss, and the logbook and the wick show the routine that is being lost. An ecological reading sees the sea and the birds as the real centre, so the reader feels that the coast carries on. These readings change how the reader sees the keeper. The historical reading is more emotional, while the ecological reading is calmer. Together they show that the poem holds both an ending and a continuation.",
                         "source": "AI",
                         "feedback": "Two interpretations are discussed with some evidence and each is shown to change understanding, but the answer does not weigh them against each other in any depth. This is the 5-6 mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-115-3",
@@ -10335,7 +10335,7 @@
                         "answer": "The poem is about a lighthouse keeper in winter. One way to read it is that the job is ending. Another is that the sea goes on.",
                         "source": "AI",
                         "feedback": "General statements are made about the perspectives with limited reference to the poem, which matches the 2-3 mark line.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: Students are reading an invented 24-line poem, written for this question, about a lighthouse keeper's final winter before the light is automated. Class discussion has produced three readings: a historical reading that sees the poem as a record of a vanishing occupation, an ecological reading that focuses on the sea and the birds, and a personal reading from a student whose family moved away from a coastal town.\n\n**The Last Winter at Galley Point (an invented poem)**\n\nthe stairs wind up a hundred and six iron steps,\nand every dusk the keeper counts them with one hand on the rail.\nat the top the glass is cold. he wipes it with a rag\nuntil the sea comes clear, grey and wide and not yet dark.\nhe is trimming the wick and logging the weather\nin the same hand his father used, pressing hard on the page.\n\nthe wind has gone south-west and the glass is falling.\nin spring the men from the city will bring a new mechanism,\na timer and a motor, and the keeper will be a line on a form.\nthe logbook and the wick are all the work he has left.\nhe writes it down anyway: visibility poor, swell rising.\nthe stairs ring under his boots, and the glass shivers in its frame.\n\nthe sea and birds keep to their hours below the light.\nterns come off the reef, shearwaters skim low over the swell,\nand none of them looks up at the tower.\nthey have never needed a keeper to be somewhere in the dark.\nthe stairs, the glass, the stairs again, the glass again,\nthe same small room repeated until the winter is only that.\n\nthe logbook is closed. the wick is trimmed for the last time.\nthe stairs are empty, and the glass gives back nothing but the dark.\nthe lamp continues to turn above the rocks and the birds.\nhe has no one left to write the weather for.\nthe light goes round the way it always has,\nthe lamp turns on for no one."
@@ -11391,7 +11391,7 @@
                       "grief",
                       "language features"
                     ],
-                    "markingCriteria": "7-8 marks: Appreciates the power of language with a sustained, precise response that shows how at least three language features express the father's grief, with insight into how the experiences in the memoir are made felt by the reader\n5-6 marks: Appreciates the power of language with evidence and analysis of two or more language features and their expression of grief, with a clear link to the experience at six marks and a limited link at five\n4 marks: Describes language features with some evidence and makes a general statement about grief or experience, without analysing how the features work\n2-3 marks: Makes a statement that the language is powerful with little evidence, or describes features with only a general link to grief\n1 mark: Names a language feature without appreciating its effect",
+                    "markingCriteria": "8 marks: Appreciates the power of language with a sustained, precise response that shows how at least three language features express the father's grief, with insight into how the experiences in the memoir are made felt by the reader\n6-7 marks: Appreciates the power of language with evidence and analysis of two or more language features and their expression of grief, with a clear link to the experience at six marks and a limited link at five\n4-5 marks: Describes language features with some evidence and makes a general statement about grief or experience, without analysing how the features work\n2-3 marks: Makes a statement that the language is powerful with little evidence, or describes features with only a general link to grief\n1 mark: Names a language feature without appreciating its effect",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-121-1",
@@ -11407,7 +11407,7 @@
                         "mark": 5,
                         "answer": "The extract shows the power of language in how it expresses the father's grief. The lists of kitchen objects make the reader feel the routines he has to learn after his wife's death. The weather metaphor shows that his feelings change quickly, which is powerful because it is unexpected in a kitchen. The flat tone at the end shows that he is holding back, and this restraint makes the memoir affecting. Together these features help the reader feel something of the father's experience.",
                         "feedback": "The power of language is appreciated with evidence from the lists, the metaphor and the tone, but the features are treated briefly and the link to grief and experience is limited. This is the 5-6 mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-121-3",
@@ -11415,7 +11415,7 @@
                         "mark": 2,
                         "answer": "The memoir uses language that is powerful. The father seems sad about his wife.",
                         "feedback": "The language is called powerful with little evidence and no feature is named, which matches the 2-3 mark row.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: Students are reading an invented 500-word memoir extract, written for this question, in which a father describes learning to make his daughter's school lunch after his wife's death.\n\n**The Lunch Box (an invented memoir extract)**\n\nIn the first month he could not find anything. Frances had kept the kitchen the way she kept her handwriting, small and exact, and now he opened cupboards like a man searching someone else's house. On the first Sunday he spent an hour looking for a wooden spoon. He found it at last in the jar beside the stove, worn pale where her hand had always been.\n\nRuby needed a lunch every school day. He wrote a list on the back of an envelope and stuck it to the fridge: bread, ham, cheese, cucumber; apple, muesli bar, two biscuits; drink bottle, filled the night before. Within a week the list had become a map of everything he did not know.\n\nThe kitchen was full of things that had been hers: a colander with one handle loose, a tea towel printed with lighthouses, a lunch box with a broken clasp that Ruby still carried by the handle, and a tin of biscuits his wife always bought. He could not bring himself to empty the tin, so it stayed on the shelf between the jam and the oats.\n\nBy the second month he had started to read the kitchen as a weather system. Cold fronts moved in over the sink when the tap squeaked. The pressure built around the bread bin on Sunday nights, and he could feel a storm before he touched the lid. Then there would be a sudden clearing, usually while the kettle boiled, when he stood with both hands flat on the bench and thought of nothing at all.\n\nFriends had once joked that the house runs on his wife, the way a clock runs on its spring. Now the spring had gone, and he was learning to wind the house by hand, one routine at a time.\n\nRuby noticed everything. \"Dad, the clasp is broken again,\" she said, and he fixed it with a paper clip, then with tape. Eventually he let her hold the lid shut with her thumb.\n\nShe told him what she wanted: no crusts, no cucumber, and a biscuit she never ate but always checked for. He learned the small economies. Ham folded once, not twice. Apples cut in eight so they would not brown before the bell.\n\nEach morning he got a little faster, and each morning the speed felt like something he had taken from her. The grief did not keep to a timetable. Some mornings it arrived with the smell of toast. Once it was simply the sound of the tin lid, stuck, and he stood at the bench until the kettle clicked off.\n\nOn Tuesday he made lunch in the usual order: two slices of wholemeal bread, ham folded once, cheese, a cut apple, and two biscuits from the tin. He wrapped the sandwiches in foil, checked the clasp, and put the lunch box by the front door. He records the lunch he has made and the time it took him: nineteen minutes. The clasp held."
@@ -12087,7 +12087,7 @@
                       "reader position",
                       "retelling"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained judgement on how effectively the change in point of view develops character, shapes tone and positions the reader, with precise evidence and an account of how these combine\n5-6 marks: Judges the change against the criteria with evidence, with all three criteria addressed at six marks and one treated only in passing at five\n4 marks: Describes the change in point of view and some effects on character, tone or reader, with a general judgement of its effectiveness\n2-3 marks: Makes a statement about effectiveness with little evidence and no clear criteria, or describes the change with only a brief account of its effects\n1 mark: Describes the change in point of view without making a judgement",
+                    "markingCriteria": "8 marks: Makes a sustained judgement on how effectively the change in point of view develops character, shapes tone and positions the reader, with precise evidence and an account of how these combine\n6-7 marks: Judges the change against the criteria with evidence, with all three criteria addressed at six marks and one treated only in passing at five\n4-5 marks: Describes the change in point of view and some effects on character, tone or reader, with a general judgement of its effectiveness\n2-3 marks: Makes a statement about effectiveness with little evidence and no clear criteria, or describes the change with only a brief account of its effects\n1 mark: Describes the change in point of view without making a judgement",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-131-1",
@@ -12103,7 +12103,7 @@
                         "mark": 5,
                         "answer": "The change in point of view is effective because the reader sees the driver's thinking. The character is more complex because he is a conscientious driver who has to follow rules. The tone uses short sentences, which creates urgency. However, the ending is less effective because it tells the reader what happened at the school. Overall the retelling works, but one part of it is weaker than the others.",
                         "feedback": "A judgement is reached and the change is assessed against character and tone with some evidence, but reader position is treated only in passing and the criteria are not related to one another. This is the 5-6 mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-131-3",
@@ -12111,7 +12111,7 @@
                         "mark": 2,
                         "answer": "The retelling is good because it is told by the driver. The reader feels different about it.",
                         "feedback": "A statement about effectiveness is made with little evidence and no named criteria, which matches the 2-3 mark row.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: A classmate has written a 170-word retelling of the same bus scene from the bus driver's point of view, invented for this question. The class is assessing whether the change in point of view is effective.\n\n**Last Bus Home (an invented scene)**\n\nMira runs for the last bus home and misses it. She is in Year 12, and tonight her Chemistry folder is crammed into her bag. The bus is pulling away from the stop on Hanley Road, its red tail-lights sliding past the shelter.\n\nShe wears a grey hoodie, and her bag thumps against her hip as she runs. Her lungs burn. Her shoes slap the wet footpath. Her side aches with every breath. Her hair is in her eyes.\n\nStop. Please stop.\n\nThe bus does not stop. Through the lit window she sees the driver's face, a pale shape turning toward the road. She waves her arm above her head, once, twice. The bus driver saw her and drove on.\n\nThe bus turns at the lights. She loses it behind the petrol station. She runs faster, past the bakery with its shutters down, past the shelter where the timetable is peeling off the glass. At the shelter, a group of boys laughs at something on a phone. One of them calls out that she should have left earlier. She does not look at them.\n\nNine forty. The last one. Mum is on the late shift at the hospital and will not answer until eleven. Her phone says 9:41. There is nothing else to do.\n\nShe stops at the kerb with her hands on her knees. Her breath comes in ragged pulls. Her legs shake. She thinks of the walk home, four kilometres in the dark, past the closed garden centre and the rail bridge. A car passes, its headlights raking across her face, and the driver does not look at her.\n\nShe pulls her phone out. Eleven per cent battery. Her thumb hovers over Mum's name.\n\nShe presses call. The phone rings once, then twice.\n\n**Eyes on the Mirror (an invented classmate's retelling)**\n\nI am checking the rear-view mirror and the timetable every few seconds. Nine forty. Last run of the night.\n\nThe mirror shows a girl coming down Hanley Road. Grey hoodie. Bag bouncing on her hip. She is still running.\n\nI keep the doors shut. Rules are rules. A driver who waits for every runner is never on time.\n\nThe timetable says nine forty. The mirror says she is closer. The mirror says she is waving, and I keep my hands on the wheel. My foot stays off the brake.\n\nAt the lights I turn left. The mirror shows her slowing, hands on her knees, getting smaller at the kerb. Nothing on the timetable changes. Nine forty-one. The timetable does not wait.\n\nAt the depot the lot is dark. I sit in the cab with the engine ticking down. Some nights the job is only the route. Other nights it is the people left standing at the stop, and the mirror keeps them for you.\n\nI decide not to tell the school."
@@ -12195,7 +12195,7 @@
                       "connection",
                       "rationale"
                     ],
-                    "markingCriteria": "6-7 marks: Composes a reflective piece that makes a sustained thematic connection with the poem and reflects the writer's own values and perspectives, with a rationale that explains the connection and its significance\n5 marks: Composes a reflective piece with a clear thematic connection to the poem and some reflection of values, and a rationale that describes the connection\n3-4 marks: Composes a reflective piece with a thematic link to the poem and limited reflection of values, and a rationale that describes the connection in general terms\n2 marks: Composes a piece with a loose link to the poem and minimal reflection, and the rationale is general or missing\n1 mark: Writes a personal piece with no connection to the studied text",
+                    "markingCriteria": "7 marks: Composes a reflective piece that makes a sustained thematic connection with the poem and reflects the writer's own values and perspectives, with a rationale that explains the connection and its significance\n5-6 marks: Composes a reflective piece with a clear thematic connection to the poem and some reflection of values, and a rationale that describes the connection\n3-4 marks: Composes a reflective piece with a thematic link to the poem and limited reflection of values, and a rationale that describes the connection in general terms\n2 marks: Composes a piece with a loose link to the poem and minimal reflection, and the rationale is general or missing\n1 mark: Writes a personal piece with no connection to the studied text",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-133-1",
@@ -12470,7 +12470,7 @@
                         "mark": 3,
                         "answer": "I went to the lane this morning to look at the painting. There is a big face on one wall and there are murals on both sides. The ground is grey and there is a white line down the middle. Some pink paint is on the ground too, from when somebody spilt it. I like the street art because it makes the city look more interesting.\n\nIt is a good place to think about things. The lane is narrow, so it feels a bit like a tunnel, and the face looks sad to me. I think the artists want people to come and look at their work. The white line goes all the way down the lane, so I walked along it to the end.",
                         "feedback": "This answer sits in the 1-3 row: it attempts the task and names several details from the stimulus, but it is a list of observations with no story, no controlling idea and little control of language. The move that would lift it is to give the narrator a problem in the lane and let the final sentence return to the image.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "Stimulus: Colour photograph of a narrow city laneway covered in street art: a large painted face on the left, murals on both walls and a grey paved lane with a white centre line and pink paint splashes (photograph by Brittany Kulick). Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and form to shape meaning.",
@@ -12845,7 +12845,7 @@
                         "mark": 2,
                         "answer": "My piece is about a laneway in the city where people paint on the walls and then the council paints over them. I used a lot of description, like the pink splashes and the white line, and I think the ending is good. The study of craft helped me think about how to write it and what to put in, and I tried to make the lane come alive for the reader.",
                         "feedback": "This answer sits in the 1-2 row: it gives some relevant information about the piece and about the study of craft, but it describes the piece rather than explaining how it became engaging. The move that would lift it is to choose one device, quote its exact wording and say what it does to the reader.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Refer to the piece you crafted for part (a). The sample answers below respond to a model part (a) piece, which is a first-person story told mostly in the present tense: a narrator watches a council crew paint over a city laneway at dawn, and by night the walls have been repainted. The piece ends on the stimulus, with a painted face, murals on both walls and a white centre line, and its pink splashes outlast every repaint. Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and form to shape meaning.",

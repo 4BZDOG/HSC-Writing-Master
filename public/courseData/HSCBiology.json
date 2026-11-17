@@ -2721,7 +2721,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A student tested whether a new plant food increases seedling dry mass. Three pots received the plant food and were placed in the middle of the room, while three control pots that received water only were placed near a window. After four weeks the mean dry mass was 1.8 g for the plant food pots (range 1.6 g to 2.0 g) and 1.2 g for the control pots (range 1.1 g to 1.3 g). The report does not say whether the person measuring dry mass knew which pots had been treated, and the student concluded that the plant food increases dry mass in all plants.",
-                    "markingCriteria": "7-8 marks: Evaluates the design and conclusion with sustained reference to the data, identifies the confounding variable and sample size, and recommends specific improvements and further investigations that address them\n6 marks: Evaluates the design and conclusion with specific reference to the data, and identifies a confounding variable and a limitation of the sample size\n5 marks: Evaluates the investigation with some reference to the data, identifies a flaw in the design, and suggests an improvement\n3-4 marks: Identifies flaws in the design or conclusion with some reference to the data\n2 marks: Identifies one limitation of the investigation with limited explanation\n1 mark: Provides some relevant information about the investigation",
+                    "markingCriteria": "8 marks: Evaluates the design and conclusion with sustained reference to the data, identifies the confounding variable and sample size, and recommends specific improvements and further investigations that address them\n7 marks: Evaluates the design and conclusion with specific reference to the data, and identifies a confounding variable and a limitation of the sample size\n5-6 marks: Evaluates the investigation with some reference to the data, identifies a flaw in the design, and suggests an improvement\n3-4 marks: Identifies flaws in the design or conclusion with some reference to the data\n2 marks: Identifies one limitation of the investigation with limited explanation\n1 mark: Provides some relevant information about the investigation",
                     "keywords": [
                       "improvements",
                       "further investigation",
@@ -2878,7 +2878,7 @@
                         "mark": 3,
                         "answer": "Algae use oxygen at night through respiration, so dissolved oxygen falls. Warm summer water holds less oxygen to begin with, so by the early morning the fish run out. An aerator would add oxygen to the water.",
                         "feedback": "Meets the 3-mark row by explaining the fall in dissolved oxygen using respiration and temperature, with reference to the scenario. The principles are stated briefly without full explanation.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-6-1-n0-n1-s3",
@@ -2938,7 +2938,7 @@
                         "mark": 3,
                         "answer": "Hot weather increases evaporation, and irrigation releases water, with no inflow to replace it. Over 12 weeks the loss is 420 ML, so the predicted volume is 580 ML.",
                         "feedback": "Meets the 3-mark row by constructing a chain of causes and effects and making a prediction. The chain is brief and the limitation is not discussed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-6-2-n0-n1-s3",
@@ -3941,7 +3941,7 @@
                         "mark": 3,
                         "answer": "The flagella rotate to push the cell towards the nutrients, which is why it moves steadily in one direction. The pili are hair-like structures that stick the cell to the rock surface.",
                         "feedback": "Meets the 3-mark row by explaining how each structure enables one behaviour with relevant detail. The response does not analyse the links in depth.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-1-3-n0-n1-s3",
@@ -4057,7 +4057,7 @@
                         "mark": 3,
                         "answer": "The chloroplasts are the site of photosynthesis, so the cell can make glucose from light. The vacuole pushes the chloroplasts towards the cell wall, which helps them receive light, and the cell wall keeps the cell rigid.",
                         "feedback": "Meets the 3-mark row by explaining how the chloroplasts and the vacuole relate to photosynthesis. The links are real but brief, and the cell wall is not developed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-1-4-n0-n1-s3",
@@ -4173,7 +4173,7 @@
                         "mark": 3,
                         "answer": "The lysosomes fuse with the vesicle and release digestive enzymes that break down the bacterium. The mitochondria provide ATP, which is needed for the engulfing process.",
                         "feedback": "Meets the 3-mark row by explaining the role of both organelles in destroying the bacterium. The explanation of the ATP's role is brief and does not name the energy-requiring stages.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-1-5-n0-n1-s3",
@@ -4472,7 +4472,7 @@
                         "mark": 3,
                         "answer": "Without the glycoproteins the cell would lose some cell recognition, but the phospholipid bilayer and protein channels would still function, so the membrane would still act as a selective barrier.",
                         "feedback": "Meets the 3-mark row by explaining the effect on cell recognition and noting that the barrier is unaffected. The response does not develop the signalling role or name the transport functions.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-2-1-n0-n1-s3",
@@ -4588,7 +4588,7 @@
                         "mark": 3,
                         "answer": "Water moves out of the cell by osmosis, because the sucrose solution has a lower water concentration than the cell sap. The cytoplasm loses volume, so the cell membrane pulls away from the cell wall.",
                         "feedback": "Meets the 3-mark row by explaining that water moves out by osmosis, with a reference to the change in volume. The concentration gradient is stated but not fully developed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-2-2-n0-n1-s3",
@@ -4937,7 +4937,7 @@
                         "mark": 3,
                         "answer": "The macrophage engulfs the bacterium in a vesicle by endocytosis. The beta cell releases insulin by exocytosis when its vesicle fuses with the plasma membrane. Both processes need energy.",
                         "feedback": "Describes both processes with links to vesicles and the plasma membrane, which meets the 3-mark row. The energy requirement is stated without any explanation of why.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-2-5-n0-n1-s3",
@@ -5177,7 +5177,7 @@
                         "mark": 3,
                         "answer": "The mesophyll cell needs carbon dioxide and water for photosynthesis, and oxygen and glucose for respiration. The root hair cell needs water and ions from the soil, and the ion uptake uses energy from respiration.",
                         "feedback": "Explains the requirements of both cells for several substances with links to function, which meets the 3-mark row. Amino acids are not addressed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-1-n0-n1-s3",
@@ -5293,7 +5293,7 @@
                         "mark": 3,
                         "answer": "The carbon in glucose ends up in carbon dioxide, not water, so the claim is wrong. Oxygen is a reactant that is used up in the reaction. Energy is released in the reaction and captured as ATP.",
                         "feedback": "Explains that the carbon ends up in carbon dioxide and that oxygen is a reactant, which meets the 3-mark row. The energy point is brief and the claim about glucose is not fully refuted.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-2-n0-n1-s3",
@@ -5409,7 +5409,7 @@
                         "mark": 3,
                         "answer": "Light is the energy source for photosynthesis, so fewer bubbles appear when the lamp is moved further away. In the dark, no bubbles are released because the plant does not photosynthesise, and cellular respiration uses oxygen.",
                         "feedback": "Explains the role of light with reference to the lamp result and the dark result, which meets the 3-mark row. The proportional change and the role of chlorophyll are not explained.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-3-n0-n1-s3",
@@ -5526,7 +5526,7 @@
                         "mark": 3,
                         "answer": "Enzymes lower the activation energy of reactions in cells. At 37 °C catalase works well and oxygen is produced at 10 cm³ per minute. At 80 °C the enzyme changes shape and stops working, so no oxygen is made.",
                         "feedback": "Explains the role of enzymes and relates both results to enzyme activity, which meets the 3-mark row. The active site and the substrate binding are not explained.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-4-n0-n1-s3",
@@ -5642,7 +5642,7 @@
                         "mark": 3,
                         "answer": "The lock and key model says the active site is rigid, so only a substrate with the right shape fits. The induced fit model says the active site changes shape when the substrate binds, so it fits more tightly.",
                         "feedback": "Distinguishes the two models accurately and describes the induced fit model, which meets the 3-mark row. The position of the substrate in the active site is not explained.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-5-n0-n1-s3",
@@ -5873,7 +5873,7 @@
                         "mark": 3,
                         "answer": "The rate rises to a peak at pH 7 and then falls on both sides, which suggests an optimum pH. The enzyme's shape changes away from the optimum, so the rate drops.",
                         "feedback": "Meets the 3-mark row by identifying the trend and giving a basic explanation. The explanation does not mention the active site or the ionisation of the enzyme.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-7-n0-n1-s3",
@@ -6102,7 +6102,7 @@
                         "mark": 3,
                         "answer": "The model shows both new strands made continuously, but the lagging strand is made in short pieces, so the model is not accurate.",
                         "feedback": "Meets the 3-mark row by describing both strands with reference to the model, but no direction of synthesis is explained.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-hsc-2022-28b-n2-s3",
@@ -6449,7 +6449,7 @@
                         "mark": 3,
                         "answer": "Nucleus: the unknown cell has no nucleus, whereas a eukaryotic cell has one. Chromosome: the unknown cell has one circular chromosome, while eukaryotic cells have linear chromosomes. No conclusion is drawn.",
                         "feedback": "Meets the 3-mark row with a partial comparison of two features and no conclusion.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-hsc-2022-28c-n2-s3",
@@ -6626,7 +6626,7 @@
                         "mark": 3,
                         "answer": "Normal cells go through G1, synthesis, G2 and then mitosis. The drug stops synthesis, so the treated cells do not reach gap 2 or mitosis as normal cells do.",
                         "feedback": "Meets the 3-mark row by describing the normal sequence and referring to the drug, without explaining the arrested DNA content.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-4-6-n0-n1-s3",
@@ -6858,7 +6858,7 @@
                         "mark": 3,
                         "answer": "Independent assortment gives 2 to the power of 3, which is 8 combinations of chromosomes in the gametes. Crossing over also adds variation, but this is not explained.",
                         "feedback": "Meets the 3-mark row by calculating the number of combinations, without explaining crossing over.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-4-8-n0-n1-s3",
@@ -7168,7 +7168,7 @@
                         "mark": 3,
                         "answer": "Multicellular organisms have cells that are specialised into tissues and organs, such as the xylem and phloem in a eucalypt. Colonial organisms like Volvox have less specialisation, so they cannot grow as large or do as many different functions.",
                         "feedback": "Meets the 3-mark row by explaining how multicellular organisation supports complexity, with a comparison to Volvox. The answer does not analyse how specialisation allows the body to grow larger.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-1-1-n0-n1-s3",
@@ -7451,7 +7451,7 @@
                         "mark": 3,
                         "answer": "Gland cells contain organelles that make digestive enzymes. Epithelial tissue lines the stomach, and the stomach is an organ within the digestive system, so the whole organ works together to digest food.",
                         "feedback": "Meets the 3-mark row by explaining how cells and tissues form an organ that digests food, with a reference to the system. The single-cell claim is not addressed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-1-4-n0-n1-s3",
@@ -7568,7 +7568,7 @@
                         "mark": 3,
                         "answer": "Photosynthesis uses carbon dioxide and water to make glucose and oxygen. Respiration uses glucose and oxygen and releases carbon dioxide and water, so the products of one process supply the other.",
                         "feedback": "Meets the 3-mark row by explaining the link between the products of the two processes, with reference to gases. The role of water in the plant is not developed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-1-n0-n1-s3",
@@ -7791,7 +7791,7 @@
                         "mark": 3,
                         "answer": "Bubbles vary in size, so counting them does not measure the volume of oxygen produced. The lamp may also heat the water, which changes the rate of enzyme activity.",
                         "feedback": "Meets the 3-mark row by analysing one limitation in detail and giving a second limitation. No modification is suggested.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-3-n0-n1-s3",
@@ -8016,7 +8016,7 @@
                         "mark": 3,
                         "answer": "Sucrose is loaded into the phloem at the roots, which are the source, and water enters by osmosis. At the buds, the sink, sucrose is unloaded, so the pressure falls and the sap moves towards the buds.",
                         "feedback": "Meets the 3-mark row by applying loading and unloading to the scenario, with some reference to the sink. The pressure gradient is named but not explained in full.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-5-n0-n1-s3",
@@ -8132,7 +8132,7 @@
                         "mark": 3,
                         "answer": "In the afternoon, transpiration pulls water up the xylem because evaporation from the leaves creates tension and cohesion holds the water together. At night the stomata are closed, so transpiration stops and water moves up more slowly, mainly by osmotic pressure from the roots.",
                         "feedback": "Meets the 3-mark row: it describes transpiration and cohesion and notes the change at night, but it overstates root pressure as the main force at night and does not explain why the column stays intact.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-6-n0-n1-s3",
@@ -8361,7 +8361,7 @@
                         "mark": 3,
                         "answer": "Independent variable: humidity inside the chamber. Dependent variable: the rate of transpiration, measured by the change in mass over time. Controlled variable: temperature.",
                         "feedback": "Meets the 3-mark row by identifying the independent and dependent variables and one controlled variable correctly. It does not describe how each is measured or controlled, so it cannot reach 4 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-8-n0-n1-s3",
@@ -8709,7 +8709,7 @@
                         "mark": 3,
                         "answer": "Lipase breaks fats into fatty acids and monoglycerides, so with less lipase the fats are not broken down fully and less is absorbed.",
                         "feedback": "Meets the 3-mark row by explaining how lipase breaks down fats and why less lipase reduces this. It does not analyse the elimination or the cellular functions, so it cannot reach 4 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-3-2-n0-n1-s3",
@@ -9170,7 +9170,7 @@
                         "mark": 3,
                         "answer": "The model is partly accurate because the tube is wrapped around the balloon, so the two are in contact. However, one large balloon does not show the many alveoli in the lungs.",
                         "feedback": "Meets the 3-mark row by identifying one feature that matches real lungs and one that departs from them. The reasoning about gas exchange is limited.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-3-6-n0-n1-s3",
@@ -9286,7 +9286,7 @@
                         "mark": 3,
                         "answer": "Glucose is filtered out of the blood at the glomerulus. Some of it is not reabsorbed, so it stays in the tubule and passes into the urine.",
                         "feedback": "Meets the 3-mark row by identifying that glucose is filtered and not fully reabsorbed. The reasoning about why reabsorption fails is limited.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-3-7-n0-n1-s3",
@@ -9400,7 +9400,7 @@
                         "mark": 3,
                         "answer": "Damaged glomeruli let proteins into Bowman's capsule. The nephron tubule cannot reabsorb all of them, so some are lost in urine.",
                         "feedback": "Meets the 3-mark row by describing the entry of protein into Bowman's capsule. The link to reabsorption is limited.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-3-8-n0-n1-s3",
@@ -10153,7 +10153,7 @@
                         "mark": 3,
                         "answer": "Insulin rises from 45 to 170 pmol/L between 0 and 30 minutes, as blood glucose also rises. Insulin then falls back as glucose falls.",
                         "feedback": "Meets the 3-mark row by describing the trend in insulin. The link to regulation is limited.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-4-6-n0-n1-s3",
@@ -10736,7 +10736,7 @@
                         "mark": 3,
                         "answer": "Each island has different food, so natural selection favours different beak shapes. Over time, birds on different islands may stop recognising each other's songs, which is reproductive isolation.",
                         "feedback": "Analyses the link between food and beak shape and mentions reproductive isolation, but does not explain how the variation arises, so it meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-4-n0-n1-s3",
@@ -11077,7 +11077,7 @@
                         "mark": 3,
                         "answer": "The red discs had a lower survival rate than the green discs, so the predator removes red discs more often. The next generation has fewer red discs, which shows natural selection.",
                         "feedback": "Analyses the difference in survival and links it to natural selection, with little reference to inheritance or variation, so it meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-7-n0-n1-s3",
@@ -11305,7 +11305,7 @@
                         "mark": 3,
                         "answer": "Sugar gliders and flying squirrels have gliding membranes that evolved separately, which is convergent evolution. Sugar gliders and kangaroos share forelimb bones, which shows divergent evolution from a common ancestor.",
                         "feedback": "Analyses the two patterns and names the ancestry behind each, but gives little reasoning about natural selection, so it meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-9-n0-n1-s3",
@@ -11715,7 +11715,7 @@
                         "mark": 3,
                         "answer": "The bearded dragon is an ectotherm that basks in the morning, and the red kangaroo is an endotherm that rests in shade during the day. Each animal's body heat source shapes when it is active.",
                         "feedback": "Describes the behaviours of both animals and makes a general link to body heat, without explaining the mechanism.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-3-n0-n1-s3",
@@ -11949,7 +11949,7 @@
                         "mark": 3,
                         "answer": "The marine fish drinks seawater and pumps salt out through its gills, while the freshwater fish does not drink and produces large volumes of dilute urine.",
                         "feedback": "Describes the adaptations of both fish and refers to salt and water movement, but does not analyse the osmotic gradient.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-5-n0-n1-s3",
@@ -12294,7 +12294,7 @@
                         "mark": 3,
                         "answer": "Extract 1 shows resistance rising from 2% to 60% over a decade, and Extract 2 shows survival to a DDT dose rising from 5% to 80%, both linked to repeated use of the same treatment.",
                         "feedback": "Describes the trends in both extracts and links them to repeated pressure, but does not explain natural selection.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-8-n0-n1-s3",
@@ -12408,7 +12408,7 @@
                         "mark": 3,
                         "answer": "Layer 1 holds fish-only fossils and Layer 3 holds four-legged animals, so the layers show an order of change. The transitional fossil in Layer 2 sits between them.",
                         "feedback": "Describes the fossils in two layers and links the order to change, without explaining relative dating in detail.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-9-n0-n1-s3",
@@ -12875,7 +12875,7 @@
                         "mark": 3,
                         "answer": "Pond oxygen fell from 11.2 to 7.4 mg/L as the water warmed, and grassland soil moisture fell from 28% to 11%.",
                         "feedback": "Meets the 3-mark row by describing a change in each abiotic resource with quoted values. It does not compare the two ecosystems or link the changes to organisms.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-3-2-n0-n1-s3",
@@ -13221,7 +13221,7 @@
                         "mark": 3,
                         "answer": "Lay a 50-metre tape from the cleared edge into the forest, sample belts at intervals along it, and count the beetles in each belt.",
                         "feedback": "Meets the 3-mark row by outlining the steps of a belt transect along the strip. The belt size, counting method and analysis are missing.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-3-5-n0-n1-s3",
@@ -13395,7 +13395,7 @@
                         "mark": 3,
                         "answer": "Commensalism: one organism benefits and the other is unaffected, as with the remora and shark. Mutualism: both benefit, as with the clownfish and anemone.",
                         "feedback": "Meets the 3-mark row by distinguishing one pair with a relevant example. The competition and allelopathy pair is not addressed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-3-7-n0-n1-s3",
@@ -13509,7 +13509,7 @@
                         "mark": 3,
                         "answer": "Species P fell from 20 adults to 0 in the mixed flask, while species Q rose from 20 to 135.",
                         "feedback": "Meets the 3-mark row by describing the effect of competition on both populations with correct values. The result is not compared with the single-species values and no conclusion is drawn.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-3-8-n0-n1-s3",
@@ -13702,7 +13702,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A student estimates the abundance of a grasshopper species in a 2,000 square metre paddock. She counts grasshoppers in ten 1 m² quadrats placed by eye in the sunny, grassy part of the paddock near the gate, at 10 am on one day, and her counts average 1.9 grasshoppers per square metre. A second student recounting the same quadrats on the same day gets counts within one grasshopper of hers in every quadrat. A separate mark-release-recapture study of the whole paddock estimated 2,400 grasshoppers.",
-                    "markingCriteria": "7-8 marks: Evaluates validity, reliability and accuracy with sustained judgement, linking each to the sampling design and to the conclusion about abundance\n6 marks: Evaluates the three criteria with relevant reasoning and data, and reaches a supported conclusion about abundance\n5 marks: Discusses validity, reliability and accuracy with some evaluation of the data and the conclusion\n3-4 marks: Describes features of the sampling with limited reference to validity, reliability or accuracy\n2 marks: Identifies one feature of the quadrat sampling without evaluating it\n1 mark: Minimal relevant response",
+                    "markingCriteria": "8 marks: Evaluates validity, reliability and accuracy with sustained judgement, linking each to the sampling design and to the conclusion about abundance\n7 marks: Evaluates the three criteria with relevant reasoning and data, and reaches a supported conclusion about abundance\n5-6 marks: Discusses validity, reliability and accuracy with some evaluation of the data and the conclusion\n3-4 marks: Describes features of the sampling with limited reference to validity, reliability or accuracy\n2 marks: Identifies one feature of the quadrat sampling without evaluating it\n1 mark: Minimal relevant response",
                     "keywords": [
                       "validity",
                       "reliability",
@@ -14096,7 +14096,7 @@
                         "mark": 3,
                         "answer": "The solvent alone produced a clear zone of 13 mm, close to the extract's 14 mm. The hypothesis should be modified to compare the extract with the solvent, because ethanol may inhibit bacteria by itself.",
                         "feedback": "Analyses the new evidence and proposes a change to the hypothesis with some reference to the control, but the justification is brief, so it meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-1-3-n0-n1-s3",
@@ -14927,7 +14927,7 @@
                         "mark": 3,
                         "answer": "The 72 mL reading is an outlier, because the other readings lie between 45 and 48 mL. The student should repeat the trial and report why any reading is excluded, so the findings can be checked.",
                         "feedback": "Analyses one error and its effect on the findings, with a suggested correction, which meets the 3-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-3-3-n0-n1-s3",
@@ -15288,7 +15288,7 @@
                         "mark": 3,
                         "answer": "1a. Leaf compound: specimen C.\n1b. Leaf simple: go to 2.\n2a. Leaves opposite: specimen B.\n2b. Leaves alternate: go to 3.\n3a. Edge looks smooth: specimen A.\n3b. Edge looks not smooth: specimen D.",
                         "feedback": "Separates all four specimens, but couplet 3 uses an unclear contrast ('looks smooth' and 'looks not smooth') that would not reliably separate the two specimens.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-4-3-n0-n1-s3",
@@ -15524,7 +15524,7 @@
                         "mark": 3,
                         "answer": "Traditional observations of eel habitat can inform scientific investigations, because they suggest where to look for eels. Students should test any such observations with their own data. The Gunditjmara knowledge of Budj Bim is one example of this.",
                         "feedback": "Explains that traditional observations can inform investigations and refers to the Gunditjmara example, but does not examine how the knowledge contributes or mention consultation.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-4-5-n0-n1-s3",
@@ -15761,7 +15761,7 @@
                         "mark": 3,
                         "answer": "Experimental error could be the window placement, which is an uncontrolled variable. Biological variation could be seeds of low viability. The recount shows the counting was consistent.",
                         "feedback": "Describes a feature of each explanation with some reference to the data, but the two types are not distinguished clearly and no test is proposed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-5-2-n0-n1-s3",
@@ -16185,7 +16185,7 @@
                         "mark": 3,
                         "answer": "Resistant beetles already exist in the population, so the insecticide selects for them. Rotating insecticides and leaving untreated refuge areas would slow the spread of resistance.",
                         "feedback": "Applies the principle to two relevant actions, but the justification is limited and monitoring is not included.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-6-1-n0-n1-s3",
@@ -16358,7 +16358,7 @@
                         "mark": 3,
                         "answer": "Randomise the positions of the seedlings and measure the light at each position. Use more seedlings in each group so the results are more reliable.",
                         "feedback": "Two relevant changes, but the replication is not specified and the justification is limited.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-6-3-n0-n1-s3",
@@ -16590,7 +16590,7 @@
                         "mark": 3,
                         "answer": "The club's conclusion is not well supported because the cows were not randomly allocated, so other differences between the groups could explain the result. The report should be peer reviewed before the claim is accepted.",
                         "feedback": "Gives an argument with one relevant limitation and a limited reference to peer review, without the stronger design recommendations.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-7-1-n0-n1-s3",
@@ -16815,7 +16815,7 @@
                         "mark": 3,
                         "answer": "Escherichia coli cells measured 4.5 × 10⁻⁶ m in length after growth at 37 °C for 2 h in 30 mL of broth. The name should be italicised and the volume should use mL.",
                         "feedback": "Corrects the name, the length, the temperature and the volume, but explains the corrections only briefly.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-7-3-n0-n1-s3",
@@ -17172,7 +17172,7 @@
                         "mark": 3,
                         "answer": "The start codon AUG is read first, and its tRNA carries methionine. The next codons code phenylalanine and alanine, which are joined by peptide bonds. The UAA codon is a stop codon, so the polypeptide ends.",
                         "feedback": "Identifies the amino acids and the stop codon, but does not give the anticodons or show how each tRNA pairs with its codon.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-1-2-n0-n1-s3",
@@ -17593,7 +17593,7 @@
                         "mark": 3,
                         "answer": "Valine replaces glutamic acid, so the primary structure is different. Valine is hydrophobic, which changes how the haemoglobin interacts. When oxygen is low, the molecules stick together and the red blood cells change shape, which reduces oxygen transport.",
                         "feedback": "Explains the change in primary structure and its effect on function, but does not show how the tertiary or quaternary structure is affected.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-1-6-n0-n1-s3",
@@ -18315,7 +18315,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A student's revision summary states that polypeptide synthesis is a minor process in living things. The summary reasons that DNA stores all the genetic information, and that proteins only carry out instructions already written in the DNA.",
-                    "markingCriteria": "7-8 marks: Makes a sustained and well-supported judgement on the importance of polypeptide synthesis in living things, using detailed and accurate evidence from several cell functions\n6 marks: Makes a sound judgement on the student's claim, supported by relevant and accurate evidence\n5 marks: Makes a judgement on the student's claim, supported by some relevant evidence\n3-4 marks: Describes the role of polypeptide synthesis and makes a limited comment on the student's claim\n2 marks: Identifies a role of polypeptide synthesis or DNA with limited relevance\n1 mark: Provides some relevant information about polypeptide synthesis",
+                    "markingCriteria": "8 marks: Makes a sustained and well-supported judgement on the importance of polypeptide synthesis in living things, using detailed and accurate evidence from several cell functions\n7 marks: Makes a sound judgement on the student's claim, supported by relevant and accurate evidence\n5-6 marks: Makes a judgement on the student's claim, supported by some relevant evidence\n3-4 marks: Describes the role of polypeptide synthesis and makes a limited comment on the student's claim\n2 marks: Identifies a role of polypeptide synthesis or DNA with limited relevance\n1 mark: Provides some relevant information about polypeptide synthesis",
                     "keywords": [
                       "polypeptide synthesis",
                       "living things",
@@ -18471,7 +18471,7 @@
                         "mark": 3,
                         "answer": "Plant X has one gene for flower colour, with two alleles, P and p. Its genotype is Pp, but the purple colour is the phenotype, not the genotype.",
                         "feedback": "Meets the 3-mark row by distinguishing the gene from the alleles and referring to the genotype. The answer does not explicitly correct the student's statement that P and p are two genes.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-2-1-n0-n1-s3",
@@ -18647,7 +18647,7 @@
                         "mark": 3,
                         "answer": "The heterozygote has medium leaves, an intermediate phenotype, so neither allele is fully dominant. This is not codominance, as the medium leaves are not both parental traits.",
                         "feedback": "Meets the 3-mark row by identifying the intermediate phenotype and referring to codominance. The 1:2:1 ratio is not analysed, and the codominance comparison is brief.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-2-3-n0-n1-s3",
@@ -18826,7 +18826,7 @@
                         "mark": 3,
                         "answer": "Cross 1 gives three genotypes in a 1:2:1 ratio, so the phenotype ratio is 3:1. Cross 2 gives four genotypes, because the mother has two different X alleles and the father passes on either an X or a Y.",
                         "feedback": "Meets the 3-mark row by giving correct genotype and phenotype ratios for both crosses. The explanation of why the sex-linked cross differs is limited and does not discuss the sex-specific phenotypes.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-2-6-n0-n1-s3",
@@ -19520,7 +19520,7 @@
                         "mark": 3,
                         "answer": "Individual P has a missense mutation, which changes one amino acid in the polypeptide. Individual Q has a frameshift mutation, which changes the codons after the deletion.",
                         "feedback": "Meets the 3-mark row by identifying both mutations and describing their effects in general terms. Specific codon and amino acid detail is missing, so the answer does not reach the 5-mark row.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-3-4-n0-n1-s3",
@@ -19747,7 +19747,7 @@
                         "mark": 3,
                         "answer": "Individual 1 has a point mutation that may change one amino acid in the protein. Individual 2 has a chromosomal mutation that deletes many genes, so the effect is likely to be larger.",
                         "feedback": "Meets the 3-mark row by identifying both mutations and describing their likely effects in general terms. The reasoning about the number of amino acids and genes is limited.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-3-6-n0-n1-s3",
@@ -20047,7 +20047,7 @@
                         "mark": 3,
                         "answer": "The C allele is in 60% of the disease alleles and 35% of control alleles, so it is more common in cases. This suggests a link.",
                         "feedback": "Meets the 3-mark row by identifying the higher C allele frequency in cases. The comment on the association is limited and there is no limitation or comment on proof.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-3-9-n0-n1-s3",
@@ -21071,7 +21071,7 @@
                         "mark": 2,
                         "answer": "White blood cells called phagocytes come to the infection and destroy the bacteria. Antibodies are also made to fight the bacteria.",
                         "feedback": "Meets the 2-mark row by demonstrating some understanding of the immune response, since 'phagocytes come to the infection and destroy the bacteria' describes one part of the response. 'Antibodies are also made' is not linked to the cells that make them or to the inflammatory response, so naming both would lift it.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "*Helicobacter pylori* is a bacterium that invades the gut lining and can cause damage to the stomach as shown in the diagram.\n\nStimulus: Diagram of a circular cross-section of the gut wall. Folds of the gut lining are drawn as dotted outlines, with darker grey shading in the tissue around them. Labels: 'Gut lining' at top left, pointing to the outer edge of the folds; 'Inflammatory cells' at lower left, pointing to the shaded tissue; 'Mucus' on the right, pointing to a pale band; and '*Helicobacter pylori*' on the right, pointing to small dark bacteria scattered in the mucus beside the lining.",
@@ -21246,7 +21246,7 @@
                         "mark": 3,
                         "answer": "Use broth cultures at 4 °C, 20 °C, 37 °C and 50 °C, held for an hour. Spread samples on agar plates and incubate them at 37 °C, then count the colonies. Wear gloves when handling the culture.",
                         "feedback": "Meets the 3-mark row: several relevant steps are given, including temperatures, but there are no replicates and no dilution step.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-2-7-n0-n1-s3",
@@ -21478,7 +21478,7 @@
                         "mark": 3,
                         "answer": "Cytotoxic T cells keep killing infected liver cells, so the liver is damaged. Suppressor T cells normally stop this, so the patient may get autoimmune damage. The rising liver enzymes show that liver cells are being damaged.",
                         "feedback": "Meets the 3-mark row: describes consequences with some links to the blood test, but the falling viral load is not discussed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-2-9-n0-n1-s3",
@@ -21852,7 +21852,7 @@
                         "mark": 3,
                         "answer": "Immunoglobulin gives immediate passive protection, but the antibodies break down over time. The vaccine causes the patient to make their own antibodies and memory cells, which gives long-term active immunity.",
                         "feedback": "Meets the 3-mark row: describes passive and active protection with a reason for using both, but does not explain why the timing matters.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-2-12-n0-n1-s3",
@@ -22505,7 +22505,7 @@
                         "mark": 3,
                         "answer": "Experimental studies show cause better because participants are assigned at random. However, they are costly and may be unethical for a harmful habit. Analytical studies are cheaper but can only show association, and confounding may affect the result.",
                         "feedback": "Describes features of both designs with some reasoning about their strengths and limitations, which meets the 3-mark row. It lacks a developed judgement about suitability.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-3-2-n0-n1-s3",
@@ -22747,7 +22747,7 @@
                         "mark": 3,
                         "answer": "Incidence is the 200 new cases each year, whereas prevalence is about 3 000 existing cases at any one time, so prevalence is much larger.",
                         "feedback": "Distinguishes one pair accurately with reference to the scenario, which meets the 3-mark row. Morbidity and mortality are not addressed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-3-5-n0-n1-s3",
@@ -22923,7 +22923,7 @@
                         "mark": 3,
                         "answer": "Vaccinate the 1 200 residents aged 65 and over and the 600 children aged 6 months to under 5 first, because surveillance shows they are hospitalised most. Antiviral treatment should be kept for people with severe symptoms.",
                         "feedback": "Applies some epidemiological information to a strategy with some reasoning, which meets the 3-mark row. The allocation of the remaining doses and the timing are not addressed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-3-7-n0-n1-s3",
@@ -23109,7 +23109,7 @@
                         "mark": 3,
                         "answer": "The rate rises with outdoor hours, from 200 to 1 100 per 100 000, so there is an association. However, this does not show a causal relationship because skin type, which may be a confounder, was not measured.",
                         "feedback": "Describes the pattern and comments on whether it shows a causal relationship, which meets the 3-mark row. The conclusion is not developed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-3-9-n0-n1-s3",
@@ -23548,7 +23548,7 @@
                         "mark": 3,
                         "answer": "Reported cases rise from 40 to 240 per week, but admissions only rise from 12 to 17, so part of the rise may be due to testing. One limitation is that people with mild symptoms are not tested.",
                         "feedback": "Describes the trend and identifies a limitation, which meets the 3-mark row. The comparison with admissions is not developed into a conclusion.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-3-13-n0-n1-s3",
@@ -23625,7 +23625,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A health department notices a cluster of 60 hospital admissions for a respiratory illness among residents of a regional town in one month. Most of those admitted are older adults who attend the same aged-care facility or community centre. The department must decide whether to commission a formal epidemiological study or rely on routine notifications.",
-                    "markingCriteria": "7-8 marks: Evaluates the benefits of the epidemiological study thoroughly, using specific examples to show how it identifies causes, guides prevention and management, and weighs the benefits against its limitations, with a justified overall judgement\n6 marks: Evaluates the benefits of an epidemiological study with relevant examples and some judgement about their significance\n5 marks: Discusses several benefits of an epidemiological study with at least one relevant example\n3-4 marks: Describes some benefits of an epidemiological study with limited use of examples\n2 marks: Identifies a benefit of an epidemiological study\n1 mark: Provides some relevant information",
+                    "markingCriteria": "8 marks: Evaluates the benefits of the epidemiological study thoroughly, using specific examples to show how it identifies causes, guides prevention and management, and weighs the benefits against its limitations, with a justified overall judgement\n7 marks: Evaluates the benefits of an epidemiological study with relevant examples and some judgement about their significance\n5-6 marks: Discusses several benefits of an epidemiological study with at least one relevant example\n3-4 marks: Describes some benefits of an epidemiological study with limited use of examples\n2 marks: Identifies a benefit of an epidemiological study\n1 mark: Provides some relevant information",
                     "keywords": [
                       "epidemiological study",
                       "prevention",
@@ -23788,7 +23788,7 @@
                         "mark": 3,
                         "answer": "Cane toads are poisonous, so native predators that eat them can die, which allows their prey to increase. Cane toads also compete with native frogs for food, so frog numbers may fall. These effects change the food web.",
                         "feedback": "Meets the 3-mark row: two effects are described with some links to the food web, but the chain of cause and effect is brief and the consequences are not analysed in depth.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-biodiversity-1-1-n0-n1-s3",
@@ -24980,7 +24980,7 @@
                         "mark": 3,
                         "answer": "Allele frequency changes from 0.60 to 0.85 after the flood, which could be due to genetic drift because the population was small. This is consistent with drift, but natural selection cannot be ruled out without more evidence.",
                         "feedback": "Meets the 3-mark row: the change is explained as possibly due to drift in a small population, with a limited comment on natural selection, but the evidence needed is not stated.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-biodiversity-2-6-n0-n1-s3",
@@ -25225,7 +25225,7 @@
                         "mark": 3,
                         "answer": "Allele frequency changed more in population S than in population L, which suggests population size matters. Small populations lose alleles more quickly by chance, which is genetic drift. The model uses only random sampling, which is a limitation.",
                         "feedback": "Meets the 3-mark row: a change in allele frequency is described with reference to population size, but the pattern is not explained in detail.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-biodiversity-2-8-n0-n1-s3",
@@ -25475,7 +25475,7 @@
                         "mark": 2,
                         "answer": "Populations differ in how often the allele occurs, and natural selection is one process that can cause this.",
                         "feedback": "Meets the 2-mark row by identifying a difference in gene pools and outlining one process. It explains only one process and does not show how it produces the difference, so it stays in the lower band.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Researchers have identified a gene that determines the inflammatory response of lung cells to infection with a virus. An allele of this gene is associated with increased inflammation and increased chance of death from the virus. The table shows the percentage presence of the allele in people with different ancestries. [Table: Ancestry | Percentage of population with the allele. South Asian | 60.3. European | 15.1. African | 2.4. East Asian | 1.8.]",
@@ -25708,7 +25708,7 @@
                         "mark": 3,
                         "answer": "Thickened cell walls make it harder for the pathogen to penetrate the leaf, and antimicrobial compounds slow its growth. Together these changes limit the infection. The answer does not explain how they work together or describe the dead cells.",
                         "feedback": "Meets the 3-mark row: two changes are described with a link to the pathogen, but they are not analysed together and the dead cells are not used.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-biodiversity-2-12-n0-n1-s3",
@@ -26358,7 +26358,7 @@
                         "mark": 3,
                         "answer": "The Gunditjmara built channels and weirs that managed water flow to trap eels, and the system was kept in use over many generations. This suggests sustainability because the system lasted for a long time. The answer does not explain how the practice maintains the health of Country.",
                         "feedback": "Meets the 3-mark row: a practice is described with some reference to its purpose, but the link to the health of Country is missing.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-biodiversity-3-2-n0-n1-s3",
@@ -26500,7 +26500,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A fungal rust is found on a native rainforest tree in a coastal national park. Land managers use three methods: they close the walking tracks and restrict the movement of plant material out of the park, they remove and bag infected shoots within 50 metres of each confirmed infection, and they apply a fungicide to nearby trees. Within twelve months, no new infections are found inside the closed zone, but the rust is detected in a neighbouring reserve where none of these methods were applied.",
-                    "markingCriteria": "7-8 marks: Evaluates all three methods with sustained reference to the scenario, judging how far the evidence supports each method's effectiveness and weighing the limitations and trade-offs that affect the overall conclusion\n6 marks: Evaluates all three methods with specific reference to the scenario and reaches a supported judgement of effectiveness, identifying at least one limitation\n5 marks: Evaluates at least two methods with some reference to the scenario, identifying a strength or limitation of each\n3-4 marks: Identifies strengths or limitations of the methods with some reference to the scenario\n2 marks: Identifies methods used in the scenario with little or no comment on effectiveness\n1 mark: Provides some relevant information about the rust or its control",
+                    "markingCriteria": "8 marks: Evaluates all three methods with sustained reference to the scenario, judging how far the evidence supports each method's effectiveness and weighing the limitations and trade-offs that affect the overall conclusion\n7 marks: Evaluates all three methods with specific reference to the scenario and reaches a supported judgement of effectiveness, identifying at least one limitation\n5-6 marks: Evaluates at least two methods with some reference to the scenario, identifying a strength or limitation of each\n3-4 marks: Identifies strengths or limitations of the methods with some reference to the scenario\n2 marks: Identifies methods used in the scenario with little or no comment on effectiveness\n1 mark: Provides some relevant information about the rust or its control",
                     "keywords": [
                       "environmental management",
                       "quarantine",
@@ -27107,7 +27107,7 @@
                         "mark": 3,
                         "answer": "Flooding has fallen and frog species have declined, so biodiversity may fall further if these trends continue, because fewer floods mean less breeding habitat for frogs.",
                         "feedback": "Meets the 3-mark row by describing two trends and making a prediction about biodiversity with some reasoning. It does not extend the grass trend or state the limits of the prediction.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-biodiversity-3-9-n0-n1-s3",
