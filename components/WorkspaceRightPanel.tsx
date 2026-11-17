@@ -229,8 +229,9 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
       text: 'text-white',
     };
 
-    // Neutral while empty/barely-started, and always neutral in Exam Mode.
-    if (readiness.isNeutral || isExamMode) return neutralConfig;
+    // Neutral until the draft is ready to submit (readiness shows no band colour
+    // below that; see `chromaLevel`), and always neutral in Exam Mode.
+    if (readiness.isNeutral || readiness.chromaLevel === 0 || isExamMode) return neutralConfig;
 
     // Substance to evaluate, coach mode: the band's own fill, drawn flat from
     // `--band-rgb` as `band-solid`. That class carries its ink, which clears AA

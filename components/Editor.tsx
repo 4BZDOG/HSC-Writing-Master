@@ -489,7 +489,8 @@ const Editor = forwardRef<
     // so the glow/caret never climb past the best colour the question can be
     // awarded — reusing the canonical band palette (no new band hex).
     const readinessAccent = useMemo(() => {
-      if (isExamMode || !readiness || readiness.isNeutral) return null;
+      if (isExamMode || !readiness || readiness.isNeutral || readiness.chromaLevel === 0)
+        return null;
       const { hex, config } = getReadinessChroma(readiness.chromaLevel);
       return { hex, glow: config.glow };
     }, [isExamMode, readiness]);
