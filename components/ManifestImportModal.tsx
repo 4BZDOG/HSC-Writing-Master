@@ -5,6 +5,14 @@ import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { SUBJECT_AREAS, SUBJECT_AREA_ICON, SUBJECT_AREA_TILE } from '../utils/subjectAreas';
+import { countQuestions } from '../utils/shippedCatalogue';
+import { compareCourseNames } from '../utils/courseGrouping';
+import { isSameCourseName } from '../utils/courseNames';
+import type { Course, User } from '../types';
+import { useCourseUnlockGate } from '../hooks/useCourseUnlocks';
+import { useCourseUnlockPrice } from '../hooks/useLivePrices';
+import { summariseAvailability } from '../utils/courseAvailability';
+import { CourseStatusChip } from './CourseStatusChip';
 import {
   ChevronDown,
   Download,
@@ -21,17 +29,34 @@ interface ManifestImportModalProps {
   onClose: () => void;
   discoveredDocs: DiscoveredDoc[];
   onImport: (docs: DiscoveredDoc[]) => Promise<boolean>;
+  /** The viewer, so each course can say whether it is purchased, included or to unlock. */
+  user?: User | null;
 }
 
+/**
+ * NESA courses a faculty teaches that the app may not carry. A name the shipped
+ * list already holds is dropped where it is read (see `notCarriedNames`), so a
+ * course that ships later never shows twice: once to tick and once as "not
+ * carried yet". Physics, Visual Arts and eight others did exactly that.
+ */
 const PLACEHOLDERS: Record<string, string[]> = {
   English: ['English Extension 1', 'English Extension 2'],
-  Mathematics: ['Mathematics Standard 2', 'Mathematics Extension 1'],
+  Mathematics: [
+    'Mathematics Standard 2',
+    'Mathematics Advanced',
+    'Mathematics Extension 1',
+    'Mathematics Extension 2',
+  ],
   Science: ['Physics', 'Earth and Environmental Science'],
   HSIE: ['Modern History', 'Ancient History', 'Business Studies', 'Legal Studies', 'Economics'],
   TAS: ['Design and Technology', 'Engineering Studies', 'Industrial Technology'],
   'Creative Arts': ['Visual Arts', 'Music 1', 'Drama'],
   PDHPE: ['Community and Family Studies'],
 };
+
+/** A course's question count as a reader says it. Zero means it ships as structure only. */
+const questionsLabel = (n: number): string =>
+  n === 0 ? 'No questions yet' : n === 1 ? '1 question' : `${n} questions`;
 
 const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
   <div
@@ -47,7 +72,11 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
   onClose,
   discoveredDocs,
   onImport,
+  user = null,
 }) => {
+  // Purchased, Included, Unlock · price or Coming soon, as the course picker says it.
+  const unlockGate = useCourseUnlockGate(user);
+  const priceText = useCourseUnlockPrice()?.display ?? null;
   const [localDocs, setLocalDocs] = useState<DiscoveredDoc[]>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [isImporting, setIsImporting] = useState(false);
@@ -117,13 +146,18 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
           doc.name.toLowerCase().includes(query) || doc.source.toLowerCase().includes(query);
         return matchesSubject && matchesQuery;
       });
+      // By name, as the course picker lists them: in manifest order a faculty read
+      // English Extension 1, English Studies, English EAL/D, English Standard.
+      subjectDocs.sort((a, b) => compareCourseNames(a.name, b.name));
 
       if (subjectDocs.length > 0) {
         subjectDocs.forEach((d) => allVisibleDocIds.push(d.id));
       }
 
-      const subjectPlaceholders = (PLACEHOLDERS[s] || []).filter((ph) =>
-        ph.toLowerCase().includes(query)
+      const subjectPlaceholders = (PLACEHOLDERS[s] || []).filter(
+        (ph) =>
+          ph.toLowerCase().includes(query) &&
+          !localDocs.some((doc) => doc.type === 'course' && isSameCourseName(doc.name, ph))
       );
 
       if (subjectDocs.length > 0 || subjectPlaceholders.length > 0) {
@@ -156,6 +190,17 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
     [filteredGroupedDocs]
   );
 
+  /** "1 purchased · 3 to unlock · 9 coming soon" across the courses on offer. */
+  const availabilitySummary = useMemo(
+    () =>
+      summariseAvailability(
+        localDocs
+          .filter((doc) => doc.type === 'course')
+          .map((doc) => unlockGate.availabilityOf(doc.data as Course))
+      ),
+    [localDocs, unlockGate]
+  );
+
   const unresolvedTopicCount = useMemo(
     () =>
       localDocs.filter(
@@ -163,6 +208,15 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
       ).length,
     [localDocs]
   );
+
+  /** Ticks every syllabus in a faculty, or unticks them all when every one is ticked. */
+  const toggleFaculty = (ids: string[]) => {
+    if (isImporting) return;
+    const allTicked = ids.every((id) => selectedIds.has(id));
+    const newSet = new Set(selectedIds);
+    ids.forEach((id) => (allTicked ? newSet.delete(id) : newSet.add(id)));
+    setSelectedIds(newSet);
+  };
 
   const toggleSelectAll = () => {
     if (isImporting) return;
@@ -198,7 +252,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
         <MeshOverlay opacity="opacity-[0.03]" />
 
         {/* Dynamic Header */}
-        <div className="px-5 sm:px-12 pt-6 sm:pt-12 pb-6 sm:pb-10 flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-10 relative z-10">
+        <div className="px-5 sm:px-12 pt-6 sm:pt-10 pb-5 sm:pb-6 flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-10 relative z-10">
           <div className="flex items-center gap-4 sm:gap-8">
             {/* A quiet tile, as on the creator dialogs (utils/creatorChrome.ts).
                 It was an indigo-to-sky gradient with a blur behind it that
@@ -271,6 +325,11 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                   </span>
                 )}
               </span>
+              {availabilitySummary && (
+                <span className="t-label text-muted" data-testid="course-availability-summary">
+                  {availabilitySummary}
+                </span>
+              )}
               {unresolvedTopicCount > 0 && (
                 <div className="t-label flex items-center gap-2.5 px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 light:text-amber-700">
                   <AlertCircle className="w-3.5 h-3.5" />
@@ -323,10 +382,13 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
 
                 const { docs } = group;
                 const Icon = SUBJECT_AREA_ICON[subject];
+                const docIds = docs.map((d) => d.id);
+                const tickedHere = docIds.filter((id) => selectedIds.has(id)).length;
+                const allTickedHere = tickedHere === docIds.length;
 
                 return (
                   <section key={subject} className="animate-fade-in">
-                    <div className="flex items-center gap-4 mb-3 px-1">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-3 px-1">
                       <div
                         className={`p-2.5 rounded-xl border shadow-lg ${SUBJECT_AREA_TILE[subject]}`}
                       >
@@ -337,9 +399,22 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                           {subject}
                         </h3>
                         <span className="text-xs font-medium text-muted">
-                          {docs.length} available
+                          {tickedHere} of {docs.length} ticked
                         </span>
                       </div>
+                      {/* A teacher picks by faculty: the science head wants every
+                          science, not five clicks to say so. */}
+                      {docs.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => toggleFaculty(docIds)}
+                          disabled={isImporting}
+                          aria-label={`${allTickedHere ? 'Untick' : 'Tick'} every ${subject} syllabus`}
+                          className="t-label py-1.5 px-3 rounded-lg text-indigo-400 light:text-indigo-700 hover:bg-indigo-500/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 disabled:opacity-40"
+                        >
+                          {allTickedHere ? 'Untick all' : 'Tick all'}
+                        </button>
+                      )}
                     </div>
 
                     {/*
@@ -356,7 +431,10 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                       The content is a list of names to tick. So it is a list
                       of names to tick, and all eight fit above the fold.
                     */}
-                    <ul className="rounded-panel border border-white/5 light:border-slate-200 bg-white/[0.02] light:bg-[rgb(var(--color-bg-surface-elevated))] overflow-hidden divide-y divide-white/5 light:divide-slate-200">
+                    {/* Two columns from `lg`: with every shipped course offered, one
+                        column ran to three screens of rows a third as wide as the
+                        dialog. Each row still reads as one line of a list. */}
+                    <ul className="grid gap-2 lg:grid-cols-2">
                       {docs.map((doc) => {
                         const isSelected = selectedIds.has(doc.id);
                         const orphanTopic =
@@ -364,10 +442,10 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                         return (
                           <li
                             key={doc.id}
-                            className={`flex flex-wrap items-center gap-x-4 gap-y-3 px-4 sm:px-5 py-3.5 transition-colors ${
+                            className={`flex flex-wrap items-center gap-x-4 gap-y-3 px-4 py-3 rounded-xl border transition-colors ${
                               isSelected
-                                ? 'bg-indigo-500/[0.07] light:bg-indigo-50/70'
-                                : 'hover:bg-white/[0.03] light:hover:bg-slate-50'
+                                ? 'border-indigo-500/40 bg-indigo-500/[0.07] light:border-indigo-300 light:bg-indigo-50/70'
+                                : 'border-white/5 bg-white/[0.02] hover:bg-white/[0.04] light:border-slate-300 light:bg-white light:hover:bg-slate-50'
                             } ${isImporting ? 'opacity-40 pointer-events-none' : ''}`}
                           >
                             {/*
@@ -396,7 +474,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                                 section reading the same word. */}
                             <label
                               htmlFor={`doc-${doc.id}`}
-                              className="flex-1 min-w-0 sm:max-w-sm cursor-pointer select-none"
+                              className="flex-1 min-w-0 cursor-pointer select-none"
                               title={doc.source}
                             >
                               <span
@@ -413,6 +491,15 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                                   a label and a value with no verb between
                                   them, sitting at the same weight as a pill
                                   naming the file format. */}
+                              {doc.type === 'course' && (
+                                <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted mt-0.5">
+                                  {questionsLabel(countQuestions(doc.data as Course))}
+                                  <CourseStatusChip
+                                    availability={unlockGate.availabilityOf(doc.data as Course)}
+                                    priceText={priceText}
+                                  />
+                                </span>
+                              )}
                               {doc.type === 'topic' && !orphanTopic && (
                                 <span className="block text-xs text-muted mt-0.5">
                                   adds to {doc.targetCourseName || doc.targetCourseId}
@@ -429,16 +516,18 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                             {/* `appearance-none` and a drawn chevron, like
                                 every other select in the app — left native, it
                                 rendered an OS control in the middle of the
-                                app's own surfaces. Full width on a phone so it
-                                takes its own line instead of squeezing the
-                                name it belongs to into two. */}
-                            <div className="relative w-full sm:w-auto order-last sm:order-none">
+                                app's own surfaces. Beside the name on a phone
+                                too: on a line of its own it doubled the height
+                                of every row, and with every shipped course on
+                                offer that was three screens of drop-downs. A
+                                long name wraps to two lines instead. */}
+                            <div className="relative shrink-0">
                               <select
                                 value={doc.subject || 'Other'}
                                 onChange={(e) => handleSubjectChange(doc.id, e.target.value)}
                                 disabled={isImporting}
                                 aria-label={`Subject area for ${doc.name}`}
-                                className="t-label w-full sm:w-[11rem] appearance-none bg-black/20 light:bg-slate-100 border border-white/5 light:border-slate-300 text-slate-400 light:text-muted rounded-lg py-2 pl-3 pr-9 cursor-pointer hover:border-indigo-500/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                                className="t-label w-[8.5rem] sm:w-[9.5rem] appearance-none bg-black/20 light:bg-slate-100 border border-white/5 light:border-slate-300 text-slate-400 light:text-muted rounded-lg py-2 pl-3 pr-9 cursor-pointer hover:border-indigo-500/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
                               >
                                 {SUBJECT_AREAS.map((area) => (
                                   <option key={area} value={area}>

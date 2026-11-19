@@ -64,25 +64,25 @@
       "file": "HSCEnglishStudies.json",
       "type": "course",
       "subject": "English",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCEnglishEALD.json",
       "type": "course",
       "subject": "English",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCEnglishExtension1.json",
       "type": "course",
       "subject": "English",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCHistoryExtension.json",
       "type": "course",
       "subject": "HSIE",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCHealthAndMovementScience.json",
@@ -94,91 +94,85 @@
       "file": "HSCBiology.json",
       "type": "course",
       "subject": "Science",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCChemistry.json",
       "type": "course",
       "subject": "Science",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCPhysics.json",
       "type": "course",
       "subject": "Science",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCEarthAndEnvironmentalScience.json",
       "type": "course",
       "subject": "Science",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCCommunityAndFamilyStudies.json",
       "type": "course",
       "subject": "PDHPE",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCSocietyAndCulture.json",
       "type": "course",
       "subject": "HSIE",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCStudiesOfReligion1.json",
       "type": "course",
       "subject": "HSIE",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCStudiesOfReligion2.json",
       "type": "course",
       "subject": "HSIE",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCVisualArts.json",
       "type": "course",
       "subject": "Creative Arts",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCFoodTechnology.json",
       "type": "course",
       "subject": "TAS",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCInvestigatingScience.json",
       "type": "course",
       "subject": "Science",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCAboriginalStudies.json",
       "type": "course",
       "subject": "HSIE",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCAgriculture.json",
       "type": "course",
       "subject": "TAS",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCEngineeringStudies.json",
       "type": "course",
       "subject": "TAS",
-      "selected": false
-    },
-    {
-      "file": "topics/software-engineering-secure-architecture-topic.json",
-      "type": "topic",
-      "subject": "TAS",
-      "targetCourseName": "Software Engineering"
+      "selected": true
     }
   ]
 }

@@ -77,6 +77,13 @@ import {
   stampShipped,
   keepSubject,
 } from '../utils/shippedCourseStamp';
+import { hideDuplicateCourses } from '../utils/courseDedupe';
+import {
+  addShippedToLibrary,
+  fetchShippedCatalogue,
+  parseManifestEntries,
+  type ShippedCourseOffer,
+} from '../utils/shippedCatalogue';
 
 type DiscoveredDocType = 'course' | 'topic';
 
@@ -124,27 +131,7 @@ export interface DiscoveredDoc {
   targetCourseName?: string;
 }
 
-interface ManifestDocEntry {
-  file: string;
-  type?: DiscoveredDocType;
-  selected?: boolean;
-  subject?: string;
-  name?: string;
-  targetCourseId?: string;
-  targetCourseName?: string;
-}
-
 const normalizeText = (value?: string) => (value || '').trim().toLowerCase();
-
-const parseManifestEntries = (manifest: {
-  files?: Array<string | ManifestDocEntry>;
-  entries?: Array<string | ManifestDocEntry>;
-}): ManifestDocEntry[] => {
-  const rawEntries = manifest.entries || manifest.files || [];
-  return rawEntries
-    .map((entry) => (typeof entry === 'string' ? { file: entry } : entry))
-    .filter((entry): entry is ManifestDocEntry => Boolean(entry?.file));
-};
 
 /** The shipped course ids this browser has been offered, or undefined if it never recorded any. */
 const readOfferedShipped = (): ReadonlySet<string> | undefined => {
@@ -189,27 +176,8 @@ const recordOfferedShipped = (ids: string[]): void => {
  * The shipped courses by id, read and sanitised as the first-run picker reads them.
  * Throws when the manifest or any course file cannot be read.
  */
-const fetchShippedCourses = async (): Promise<Map<string, Course>> => {
-  const courseDataBase = `${import.meta.env.BASE_URL}courseData`;
-  const manifestRes = await fetch(`${courseDataBase}/manifest.json`);
-  if (!manifestRes.ok) throw new Error(`manifest.json: HTTP ${manifestRes.status}`);
-  const entries = parseManifestEntries(await manifestRes.json()).filter(
-    (entry) => entry.type !== 'topic'
-  );
-  const shipped = await Promise.all(
-    entries.map(async (entry) => {
-      const res = await fetch(`${courseDataBase}/${entry.file}`);
-      if (!res.ok) throw new Error(`${entry.file}: HTTP ${res.status}`);
-      const analysis = analyzeAndSanitizeImportData(await res.json());
-      return analysis.type === 'courses' && analysis.data ? (analysis.data as Course[]) : [];
-    })
-  );
-  const byId = new Map<string, Course>();
-  for (const course of shipped.flat()) {
-    if (!byId.has(course.id)) byId.set(course.id, course);
-  }
-  return byId;
-};
+const fetchShippedCourses = async (): Promise<Map<string, Course>> =>
+  new Map((await fetchShippedCatalogue({ strict: true })).map((offer) => [offer.id, offer.course]));
 
 /**
  * The copy a refresh keeps of the course it replaces: hidden from the navigator
@@ -492,6 +460,24 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
   const [foreignDrafts, setForeignDrafts] = useState<ForeignDraftEvent | null>(null);
   const foreignSeqRef = useRef(0);
 
+  /**
+   * The library with same-named duplicate courses hidden (utils/courseDedupe.ts), said
+   * once when it happens. The same array comes back when there are none.
+   */
+  const hideDuplicates = (library: Course[]): Course[] => {
+    const { courses: deduped, hidden } = hideDuplicateCourses(library);
+    if (hidden.length > 0) {
+      const one = hidden.length === 1;
+      showToastRef.current(
+        `Your library held more than one copy of ${listNames(hidden.map((h) => h.name))}. ` +
+          `The most recent ${one ? 'copy is' : 'copies are'} kept in the course list, with your drafts; ` +
+          `the others are in the Data vault.`,
+        'info'
+      );
+    }
+    return deduped;
+  };
+
   useEffect(() => {
     const loadInitialData = async () => {
       if (initAttempted.current) return;
@@ -505,7 +491,7 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
         try {
           const remoteCourses = await fetchRemoteCourses();
           if (remoteCourses.length > 0) {
-            const recalibrated = recalculateSampleAnswerBands(remoteCourses);
+            const recalibrated = hideDuplicates(recalculateSampleAnswerBands(remoteCourses));
             updateCourses(() => recalibrated);
             draftBaseRef.current = collectDrafts(recalibrated);
             setStorageStatus('Supabase');
@@ -590,6 +576,8 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
         // What this tab read: the drafts it will merge against, and the revision they were at.
         knownRevRef.current = loadResult.source === 'IndexedDB' ? revAtLoad : null;
         draftBaseRef.current = collectDrafts(loadResult.data);
+        // Last, after the sync, which can add a shipped course beside a same-named copy.
+        dataToLoad = hideDuplicates(dataToLoad);
         updateCourses(() => dataToLoad);
         setIsDiscoveryInProgress(false);
         setIsReady(true);
@@ -789,6 +777,48 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
       }
     },
     [courses, updateCourses, showToast]
+  );
+
+  /**
+   * The shipped courses, for the course library. Lenient: a course file that cannot
+   * be read is left out rather than emptying the list. Throws only when the manifest
+   * itself cannot be read.
+   */
+  const loadCourseLibrary = useCallback(
+    (): Promise<ShippedCourseOffer[]> => fetchShippedCatalogue({ strict: false }),
+    []
+  );
+
+  /**
+   * Adds shipped courses chosen in the course library, stamped as the first-run picker
+   * stamps them. A course already in the library is skipped, not merged or duplicated.
+   * Returns the ids added.
+   *
+   * Each added course joins the offered record. It may well be there already (it was
+   * unticked at first run, which is why it is missing), but a course offered nowhere
+   * else must be recorded too: if the user later deletes it, the next version sync
+   * has to leave it deleted, as it does for every course the first-run picker listed.
+   */
+  const addShippedCourses = useCallback(
+    (offers: ShippedCourseOffer[]): string[] => {
+      // Counted from the library as it stands, as importDiscoveredDocs does: an updater
+      // can run later than this line, so a count taken inside it could read nothing.
+      const { added } = addShippedToLibrary(latestCoursesRef.current, offers);
+      if (added.length === 0) {
+        showToast('Those courses are already in your library.', 'info');
+        return [];
+      }
+      updateCourses((current) => addShippedToLibrary(current, added).courses);
+      const ids = added.map((offer) => offer.id);
+      recordOfferedShipped(ids);
+      // The first-run picker, if it is still waiting, no longer offers what was just added.
+      setDiscoveredDocs((docs) =>
+        docs.filter((doc) => doc.type !== 'course' || !ids.includes((doc.data as Course).id))
+      );
+      showToast(`Added ${listNames(added.map((offer) => offer.name))}.`, 'success');
+      return ids;
+    },
+    [updateCourses, showToast]
   );
 
   const announceForeignDrafts = useCallback(
@@ -1467,6 +1497,8 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
     isReady,
     isDiscoveryInProgress,
     importDiscoveredDocs,
+    loadCourseLibrary,
+    addShippedCourses,
     handleCreateCourse,
     handleCreateTopic,
     handleCreateTopicWithContent,

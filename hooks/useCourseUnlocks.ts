@@ -3,6 +3,7 @@ import type { ToastType } from './useToast';
 import type { User } from '../types';
 import {
   clearOwnedCourseUnlocks,
+  courseAccessReason,
   courseUnlocksEnabled,
   getOwnedCourseUnlocks,
   isCourseLocked,
@@ -11,6 +12,12 @@ import {
   subscribeOwnedCourseUnlocks,
   type CourseUnlockReturn,
 } from '../services/courseAccess';
+import {
+  countQuestions,
+  courseAvailability,
+  type CourseAvailability,
+} from '../utils/courseAvailability';
+import type { Course } from '../types';
 
 /** The course ids the viewer holds. Re-renders the caller when the set changes. */
 export const useOwnedCourseUnlocks = (): ReadonlySet<string> =>
@@ -28,6 +35,12 @@ export const useCourseUnlockGate = (user: User | null | undefined) => {
     () => ({
       enabled,
       isLocked: (courseId: string) => enabled && isCourseLocked(courseId, user, owned),
+      /**
+       * Purchased, included, to unlock or coming soon (utils/courseAvailability.ts).
+       * A course with no questions is "coming soon" even with unlocks off.
+       */
+      availabilityOf: (course: Pick<Course, 'id' | 'topics'>): CourseAvailability =>
+        courseAvailability(countQuestions(course), courseAccessReason(course.id, user, owned)),
     }),
     [enabled, user, owned]
   );

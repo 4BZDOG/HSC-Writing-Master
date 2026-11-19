@@ -69,6 +69,8 @@ const TopicImportModal = lazy(() => import('./TopicImportModal'));
 const QualityCheckModal = lazy(() => import('./QualityCheckModal'));
 const UserProfileModal = lazy(() => import('./UserProfileModal'));
 const ManifestImportModal = lazy(() => import('./ManifestImportModal'));
+// The shipped courses a library does not hold, to add at any time. Opened from the course picker.
+const CourseLibraryModal = lazy(() => import('./CourseLibraryModal'));
 const ProgressReportModal = lazy(() => import('./ProgressReportModal'));
 // The one-off unlock for a locked course (projectDocs/course-unlocks.md). Lazy: it is
 // opened only when a student marks a locked course, never on the first screen.
@@ -594,6 +596,35 @@ const AppModals: React.FC<AppModalsProps> = ({
             onClose={() => closeModal('manifestImport')}
             discoveredDocs={syllabusHandlers.discoveredDocs}
             onImport={syllabusHandlers.importDiscoveredDocs}
+            user={user}
+          />
+        )}
+      </Suspense>
+
+      <Suspense fallback={null}>
+        {mounted('courseLibrary') && (
+          <CourseLibraryModal
+            isOpen={isModalOpen('courseLibrary')}
+            onClose={() => closeModal('courseLibrary')}
+            courses={courses}
+            loadCatalogue={syllabusHandlers.loadCourseLibrary}
+            user={user}
+            onAdd={(offers) => {
+              const added = syllabusHandlers.addShippedCourses(offers);
+              // One course added is one the user means to open, so the navigator goes
+              // to it. With several there is no telling which, so it stays put.
+              if (added.length === 1) {
+                setStatePath({
+                  courseId: added[0],
+                  topicId: undefined,
+                  subTopicId: undefined,
+                  dotPointId: undefined,
+                  promptId: undefined,
+                  selectedSubItems: undefined,
+                });
+              }
+              return added;
+            }}
           />
         )}
       </Suspense>

@@ -29,8 +29,23 @@ afterEach(() => {
   window.localStorage.clear();
 });
 
+/** One question, so the course is ready to use (a course with none is "Coming soon"). */
+const oneQuestion = (id: string) => [
+  {
+    id: `${id}-t`,
+    name: 'Topic',
+    subTopics: [
+      {
+        id: `${id}-st`,
+        name: 'Sub-topic',
+        dotPoints: [{ id: `${id}-dp`, description: 'Dot point', prompts: [{ id: `${id}-p` }] }],
+      },
+    ],
+  },
+];
+
 const course = (id: string, name: string, subject: string): Course =>
-  ({ id, name, subject, outcomes: [], topics: [] }) as unknown as Course;
+  ({ id, name, subject, outcomes: [], topics: oneQuestion(id) }) as unknown as Course;
 
 // Seven Science courses, so the search box appears inside that faculty alone.
 const courses: Course[] = [
@@ -273,5 +288,42 @@ describe('course picker: a single faculty', () => {
     expect(screen.queryByRole('group', { name: 'Show faculty' })).toBeNull();
     expect(list.queryAllByRole('group')).toHaveLength(0);
     expect(list.getAllByRole('option')).toHaveLength(7);
+  });
+});
+
+describe('course picker: the course library', () => {
+  it('offers the course library under the picker, to every role', () => {
+    const onOpenCourseLibrary = vi.fn();
+    render(
+      <PromptSelector
+        {...baseProps}
+        statePath={{} as StatePath}
+        onOpenCourseLibrary={onOpenCourseLibrary}
+      />
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Add a course from the library' }));
+    expect(onOpenCourseLibrary).toHaveBeenCalledTimes(1);
+  });
+
+  it('points a search that finds nothing at the course library', async () => {
+    const onOpenCourseLibrary = vi.fn();
+    render(
+      <PromptSelector
+        {...baseProps}
+        statePath={{} as StatePath}
+        onOpenCourseLibrary={onOpenCourseLibrary}
+      />
+    );
+    const list = openCourses();
+    fireEvent.change(screen.getByRole('combobox', { name: /search/i }), {
+      target: { value: 'visual arts' },
+    });
+    fireEvent.click(await list.findByRole('button', { name: 'Look for it in the course library' }));
+    expect(onOpenCourseLibrary).toHaveBeenCalledTimes(1);
+  });
+
+  it('is not offered where the caller has no course library (a Supabase library)', () => {
+    renderAt();
+    expect(screen.queryByRole('button', { name: 'Add a course from the library' })).toBeNull();
   });
 });

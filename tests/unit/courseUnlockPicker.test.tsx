@@ -35,8 +35,23 @@ beforeAll(() => {
   Element.prototype.scrollTo = vi.fn();
 });
 
+/** One question, so the course is ready to use (a course with none is "Coming soon"). */
+const oneQuestion = (id: string) => [
+  {
+    id: `${id}-t`,
+    name: 'Topic',
+    subTopics: [
+      {
+        id: `${id}-st`,
+        name: 'Sub-topic',
+        dotPoints: [{ id: `${id}-dp`, description: 'Dot point', prompts: [{ id: `${id}-p` }] }],
+      },
+    ],
+  },
+];
+
 const course = (id: string, name: string, subject: string) =>
-  ({ id, name, subject, outcomes: [], topics: [] }) as unknown as Course;
+  ({ id, name, subject, outcomes: [], topics: oneQuestion(id) }) as unknown as Course;
 
 const courses: Course[] = [
   course('course-chem', 'Chemistry', 'Science'),
@@ -141,5 +156,88 @@ describe('course picker with unlocks disabled (the default)', () => {
     expect(rpcMock).not.toHaveBeenCalled();
     expect(fetchMock).not.toHaveBeenCalled();
     vi.unstubAllGlobals();
+  });
+});
+
+describe('course picker: what each course is to the viewer', () => {
+  const empty = (id: string, name: string) =>
+    ({ id, name, subject: 'Science', outcomes: [], topics: [] }) as unknown as Course;
+
+  it('marks a bought course Purchased and counts each state at the top of the list', async () => {
+    vi.stubEnv('VITE_COURSE_UNLOCKS_ENABLED', 'true');
+    await loadOwnedCourseUnlocks();
+    render(
+      <PromptSelector
+        {...props}
+        courses={[...courses, empty('course-phys', 'Physics')]}
+        user={student}
+      />
+    );
+    const list = openPicker();
+    const biology = await list.findByRole('option', { name: /Biology/ });
+    expect(within(biology).getByTestId('course-status-purchased').textContent).toBe('Purchased');
+    expect(screen.getByTestId('course-availability-summary').textContent).toBe(
+      '1 purchased · 1 to unlock · 1 coming soon'
+    );
+  });
+
+  it('marks a course the plan includes as Included', async () => {
+    vi.stubEnv('VITE_COURSE_UNLOCKS_ENABLED', 'true');
+    vi.stubEnv('VITE_COURSE_UNLOCK_FREE_COURSES', 'course-chem');
+    render(<PromptSelector {...props} user={student} />);
+    const list = openPicker();
+    const chemistry = await list.findByRole('option', { name: /Chemistry/ });
+    expect(within(chemistry).getByTestId('course-status-included')).toBeTruthy();
+    expect(within(chemistry).queryByTestId('course-lock-badge')).toBeNull();
+  });
+
+  it('files a course with no questions under Coming soon, last, and disables it for a student', async () => {
+    const onPathChange = vi.fn();
+    render(
+      <PromptSelector
+        {...props}
+        courses={[empty('course-anat', 'Anatomy'), ...courses]}
+        user={student}
+        onPathChange={onPathChange}
+      />
+    );
+    const list = openPicker();
+    const options = await list.findAllByRole('option');
+    // Alphabetically Anatomy would come first; not ready, it comes last.
+    expect(options.map((o) => o.textContent?.match(/Anatomy|Biology|Chemistry/)?.[0])).toEqual([
+      'Biology',
+      'Chemistry',
+      'Anatomy',
+    ]);
+    const anatomy = options[2];
+    expect(within(anatomy).getByTestId('course-status-coming-soon')).toBeTruthy();
+    expect(anatomy.getAttribute('aria-disabled')).toBe('true');
+    expect(list.getByRole('group', { name: 'Coming soon' })).toBeTruthy();
+    fireEvent.click(anatomy);
+    expect(onPathChange).not.toHaveBeenCalled();
+  });
+
+  it('lets a teacher open a Coming soon course, to write its questions', async () => {
+    const onPathChange = vi.fn();
+    render(
+      <PromptSelector
+        {...props}
+        courses={[empty('course-anat', 'Anatomy'), ...courses]}
+        user={{ ...student, role: 'teacher' } as User}
+        userRole="teacher"
+        onPathChange={onPathChange}
+      />
+    );
+    const list = openPicker();
+    const anatomy = await list.findByRole('option', { name: /Anatomy/ });
+    expect(anatomy.getAttribute('aria-disabled')).toBeNull();
+    fireEvent.click(anatomy);
+    expect(onPathChange).toHaveBeenCalledWith(expect.objectContaining({ courseId: 'course-anat' }));
+  });
+
+  it('shows no summary when every course is simply open', async () => {
+    render(<PromptSelector {...props} user={student} />);
+    openPicker();
+    expect(screen.queryByTestId('course-availability-summary')).toBeNull();
   });
 });

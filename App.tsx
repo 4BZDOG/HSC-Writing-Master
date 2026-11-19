@@ -133,6 +133,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     isReady,
     isDiscoveryInProgress,
     importDiscoveredDocs,
+    loadCourseLibrary,
+    addShippedCourses,
     handleCreateCourse,
     handleCreateTopic,
     handleCreateTopicWithContent,
@@ -564,6 +566,10 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
   // The course name a "request this course" click arrived with, if any.
   const [courseRequestPrefill, setCourseRequestPrefill] = useState('');
+  // The course library adds shipped courses to the library on this device. A library
+  // loaded from Supabase is the shared one, reloaded on every visit, so a course added
+  // to it locally would be gone on the next load: the library is not offered there.
+  const courseLibraryAvailable = isReady && storageStatus !== 'Supabase';
   const [userAnswer, setUserAnswer] = useState('');
   const debouncedUserAnswer = useDebounce(userAnswer, 1000);
   // Another tab wrote a newer draft to the question open here: show it, unless this question's text
@@ -809,6 +815,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       stashPendingDraft,
       discoveredDocs,
       importDiscoveredDocs,
+      loadCourseLibrary,
+      addShippedCourses,
       handleMoveTopic,
       onResetApiStats,
     }),
@@ -835,6 +843,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       stashPendingDraft,
       discoveredDocs,
       importDiscoveredDocs,
+      loadCourseLibrary,
+      addShippedCourses,
       handleMoveTopic,
       onResetApiStats,
     ]
@@ -1073,6 +1083,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                   statePath={statePath}
                   onPathChange={handlePathChange}
                   onAddCourse={() => openModal('courseCreator')}
+                  onOpenCourseLibrary={
+                    courseLibraryAvailable ? () => openModal('courseLibrary') : undefined
+                  }
                   onToggleCourseStatus={handleSetCourseStatus}
                   onRequestCourse={(prefill) => {
                     // Carries the text they searched for, so the request form
@@ -1262,8 +1275,17 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                   exist. */}
               {isReady && courses.length === 0 && (
                 <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                  {/* The first-run picker holds what discovery found on first run. A
+                      returning library that has been emptied has no such list, so it
+                      gets the course library, which reads the shipped courses afresh. */}
                   <button
-                    onClick={() => openModal('manifestImport')}
+                    onClick={() =>
+                      openModal(
+                        discoveredDocs.length > 0 || !courseLibraryAvailable
+                          ? 'manifestImport'
+                          : 'courseLibrary'
+                      )
+                    }
                     className="t-label px-8 py-3 rounded-2xl bg-indigo-600 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3"
                   >
                     <Sparkles className="w-4 h-4" /> Load Curriculum Library

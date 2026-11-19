@@ -6,34 +6,24 @@ import type { Course, Topic } from '../../types';
 import { shippedCourses } from './support/shippedCourseData';
 
 /**
- * The bundled curriculum, imported the way a new user imports it.
+ * The bundled curriculum, imported the way a new user imports it, without
+ * duplicating itself.
  *
- * Every shipped topic file is a copy of a topic that is ALSO inside its
- * course file — `topics/software-engineering-secure-architecture-topic.json`
- * is the Secure software architecture topic from the Software Engineering
- * course. All of the question ids it holds already exist in the course file,
- * with identical text. That is fine and deliberate: a topic file lets someone
- * take one topic without the whole course. It is only fine because the import
- * DEDUPES.
+ * The manifest used to list `topics/software-engineering-secure-architecture-topic.json`
+ * beside its course: a copy of the Secure software architecture topic that is
+ * also inside the Software Engineering course file. The two had drifted (the
+ * course's copy carried a later round of sample-answer fixes), so the picker
+ * offered the same topic twice in two versions. The stale copy was removed and
+ * the course file's version kept. The first block here keeps a topic file that
+ * repeats a topic of its own course from being shipped again.
  *
- * And the dedupe is not free. `handleImportFromLibrary` runs every topic
- * through `regenerateTopicIds`, which rewrites the id of the topic, every
- * sub-topic, dot point, prompt and sample answer — so by the time
- * `mergeOrAddTopic` runs, not one id matches the course already in the tree.
- * What saves it is the text fallback at each of the three levels below the
- * topic: sub-topic by name, dot point by description, prompt by question.
- * Take away just the dot-point one and Software Engineering goes from 183
- * questions to 224 — the whole topic is appended a second time, and a student
- * browsing Secure software architecture meets every question twice with no way
- * to tell which is which.
- *
- * The topic file is listed in the manifest beside its course, so this is not a
- * path someone has to go looking for: the import list offers it to every new
- * user who ticks it alongside the course.
- *
- * Verified by deleting the dot-point text fallback in
- * `mergeDotPointCollections` and watching both cases fail with exactly those
- * numbers.
+ * The second block keeps what the old test proved about the merge. Importing a
+ * topic that a course already holds must add nothing: `handleImportFromLibrary`
+ * runs every topic through `regenerateTopicIds`, which rewrites every id below
+ * the topic, so what saves the merge is the text fallback at each level
+ * (sub-topic by name, dot point by description, prompt by question). Take away
+ * the dot-point one and Software Engineering's Secure software architecture is
+ * appended a second time, with every question twice.
  */
 
 const ROOT = join(process.cwd(), 'public/courseData');
@@ -53,8 +43,6 @@ const manifest = (): ManifestEntry[] => {
   return Array.isArray(parsed?.entries) ? parsed.entries : [];
 };
 
-const topicEntries = manifest().filter((e) => e.type === 'topic' && e.targetCourseName);
-
 /** Every question in a course, as the tree holds them after a merge. */
 const questionsIn = (course: Course): string[] =>
   (course.topics ?? [])
@@ -63,8 +51,8 @@ const questionsIn = (course: Course): string[] =>
     .flatMap((d) => d.prompts ?? [])
     .map((p) => String(p.question ?? ''));
 
-/** The course file a topic file names as its target, parsed fresh each time. */
-const targetCourse = (name: string): Course | null => {
+/** The course file of that name, parsed fresh each time. */
+const shippedCourse = (name: string): Course | null => {
   for (const shipped of shippedCourses()) {
     if (shipped.isTopicFile || shipped.courseName !== name) continue;
     return JSON.parse(JSON.stringify(shipped.raw)) as Course;
@@ -72,44 +60,45 @@ const targetCourse = (name: string): Course | null => {
   return null;
 };
 
-describe('the bundled curriculum imports without duplicating itself', () => {
-  it('has topic files to check', () => {
-    // Both assertions below iterate `topicEntries`. An empty list would make
-    // them pass by doing nothing at all, which is the failure this whole file
-    // exists to catch in the import.
-    expect(topicEntries.length).toBeGreaterThan(0);
-    for (const entry of topicEntries) {
-      expect(
-        targetCourse(entry.targetCourseName!),
-        `${entry.file} names a course that is not shipped`
-      ).not.toBeNull();
-    }
+describe('the shipped curriculum offers each thing once', () => {
+  it('lists every course file once', () => {
+    const files = manifest().map((e) => e.file);
+    expect(new Set(files).size).toBe(files.length);
   });
 
-  it.each(topicEntries.map((e) => [e.file, e.targetCourseName!] as const))(
-    'importing %s into %s adds only what is new',
-    (file, courseName) => {
-      const course = targetCourse(courseName)!;
-      const before = questionsIn(course);
+  it('ships each course name once', () => {
+    const names = shippedCourses()
+      .filter((c) => !c.isTopicFile)
+      .map((c) => c.courseName.toLowerCase());
+    expect(new Set(names).size).toBe(names.length);
+  });
 
-      // Exactly what handleImportFromLibrary does with a topic: new ids, then
-      // merge. The regeneration is why the text fallbacks carry this.
-      mergeOrAddTopic(course.topics, regenerateTopicIds(read(file) as Topic));
-      const after = questionsIn(course);
-
-      const incoming = questionsIn({
-        topics: [read(file)],
-      } as unknown as Course);
-      const expected = new Set([...before, ...incoming]).size;
-
+  it('ships no topic file that repeats a topic its course already holds', () => {
+    for (const entry of manifest().filter((e) => e.type === 'topic')) {
+      const course = shippedCourse(entry.targetCourseName ?? '');
+      expect(course, `${entry.file} names a course that is not shipped`).not.toBeNull();
+      const topic = read(entry.file) as Topic;
+      const names = course!.topics.map((t) => t.name.toLowerCase());
       expect(
-        after.length,
-        `${file} merged into ${courseName}: expected ${expected} distinct questions, got ${after.length}. ` +
-          `A count above that means the merge appended content it should have matched.`
-      ).toBe(expected);
-
-      // And nothing already in the course was lost to make room.
-      for (const question of new Set(before)) expect(after).toContain(question);
+        course!.topics.some((t) => t.id === topic.id) || names.includes(topic.name.toLowerCase()),
+        `${entry.file} repeats a topic already inside ${entry.targetCourseName}`
+      ).toBe(false);
     }
-  );
+  });
+});
+
+describe('importing a topic a course already holds adds nothing', () => {
+  it('merges Secure software architecture into Software Engineering without a second copy', () => {
+    const course = shippedCourse('Software Engineering')!;
+    const topic = course.topics.find((t) => t.name === 'Secure software architecture');
+    expect(topic, 'Software Engineering no longer has the topic this test merges').toBeTruthy();
+    const before = questionsIn(course);
+
+    // Exactly what handleImportFromLibrary does with a topic: new ids, then merge.
+    mergeOrAddTopic(course.topics, regenerateTopicIds(JSON.parse(JSON.stringify(topic))));
+    const after = questionsIn(course);
+
+    expect(after.length).toBe(before.length);
+    for (const question of new Set(before)) expect(after).toContain(question);
+  });
 });

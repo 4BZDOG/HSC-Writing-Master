@@ -35,7 +35,7 @@
 // `tests/unit/seedSampleBands.test.ts` fails CI when a shipped file disagrees.
 // =============================================================================
 
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { recalculateSampleAnswerBands, repairPromptIntegrity } from '../utils/dataManagerUtils.ts';
@@ -49,7 +49,7 @@ const files: { path: string; kind: 'courses' | 'topic' }[] = [
   ...readdirSync(dataDir)
     .filter((f) => f.endsWith('.json') && f !== 'manifest.json')
     .map((f) => ({ path: join(dataDir, f), kind: 'courses' as const })),
-  ...readdirSync(join(dataDir, 'topics'))
+  ...(existsSync(join(dataDir, 'topics')) ? readdirSync(join(dataDir, 'topics')) : [])
     .filter((f) => f.endsWith('.json'))
     .map((f) => ({ path: join(dataDir, 'topics', f), kind: 'topic' as const })),
 ];

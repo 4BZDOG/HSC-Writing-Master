@@ -65,6 +65,8 @@ export type AppSyllabusHandlers = Pick<
   | 'updateCourses'
   | 'discoveredDocs'
   | 'importDiscoveredDocs'
+  | 'loadCourseLibrary'
+  | 'addShippedCourses'
   | 'handleMoveTopic'
 > & {
   /** App-local: clears the API monitor's counters. */
