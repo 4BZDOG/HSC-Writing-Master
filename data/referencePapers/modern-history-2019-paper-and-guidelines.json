@@ -1,0 +1,2264 @@
+{
+  "year": 2019,
+  "course": "Modern History",
+  "papers": [
+    "2019-hsc-modern-history.pdf"
+  ],
+  "skipped": [],
+  "questions": [
+    {
+      "number": "1",
+      "section": "I",
+      "sectionHeading": "Section I — Power and Authority in the Modern World 1919−1946",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe THREE features common to dictatorships that emerged after World War I.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides an accurate description of THREE features common to dictatorships that emerged after WWI that demonstrates relevant historical knowledge"
+        },
+        {
+          "marks": "2",
+          "text": "Provides an accurate description of TWO features common to dictatorships that emerged after WWI that demonstrates relevant historical knowledge OR Identifies THREE features of dictatorships that emerged after WWI that demonstrates some relevant historical knowledge"
+        },
+        {
+          "marks": "1",
+          "text": "Makes ONE general statement about features of dictatorships that emerged after WWI"
+        }
+      ],
+      "sampleAnswer": "A range of dictatorships emerged across the world after the First World War. Germany and Italy were ruled by charismatic leaders who used terror and repression to control their populations. Japan, Germany and Italy were fiercely nationalistic and had imperialist ambitions that dominated their foreign policy. All three nations were strongly militaristic and restricted individual liberty.",
+      "answersCouldInclude": [
+        "A single ruler",
+        "One party state",
+        "Planned economy",
+        "Propaganda and censorship",
+        "Ideology",
+        "System of terror and repression",
+        "Absence of individual liberty",
+        "Nationalism",
+        "Militarism"
+      ]
+    },
+    {
+      "number": "2",
+      "section": "I",
+      "sectionHeading": "Section I — Power and Authority in the Modern World 1919−1946",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "How does Source A reflect Nazi ideology about the role of women?",
+      "stimulus": "Source A\nA posed family scene photographed in 1937. The mother is ironing a Nazi uniform.\nLife in the Third Reich, Richard Bassel, Oxford University Press, London.\nReproduced with permission from the Licensor through PLSclear\n[Figure: A posed 1937 family scene: a mother irons a Nazi uniform while her husband holds a baby and two young daughters watch.]",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Clearly identifies how Nazi ideology is reflected in Source A ; Demonstrates explicit understanding of Nazi ideology about women"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies the way(s) Nazi ideology is reflected in Source A ; Demonstrates some understanding of Nazi ideology about women"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a comment about Nazi ideology OR Describes features of Source A"
+        }
+      ],
+      "sampleAnswer": "Source A clearly demonstrates a range of ways Nazi ideology about the role of women. The Nazis believed that women should return to more traditional roles, which were underpinned in propaganda such as the photograph in Source A. It shows a woman ironing her husband’s military uniform, which clearly demonstrates the ideology that women should be primarily domestic, supporting their husbands as they served the Fatherland. It also shows her many children which she bears to fulfil the Nazi ideal of women as mothers. Her children also fulfil many racial ideals.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "mh-2019-2.png",
+        "page": 22,
+        "alt": "A posed 1937 family scene: a mother irons a Nazi uniform while her husband holds a baby and two young daughters watch."
+      }
+    },
+    {
+      "number": "3",
+      "section": "I",
+      "sectionHeading": "Section I — Power and Authority in the Modern World 1919−1946",
+      "marks": 7,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Contrast the value of Sources B and C to a historian studying the impact of the Nazi regime on German youth.",
+      "stimulus": "Source B\nAn extract from William Carr, A History of Germany 1815–1990, 1991\nGleichschaltung applied to every aspect of life in Nazi Germany. Few could\nescape involvement in one or more of the innumerable organisations run\nby the party. Special attention was paid to education, which was removed\ncompletely from the control of the Länder 1. Politically unreliable teachers\nwere removed from the classroom and the remainder regimented in the\nNS Lehrerbund 2, which saw to it that Nazi texts were used in all schools,\nespecially in the teaching of biology and history. Boys from the age of\nten were bullied into joining the Hitlerjugend, the only youth organisation\nallowed by the Nazis, which spent much of its time imparting rudimentary\nmilitary skills to its members. For girls there was the parallel organisation,\nBund Deutscher Mädel. Young men between eighteen and twenty-five were\nobliged to spend six months in the Arbeitsdienst 3 engaged on public works\nand receiving further military training. This was followed by two years’\ncompulsory military service.\n1 Länder state government\n2 NS Lehrerbund National Socialist Teachers’ League\n3 Arbeitsdienst Reich Labour Service\nWilliam Carr, 1991, A History of Germany 1815-1990,\nA History of Germany 1815-1990, Bloomsbury Publishing Plc.\n\nSource C\nFront page illustration of Auerbach’s German Children calendar, 1934\nReproduced with kind permission of Hamilton Nolan, Gawker Media\n[Figure: Front page illustration of Auerbach’s German Children calendar, 1934: uniformed boys run forward beside a swastika flag.]",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Makes a clear judgement about the value of both Sources B and C to a historian studying the impact of the Nazi regime on youth in Germany ; Clearly identifies a range of ways that Sources B and C are different ; Communicates ideas logically using a range of appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Attempts a judgement about the value of both Sources B and C to a historian studying the impact of the Nazi regime on youth in Germany ; Identifies ways that Sources B and C are different ; Communicates ideas using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Demonstrates some knowledge about the value of both Sources B and C to a historian studying the impact of the Nazi regime on youth in Germany ; Identifies at least one way that Sources B and C are different ; Uses some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Provides a general description of Source B and/or C"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Sources B and C are both valuable to a historian studying the impact of the Nazi regime on youth in Germany in differing ways.",
+        "Source B is valuable because:",
+        "It contains a wide range of specific information about the impact of the Nazi regime on young people including: Gleichschaltung; the various organisations for different ages and genders that young people were bullied into joining; the Nazi use of education for indoctrination including Nazi textbooks and teachers; militarism",
+        "It is written by a respected historian with expertise in research",
+        "As a published text it has likely been edited or reviewed.",
+        "Source C is valuable because:",
+        "It is a primary source, which is an authentic example of Nazi propaganda aimed at shaping the thinking of young boys in Germany",
+        "It reinforces Nazi ideals of superiority, competition, athleticism, militarism, leadership, health, fitness as well as being an example of Nazi symbolism",
+        "It is a visual image, which clearly conveys a message about the Hitler Youth and as such, helps to understand the emotional appeal to young people at the time."
+      ],
+      "figure": {
+        "file": "mh-2019-3.png",
+        "page": 24,
+        "alt": "Front page illustration of Auerbach’s German Children calendar, 1934: uniformed boys run forward beside a swastika flag."
+      }
+    },
+    {
+      "number": "4",
+      "section": "I",
+      "sectionHeading": "Section I — Power and Authority in the Modern World 1919−1946",
+      "marks": 12,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "To what extent was the Nazi regime successful in eliminating opposition in the period 1933–1939? In your response, integrate relevant evidence from Sources D and E.",
+      "stimulus": "Source D\nAn extract from Richard Bessel, ‘Political Violence and the Nazi Seizure of Power’ in Life in\nthe Third Reich, 1987\nNazi activists did not shrink from violence; indeed they glorified in it.\nStruggle, violence and war were at the centre of Nazi ideology . . . And\nwhen, in early 1933, the Nazis finally were able to gain control of interior\nministries and police headquarters throughout Germany, storm troopers\nunleashed a campaign of terror. Thousands of opponents of the Nazis\nwere rounded up and taken away to makeshift concentration camps set up\nin disused factory premises or barracks, and many met their deaths at the\nhands of tormentors behind them.\n‘Political Violence and the Nazi Seizure of Power’ in Life in the Third Reich, Richard Bessel.\nReproduced with permission from the Licensor through PLSclear\n\nSource E\nStatistics from Germany in the 1930s\nThis material cannot be displayed due to copyright issues.\n‘Death sentences for political oppression’ from the Nazi Germany\nby Stephen Lee, Heinemann Education, Oxford, 1989, page 28,\nISBN: 0 435 31036 4 – Statistics of victims of the police state before 1940.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "11–12",
+          "text": "Makes a well-developed and reasoned judgement about the extent to which the Nazi regime was successful in eliminating opposition in the period 1933–1939 ; Effectively and explicitly integrates evidence from BOTH sources with relevant, detailed and accurate historical knowledge to support judgement ; Presents a well-structured and logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "9–10",
+          "text": "Makes a reasoned judgement about the extent to which the Nazi regime was successful in eliminating opposition in the period 1933–1939 ; Explicitly integrates evidence from BOTH sources with relevant and accurate historical knowledge to support judgement ; Presents a logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "6–8",
+          "text": "Makes a judgement about the extent to which the Nazi regime was successful in eliminating opposition in the period 1933–1939 ; Uses evidence from sources AND/OR relevant historical knowledge to support response ; Presents a response using historical terms and concepts"
+        },
+        {
+          "marks": "3–5",
+          "text": "Describes some aspects of how the Nazi regime responded to opposition ; Makes some reference to the sources AND/OR historical knowledge ; Uses historical terms and concepts ; Generalises about opposition to the Nazi regime"
+        },
+        {
+          "marks": "1–2",
+          "text": "May paraphrase the source(s)"
+        }
+      ],
+      "sampleAnswer": "The Nazi regime was able to eliminate most opposition in the period 1933–1939 but not entirely, as there were still minor pockets of resistance. The two main methods the Nazis used to control opposition were propaganda and the use of terror and repression as seen in Sources D and E. Propaganda was used to indoctrinate the German people to believe and support Nazi ideology. Harsh methods of terror and repression were employed to deal with those who opposed the regime, thus serving as a deterrent to further opposition.\n\nThe Nazis used a range of methods of terror and repression in an attempt to eliminate opposition between 1933–1939. The first step towards the elimination of opposition was the creation of a police state through the establishment of ‘police headquarters’ and ‘makeshift concentration camps’ by the Nazis as described in Source D. These worked effectively to limit opposition but did not eliminate it entirely, as seen in Source E. These statistics suggest that opposition still existed as many political prisoners were either executed (534 between 1934 and 1939 – Source E), arrested or imprisoned in concentration camps during this period.",
+      "answersCouldInclude": [
+        "Indoctrination of Nazi ideology",
+        "Use of propaganda to gain support eg Fuhrer myth, rallies, speeches, use of radio to disseminate information",
+        "Terror and repression including the expansive role of",
+        "Gestapo/SS",
+        "Concentration camps",
+        "Organisations/government departments responsible for indoctrination, such as",
+        "Chamber of Culture",
+        "Ministry of Propaganda and Enlightenment",
+        "Education",
+        "Legal system",
+        "Role of key individuals such as Hitler, Goebbels, Himmler",
+        "Legislation which gave government greater powers eg Enabling Act, Law for the Protection of People and State",
+        "Eradication of other political parties and Nazification of organisations such as trade unions",
+        "Nature of opposition was fragmented and underground",
+        "Opposition and co-operation of the Church. Catholic, Confessional and Reich churches.",
+        "Church was limited to issues of doctrine",
+        "Fear, culture of denunciations."
+      ]
+    },
+    {
+      "number": "5(a)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How did exclusion affect the experiences of Aboriginal and Torres Strait Islander Peoples in the 1920s?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option A: Australia 1918−1949"
+    },
+    {
+      "number": "5(b)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How did the roles of women in Australia change in the period 1918–1949?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option A: Australia 1918−1949"
+    },
+    {
+      "number": "6(a)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How successful was Chinese resistance to Japanese imperialism in this period?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option B: China 1927−1949"
+    },
+    {
+      "number": "6(b)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How significant was Mao Zedong’s leadership in the triumph of the Chinese Communist Party?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option B: China 1927−1949"
+    },
+    {
+      "number": "7(a)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How successful was Nehru in achieving his vision for India?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option C: India 1942−1984"
+    },
+    {
+      "number": "7(b)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How successful was Indian foreign policy in achieving its aims in the period 1947–1984?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option C: India 1942−1984"
+    },
+    {
+      "number": "8(a)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Why did the New Order collapse in Indonesia?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option D: Indonesia 1945−2005"
+    },
+    {
+      "number": "8(b)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How did Indonesia’s relations with Australia change in the period 1945–2005?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option D: Indonesia 1945−2005"
+    },
+    {
+      "number": "9(a)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How successful were internal challenges to traditional Japanese power and authority in the 1920s?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option E: Japan 1904−1937"
+    },
+    {
+      "number": "9(b)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How successful was Japanese foreign policy in achieving its aims in the period up to 1937?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option E: Japan 1904−1937"
+    },
+    {
+      "number": "10(a)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Why was Stalin able to emerge as leader of the USSR by the late 1920s?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Ability to utilise party structures",
+        "Role as General Secretary 1922 and in Politburo – patronage/loyalty",
+        "Administrative and political manipulation/cunning",
+        "Exploited the weaknesses of opponents",
+        "Ruthless, cunning",
+        "Elimination of opposition, especially old Bolsheviks Kamenev, Zinoviev, Bukharin",
+        "Trotsky was seen as a possible dictator",
+        "Stalin used the hatred of Trotsky to turn other party members to support him",
+        "Role of ideology",
+        "Power struggle with Trotsky: more appealing ideology – Permanent World Revolution versus Socialism in One Country",
+        "Luck",
+        "Suppression of Lenin’s Testament – Trotsky portrayed as enemy, arrogant, deceived not to attend funeral"
+      ],
+      "prescribedText": "Option F: Russia and the Soviet Union 1917−1941"
+    },
+    {
+      "number": "10(b)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How successful was Soviet foreign policy in achieving its aims in the period 1917–1941?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Possible thesis: Soviet foreign policy was highly successful in achieving traditional foreign policy aims of prosperity, sovereignty and security but unsuccessful in achieving the Marxist view of worldwide revolution."
+      ],
+      "prescribedText": "Option F: Russia and the Soviet Union 1917−1941"
+    },
+    {
+      "number": "11(a)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How significant was the impact of consumerism on US society in the period 1919–1941?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option G: USA 1919−1941"
+    },
+    {
+      "number": "11(b)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How did domestic pressures affect US foreign policy in the period 1919–1941?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option G: USA 1919−1941"
+    },
+    {
+      "number": "12(a)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Why were there tensions between tradition and modernisation under the rule of the Shah in the period 1953–1979?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option H: Iran 1945−1989"
+    },
+    {
+      "number": "12(b)",
+      "section": "II",
+      "sectionHeading": "Section II — National Studies",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How significant was Ayatollah Khomeini to the success of the 1979 revolution?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option H: Iran 1945−1989"
+    },
+    {
+      "number": "13(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Peace and Conflict",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How significant were anti-war movements to the US withdrawal from the Second Indochina War?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option A: Conflict in Indochina 1954−1979"
+    },
+    {
+      "number": "13(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Peace and Conflict",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How did the conflict in Cambodia and Laos affect civilians?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option A: Conflict in Indochina 1954−1979"
+    },
+    {
+      "number": "14(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Peace and Conflict",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How did the war affect civilians in occupied territories in South-east Asia?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option B: Conflict in the Pacific 1937−1951"
+    },
+    {
+      "number": "14(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Peace and Conflict",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How significant was the use of the A-bomb to Japan’s defeat in the Pacific?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option B: Conflict in the Pacific 1937−1951"
+    },
+    {
+      "number": "15(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Peace and Conflict",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How significant was the conflict in North Africa to the outcome of the war in Europe?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option C: Conflict in Europe 1935−1945"
+    },
+    {
+      "number": "15(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Peace and Conflict",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How significant were the Allied strategies to their victory in Europe?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Possible thesis: While Allied strategies were important to their victory in war in Europe it was German failures throughout the war which determined the outcome of the war.",
+        "Allied strategic bombing of Germany throughout the war and its impact on German resources, production and morale",
+        "Operation Bagration and the Russian counterattacks on the Eastern Front (strength and organisation)",
+        "D-Day and the Western Fronts 1944–1945 – coordinated attacks under coordinated Allied command",
+        "Coordination of timing between Eastern & Western Fronts in 1944–1945 (various Allied powers working together).",
+        "Failure of Axis strategies (in the air, in Africa, on the Eastern Front)",
+        "Extent of occupied territories and diversion of manpower needed to control them",
+        "German loss of allies (especially Italy but also failures by Japan in the Pacific)",
+        "The significance of the US coming to Europe to aid the Allies from D-Day onwards (both militarily and in terms of morale)",
+        "Late decision to go to Total war",
+        "Impacts of bombing",
+        "Distraction of the Holocaust",
+        "Allied homefront successes – especially the British."
+      ],
+      "prescribedText": "Option C: Conflict in Europe 1935−1945"
+    },
+    {
+      "number": "16(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Peace and Conflict",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How did the arms race shape the Cold War from 1962–1991?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option D: The Cold War 1945−1991"
+    },
+    {
+      "number": "16(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Peace and Conflict",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Who was more significant in ending the Cold War: Reagan or Gorbachev?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option D: The Cold War 1945−1991"
+    },
+    {
+      "number": "17(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Peace and Conflict",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How significant were the consequences of the 1991 defeat of Saddam Hussein for Iraq?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option E: Conflict in the Gulf 1980−2011"
+    },
+    {
+      "number": "17(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Peace and Conflict",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How did international involvement shape the conflict in the Gulf in the period 1991 to 2003?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option E: Conflict in the Gulf 1980−2011"
+    },
+    {
+      "number": "18(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Peace and Conflict",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How significant was the Arab−Israeli Conflict for Israeli and Palestinian communities in the period 1978–1996?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option F: The Arab−Israeli Conflict 1948−1996"
+    },
+    {
+      "number": "18(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Peace and Conflict",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How successful were attempts at peacemaking in the Arab−Israeli Conflict between 1987–1996?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant evidence and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Addresses the question asked providing a clear explanation OR judgement based on a sophisticated and sustained argument which demonstrates a comprehensive understanding of the issue(s) raised in the question ; Supports the argument with extensive and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Addresses the question asked providing an explanation OR judgement based on a coherent argument which demonstrates a sound understanding of the issue(s) raised in the question ; Provides detailed and accurate historical knowledge and understanding including relevant evidence and interpretation ; Presents a well-structured response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Addresses the question asked with a relevant but largely narrative or descriptive response which may contain an implied understanding of the issue(s) raised in the question ; Provides relevant and accurate historical knowledge and understanding ; Presents a structured response using some appropriate historical terms and concepts ; Presents a generalised, mostly relevant narrative or descriptive response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides some historical knowledge and understanding ; Communicates using some appropriate historical terms and/or concepts ; Makes general statement(s) in relation to the question"
+        },
+        {
+          "marks": "1–5",
+          "text": "Uses some historical terms and/or concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option F: The Arab−Israeli Conflict 1948−1996"
+    },
+    {
+      "number": "19(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe the role of General Ne Win in the rise of the military.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed, accurate and relevant description of the focus in the context of the question ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4",
+          "text": "Provides an accurate and relevant description of the focus in the context of the question ; Communicates using appropriate terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some relevant description of the focus in the context of the question ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement relevant to the question"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option A: Pro-democracy Movement in Burma 1945−2010"
+    },
+    {
+      "number": "19(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the significance of Aung San Suu Kyi to the Pro-democracy movement in the period 1990 to 2010.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Provides a well-developed explanation which clearly addresses the question ; Supports the explanation with relevant and accurate historical knowledge ; Presents a logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Provides an explanation which addresses the question ; Provides accurate historical knowledge relevant to the question ; Presents a response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Provides a description which is relevant to the question ; Provides some accurate historical knowledge ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statements relevant to the question"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option A: Pro-democracy Movement in Burma 1945−2010"
+    },
+    {
+      "number": "19(c)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 12,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "To what extent did the international community respond to the actions of the military government in the period 1990–2010? In your answer, include references to Source F.",
+      "stimulus": "Source F\nThey [the Burmese people] are tired of the political repression, the\nwidespread use of forced labour in the countryside, and the inability of the\nregime to manage the economy. But they hesitate to take action, for even\nreading an opposition newspaper can land them in prison for years. Instead,\nthey attempt to get on with their lives, indulging in the dream that perhaps\none day the United States, NATO, or the United Nations will swoop in and\nremove the regime for them.\nCHRISTINA FINK\nLiving Silence: Burma under Military Rule, 2001\nLiving Silence: Burma under Military Rule, Christina Fink\nReproduced with permission from the Licensor through PLSclear",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "11–12",
+          "text": "Makes a well-developed and reasoned judgement which clearly addresses the question ; Explicitly integrates evidence from the source with relevant, detailed and accurate historical knowledge to support judgement ; Presents a well-structured and logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "9–10",
+          "text": "Makes a reasoned judgement which addresses the question ; Integrates evidence from the source with relevant and accurate historical knowledge to support judgement ; Presents a logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "6–8",
+          "text": "Makes a judgement which addresses the question ; Uses evidence from the source AND/OR relevant historical knowledge to support response ; Presents a response using historical terms and concepts"
+        },
+        {
+          "marks": "3–5",
+          "text": "Describes some knowledge and understanding in relation to the question (which may come from the source) ; Presents a response using historical terms and concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes a general statement in relation to the topic"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option A: Pro-democracy Movement in Burma 1945−2010"
+    },
+    {
+      "number": "20(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe the official and unofficial responses to the death of Zhou Enlai.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed, accurate and relevant description of the focus in the context of the question ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4",
+          "text": "Provides an accurate and relevant description of the focus in the context of the question ; Communicates using appropriate terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some relevant description of the focus in the context of the question ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement relevant to the question"
+        }
+      ],
+      "sampleAnswer": "Most official responses to Zhou Enlai’s death in January 1976 were muted. Mao did not issue an official statement and he forbade staff from wearing black armbands. Mao did not attend the funeral and required the removal of public memorials and posters. Deng Xiaoping delivered the eulogy with a personal tribute, which was a subtle criticism of Mao. Condolences poured in from nations around the world. Outside official responses, there was general mourning amongst the public. Zhou had been revered amongst the Chinese people as a symbol of stability. Propaganda efforts to attack Zhou only strengthened the public’s attachment to his memory.",
+      "answersCouldInclude": [],
+      "prescribedText": "Option B: The Cultural Revolution to Tiananmen Square 1966−1989"
+    },
+    {
+      "number": "20(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain why the Chinese government mobilised the army in Tiananmen Square in 1989.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Provides a well-developed explanation which clearly addresses the question ; Supports the explanation with relevant and accurate historical knowledge ; Presents a logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Provides an explanation which addresses the question ; Provides accurate historical knowledge relevant to the question ; Presents a response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Provides a description which is relevant to the question ; Provides some accurate historical knowledge ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statements relevant to the question"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Growing student protests led to hunger strikes",
+        "Gorbachev’s visit, Perestroika in USSR",
+        "Western media attention",
+        "Escalating numbers of protesters",
+        "Political turmoil/chaos",
+        "Power struggle between reformists and hardliners",
+        "Challenge to the CCP",
+        "Concern about negative social influences"
+      ],
+      "prescribedText": "Option B: The Cultural Revolution to Tiananmen Square 1966−1989"
+    },
+    {
+      "number": "20(c)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 12,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "To what extent did the Cultural Revolution achieve Mao Zedong’s aims? In your answer, include references to Source G.",
+      "stimulus": "Source G\nThe Cultural Revolution was to be the means by which Mao would reassert\nhis authority over China and the CCP*. He had two principal objectives:\nto preserve himself in power for the rest of his life and to ensure that his\nconcept of revolution would continue after his death.\n*CCP Chinese Communist Party\nMICHAEL LYNCH\nThe People’s Republic of China since 1949, 1998\nAccess to History: The People’s Republic of China since 1949\nMichael Lynch. Reproduced with permission from Hodder Education",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "11–12",
+          "text": "Makes a well-developed and reasoned judgement which clearly addresses the question ; Explicitly integrates evidence from the source with relevant, detailed and accurate historical knowledge to support judgement ; Presents a well-structured and logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "9–10",
+          "text": "Makes a reasoned judgement which addresses the question ; Integrates evidence from the source with relevant and accurate historical knowledge to support judgement ; Presents a logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "6–8",
+          "text": "Makes a judgement which addresses the question ; Uses evidence from the source AND/OR relevant historical knowledge to support response ; Presents a response using historical terms and concepts"
+        },
+        {
+          "marks": "3–5",
+          "text": "Describes some knowledge and understanding in relation to the question (which may come from the source) ; Presents a response using historical terms and concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes a general statement in relation to the topic"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option B: The Cultural Revolution to Tiananmen Square 1966−1989"
+    },
+    {
+      "number": "21(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe the main features of the Civil Rights Act of 1964.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed, accurate and relevant description of the focus in the context of the question ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4",
+          "text": "Provides an accurate and relevant description of the focus in the context of the question ; Communicates using appropriate terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some relevant description of the focus in the context of the question ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement relevant to the question"
+        }
+      ],
+      "sampleAnswer": "The 1964 Civil Rights Act was a landmark decision which ended segregation in public places and banned employment discrimination on the basis of race, colour, religion, sex, and national origin. It desegregated education and ensured that the constitutional right to vote was protected. While the Act was commenced by JFK, it was passed by LBJ.",
+      "answersCouldInclude": [],
+      "prescribedText": "Option C: Civil Rights in the USA 1945−1968"
+    },
+    {
+      "number": "21(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the significance of the desegregation of Little Rock High School to the civil rights movement.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Provides a well-developed explanation which clearly addresses the question ; Supports the explanation with relevant and accurate historical knowledge ; Presents a logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Provides an explanation which addresses the question ; Provides accurate historical knowledge relevant to the question ; Presents a response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Provides a description which is relevant to the question ; Provides some accurate historical knowledge ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statements relevant to the question"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Federal order to desegregate and allow nine African–American students to attend the previously all-white school",
+        "Governor Faubus refused to enforce desegregation due to security concerns, state versus federal laws",
+        "Need for federal intervention, dialogue between federal Supreme Court and President Eishenhower = Faubus agreed to let in students",
+        "Deep-seated racism >1000 white supporters blocked the entrance",
+        "Violence shown on TV helped to shift public opinion in South and raise awareness in North",
+        "Eisenhower sent in 101st Airborne to protect the rights of African–Americans students"
+      ],
+      "prescribedText": "Option C: Civil Rights in the USA 1945−1968"
+    },
+    {
+      "number": "21(c)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 12,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "To what extent did the beliefs, aims and methods of Martin Luther King and Malcolm X differ? In your answer, include references to Source H.",
+      "stimulus": "Source H\nThis material cannot be displayed,\ndue to copyright issues.\nhttps://kinginstitute.stanford.edu./encyclopedia/malcolm-x\nMalcolm X Biography: May 19, 1925 to February 21, 1965",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "11–12",
+          "text": "Makes a well-developed and reasoned judgement which clearly addresses the question ; Explicitly integrates evidence from the source with relevant, detailed and accurate historical knowledge to support judgement ; Presents a well-structured and logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "9–10",
+          "text": "Makes a reasoned judgement which addresses the question ; Integrates evidence from the source with relevant and accurate historical knowledge to support judgement ; Presents a logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "6–8",
+          "text": "Makes a judgement which addresses the question ; Uses evidence from the source AND/OR relevant historical knowledge to support response ; Presents a response using historical terms and concepts"
+        },
+        {
+          "marks": "3–5",
+          "text": "Describes some knowledge and understanding in relation to the question (which may come from the source) ; Presents a response using historical terms and concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes a general statement in relation to the topic"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option C: Civil Rights in the USA 1945−1968"
+    },
+    {
+      "number": "22(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe the rise of BRIC (Brazil, Russia, India, China) as a new centre of global power in this period.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed, accurate and relevant description of the focus in the context of the question ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4",
+          "text": "Provides an accurate and relevant description of the focus in the context of the question ; Communicates using appropriate terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some relevant description of the focus in the context of the question ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement relevant to the question"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option D: The Changing World Order 1945−2011"
+    },
+    {
+      "number": "22(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the reasons for the collapse of the Soviet Union.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Provides a well-developed explanation which clearly addresses the question ; Supports the explanation with relevant and accurate historical knowledge ; Presents a logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Provides an explanation which addresses the question ; Provides accurate historical knowledge relevant to the question ; Presents a response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Provides a description which is relevant to the question ; Provides some accurate historical knowledge ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statements relevant to the question"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option D: The Changing World Order 1945−2011"
+    },
+    {
+      "number": "22(c)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 12,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Evaluate the success of the United Nations as an international peacekeeper in ONE of the following: • The former Yugoslavia 1991–1992 • Cambodia 1992–1993 • Somalia 1993 • Rwanda 1993–1996 • Timor-Leste 1999–2001\nIn your answer, include references to Source I.",
+      "stimulus": "Source I\nUntil the 1990s, the UN engaged in modest tasks of monitoring peace\nagreements, with a condensed and limited nature. This generation of\npeacekeeping operations contained a few successes – and too many\nsignificant disasters.\nGUSTAVO DE CARVALHO\nSenior Researcher,\nWorld Economic Forum\nFebruary 2015\nGustao de Carvalho, Senior Researcher, World Economic Forum,\nWhat’s the future of UN peacekeeping?, February 2015.\nReproduced with permission from the Institute for Security Studies",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "11–12",
+          "text": "Makes a well-developed and reasoned judgement which clearly addresses the question ; Explicitly integrates evidence from the source with relevant, detailed and accurate historical knowledge to support judgement ; Presents a well-structured and logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "9–10",
+          "text": "Makes a reasoned judgement which addresses the question ; Integrates evidence from the source with relevant and accurate historical knowledge to support judgement ; Presents a logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "6–8",
+          "text": "Makes a judgement which addresses the question ; Uses evidence from the source AND/OR relevant historical knowledge to support response ; Presents a response using historical terms and concepts"
+        },
+        {
+          "marks": "3–5",
+          "text": "Describes some knowledge and understanding in relation to the question (which may come from the source) ; Presents a response using historical terms and concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes a general statement in relation to the topic"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option D: The Changing World Order 1945−2011"
+    },
+    {
+      "number": "23(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe the doctrine of Mutually Assured Destruction.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed, accurate and relevant description of the focus in the context of the question ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4",
+          "text": "Provides an accurate and relevant description of the focus in the context of the question ; Communicates using appropriate terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some relevant description of the focus in the context of the question ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement relevant to the question"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option E: The Nuclear Age 1945−2011"
+    },
+    {
+      "number": "23(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the role of the United Nations in the move towards nuclear disarmament.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Provides a well-developed explanation which clearly addresses the question ; Supports the explanation with relevant and accurate historical knowledge ; Presents a logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Provides an explanation which addresses the question ; Provides accurate historical knowledge relevant to the question ; Presents a response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Provides a description which is relevant to the question ; Provides some accurate historical knowledge ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statements relevant to the question"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option E: The Nuclear Age 1945−2011"
+    },
+    {
+      "number": "23(c)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 12,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Evaluate the social and environmental effects of the Nuclear Age. In your answer, include references to Source J.",
+      "stimulus": "Source J\nBy the late 1950s, much of the public was aware that an atomic attack could\nnot be restricted to its target. Strontium 90* and other radioactive elements\nreleased in above ground bomb tests had travelled invisibly thousands\nof miles to land on the grass American cows ate and so entered the milk\nAmerican children drank.\n*Strontium 90 radioactive material\nTOM ENGELHARDT, DEREK MAUS (eds)\n‘To Use or Not To Use: Implications of Nuclear Weapons’\nThe Cold War: Turning Points in World History, 2003\nThe End of Victory Culture: Cold War America and the Disillusioning of a Generation (page 157)\nReproduced with permission from Tom Engelhardt",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "11–12",
+          "text": "Makes a well-developed and reasoned judgement which clearly addresses the question ; Explicitly integrates evidence from the source with relevant, detailed and accurate historical knowledge to support judgement ; Presents a well-structured and logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "9–10",
+          "text": "Makes a reasoned judgement which addresses the question ; Integrates evidence from the source with relevant and accurate historical knowledge to support judgement ; Presents a logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "6–8",
+          "text": "Makes a judgement which addresses the question ; Uses evidence from the source AND/OR relevant historical knowledge to support response ; Presents a response using historical terms and concepts"
+        },
+        {
+          "marks": "3–5",
+          "text": "Describes some knowledge and understanding in relation to the question (which may come from the source) ; Presents a response using historical terms and concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes a general statement in relation to the topic"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option E: The Nuclear Age 1945−2011"
+    },
+    {
+      "number": "24(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe the role of the Bantustans as a method of repression.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed, accurate and relevant description of the focus in the context of the question ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4",
+          "text": "Provides an accurate and relevant description of the focus in the context of the question ; Communicates using appropriate terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some relevant description of the focus in the context of the question ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement relevant to the question"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option F: Apartheid in South Africa 1960−1994"
+    },
+    {
+      "number": "24(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the significance of Stephen Biko and the Black Consciousness Movement in the resistance to apartheid.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Provides a well-developed explanation which clearly addresses the question ; Supports the explanation with relevant and accurate historical knowledge ; Presents a logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Provides an explanation which addresses the question ; Provides accurate historical knowledge relevant to the question ; Presents a response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Provides a description which is relevant to the question ; Provides some accurate historical knowledge ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statements relevant to the question"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option F: Apartheid in South Africa 1960−1994"
+    },
+    {
+      "number": "24(c)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Change in the Modern World",
+      "marks": 12,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "To what extent did the Sharpeville Massacre broaden resistance to apartheid? In your answer, include references to Source K.",
+      "stimulus": "Source K\nThe [Sharpeville] massacre changed the course of South African history,\nbringing in what were to be the ugliest years of apartheid. The previously\nunknown township sprang to world prominence, and came to symbolise all\nthe wrongness and harshness of minority white rule.\nBENJAMIN POGRUND\nThe Guardian, 21 March 2006\nRemembering Sharpeville by Benjamin Pogrund\nCourtesy of Guardian News and Media Ltd",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "11–12",
+          "text": "Makes a well-developed and reasoned judgement which clearly addresses the question ; Explicitly integrates evidence from the source with relevant, detailed and accurate historical knowledge to support judgement ; Presents a well-structured and logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "9–10",
+          "text": "Makes a reasoned judgement which addresses the question ; Integrates evidence from the source with relevant and accurate historical knowledge to support judgement ; Presents a logical response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "6–8",
+          "text": "Makes a judgement which addresses the question ; Uses evidence from the source AND/OR relevant historical knowledge to support response ; Presents a response using historical terms and concepts"
+        },
+        {
+          "marks": "3–5",
+          "text": "Describes some knowledge and understanding in relation to the question (which may come from the source) ; Presents a response using historical terms and concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes a general statement in relation to the topic"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "prescribedText": "Option F: Apartheid in South Africa 1960−1994"
+    }
+  ],
+  "edits": [
+    {
+      "part": "3",
+      "marks": "1–2",
+      "old": "General description of Source B and/or C",
+      "new": "Provides a general description of Source B and/or C",
+      "reason": "2019 Q3 bottom row: a noun phrase, opened with a verb"
+    },
+    {
+      "part": "5(a)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "5(b)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "6(a)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "6(b)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "7(a)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "7(b)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "8(a)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "8(b)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "9(a)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "9(b)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "10(a)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "10(b)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "11(a)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "11(b)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "12(a)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "12(b)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "13(a)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "13(b)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "14(a)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "14(b)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "15(a)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "15(b)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "16(a)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "16(b)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "17(a)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "17(b)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "18(a)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    },
+    {
+      "part": "18(b)",
+      "marks": "1–5",
+      "old": "May use some historical terms and/or concepts",
+      "new": "Uses some historical terms and/or concepts",
+      "reason": "bottom row of the 25-mark essay guides: \"May use\" opens with a modal, not a verb"
+    }
+  ]
+}

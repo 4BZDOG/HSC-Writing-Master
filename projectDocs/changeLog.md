@@ -1,5 +1,19 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-20 (Modern History: six more years of HSC papers)
+
+- **Added (DATA_VERSION 2.62.0).** 268 past HSC questions from the 2019–2024 Modern History papers (2017 syllabus), each
+  mapped to the 2024 dot point that still covers it. Past questions rise from 43 to 311, and every option now has
+  12–20; most had 2–3.
+  - Stems, sources and ladders are NESA's, verbatim. NESA's complete sample answers are the full-mark exemplar. Where
+    the guidelines print only a model introduction or thesis (15 parts), the full-mark sample is written and the
+    introduction is quoted in the marker notes. 13 printed figures (photographs, cartoons, a results table) ship as
+    `scenarioImage`.
+  - Left out: the India option, which the 2024 syllabus drops; parts whose source NESA withheld for copyright; and
+    parts no 2024 dot point covers (Cuba remains without past questions).
+  - Extracts are in `data/referencePapers/modern-history-2019…2024-paper-and-guidelines.json`; `edits` records the
+    bottom ladder rows reworded to open with a verb ("May use…" → "Uses…").
+
 ## [Unreleased] - 2026-11-20 (Ancient History: six more years of HSC papers)
 
 - **Added (DATA_VERSION 2.61.0).** 414 past HSC questions from the 2019–2024 Ancient History papers (2017 syllabus),
