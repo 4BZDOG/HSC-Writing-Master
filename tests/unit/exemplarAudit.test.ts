@@ -5,7 +5,10 @@ import {
   auditSampleAnswer,
   auditPromptExemplars,
   promptHasExemplarMismatch,
+  sampleCountsAsAnswer,
 } from '../../utils/exemplarAudit';
+import { buildAuditTree, TreeNode } from '../../components/admin/contentAudit/auditModel';
+import { Course } from '../../types';
 
 const words = (n: number, w = 'idea'): string => Array(n).fill(w).join(' ');
 const paragraphs = (n: number, wordsEach = 40): string =>
@@ -191,5 +194,123 @@ describe('exemplarAudit — prompt-level roll-up', () => {
       ],
     });
     expect(promptHasExemplarMismatch(p)).toBe(false);
+  });
+});
+
+describe('exemplarAudit — NESA’s own HSC exemplars are the standard, not audited', () => {
+  it('skips an HSC_EXEMPLAR sample even when its length would flag a library sample', () => {
+    // A Band 6 sample of ~30 words on a 10-mark question: a warning if it were ours.
+    const p = prompt({ totalMarks: 10, verb: 'EVALUATE' as PromptVerb });
+    const hsc = sample({ band: 6, mark: 10, answer: words(30), source: 'HSC_EXEMPLAR' });
+    expect(auditSampleAnswer(p, hsc)).toEqual([]);
+    expect(promptHasExemplarMismatch({ ...p, sampleAnswers: [hsc] })).toBe(false);
+  });
+
+  it('still audits the same short sample when the library wrote it', () => {
+    const p = prompt({ totalMarks: 10, verb: 'EVALUATE' as PromptVerb });
+    const ours = sample({ band: 6, mark: 10, answer: words(30), source: 'AI' });
+    expect(codes(auditSampleAnswer(p, ours))).toContain('under-length');
+  });
+});
+
+describe('exemplarAudit — under-length is measured against the sample’s own marks', () => {
+  // 100 words on a 10-mark question is a Band 1 length (a full answer runs 320+),
+  // but a 3-mark answer of 100 words is a Band 6 length. The same text, two marks.
+  const p = prompt({ totalMarks: 10, verb: 'EVALUATE' as PromptVerb });
+  const text = words(100);
+
+  it('does not flag a Band 4 sample that earns 3 of 10 marks at a length that fits 3 marks', () => {
+    const flags = auditSampleAnswer(p, sample({ band: 4, mark: 3, answer: text }));
+    expect(codes(flags)).not.toContain('under-length');
+  });
+
+  it('still flags a full-mark Band 6 sample of the same length', () => {
+    const flags = auditSampleAnswer(p, sample({ band: 6, mark: 10, answer: text }));
+    expect(flags.some((f) => f.code === 'under-length' && f.severity === 'warning')).toBe(true);
+  });
+
+  it('falls back to the question’s marks when the sample has no mark', () => {
+    const flags = auditSampleAnswer(
+      p,
+      sample({ band: 6, mark: undefined as unknown as number, answer: text })
+    );
+    expect(flags.some((f) => f.code === 'under-length' && f.severity === 'warning')).toBe(true);
+  });
+});
+
+describe('exemplarAudit — a sample counts as an answer by the question’s marks', () => {
+  it('counts any non-empty answer on a 1-2 mark question', () => {
+    expect(sampleCountsAsAnswer('Coal', 1)).toBe(true);
+    expect(sampleCountsAsAnswer('4 am', 2)).toBe(true);
+    expect(sampleCountsAsAnswer('Sugar, phosphate and base', 2)).toBe(true);
+    expect(sampleCountsAsAnswer('   ', 2)).toBe(false);
+  });
+
+  it('keeps the 30-character floor on a question of 3 or more marks', () => {
+    expect(sampleCountsAsAnswer('Coal', 3)).toBe(false);
+    expect(sampleCountsAsAnswer(words(20), 3)).toBe(true);
+  });
+
+  it('keeps the 30-character floor when the marks are unknown', () => {
+    expect(sampleCountsAsAnswer('Coal', 0)).toBe(false);
+  });
+
+  it('is not an answer when the text is not a string', () => {
+    expect(sampleCountsAsAnswer(undefined, 1)).toBe(false);
+  });
+});
+
+describe('audit tree — No Samples counts a short answer on a 1-2 mark question', () => {
+  const courseWith = (totalMarks: number, answer: string): Course =>
+    ({
+      id: 'c1',
+      name: 'Course',
+      outcomes: [],
+      topics: [
+        {
+          id: 't1',
+          name: 'Topic',
+          subTopics: [
+            {
+              id: 's1',
+              name: 'Sub',
+              dotPoints: [
+                {
+                  id: 'd1',
+                  description: 'Dot point',
+                  prompts: [
+                    {
+                      id: 'p1',
+                      question: 'Name the mineral.',
+                      verb: 'IDENTIFY',
+                      totalMarks,
+                      keywords: [],
+                      linkedOutcomes: [],
+                      sampleAnswers: [sample({ id: 'a1', answer, mark: totalMarks, band: 6 })],
+                      isPastHSC: false,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }) as unknown as Course;
+
+  const promptNode = (c: Course): TreeNode => {
+    const find = (n: TreeNode): TreeNode | undefined =>
+      n.type === 'prompt' ? n : (n.children ?? []).map(find).find(Boolean);
+    const node = buildAuditTree([c]).map(find).find(Boolean);
+    if (!node) throw new Error('no prompt node');
+    return node;
+  };
+
+  it('does not report a missing sample for "Coal" on a 1-mark question', () => {
+    expect(promptNode(courseWith(1, 'Coal')).stats.missingSamples).toBe(0);
+  });
+
+  it('still reports a missing sample for "Coal" on a 3-mark question', () => {
+    expect(promptNode(courseWith(3, 'Coal')).stats.missingSamples).toBe(1);
   });
 });

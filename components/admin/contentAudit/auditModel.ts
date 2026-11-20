@@ -7,7 +7,7 @@ import {
   minimumTierForMarks,
 } from '../../../data/commandTerms';
 import { createKeywordRegex } from '../../../utils/renderUtils';
-import { promptHasExemplarMismatch } from '../../../utils/exemplarAudit';
+import { promptHasExemplarMismatch, sampleCountsAsAnswer } from '../../../utils/exemplarAudit';
 import { dropNonSyllabusTerms } from '../../../services/geminiService';
 import { missingSyllabusTerms } from '../../../utils/syllabusTermGaps';
 import { guideStyleProblem } from '../../../utils/markingGuideLadder';
@@ -643,8 +643,8 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
 
             // 3. Samples
             const validSamples = Array.isArray(p.sampleAnswers)
-              ? p.sampleAnswers.filter(
-                  (sa) => typeof sa.answer === 'string' && sa.answer.trim().length > 30
+              ? p.sampleAnswers.filter((sa) =>
+                  sampleCountsAsAnswer(sa.answer, Number(p.totalMarks) || 0)
                 )
               : [];
 
