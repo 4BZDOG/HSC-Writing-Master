@@ -8,7 +8,7 @@ import {
 } from '../../../data/commandTerms';
 import { createKeywordRegex } from '../../../utils/renderUtils';
 import { promptHasExemplarMismatch, sampleCountsAsAnswer } from '../../../utils/exemplarAudit';
-import { dropNonSyllabusTerms } from '../../../services/geminiService';
+import { dropNonSyllabusTerms, isSyllabusTerm } from '../../../services/geminiService';
 import { missingSyllabusTerms } from '../../../utils/syllabusTermGaps';
 import { guideStyleProblem } from '../../../utils/markingGuideLadder';
 
@@ -224,7 +224,14 @@ export const syllabusTermGaps = (n: TreeNode): string[] => {
   const dotPointText = n.dotPointText ?? '';
   const cached = termGapCache.get(prompt);
   if (cached && cached.dotPointText === dotPointText) return cached.terms;
-  const terms = missingSyllabusTerms(dotPointText, prompt);
+  // Every candidate must also pass the app's own term rule, with the same
+  // context the Tidy Terms repair uses. This lives here rather than in
+  // `utils/syllabusTermGaps`, because `services/geminiService` already imports
+  // that module; importing back would be a cycle.
+  const context = termContextFor(prompt, dotPointText);
+  const terms = missingSyllabusTerms(dotPointText, prompt).filter((t) =>
+    isSyllabusTerm(t, prompt.verb, context)
+  );
   termGapCache.set(prompt, { dotPointText, terms });
   return terms;
 };

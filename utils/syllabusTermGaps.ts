@@ -67,7 +67,9 @@ const NOT_SUBJECT_MATTER = new Set(
     'following given based upon ensure ensuring provide providing support supporting type types role roles ' +
     'impact impacts long term time year years first second third final phase phases appropriate effective ' +
     'effectiveness reflect show shows showing relevant intended local associated potential ongoing able ' +
-    'across after before between during through while with without own same each every some many few'
+    'across after before between during through while with without own same each every some many few ' +
+    'against around away along outside inside towards toward above below beyond at have has had made make take taken give given get being been ' +
+    'among amongst via per together makes takes gives having'
   ).split(/\s+/)
 );
 
@@ -139,10 +141,6 @@ const isCommandVerb = (word: string): boolean => {
   return word.endsWith('s') && verbs.has(word.slice(0, -1));
 };
 
-/** A word that could be part of a subject-matter term. */
-const isContentWord = (word: string): boolean =>
-  !!word && !NOT_SUBJECT_MATTER.has(word) && !isCommandVerb(word);
-
 /**
  * A one-word term that says nothing on its own: the instruction ("Evaluate"),
  * or a word the whole course is written in ("security", "testing", "design").
@@ -167,6 +165,61 @@ export const isWeakLoneTerm = (term: string): boolean => {
 const MAX_PHRASE_WORDS = 4;
 
 /**
+ * Common verbs that are NOT NESA command terms, but open dot points and
+ * questions all the same: "develop", "promote", "shape". `isCommandVerb` cannot
+ * see them, so "shape meaning" and "Gather data" were proposed as subject
+ * matter.
+ *
+ * Left out on purpose: words that are as often nouns in a syllabus — "research",
+ * "study", "report", "plan", "design", "test", "measure", "model", "change",
+ * "trade", "control" — and words that are common nouns or adjectives in their
+ * own right ("address", "face", "foster", "adopt", "estimate"). Dropping
+ * "foster care" or "IP address" to stop "foster children" would cost more than
+ * it saved.
+ */
+const NON_COMMAND_VERBS = new Set(
+  (
+    'develop produce generate prepare collect promote protect improve achieve gather infer suggest shape ' +
+    'express provide ensure support create increase reduce maintain apply use include involve affect enable ' +
+    'reflect represent consider determine establish contribute respond relate influence impact write name ' +
+    'emit mitigate obtain organise move raise uphold avoid buy regulate enhance minimise manage interrupt ' +
+    'negotiate resolve facilitate prevent encourage allow vary'
+  ).split(/\s+/)
+);
+
+/**
+ * A non-command verb in any form a dot point writes it in: base, +s/es,
+ * +ed/d, +ing, with the e dropped before -ing and -ed ("shape" → "shaped",
+ * "shaping"; "achieve" → "achieving").
+ */
+const isNonCommandVerbForm = (word: string): boolean => {
+  if (NON_COMMAND_VERBS.has(word)) return true;
+  if (word.endsWith('ing')) {
+    const stem = word.slice(0, -3);
+    return NON_COMMAND_VERBS.has(stem) || NON_COMMAND_VERBS.has(`${stem}e`);
+  }
+  if (word.endsWith('ies') || word.endsWith('ied')) {
+    if (NON_COMMAND_VERBS.has(`${word.slice(0, -3)}y`)) return true;
+  }
+  if (word.endsWith('ed') || word.endsWith('es')) {
+    return NON_COMMAND_VERBS.has(word.slice(0, -2)) || NON_COMMAND_VERBS.has(word.slice(0, -1));
+  }
+  return word.endsWith('s') && NON_COMMAND_VERBS.has(word.slice(0, -1));
+};
+
+/**
+ * What a word can be inside a candidate. `stop` is a function word or a command
+ * verb, and ends a run. `verb` is a non-command verb form: it ends a run too,
+ * with one exception (below). `content` is subject matter.
+ */
+type WordKind = 'content' | 'stop' | 'verb';
+
+const wordKind = (word: string): WordKind => {
+  if (!word || NOT_SUBJECT_MATTER.has(word) || isCommandVerb(word)) return 'stop';
+  return isNonCommandVerbForm(word) ? 'verb' : 'content';
+};
+
+/**
  * Candidate terms drawn from the syllabus dot point, in its own words.
  *
  * Runs of adjacent content words, longest first, because the terms this is for
@@ -175,8 +228,17 @@ const MAX_PHRASE_WORDS = 4;
  * instead shredded that last one into "Torres Strait", "Strait Islander" and
  * "Islander Peoples" — three overlapping fragments of one name.
  *
+ * A verb form ends a run, so no candidate contains one: "achieving Australia's
+ * economic" and "have shaped" were fragments that crossed a phrase boundary.
+ * A final -ing word that is not itself a listed verb stays content, so "problem
+ * solving", "decision making" and "data mining" survive. A listed one, such as
+ * "particle moving", does not: it is the verb, not the noun.
+ *
  * Original casing is carried through, so a term added to a list reads the way
- * the syllabus writes it rather than flattened to lower case.
+ * the syllabus writes it rather than flattened to lower case. Apostrophes stay
+ * in the display text: "Australia's" was once stripped to "Australias", and
+ * that artefact was then proposed as a term. The key is `normalise(display)`,
+ * which removes the apostrophe the same way the question text is compared.
  */
 const candidateTerms = (dotPointText: string): { key: string; display: string }[] => {
   const found: { key: string; display: string }[] = [];
@@ -186,28 +248,35 @@ const candidateTerms = (dotPointText: string): { key: string; display: string }[
    * three adjectives of "primary, secondary, tertiary structures" together
    * into one candidate — a phrase the syllabus never wrote.
    */
-  for (const segment of (dotPointText || '').replace(/['’]/g, '').split(/[^\p{L}\p{N}\s-]+/u)) {
-    const raw = segment.trim().split(/\s+/).filter(Boolean);
+  for (const segment of (dotPointText || '').split(/[^\p{L}\p{N}\s'’-]+/u)) {
+    const raw = segment
+      .split(/\s+/)
+      .map((w) => w.replace(/^['’]+|['’]+$/g, ''))
+      .filter(Boolean);
+    const lows = raw.map((w) => normalise(w));
+    const kinds = lows.map(wordKind);
 
     for (let start = 0; start < raw.length; start++) {
-      if (!isContentWord(raw[start].toLowerCase())) continue;
-      // How far the run of content words reaches from here.
+      if (kinds[start] !== 'content') continue;
+      // How far the run reaches from here.
       let end = start;
       while (
         end + 1 < raw.length &&
         end + 1 - start < MAX_PHRASE_WORDS &&
-        isContentWord(raw[end + 1].toLowerCase())
+        kinds[end + 1] === 'content'
       )
         end++;
       // Every length from the longest down, so a caller can keep the longest
       // its sources actually use and drop the fragments inside it.
       for (let last = end; last >= start; last--) {
         const words = raw.slice(start, last + 1);
-        const key = words.join(' ').toLowerCase();
+        const display = words.join(' ');
+        const key = normalise(display);
         const isPhrase = words.length > 1;
+        if (!key) continue;
         if (!isPhrase && key.length < 4) continue;
         if (isPhrase && words.some((w) => w.length < 3)) continue;
-        found.push({ key, display: words.join(' ') });
+        found.push({ key, display });
       }
     }
   }
