@@ -9051,7 +9051,7 @@
                     "totalMarks": 3,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Convert each map measurement to real distance first, using the scale, then calculate the area in square kilometres. Show the working so that a mark can be awarded for each step.",
@@ -9105,7 +9105,7 @@
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
-                      "GE-11-07"
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "A four-figure grid reference uses the easting first and then the northing, so the square is identified by its lower-left corner.",
@@ -9158,7 +9158,7 @@
                     "totalMarks": 4,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Close contour spacing means a steep gradient; wide spacing means a gentle one. Say which part of the slope is steep and which is gentle, and what that means for the shape of the gorge.",
@@ -9211,8 +9211,8 @@
                     "totalMarks": 2,
                     "verb": "STATE",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-07"
+                      "GE-12-08",
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "V-shaped contours point uphill along the valley, which is the direction of higher ground. State the valley and the drainage line it contains.",
@@ -9264,7 +9264,7 @@
                     "totalMarks": 3,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Local relief is the highest point minus the lowest point in the stated area. Show the subtraction and the units, so that an arithmetic slip can still earn method marks.",
@@ -9318,8 +9318,8 @@
                     "totalMarks": 2,
                     "verb": "DEFINE",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-07"
+                      "GE-12-08",
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "A definition needs the defining feature of the concept: the difference between the highest and lowest points within a stated area.",
@@ -9370,7 +9370,7 @@
                     "totalMarks": 2,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Gradient is the vertical rise divided by the horizontal run, in the same units. Write it as a ratio with the rise as 1, such as 1:20.",
@@ -9415,7 +9415,7 @@
                     "totalMarks": 4,
                     "verb": "DEMONSTRATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "The gradient uses real distances, not map distances. Show that when the map scale changes, the map distance changes but the real rise and run, and therefore the ratio, do not.",
@@ -9473,7 +9473,7 @@
                     "totalMarks": 6,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
-                      "GE-11-07"
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "Construction is a sequence: draw the baseline to scale, plot the transect distance, plot each contour height at its distance, and join the points to form the profile. A marker can award each step.",
@@ -9526,8 +9526,8 @@
                     "totalMarks": 3,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "GE-11-07",
-                      "GE-11-08"
+                      "GE-12-07",
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Describe the profile from one end to the other: where it rises steeply, where it flattens, and where the highest point lies.",
@@ -9588,7 +9588,7 @@
                     "totalMarks": 4,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Vertical exaggeration is the horizontal scale divided by the vertical scale, both expressed as the same kind of ratio. Put both scales into metres per centimetre first, then divide.",
@@ -9641,8 +9641,8 @@
                     "totalMarks": 3,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
-                      "GE-11-07",
-                      "GE-11-08"
+                      "GE-12-07",
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Interpret means say what the exaggeration does to the picture: a vertical exaggeration of 5 makes a slope look about five times steeper than it is.",
@@ -9703,7 +9703,7 @@
                     "totalMarks": 3,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Convert the map distance to real distance first, then divide by speed. Give the answer in both hours and minutes, since a walker needs the time, not a decimal.",
@@ -9757,8 +9757,8 @@
                     "totalMarks": 8,
                     "verb": "JUSTIFY",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-09"
+                      "GE-12-08",
+                      "GE-12-09"
                     ],
                     "markerNotes": [
                       "Justify means give reasons for the choice, with the figures that support it. Calculate the time for each route (distance divided by speed) before weighing them.",
@@ -9817,7 +9817,7 @@
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
-                      "GE-11-07"
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "Aspect is the direction a slope faces, which is the downhill direction. The uphill direction is the reverse, so a slope falling to the north-west has a north-west aspect.",
@@ -9862,7 +9862,7 @@
                     "totalMarks": 3,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Work out the east and north differences from the grid references first, then use the tangent method. Bearings are always written as three figures.",
@@ -9921,7 +9921,7 @@
                     "totalMarks": 3,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Convert the scale into metres first. A scale of 1:25 000 means 1 cm on the map is 250 m on the ground, so multiply the map distance in centimetres by 250.",
@@ -9974,7 +9974,7 @@
                     "totalMarks": 4,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Area scales with the square of the linear scale. Each square centimetre on the map covers 0.5 km by 0.5 km on the ground, which is 0.25 square kilometres.",
@@ -10033,7 +10033,7 @@
                     "totalMarks": 3,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Density is the count of the feature divided by the area, so the number of dwellings goes on top and the area goes underneath. Check that the units read dwellings per square kilometre.",
@@ -10086,8 +10086,8 @@
                     "totalMarks": 4,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "GE-11-07",
-                      "GE-11-08"
+                      "GE-12-07",
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "The key idea is standardisation. Dividing by area puts unequal areas on a common basis, so the raw count of 40 cannot be compared directly.",
@@ -10146,8 +10146,8 @@
                     "totalMarks": 4,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-09"
+                      "GE-12-08",
+                      "GE-12-09"
                     ],
                     "markerNotes": [
                       "The range runs from 10 to 95, so four equal intervals of 25 cover 0 to 100 and give a clean key. Write the interval boundaries before assigning the zones.",
@@ -10200,8 +10200,8 @@
                     "totalMarks": 5,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
-                      "GE-11-01",
-                      "GE-11-08"
+                      "GE-12-01",
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Interpretation means explaining what the pattern suggests, not just repeating the shading. Link the darkest and lightest zones to the density values.",
@@ -10260,7 +10260,7 @@
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
-                      "GE-11-07"
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "Closer isobars mean a steeper pressure gradient, and a steeper gradient produces stronger winds. Read the spacing of the isobars, not just their values.",
@@ -10305,7 +10305,7 @@
                     "totalMarks": 4,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "GE-11-07"
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "Describe the change using both maps. The fall from 1004 hPa to 992 hPa is a change of 12 hPa, and quoting the figure earns the precision that separates the top band.",
@@ -10364,7 +10364,7 @@
                     "totalMarks": 4,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "GE-11-01"
+                      "GE-12-01"
                     ],
                     "markerNotes": [
                       "A spatial pattern is the direction and rate of change across space. Name the direction, for example north-west to south-east, and check the values in order from Suburb 1 to Suburb 6.",
@@ -10417,8 +10417,8 @@
                     "totalMarks": 6,
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
-                      "GE-11-05",
-                      "GE-11-01"
+                      "GE-12-05",
+                      "GE-12-01"
                     ],
                     "markerNotes": [
                       "Analyse means explaining what the association shows and why, not only stating that the values move together. Use figures from at least two suburbs and name a mechanism.",
@@ -10483,8 +10483,8 @@
                     "totalMarks": 4,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
-                      "GE-11-06",
-                      "GE-11-07"
+                      "GE-12-06",
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "A geographical question names a place and a pattern or process, and can be answered with evidence gathered in the field. A question about the general environment is too broad.",
@@ -10537,7 +10537,7 @@
                     "totalMarks": 4,
                     "verb": "DISTINGUISH",
                     "linkedOutcomes": [
-                      "GE-11-06"
+                      "GE-12-06"
                     ],
                     "markerNotes": [
                       "Primary data are collected first-hand by the investigator, usually in the field. Secondary information was collected by someone else and is usually found in published records.",
@@ -10590,8 +10590,8 @@
                     "totalMarks": 2,
                     "verb": "PROPOSE",
                     "linkedOutcomes": [
-                      "GE-11-06",
-                      "GE-11-07"
+                      "GE-12-06",
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "A full-mark question names the island, a process and a human consequence, and could be investigated on site during a field trip rather than answered from a textbook.",
@@ -10648,8 +10648,8 @@
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
-                      "GE-11-06",
-                      "GE-11-07"
+                      "GE-12-06",
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "A primary source must be generated by the class during the investigation. A secondary source must already exist before the investigation begins.",
@@ -10694,7 +10694,7 @@
                     "totalMarks": 5,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "GE-11-07"
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "The sampling design is the plan for where and when the class collects data. A transect that runs along the creek, with quadrats at set intervals, gives a systematic sample along that part of the reserve.",
@@ -10753,7 +10753,7 @@
                     "totalMarks": 4,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
-                      "GE-11-07"
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "Each entry needs a time, the event or activity, the weather, and what the event did to the fieldwork. The effect is the element that separates a log from a diary.",
@@ -10806,7 +10806,7 @@
                     "totalMarks": 3,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "GE-11-07"
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "The key point is that a timed entry shows the conditions under which each count was made. Counts taken in different conditions are not directly comparable.",
@@ -10865,8 +10865,8 @@
                     "totalMarks": 6,
                     "verb": "SYNTHESISE",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-05"
+                      "GE-12-08",
+                      "GE-12-05"
                     ],
                     "markerNotes": [
                       "Synthesis means combining the three sites and both measures into one explanation. Describing each site separately earns the description marks only.",
@@ -10919,8 +10919,8 @@
                     "totalMarks": 4,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-01"
+                      "GE-12-08",
+                      "GE-12-01"
                     ],
                     "markerNotes": [
                       "Interpretation goes beyond the figures to explain what they suggest. The question asks for the likely source at each site, so name a source for each one.",
@@ -10979,8 +10979,8 @@
                     "totalMarks": 8,
                     "verb": "EVALUATE",
                     "linkedOutcomes": [
-                      "GE-11-06",
-                      "GE-11-07"
+                      "GE-12-06",
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "Evaluation requires a judgement, so weigh each strength or weakness by its effect on the reliability of the data rather than simply listing it.",
@@ -11042,8 +11042,8 @@
                     "totalMarks": 6,
                     "verb": "ASSESS",
                     "linkedOutcomes": [
-                      "GE-11-06",
-                      "GE-11-05"
+                      "GE-12-06",
+                      "GE-12-05"
                     ],
                     "markerNotes": [
                       "Assess means weighing the value of the strengths against the limitations, and then stating how far the conclusions can be trusted.",
@@ -11108,7 +11108,7 @@
                     "totalMarks": 3,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Divide by the number of years between the two points, which is 5 years from 2019 to 2024, not 6. Counting both end years inclusively is a common mistake.",
@@ -11161,7 +11161,7 @@
                     "totalMarks": 4,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Percentage change is calculated against the starting value of 2,400, not the end value. The total change is then divided by the number of years.",
@@ -11220,7 +11220,7 @@
                     "totalMarks": 3,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Area is proportional to value, so a circle with twice the diameter holds four times the value, not two times.",
@@ -11273,7 +11273,7 @@
                     "totalMarks": 4,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "The area ratio is the diameter ratio squared. Find the diameter ratio first (6 ÷ 3 = 2), then square it.",
@@ -11332,8 +11332,8 @@
                     "totalMarks": 4,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-09"
+                      "GE-12-08",
+                      "GE-12-09"
                     ],
                     "markerNotes": [
                       "Each angle is the segment's share of the total multiplied by 360 degrees. Check that the angles add to 360 degrees before drawing, because one wrong segment distorts the whole circle.",
@@ -11386,8 +11386,8 @@
                     "totalMarks": 4,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-01"
+                      "GE-12-08",
+                      "GE-12-01"
                     ],
                     "markerNotes": [
                       "Compare both the total circle size and the segments. The total area shows the scale of each suburb, and the segments show its composition.",
@@ -11446,7 +11446,7 @@
                     "totalMarks": 3,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "A segment's value is its share of the full circle: angle divided by 360 degrees, multiplied by the total. Calculate the share first, then apply it to the total.",
@@ -11499,7 +11499,7 @@
                     "totalMarks": 4,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Use the segment angle and the total of the pie being read, which here is 1,200 households, not the total of Pie 1.",
@@ -11558,8 +11558,8 @@
                     "totalMarks": 4,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-05"
+                      "GE-12-08",
+                      "GE-12-05"
                     ],
                     "markerNotes": [
                       "The modal class is the class with the highest frequency, not the class with the highest distance. Read the frequency column, not the class labels.",
@@ -11612,8 +11612,8 @@
                     "totalMarks": 5,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-05"
+                      "GE-12-08",
+                      "GE-12-05"
                     ],
                     "markerNotes": [
                       "Describe the shape by its peaks and tails. A single peak with tails of similar size is roughly symmetrical.",
@@ -11672,8 +11672,8 @@
                     "totalMarks": 4,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
-                      "GE-11-01",
-                      "GE-11-05"
+                      "GE-12-01",
+                      "GE-12-05"
                     ],
                     "markerNotes": [
                       "Read the pyramid from the base upwards. A narrow base means fewer young people, which usually reflects lower birth rates over time.",
@@ -11726,8 +11726,8 @@
                     "totalMarks": 6,
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
-                      "GE-11-01",
-                      "GE-11-05"
+                      "GE-12-01",
+                      "GE-12-05"
                     ],
                     "markerNotes": [
                       "Analysis links the shape to its consequence. A broad base means a growing number of school-age children, which creates demand for schools and housing.",
@@ -11786,7 +11786,7 @@
                     "totalMarks": 4,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Describe a correlation by its direction (positive or negative) and its strength (strong, moderate or weak), using the pattern of the whole band of points rather than single points.",
@@ -11839,8 +11839,8 @@
                     "totalMarks": 5,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-05"
+                      "GE-12-08",
+                      "GE-12-05"
                     ],
                     "markerNotes": [
                       "On a ternary graph, a point's position shows its mix of uses. The point sits closest to the corner whose share is highest.",
@@ -11899,7 +11899,7 @@
                     "totalMarks": 3,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Absolute change is the new value minus the old value. Proportional change divides that change by the original value, not the new value.",
@@ -11952,7 +11952,7 @@
                     "totalMarks": 4,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08"
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Keep the sign in both measures. A negative value shows a decrease, and the proportional change is calculated against the 2010 value.",
@@ -12011,8 +12011,8 @@
                     "totalMarks": 4,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-09"
+                      "GE-12-08",
+                      "GE-12-09"
                     ],
                     "markerNotes": [
                       "Check each total by adding the raw counts again. The weekend share is the weekend total divided by the weekly total, multiplied by 100.",
@@ -12065,8 +12065,8 @@
                     "totalMarks": 6,
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-05"
+                      "GE-12-08",
+                      "GE-12-05"
                     ],
                     "markerNotes": [
                       "Analyse the trend by stating its direction and the peak, then link the change to the other variable in the table.",
@@ -12125,8 +12125,8 @@
                     "totalMarks": 6,
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-05"
+                      "GE-12-08",
+                      "GE-12-05"
                     ],
                     "markerNotes": [
                       "Give a figure with each claim. A pattern is a repeated feature (both variables dip in 2020), a trend is the direction over the whole period, and a relationship is how the two variables move together.",
@@ -12247,8 +12247,8 @@
                     "totalMarks": 5,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "GE-11-07",
-                      "GE-11-06"
+                      "GE-12-07",
+                      "GE-12-06"
                     ],
                     "markerNotes": [
                       "Describe means say how and in what order, not just what. Sequence the steps from switching on, to fixing satellites, to recording points and transferring data.",
@@ -12363,8 +12363,8 @@
                     "totalMarks": 4,
                     "verb": "DIFFERENTIATE",
                     "linkedOutcomes": [
-                      "GE-11-07",
-                      "GE-11-09"
+                      "GE-12-07",
+                      "GE-12-09"
                     ],
                     "markerNotes": [
                       "Differentiate means identify the difference and what it changes for the reader. Name the basis of each map (area shading versus symbol size) and what the reader is drawn to compare.",
@@ -12478,8 +12478,8 @@
                     "totalMarks": 4,
                     "verb": "OUTLINE",
                     "linkedOutcomes": [
-                      "GE-11-07",
-                      "GE-11-09"
+                      "GE-12-07",
+                      "GE-12-09"
                     ],
                     "markerNotes": [
                       "Outline means give the main steps briefly, in order. You do not need detail on each step, but each step should be a recognisable stage in the process.",
@@ -12594,8 +12594,8 @@
                     "totalMarks": 4,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-07"
+                      "GE-12-08",
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "Density is the count divided by the area, so divide the number of shelters by the area in square kilometres, and show each division.",
@@ -12710,8 +12710,8 @@
                     "totalMarks": 6,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "GE-11-05",
-                      "GE-11-07"
+                      "GE-12-05",
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "Explain means how and why: say how comparing dated images reveals change, and how overlaying land and river layers reveals connections.",
@@ -12832,8 +12832,8 @@
                     "totalMarks": 4,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-07"
+                      "GE-12-08",
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "Scale is the photograph distance compared with the ground distance, so both must be in the same units before dividing: 30 metres is 3000 centimetres.",
@@ -12948,8 +12948,8 @@
                     "totalMarks": 4,
                     "verb": "APPLY",
                     "linkedOutcomes": [
-                      "GE-11-07",
-                      "GE-11-08"
+                      "GE-12-07",
+                      "GE-12-08"
                     ],
                     "markerNotes": [
                       "Apply means use the cues in the photograph: shadows point away from the sun, and long shadows mean a low sun, which happens near sunrise and sunset.",
@@ -13063,8 +13063,8 @@
                     "totalMarks": 4,
                     "verb": "CALCULATE",
                     "linkedOutcomes": [
-                      "GE-11-08",
-                      "GE-11-07"
+                      "GE-12-08",
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "A point count gives an area ratio: each category's points divided by the total points. Show one division so the method is visible.",
@@ -13179,8 +13179,8 @@
                     "totalMarks": 4,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
-                      "GE-11-07",
-                      "GE-11-09"
+                      "GE-12-07",
+                      "GE-12-09"
                     ],
                     "markerNotes": [
                       "A précis map is a simplified version of the photograph: keep the features that matter for the question and leave out detail that does not.",
@@ -13294,8 +13294,8 @@
                     "totalMarks": 5,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "GE-11-05",
-                      "GE-11-07"
+                      "GE-12-05",
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "Describe the rate (how fast) and the extent (how far or how much) separately. The scenario gives a distance and a time, so calculate an average rate per year.",
@@ -13410,7 +13410,7 @@
                     "totalMarks": 5,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "GE-11-07"
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "Explain the steps in order and say why each one matters. Matching at least two landmarks is what fixes the rotation, because one landmark cannot fix an angle.",
@@ -13525,8 +13525,8 @@
                     "totalMarks": 6,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
-                      "GE-11-07",
-                      "GE-11-09"
+                      "GE-12-07",
+                      "GE-12-09"
                     ],
                     "markerNotes": [
                       "Construct means draw or set out the transect, then describe what it shows. Mark the sampling points at regular intervals and state the interval.",
@@ -13641,8 +13641,8 @@
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
-                      "GE-11-05",
-                      "GE-11-07"
+                      "GE-12-05",
+                      "GE-12-07"
                     ],
                     "markerNotes": [
                       "Identify means name the feature clearly. A spatial pattern describes how things are arranged; a spatial association links two distributions that occur together.",
@@ -13687,8 +13687,8 @@
                     "totalMarks": 5,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "GE-11-07",
-                      "GE-11-09"
+                      "GE-12-07",
+                      "GE-12-09"
                     ],
                     "markerNotes": [
                       "Describe the spatial interactions with direction, relative size and destination. A flow map shows the relationship between places, not the places themselves.",
