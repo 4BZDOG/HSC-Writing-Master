@@ -1,5 +1,18 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-20 (Physics: six more years of HSC papers)
+
+- **Added (DATA_VERSION 2.65.0).** 89 past HSC questions from the 2019–2024 Physics papers (2017 syllabus), each mapped
+  to the 2025 dot point that covers it (4 to Year 11), as the 2025 paper was. 54 printed diagrams, graphs and tables
+  ship as `scenarioImage`.
+  - Notation follows the 2025 questions (Unicode superscripts, Greek letters, ×); symbols the PDF text layer garbles
+    were checked against the rendered pages. 2024 29(b) regains a line the text layer dropped.
+  - NESA's sample answers are the full-mark exemplars, verbatim, except where formulas garbled them in the text layer
+    or none was printed; those get a complete written answer.
+  - Left out, as in 2.52.0: multiple choice, drawing, and calculation-only parts, plus one algebra-only derivation
+    (2019 29).
+  - Extracts are in `data/referencePapers/physics-2019…2024-paper-and-guidelines.json`.
+
 ## [Unreleased] - 2026-11-20 (Chemistry: six more years of HSC papers)
 
 - **Added (DATA_VERSION 2.64.0).** 68 past HSC questions from the 2019–2024 Chemistry papers (2017 syllabus), each

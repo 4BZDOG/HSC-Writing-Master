@@ -1,0 +1,511 @@
+{
+  "year": 2022,
+  "course": "Physics",
+  "papers": [
+    "2022-hsc-physics.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "24(a)",
+      "reason": "Asks the student to use the graph to find the half-life and show that the decay constant is 0.043 h−1; the answer is a numerical working from a half-life calculation, so it is skipped as calculation-only."
+    },
+    {
+      "number": "24(b)",
+      "reason": "Calculation of the time for the mass to fall to 8 micrograms; a numerical answer from working."
+    },
+    {
+      "number": "25(a)",
+      "reason": "Show that the change in kinetic energy is 2.2 × 10⁹ J; calculation-only."
+    },
+    {
+      "number": "25(b)",
+      "reason": "Determine the mass of the planet; calculation-only."
+    },
+    {
+      "number": "26(a)",
+      "reason": "Show that the maximum kinetic energy is 3.2 × 10⁻²⁰ J; calculation-only."
+    },
+    {
+      "number": "26(b)",
+      "reason": "Calculate the maximum distance d; calculation-only."
+    },
+    {
+      "number": "27(a)",
+      "reason": "Use a labelled sketch to show the pattern expected from Newton's model; answered by drawing on the paper."
+    },
+    {
+      "number": "27(b)",
+      "reason": "Calculate the angle θ; calculation-only."
+    },
+    {
+      "number": "30(b)",
+      "reason": "Calculate how long the return journey takes according to the outside observer; calculation-only."
+    },
+    {
+      "number": "33(a)",
+      "reason": "Show that the vertical component of velocity at P is 14.2 m s⁻¹; calculation-only."
+    },
+    {
+      "number": "33(b)",
+      "reason": "Calculate the horizontal range of the projectile; calculation-only."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Compare qualitatively the surface temperature and luminosity of X and Y.",
+      "stimulus": "The positions of two stars, X and Y, are shown in the Hertzsprung–Russell diagram. [Diagram: Hertzsprung–Russell diagram of absolute magnitude (−10 to +15) against spectral class (O to M), with stars X and Y labelled.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Correctly compares the surface temperatures and luminosities of X and Y"
+        },
+        {
+          "marks": "1",
+          "text": "Correctly compares the surface temperatures or luminosities of X and Y"
+        }
+      ],
+      "sampleAnswer": "The surface temperature of X is greater than the surface temperature of Y.\nThe luminosity of X is less than the luminosity of Y.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2022-21a.png",
+        "page": 18,
+        "alt": "Hertzsprung–Russell diagram of absolute magnitude against spectral class, with stars X and Y labelled."
+      }
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Identify the elements undergoing fusion in the core of each star, X and Y.",
+      "stimulus": "The positions of two stars, X and Y, are shown in the Hertzsprung–Russell diagram. [Diagram: Hertzsprung–Russell diagram of absolute magnitude (−10 to +15) against spectral class (O to M), with stars X and Y labelled.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies the elements undergoing fusion in X and Y"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies an element undergoing fusion in X or Y"
+        }
+      ],
+      "sampleAnswer": "In star X fusion of hydrogen is taking place and in star Y helium is fusing.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2022-21a.png",
+        "page": 18,
+        "alt": "Hertzsprung–Russell diagram of absolute magnitude against spectral class, with stars X and Y labelled."
+      }
+    },
+    {
+      "number": "22",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "For TWO features of the transformer, describe how each contributes to the transformer’s efficiency.",
+      "stimulus": "The diagram shows features of a transformer. [Diagram: transformer with labelled laminations, copper wire and continuous iron core.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Describes effects of TWO features that contribute to efficiency"
+        },
+        {
+          "marks": "3",
+          "text": "Describes effect of ONE feature that contributes to efficiency and identifies an effect of another feature"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies effect of ONE feature that contributes to efficiency"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The laminations in the core minimise the production of eddy currents that would heat the core, reducing efficiency. The fact that the iron core is continuous enables maximum transfer of flux from the primary to the secondary coil, increasing efficiency.",
+      "answersCouldInclude": [
+        "The high conductivity/low resistance of copper wire reduces heating loss."
+      ],
+      "figure": {
+        "file": "phy-2022-22.png",
+        "page": 19,
+        "alt": "Labelled diagram of a transformer showing laminations, copper wire and a continuous iron core."
+      }
+    },
+    {
+      "number": "23",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline a method that could be used to determine a value for the speed of light. In your answer, identify ONE factor that would limit the accuracy of the experimental data.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Outlines the steps necessary to conduct measurements in a relevant experiment ; Outlines how measurements are used to determine the speed of light ; Identifies a limiting factor"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines some steps necessary to conduct measurements in a relevant experiment ; Outlines how measurements are used to determine the speed of light or identifies a limiting factor"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some details about a relevant experiment or calculation or limiting factor"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A light source is directed at a mirror a large distance away. The light and a stopwatch are turned on at the same instant.\nThe stopwatch is stopped when the reflected light is observed.\nThe total distance to the mirror and back is measured and the speed of light can be determined by dividing the distance travelled by the time taken.\nA limitation to the accuracy of the experiment could be the reaction time in stopping the stopwatch when the reflected light is observed.",
+      "answersCouldInclude": [
+        "The passing of light through the teeth of a rotating cog and using the speed of rotation and the flickering of the reflected light in making the calculation of the speed of the light",
+        "Other experimental setups involving lasers, retro reflectors, interferometers and resonant cavities etc",
+        "Rømer’s experiment involving light from Jupiter."
+      ]
+    },
+    {
+      "number": "27(c)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "The laser is replaced with one producing green light of wavelength 520 nm. Explain the difference in the pattern that would be produced.",
+      "stimulus": "A laser producing red light of wavelength 655 nm is directed onto double slits separated by a distance, d = 5.0 × 10⁻⁵ m. A screen is placed behind the double slits. [Diagram, not to scale: laser light source (655 nm) directed at double slits, d = 5.0 × 10⁻⁵ m, with a screen and the centre of the screen marked.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Describes and clearly explains the difference in the pattern"
+        },
+        {
+          "marks": "1",
+          "text": "Describes the difference in the pattern"
+        }
+      ],
+      "sampleAnswer": "The bright lines would be closer together, because θ is smaller if λ is smaller.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2022-27c.png",
+        "page": 24,
+        "alt": "Diagram, not to scale, of a laser shining through double slits onto a screen, with the centre of the screen marked."
+      }
+    },
+    {
+      "number": "28",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Propose a reason why Step Y releases more energy than Step X. Support your answer with calculations.",
+      "stimulus": "Two steps in the CNO cycle of nuclear fusion are shown. [Diagram: Step X: ¹³N → ¹³C + e⁺ + ν; Step Y: ¹³C + ¹H → ¹⁴N.] Step X releases 1.20 MeV. The masses in Step Y are shown in the table. [Table: Isotope | Mass (u); Carbon-13 | 13.003; Proton | 1.007; Nitrogen-14 | 14.003.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Correctly calculates energy released and suggests why it is greater than X"
+        },
+        {
+          "marks": "2",
+          "text": "Correctly calculates energy released or identifies that more mass is lost in Step Y"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Change of mass in Step Y = Δm = 13.003 + 1.007 − 14.003 = 0.007u\nEnergy released E = 0.007 × 931.5 = 6.52 MeV\nThis is more energy than was released in Step X, so more mass must have been lost.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2022-28.png",
+        "page": 26,
+        "alt": "Two CNO cycle step equations and a table of isotope masses for carbon-13, proton and nitrogen-14."
+      }
+    },
+    {
+      "number": "29",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the horizontal and vertical components of the apple’s motion during its flight.",
+      "stimulus": "An apple was thrown horizontally to the east from the window of a car which was moving with a uniform velocity to the north.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Describes and explains the horizontal component of the apple’s motion ; Describes and explains the vertical component of the apple’s motion"
+        },
+        {
+          "marks": "3",
+          "text": "Relates features of the apple’s horizontal and vertical motion to a force acting on it"
+        },
+        {
+          "marks": "2",
+          "text": "Describes features of the apple’s motion ; OR ; Relates a feature of the apple’s motion to the forces acting on it"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The horizontal component of the motion of the apple remains constant because there is no net force acting on it in the horizontal direction. The initial horizontal velocity of the apple is the vector sum of the car’s velocity relative to the ground plus the apple’s initial velocity relative to the car.\nThe vertical motion of the apple is accelerated uniformly vertically downward from rest by the gravitational force acting on it.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Describe qualitatively how the constancy of the speed of light and the thought experiment above led Einstein to predict time dilation.",
+      "stimulus": "In a thought experiment, light travels from X to a mirror Y and back to X on a moving train carriage. The path of the light relative to an observer on the train is shown. Relative to an observer outside the train, the path of the light is shown below, at three consecutive times as the train carriage moves along the track. [Diagram: light path X to mirror Y and back to X, shown at Time 1, Time 2 and Time 3 as seen by an observer outside the moving train.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes the process that led to the prediction of time dilation"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines parts of the process"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "The distance travelled by the light, X to Y to X, appears to be greater to the observer outside the train than to the observer in the train. Since both observe the same speed of light, then the return trip must have taken longer for the observer outside the train, since t =",
+      "figure": {
+        "file": "phy-2022-30a.png",
+        "page": 28,
+        "alt": "Three frames of a train carriage at consecutive times, showing the light path from X to mirror Y and back to X."
+      }
+    },
+    {
+      "number": "31",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 9,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "How do features of this model account for all the experimental evidence above? Support your answer with a sample calculation and a diagram, and refer to energy, forces and photons.",
+      "stimulus": "Following the Geiger−Marsden experiment, Rutherford proposed a model of the atom. [Figures: The Geiger−Marsden experiment and Rutherford’s model of the experimental results; hydrogen spectrum, The Balmer series, wavelength 400–700 nm.] Bohr modified this model to explain the spectrum of hydrogen observed in experiments. The Bohr−Rutherford model of the atom consists of electrons in energy levels around a positive nucleus.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "9",
+          "text": "Provides a comprehensive analysis, relating features of the model to the experimental evidence ; Incorporates a relevant calculation and detailed diagram in analysis"
+        },
+        {
+          "marks": "8",
+          "text": "Provides a thorough analysis, relating features of the model to the experimental evidence ; Includes a relevant calculation and detailed diagram"
+        },
+        {
+          "marks": "6–7",
+          "text": "Relates features of the model to the experimental evidence ; Includes a relevant calculation and/or a diagram"
+        },
+        {
+          "marks": "4–5",
+          "text": "Identifies some links between the model and the experimental evidence and/or a calculation"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides details of the model and/or the experimental evidence"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "In the Geiger–Marsden experiment, the fact that most alpha particles went straight through the gold atom was accounted for by the atom being mostly empty space in the model. The small fraction of alpha particles that were deflected through large angles were accounted for by the dense positive nucleus that exerted a repulsive electrostatic force on the alpha particles headed towards it. The large mass of the nucleus relative to the alpha particles made them bounce back while the nucleus remained stationary. Alpha particles passing near the nucleus were deflected by smaller amounts due to a smaller electrostatic force.\nThe model was able to account for experimental results of the spectrum of hydrogen using the postulates that electrons exist in stable energy states around the nucleus. If an electron moves from a higher-energy state to a lower one, it emits a photon with energy given by",
+      "figure": {
+        "file": "phy-2022-31.png",
+        "page": 30,
+        "alt": "The Geiger–Marsden experiment, Rutherford's model of the experimental results, and the Balmer series of hydrogen."
+      }
+    },
+    {
+      "number": "32(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the principle by which these magnets make it harder to pedal.",
+      "stimulus": "One type of stationary exercise bike uses a pair of strong, movable magnets placed on opposite sides of a thick, aluminium flywheel to provide a torque to make it harder to pedal. [Diagram: stationary exercise bike with flywheel and movable magnets labelled.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains how the magnets make it harder to pedal"
+        },
+        {
+          "marks": "2",
+          "text": "Relates magnetic effects to induced currents"
+        },
+        {
+          "marks": "1",
+          "text": "Outlines magnetic effects"
+        }
+      ],
+      "sampleAnswer": "Relative motion between the magnets and the moving flywheel induce eddy currents in the flywheel. These produce magnetic fields and a subsequent force on the wheel that opposes the changing flux. This produces a torque that opposes the pedalling action of the person, making it harder for them to pedal.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2022-32.png",
+        "page": 32,
+        "alt": "Stationary exercise bike with a flywheel and movable magnets positioned on either side of it."
+      }
+    },
+    {
+      "number": "32(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "The bike rider wants to increase the opposing torque on the flywheel. Justify an adjustment that could be made to the magnets to achieve this.",
+      "stimulus": "One type of stationary exercise bike uses a pair of strong, movable magnets placed on opposite sides of a thick, aluminium flywheel to provide a torque to make it harder to pedal. [Diagram: stationary exercise bike with flywheel and movable magnets labelled.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Justifies a method for increasing torque"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a method that would increase torque"
+        },
+        {
+          "marks": "1",
+          "text": "Links torque to parts of the bike ; OR ; Identifies a related method"
+        }
+      ],
+      "sampleAnswer": "The magnets could be moved closer to the wheel causing the induced eddy currents to be larger due to the greater flux change. The stronger field produced by these currents thus exerts a greater force and greater opposing torque on the flywheel.",
+      "answersCouldInclude": [
+        "Moving the magnets further away from the flywheel’s axis."
+      ],
+      "figure": {
+        "file": "phy-2022-32.png",
+        "page": 32,
+        "alt": "Stationary exercise bike with a flywheel and movable magnets positioned on either side of it."
+      }
+    },
+    {
+      "number": "34",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 7,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the different paths that the particles follow through the magnetic field.",
+      "stimulus": "Three charged particles, X, Y and Z, travelling along straight, parallel trajectories at the same speed, enter a region in which there is a uniform magnetic field which causes them to follow the paths shown. Assume that the particles do not exert any significant force on each other. [Diagram: particles X, Y and Z entering a uniform magnetic field region, following curved paths; labelled Magnetic field.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Explains comprehensively the different paths of each particle X, Y and Z through the magnetic field"
+        },
+        {
+          "marks": "6",
+          "text": "Explains the paths of particles X, Y and Z"
+        },
+        {
+          "marks": "4–5",
+          "text": "Explains some aspects of the paths of particles X, Y and Z"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides details of particle properties and/or paths in the field"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "X and Y are both positive since they are deflected towards the top of the page when they initially enter the magnetic field which exerts a force on the charges, initially up the page. As they travel through the magnetic field, the force is applied perpendicular to their velocity, causing them to curve in the arc of a circle as shown, with the magnetic force providing the centripetal force.",
+      "figure": {
+        "file": "phy-2022-34.png",
+        "page": 34,
+        "alt": "Charged particles X, Y and Z entering a uniform magnetic field and following curved paths."
+      }
+    },
+    {
+      "number": "35",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 5,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Analyse this system to test the hypothesis below. The uniform circular motion of the capsule around the ISS can be accounted for in terms of the gravitational force between the capsule and the ISS.",
+      "stimulus": "A capsule travels around the International Space Station (ISS) in a circular path of radius 200 m as shown. [Diagram: capsule (m = 1.2 × 10⁴ kg) on a circular path of radius 200 m around the ISS (m = 4.2 × 10⁵ kg), with speed v = 0.233 m s⁻¹.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides correct calculations to reject the hypothesis"
+        },
+        {
+          "marks": "4",
+          "text": "Provides calculations which analyse the system"
+        },
+        {
+          "marks": "3",
+          "text": "Makes some calculations using appropriate formulae ; OR ; Provides a correct calculation or evidence and makes a relevant conclusion"
+        },
+        {
+          "marks": "2",
+          "text": "Substitutes into a relevant formula"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "Hence the centripetal force required to accelerate the capsule around the ISS is much greater than the gravitational force of attraction between the two space vehicles. The hypothesis is rejected.",
+      "figure": {
+        "file": "phy-2022-35.png",
+        "page": 35,
+        "alt": "Capsule on a circular path of radius 200 m around the International Space Station, with masses and speed labelled."
+      }
+    }
+  ],
+  "edits": [
+    "27(c): sample answer uses λ, as printed on marking guideline page 7; the PDF text layer gives a plain 'l'.",
+    "30(a), 31, 34, 35: sample answers with formulas the text layer scrambles are in sampleAnswerTruncated (readable prose only) with sampleAnswer empty.",
+    "34: ladder row 7 reworded to open with a verb, as the app requires: \"Comprehensively explains the different paths of each particle X, Y and Z through the magnetic field\" -> \"Explains comprehensively the different paths of each particle X, Y and Z through the magnetic field\"",
+    "Notation kept as the extract carries it: subscripts and superscripts (q₁, t₀, 1.2 × 2.3), with the NESA print where the text layer differs (θ for q, en-dash minus for ⁻¹, plain q1 in some ladder rows)."
+  ]
+}

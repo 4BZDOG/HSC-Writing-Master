@@ -1,0 +1,505 @@
+{
+  "year": 2023,
+  "course": "Physics",
+  "papers": [
+    "2023-hsc-physics.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "22",
+      "reason": "Calculation of the time between pulses for an observer on Earth (time dilation); a numerical answer from working."
+    },
+    {
+      "number": "23(a)",
+      "reason": "Calculate the magnitude of the gravitational force on the JWST; calculation-only."
+    },
+    {
+      "number": "23(b)",
+      "reason": "Calculate the minimum photon energy the telescope can detect; calculation-only."
+    },
+    {
+      "number": "23(c)",
+      "reason": "Calculate the temperature of the exoplanet; calculation-only."
+    },
+    {
+      "number": "24",
+      "reason": "Calculate the magnetic field required to keep the electron in the path; calculation-only."
+    },
+    {
+      "number": "26",
+      "reason": "Calculate the energy released in the nuclear reaction; calculation-only."
+    },
+    {
+      "number": "27(b)",
+      "reason": "Asks the student to modify the printed spectral-line diagram; answered partly by drawing on the paper."
+    },
+    {
+      "number": "28(a)",
+      "reason": "Calculate the voltage across light globe X with the switch open; calculation-only."
+    },
+    {
+      "number": "30(b)(ii)",
+      "reason": "Calculate the maximum induced emf in ring Y; calculation-only."
+    },
+    {
+      "number": "32",
+      "reason": "Calculate the ball's position relative to the launcher at the instant it hits the ground; calculation-only."
+    },
+    {
+      "number": "34(b)",
+      "reason": "Show that the kinetic energy of the satellite at Q is 1.194 × 10¹⁰ J; calculation-only."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Identify TWO variables that determine the luminosity of a star.",
+      "stimulus": "A Hertzsprung–Russell diagram is shown. [Diagram: Hertzsprung–Russell diagram of luminosity (L_sun, 10⁻⁴ to 10⁶) against temperature (40 000 K to 2 500 K), with supergiants, giants, the main sequence and white dwarfs labelled, and stars A and B marked.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies TWO variables that determine the luminosity of a star"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies ONE variable that determines the luminosity of a star"
+        }
+      ],
+      "sampleAnswer": "The luminosity of a star is determined by the size and temperature of the star.",
+      "answersCouldInclude": [
+        "Star colour",
+        "Mass of a star",
+        "Surface area of a star",
+        "Power output of the star"
+      ],
+      "figure": {
+        "file": "phy-2023-21a.png",
+        "page": 18,
+        "alt": "Hertzsprung–Russell diagram of luminosity against temperature, with stars A and B and the main groups labelled."
+      }
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Describe differences between stars A and B.",
+      "stimulus": "A Hertzsprung–Russell diagram is shown. [Diagram: Hertzsprung–Russell diagram of luminosity (L_sun, 10⁻⁴ to 10⁶) against temperature (40 000 K to 2 500 K), with supergiants, giants, the main sequence and white dwarfs labelled, and stars A and B marked.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes differences between Star A and Star B"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies features of Star A and/or Star B"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Star A is a main sequence star and is fusing hydrogen into helium, whereas no nuclear reactions are taking place in Star B which is a white dwarf. Star A has a greater luminosity than Star B.",
+      "answersCouldInclude": [
+        "Radius",
+        "Composition",
+        "Mass"
+      ],
+      "figure": {
+        "file": "phy-2023-21a.png",
+        "page": 18,
+        "alt": "Hertzsprung–Russell diagram of luminosity against temperature, with stars A and B and the main groups labelled."
+      }
+    },
+    {
+      "number": "25(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Describe the function of part X.",
+      "stimulus": "The diagram represents one type of electric motor. [Diagram: DC electric motor with magnets labelled S and N, a rectangular coil and part X labelled.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Describes the function of part X"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Its function is to reverse the current in the loop, so that the loop continues in the same direction.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2023-25a.png",
+        "page": 22,
+        "alt": "Diagram of a DC electric motor with magnets S and N, a rectangular coil and part X labelled."
+      }
+    },
+    {
+      "number": "25(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain why the torque of a DC motor decreases as its rotational speed increases.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Explains why the torque decreases"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "As the speed increases, the back emf increases reducing the motor current and hence the torque.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "27(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how the composition and temperature of a star can be determined from its spectrum.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains how the composition and temperature of a star can be determined from its spectrum"
+        },
+        {
+          "marks": "3",
+          "text": "Explains how the composition OR temperature of a star can be determined by its spectrum"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies features of a star's spectrum"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Composition can be deduced by looking at the absorption and emission spectra, because the lines present are unique for each element.\nTemperature of the surface of the star can be determined from the measurement of the wavelength at which the radiation is at its peak intensity. This is because as a black body, this wavelength is related to its temperature.",
+      "answersCouldInclude": [
+        "Presence of certain elements as an indication of temperature"
+      ]
+    },
+    {
+      "number": "28(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain why, after the switch has been closed, the current in the primary coil is different from when the switch is open.",
+      "stimulus": "An ideal transformer is connected to a 240 V AC supply. It has 300 turns on the primary coil and 50 turns on the secondary coil. It is connected in the circuit with two identical light globes, X and Y, as shown. [Diagram: ideal transformer with AC supply, a switch, and light globes X and Y in parallel on the secondary coil.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Relates the increase in current in the primary coil to the conservation of energy in the transformer"
+        },
+        {
+          "marks": "2",
+          "text": "Makes a correct statement about the conservation of energy in the coils"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "With the switch closed, the lamps X and Y are in parallel, the total resistance is less than the resistance of lamp X alone. Therefore, the current through the secondary coil is greater when the switch is closed.\nSince power out = power in, the current in the primary coil is greater when the switch is closed.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2023-28b.png",
+        "page": 26,
+        "alt": "Circuit with an ideal transformer, an AC supply, a switch, and light globes X and Y in parallel."
+      }
+    },
+    {
+      "number": "29",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain this phenomenon.",
+      "stimulus": "When light from an incandescent lamp is passed through a plane polarising filter, the intensity of the light is reduced.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Relates the interaction between the filter and differing planes of oscillation of the electromagnetic waves to the reduction of light intensity"
+        },
+        {
+          "marks": "3",
+          "text": "Relates the differing planes of polarisation of the light to the absorption of radiation by the polarising filter"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a relevant feature of light from an incandescent lamp ; OR ; Outlines a feature of the interaction of electromagnetic radiation with a polarising filter"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Light from an incandescent lamp is unpolarised.\nA polarising filter absorbs the component of the electric field of the electromagnetic wave that are not parallel to the polarisation direction of the filter.\nThe intensity of the light would be reduced as only the parallel components will pass through the filter.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Account for the force acting on the ring from 0 to 0.05 seconds after the power supply is turned on.",
+      "stimulus": "The diagram shows apparatus that is used to investigate the interaction between the magnetic field produced by a coil and two copper rings X and Y, when each is placed at position P, as shown. Ring X is a complete circular ring, and a small gap has been cut in ring Y. Each of the rings has a cross-sectional area of 4 × 10⁻⁴ m². The power supply connected to the coil produces an increasing current through the coil in the direction shown, when the switch is turned on. This produces a magnetic field at P that varies as shown in the graph. [Diagram and graph: rings X and Y, a coil with switch and power supply, and a graph of magnetic field strength (× 10⁻³ T) against time (0 to 0.05 s), rising linearly to 6 × 10⁻³ T at 0.03 s and then constant.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Relates the repulsive force, and the absence of force, on the ring to the induced current in the ring caused by the flux variation from the coil, and the interaction of the magnetic fields"
+        },
+        {
+          "marks": "3",
+          "text": "Relates some aspects of the force on the ring to electromagnetic induction"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies electromagnetic induction in the ring"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "From 0 to 0.03 seconds the magnetic field strength of the coil increases at a constant rate. Hence the flux through ring X induces an electric current around the ring which produces a field that opposes the field of the coil, causing a repulsive force on ring X.\nFrom 0.03 s to 0.05 s, the flux through the ring is constant and so no current is induced in the ring and hence there is no force of magnetic origin acting on ring X.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2023-30a.png",
+        "page": 28,
+        "alt": "Rings X and Y, a coil with switch and power supply at position P, and a graph of magnetic field strength against time."
+      }
+    },
+    {
+      "number": "30(b)(i)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the behaviour of the ring.",
+      "stimulus": "The diagram shows apparatus that is used to investigate the interaction between the magnetic field produced by a coil and two copper rings X and Y, when each is placed at position P, as shown. Ring X is a complete circular ring, and a small gap has been cut in ring Y. Each of the rings has a cross-sectional area of 4 × 10⁻⁴ m². The power supply connected to the coil produces an increasing current through the coil in the direction shown, when the switch is turned on. This produces a magnetic field at P that varies as shown in the graph. [Diagram and graph: rings X and Y, a coil with switch and power supply, and a graph of magnetic field strength (× 10⁻³ T) against time (0 to 0.05 s), rising linearly to 6 × 10⁻³ T at 0.03 s and then constant.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Explains the effect of the magnetic field on the ring"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The ring does not move because the gap in the ring means no current will flow. Therefore, there is no force on the ring.",
+      "answersCouldInclude": [
+        "Reference to the production of eddy currents in the ring."
+      ],
+      "figure": {
+        "file": "phy-2023-30a.png",
+        "page": 28,
+        "alt": "Rings X and Y, a coil with switch and power supply at position P, and a graph of magnetic field strength against time."
+      }
+    },
+    {
+      "number": "31",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 5,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the similarities and differences between these two sets of data.",
+      "stimulus": "A roller coaster uses a braking system represented by the diagrams. When the roller coaster car reaches the end of the ride, the two rows of permanent magnets on the car pass on either side of a thick aluminium conductor called a braking fin. The graph shows the acceleration of the roller coaster reaching the braking fin at two different speeds. [Diagrams: side view, end view and track of the roller coaster car and braking fin; graph of acceleration (m s⁻²) against time (s) for u = 10 m s⁻¹ and u = 12 m s⁻¹.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Explains the similarities and differences between the two sets of data"
+        },
+        {
+          "marks": "4",
+          "text": "Explains the similarities in the data sets AND describes the difference(s) ; OR ; Explains the differences in the data sets AND describes the similaritie(s)"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of the similarities AND/OR differences between the data sets"
+        },
+        {
+          "marks": "2",
+          "text": "Compares features of the two sets of data"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Both lines have a similar shape which represents that the similarities are:\nThe increasing engagement with the braking fin in both cases until it reaches a maximum at approximately 0.8 s. This is caused by more magnets engaging with the fin, causing a greater flux change in the fin, causing an increasing braking effect.\nAfter maximum braking, both cases have a reduction in braking due to slowing down of the roller coaster, meaning less opposing eddy currents are produced.\nThe differences are:\nThe faster case has a greater maximum braking, because the high speed of the roller coaster created a greater maximum change in flux.\nThe faster case also has greater braking for most of the time, until 3 s. This is because it is travelling faster and creating greater opposing eddy currents than in the slower case.",
+      "answersCouldInclude": [
+        "Difference in the rate of change of acceleration between the cases."
+      ],
+      "figure": {
+        "file": "phy-2023-31a.png",
+        "page": 30,
+        "alt": "Roller coaster car side and end views, braking fin and track, with an acceleration against time graph (graph on page 31)."
+      }
+    },
+    {
+      "number": "33",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 9,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Justify this statement with reference to observations that have been made and experiments that scientists have carried out.",
+      "stimulus": "Consider the following statement. The interaction of subatomic particles with fields, as well as with other types of particles and matter, has increased our understanding of processes that occur in the physical world and of the properties of the subatomic particles themselves.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "9",
+          "text": "Provides a reasoned detailed justification for the statement with explanation referencing at least TWO observations and at least TWO experiments"
+        },
+        {
+          "marks": "7–8",
+          "text": "Provides a justification for the statement with explanation referencing at least TWO observations and at least TWO experiments"
+        },
+        {
+          "marks": "5–6",
+          "text": "Provides a justification for the statement with an explanation of an observation/experiment of particle–field interactions and an observation/experiment of particle–particle interactions"
+        },
+        {
+          "marks": "3–4",
+          "text": "Provides details of TWO experiments or observations and how they relate to the statement"
+        },
+        {
+          "marks": "2",
+          "text": "Relates the statement to an experiment or observation ; OR ; Describes relevant experiments or observations"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Thomson’s experiment (particle–field) – q /m ratio of the electron",
+        "Millikan’s experiment (particle–field) – q of electron",
+        "Photoelectric observations/experiments (particle–field) – quantum nature of light",
+        "Particle accelerator observations/experiments (particle–particle and particle–field) – discovery of quarks and the standard model",
+        "Chadwick’s experiment (particle–particle) – neutron",
+        "Geiger–Marsden (particle–particle) – nucleus",
+        "Nuclear radiation experiment (particle–field) – charge of nuclear radiation",
+        "Nuclear decay observations (particle–particle) – nature of the nucleus",
+        "Davisson–Germer experiment (particle–particle) – wave nature of matter",
+        "Observations of muons (particle–particle) – standard model, special relativity",
+        "And other related experiments/observations."
+      ]
+    },
+    {
+      "number": "34(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Analyse qualitatively the energy changes as the satellite moves from P to Q.",
+      "stimulus": "A 400 kg satellite is travelling in a circular orbit of radius 6.700 × 10⁶ m around Earth. Its potential energy is −2.389 × 10¹⁰ J and its total energy is −1.195 × 10¹⁰ J. [Diagram, not to scale: satellite at P on a circular orbit of radius 6.700 × 10⁶ m around Earth, with a trajectory passing through Q, 6.850 × 10⁶ m from Earth’s centre.] At point P, the satellite’s engines are fired, increasing the satellite’s velocity in the direction of travel and causing its kinetic energy to increase by 5.232 × 10⁸ J. Assume that this happens instantaneously and that the engine is then shut down. The satellite follows the trajectory shown, which passes through Q, 6.850 × 10⁶ m from Earth’s centre.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Analyses qualitatively the energy changes as the satellite moves"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "As the satellite moves, its kinetic energy decreases and is transformed into an increasing gravitational potential energy, consistent with the law of conservation of energy.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2023-34a.png",
+        "page": 34,
+        "alt": "Satellite orbit diagram showing point P, a circular orbit of radius 6.700 × 10⁶ m, and the trajectory through Q."
+      }
+    },
+    {
+      "number": "34(c)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the motion of the satellite after it passes through Q.",
+      "stimulus": "A 400 kg satellite is travelling in a circular orbit of radius 6.700 × 10⁶ m around Earth. Its potential energy is −2.389 × 10¹⁰ J and its total energy is −1.195 × 10¹⁰ J. [Diagram, not to scale: satellite at P on a circular orbit of radius 6.700 × 10⁶ m around Earth, with a trajectory passing through Q, 6.850 × 10⁶ m from Earth’s centre.] At point P, the satellite’s engines are fired, increasing the satellite’s velocity in the direction of travel and causing its kinetic energy to increase by 5.232 × 10⁸ J. Assume that this happens instantaneously and that the engine is then shut down. The satellite follows the trajectory shown, which passes through Q, 6.850 × 10⁶ m from Earth’s centre.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains the motion of the satellite after it passes through Q"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines the motion of the satellite with reference to relevant physics principles"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "a response based on the interpretation that P, Earth and Q are on the same line",
+        "a response without calculations",
+        "aspects of the conservation of energy."
+      ],
+      "sampleAnswerTruncated": "As it passes Q, the satellite has a velocity that exceeds the orbital velocity required for circular motion",
+      "figure": {
+        "file": "phy-2023-34a.png",
+        "page": 34,
+        "alt": "Satellite orbit diagram showing point P, a circular orbit of radius 6.700 × 10⁶ m, and the trajectory through Q."
+      }
+    }
+  ],
+  "edits": [
+    "34(c): sample answer is calculation-heavy with scrambled formulas; sampleAnswerTruncated keeps only the first sentence and sampleAnswer is empty.",
+    "33: NESA prints no sample answer, only 'Answers could include' bullets; sampleAnswer is empty.",
+    "31 and 30(a): the figure file combines printed diagrams with the graph on page 31 (31) or the apparatus with the graph on page 28 (30); the figure 'page' is the first page.",
+    "Notation kept as the extract carries it: subscripts and superscripts (q₁, t₀, 1.2 × 2.3), with the NESA print where the text layer differs (θ for q, en-dash minus for ⁻¹, plain q1 in some ladder rows)."
+  ]
+}

@@ -1,0 +1,488 @@
+{
+  "year": 2021,
+  "course": "Physics",
+  "papers": [
+    "2021-hsc-physics.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "21(a)",
+      "reason": "Answered purely by calculation (maximum torque from loop dimensions, field and current); a numerical answer from working."
+    },
+    {
+      "number": "24",
+      "reason": "Answered purely by calculation (induced emf from the coil and rate of change of field); a numerical answer from working."
+    },
+    {
+      "number": "25(b)",
+      "reason": "Answered purely by calculation (orbital radius); a numerical answer from working."
+    },
+    {
+      "number": "26(a)",
+      "reason": "Requires plotting the data points and drawing a line of best fit on the axes provided; a drawn graph cannot be answered as text."
+    },
+    {
+      "number": "27(a)",
+      "reason": "Requires a labelled diagram showing the orientation of the current and field and the forces; a drawn diagram cannot be answered as text."
+    },
+    {
+      "number": "28(a)",
+      "reason": "Answered purely by calculation (distance to the star as seen from Earth); a numerical answer from working."
+    },
+    {
+      "number": "30(a)",
+      "reason": "Requires sketching the kinetic energy graph on the diagram; a drawn graph cannot be answered as text."
+    },
+    {
+      "number": "34(b)",
+      "reason": "Answered purely by calculation (time of flight from the horizontal velocity); a numerical answer from working."
+    },
+    {
+      "number": "35(a)",
+      "reason": "Answered purely by calculation (energy released per decay from mass defect); a numerical answer from working."
+    },
+    {
+      "number": "35(b)",
+      "reason": "Answered purely by calculation (total energy over ten years from the half-life); a numerical answer from working."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Describe how the magnitude of the torque changes as the loop moves through half a rotation from the position shown.",
+      "stimulus": "A DC motor is constructed from a single loop of wire with dimensions 0.10 m × 0.07 m. The magnetic field strength is 0.40 T and a current of 14 A flows through the loop. [Diagram: single rectangular loop between N and S magnet poles, with sides of 0.10 m and 0.07 m, connected to + and − terminals.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Correctly describes changes in magnitude of torque throughout one half-rotation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The torque begins at a maximum and decreases to zero at 90º from the initial position. The torque then increases to a maximum at 180º from the initial position.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2021-21b.png",
+        "page": 18,
+        "alt": "Single rectangular loop of wire between N and S magnet poles, with sides of 0.10 m and 0.07 m and terminals at the ends."
+      }
+    },
+    {
+      "number": "22",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Compare the angular and instantaneous velocities of X with those of Y.",
+      "stimulus": "A horizontal disc rotates at a constant rate as shown. Two points on the disc, X and Y, are labelled. X is twice as far away from the centre of the disc as Y. [Diagram: horizontal disc with points X and Y on the same radius and a rotation arrow.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Correctly compares angular and instantaneous velocities of X and Y"
+        },
+        {
+          "marks": "2",
+          "text": "Correctly compares instantaneous velocities ; OR ; Correctly compares angular velocities, and magnitude or direction of instantaneous velocities"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The angular velocities of X and Y are equal. The instantaneous velocity of X is twice that of Y. The directions of instantaneous velocities for X and Y are the same.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2021-22.png",
+        "page": 19,
+        "alt": "Horizontal disc with points X and Y on the same radius, X twice as far from the centre as Y, and a rotation arrow."
+      }
+    },
+    {
+      "number": "23",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe how Millikan and Thomson each used fields to determine properties of the electron.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a thorough description of the use of fields by Thomson and Millikan to determine properties of the electron"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some description of the use of fields by Thomson and Millikan to determine properties of the electron ; OR ; Provides a thorough description of the use of fields by either Thomson or Millikan to determine properties of the electron"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some understanding of the use of fields by Thomson and/or Millikan to study the electron"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Thomson used electric and magnetic fields to balance forces on electrons, allowing him to calculate the charge to mass ratio of electrons. Millikan used electric and gravitational fields to levitate charged droplets, allowing him to determine the charge on the electron.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Identify TWO energy changes as the satellite moves from the surface of Mars into orbit.",
+      "stimulus": "A satellite is launched from the surface of Mars into an orbit that keeps it directly above a position on the surface of Mars. Mass of Mars = 6.39 × 10²³ kg Length of Martian day = 24 hours and 40 minutes",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies two changes in energy of satellite"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The gravitational potential energy and kinetic energy of the satellite both increase as it moves into orbit.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "26(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Justify a better method to calculate Planck’s constant from the experimental data provided.",
+      "stimulus": "A student performs an experiment to measure Planck’s constant, h, using a device that emits specific frequencies of light when specific voltages are applied. The voltage, V, needed to produce each frequency, f, is given by V = hf/qₑ where qₑ is the charge on an electron. Data from the experiment is shown. [Table: data point 1 to 4; frequency (× 10¹⁴ Hz) 3.5, 4.8, 5.3, 7.0; voltage (V) 1.3, 1.7, 1.9, 2.6.] The student proposes using data point 1 to calculate a value for Planck’s constant.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Proposes a better method to calculate h and justifies the method"
+        },
+        {
+          "marks": "2",
+          "text": "Proposes a better method to calculate h ; OR ; Proposes some improvement with a reason"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The gradient of the line of best fit could be calculated from the graph, and substituted into the equation to calculate h. This takes more data points into account, increasing the accuracy.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2021-26b.png",
+        "page": 22,
+        "alt": "Table of four data points giving frequency (× 10¹⁴ Hz) and voltage (V) for the Planck’s constant experiment."
+      }
+    },
+    {
+      "number": "27(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain why the maximum mass per unit length of the rod cannot exceed 0.282 kg m⁻¹. Support your answer with a calculation.",
+      "stimulus": "A student is considering how to levitate a thin metal rod in a strong magnetic field of 1.2 T. The current flowing through the rod will be 2.3 A.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Calculates mass per unit length ; Explains why that is the maximum possible value"
+        },
+        {
+          "marks": "2",
+          "text": "Calculates mass per unit length ; OR ; Provides some working to calculate mass per unit length and identifies that it is the maximum possible value"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Once mass per unit length exceeds this amount, the force due to the magnetic field cannot suspend the rod against its weight.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "28(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline how special relativity imposes a limitation on the maximum velocity of the spaceship.",
+      "stimulus": "A spaceship travels to a distant star at a constant speed, v. When it arrives, 15 years have passed on Earth but 9.4 years have passed for an astronaut on the spaceship.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines how special relativity imposes a limitation on the maximum velocity of the spaceship"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Relativistic momentum would approach infinity as v approaches c. This means that an infinite force would be required to accelerate it further, limiting the velocity.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "29",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How does the nature of the electron proposed in each of the three models differ?",
+      "stimulus": "Bohr, de Broglie and Schrödinger EACH proposed a model for the structure of the atom.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Shows a comprehensive understanding of how the nature of the electron differs between the THREE models"
+        },
+        {
+          "marks": "4",
+          "text": "Outlines the nature of the electron in each model showing a sound understanding of the differences"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines the nature of the electron in TWO models ; OR ; Identifies a feature of the electron in each of the THREE models showing some understanding of the differences"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies features of the electron in the model(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Bohr proposed that the electron was a negatively charged particle which orbits the nucleus at quantised energy levels. De Broglie’s model subsequently proposed that the electron instead had a dual wave/particle nature, and existed in stable standing waves around the nucleus. In contrast, Schrödinger’s model described the electron as having a wave nature with properties that could be predicted by his wave equation.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain how the motion of the electron would differ from that of the proton.",
+      "stimulus": "In an experiment, a proton accelerates from rest between parallel charged plates. The spacing of the plates is 12 cm and the proton is initially positioned at an equal distance from both plates, as shown. Ignore the effect of gravity. [Diagram: proton midway between parallel charged plates, 6 cm from each plate, with the plates 12 cm apart.] The experiment is repeated using an electron in the place of the proton.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides a relevant explanation of how the motion of the electron would differ from that of the proton ; Describes ways in which the motion of the electron would differ from that of the proton"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines ONE way in which the motion of the electron would differ from that of the proton and provides some explanation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The electron will move in the opposite direction to the proton. The electron would experience an equal force to the proton but in the opposite direction, as its charge has the same magnitude but opposite sign.\nBecause the mass of the electron is significantly smaller, it would experience a much higher acceleration.",
+      "answersCouldInclude": [
+        "References to other relevant features of motion such as time."
+      ],
+      "figure": {
+        "file": "phy-2021-30b.png",
+        "page": 27,
+        "alt": "Proton midway between two parallel charged plates 12 cm apart, 6 cm from each plate."
+      }
+    },
+    {
+      "number": "31",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 7,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain what would be observed when the switch on cart 1 is closed. In your answer, refer to the current in each galvanometer and the initial movement of the carts.",
+      "stimulus": "Two identical solenoids are mounted on carts as shown. Each solenoid is connected to a galvanometer, and the solenoid on cart 1 is also connected to an open switch and a battery. The total mass of cart 1 is twice that of cart 2. [Diagram: cart 1 with solenoid, galvanometer G1, open switch and battery; cart 2 with solenoid and galvanometer G2.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Provides details of the current in each galvanometer and initial movement of each cart ; Provides a comprehensive explanation of the observation when the switch is closed"
+        },
+        {
+          "marks": "6",
+          "text": "Provides details of the current in each galvanometer and initial movement of each cart ; Provides an explanation of current and movement of carts"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides some details of the current and initial movement ; Provides some explanation"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some details of the current and/or initial movement ; Provides some explanation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "When the switch is closed, a constant direct current will be observed on G1. This current will create a magnetic field in the solenoid with a south pole facing cart 2. As this field is generated, the solenoid on cart 2 experiences a momentary change in magnetic flux, inducing an emf and a current in the solenoid. By Lenz’s law, the direction of this current opposes the original change in flux, forming a south pole facing cart 1, and causing a momentary deflection of G2 in the opposite direction to the current in G1.\nThe equal and opposite magnetic repulsion of the south poles causes the carts to move away from each other. To conserve momentum, cart 1 will have half the initial velocity of cart 2 since its mass is double that of cart 2.",
+      "answersCouldInclude": [
+        "Reference to Faraday’s law, the conservation of energy or Newton’s law."
+      ],
+      "figure": {
+        "file": "phy-2021-31.png",
+        "page": 28,
+        "alt": "Two carts, each with a solenoid and galvanometer; cart 1 also has an open switch and a battery."
+      }
+    },
+    {
+      "number": "32",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 5,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "How well do the observations from this investigation model the evidence that led to Hubble’s discovery of the expansion of the universe? Justify your answer.",
+      "stimulus": "Two students perform an investigation with a piece of elastic laid out straight on a table. The elastic is fixed at one end and has three markings at regular intervals. The distances from each marking to the fixed end, d₁, d₂ and d₃, are measured as shown. [Diagram: top view of table with elastic fixed at one end, three markings with distances d₁, d₂ and d₃, a ruler and a pull arrow.] A student pulls the elastic to extend it, and the new values of d₁, d₂ and d₃ are measured. The student observes that each value has doubled.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Justifies how well the observations model Hubble’s evidence"
+        },
+        {
+          "marks": "4",
+          "text": "Provides some justification for how well the observations model Hubble’s evidence"
+        },
+        {
+          "marks": "2–3",
+          "text": "Relates aspects of the investigation to the expansion of the universe"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "As the elastic is stretched, each marking moves by an amount proportional to its distance from the fixed end. This successfully models Hubble’s observation that more distant galaxies are receding from Earth at greater rates, proportional to their distance from Earth.\nHowever, a limitation of the investigation is that it can only model expansion in one dimension whereas Hubble’s evidence showed that the universe is expanding in three dimensions.",
+      "answersCouldInclude": [
+        "The investigation only examines a change in position of the markings, while Hubble measured speed of galaxies.",
+        "As the elastic stretches, the markings themselves will stretch. Hubble did not find that the galaxies were spreading out."
+      ],
+      "figure": {
+        "file": "phy-2021-32.png",
+        "page": 29,
+        "alt": "Top view of a table with a fixed elastic, three markings at distances d1, d2 and d3 from the fixed end, and a ruler."
+      }
+    },
+    {
+      "number": "33",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 9,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "How do the results from Experiment A and Experiment B support TWO different models of light? In your answer, include a quantitative analysis of each experiment.",
+      "stimulus": "Two experiments are performed with identical light sources having a wavelength of 400 nm. In experiment A, the light is incident on a pair of narrow slits 5.0 × 10⁻⁵ m apart, producing a pattern on a screen located 3.0 m behind the slits. [Diagram: Experiment A, light (400 nm) incident on two slits with a screen behind, NOT TO SCALE.] In experiment B, the light is incident on different metal samples inside an evacuated tube as shown. The kinetic energy of any emitted photoelectrons can be measured. [Diagram: Experiment B, light (400 nm) incident on a metal sample in an evacuated tube, connected to a galvanometer and a variable voltage source, NOT TO SCALE.] Some results from experiment B are shown. [Table: nickel, work function 8.25 × 10⁻¹⁹ J, no photoelectrons observed; calcium, work function 4.60 × 10⁻¹⁹ J, photoelectrons observed.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "9",
+          "text": "Provides comprehensive quantitative analysis of each experiment ; Shows a comprehensive understanding of how results from the experiments support two different models of light"
+        },
+        {
+          "marks": "8",
+          "text": "Provides quantitative analysis of each experiment ; Shows a thorough understanding of how results from the experiments support two different models of light"
+        },
+        {
+          "marks": "6–7",
+          "text": "Provides aspects of quantitative analysis of each experiment ; Relates the experiments to two different models of light"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides aspects of analysis of experiment(s) ; Provides information about relevant models of light"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides information about relevant model(s) of light ; Includes quantitative information"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "In Experiment A, a pattern of bright and dark regions will be observed on the screen. The spacing between adjacent regions can be calculated:\nThe pattern is explained by the wave model where light waves from the slits arrive at the screen causing bright regions at points of constructive interference and dark regions at points of destructive interference. This supports the wave model of light.\nIn Experiment B, photoelectrons are emitted from calcium but not nickel. The particle model of light can be used to calculate the photon energy of incident light:\nThis energy is higher than the work function of calcium but not nickel, explaining why one photon has enough energy to liberate a photo electron from the calcium sample, supporting the particle model of light. The particle model can be further applied to calculate the kinetic energy of photoelectrons emitted from the calcium sample.",
+      "figure": {
+        "file": "phy-2021-33.png",
+        "page": 30,
+        "alt": "Experiment A: two slits with a screen showing bands. Experiment B: photoelectric tube with an ammeter; table of work functions for nickel and calcium."
+      }
+    },
+    {
+      "number": "34(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–35\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Account for the relative values of kinetic energy at t₀, t₁ and t₂.",
+      "stimulus": "A 3.0 kg mass is launched from the edge of a cliff. [Diagram: mass launched from the top of a cliff on a curved path to point X on the ground.] The kinetic energy of the mass is graphed from the moment it is launched until it hits the ground at X. The kinetic energy of the mass is provided for times t₀, t₁ and t₂. [Graph: KE (× 10² J) against time, with points t₀, t₁ and t₂; table: t₀ = 864 J, t₁ = 284 J, t₂ = 1393 J.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Accounts for the relative values of KE at t0, t1 and t2"
+        },
+        {
+          "marks": "3",
+          "text": "Accounts for some of the relative values of KE"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some understanding of the changes in KE"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "After the mass is launched at t0, downwards gravitational acceleration reduces the vertical velocity of the mass until it is zero, at time t1. The KE is a minimum here but is not zero since the horizontal component of its velocity is unaffected by gravity. After t1, the kinetic energy of the mass increases again as the vertical component of motion increases under the influence of gravity until it strikes the ground at t2. The kinetic energy at t2 is greater than the value at t0 as the mass has lower GPE than at t0.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2021-34.png",
+        "page": 32,
+        "alt": "Mass launched from a cliff on a curved path to X, with a KE against time graph and table of KE values at t0, t1 and t2."
+      }
+    }
+  ],
+  "edits": [
+    "Question 33 sample answer: the equation lines are images in the marking guideline and are absent from the text layer, so the text is moved to sampleAnswerTruncated.",
+    "Question 31 and 32 and 33 'Answers could include' bullets are recorded in answersCouldInclude as printed.",
+    "Figures for 26(b) and 34(a) show the printed table and KE graph; 33 is composed of the two experiment diagrams and the results table.",
+    "Notation kept as the extract carries it: subscripts and superscripts (q₁, t₀, 1.2 × 2.3), with the NESA print where the text layer differs (θ for q, en-dash minus for ⁻¹, plain q1 in some ladder rows)."
+  ]
+}

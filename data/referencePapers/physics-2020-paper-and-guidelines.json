@@ -1,0 +1,600 @@
+{
+  "year": 2020,
+  "course": "Physics",
+  "papers": [
+    "2020-hsc-physics.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "21(a)",
+      "reason": "Answered purely by calculation (wavelength from Bohr energy levels); a numerical answer from working."
+    },
+    {
+      "number": "22(a)",
+      "reason": "Answered purely by calculation (peak wavelength from the Wien relation); a numerical answer from working."
+    },
+    {
+      "number": "23",
+      "reason": "Answered by calculation from the motor graph and circuit values (current and whether the breaker trips); a numerical answer from working."
+    },
+    {
+      "number": "24",
+      "reason": "Answered purely by calculation (initial velocity of the projectile from the graph); a numerical answer from working."
+    },
+    {
+      "number": "26(c)",
+      "reason": "Requires sketching a black body curve on the diagram; a drawn graph cannot be answered as text."
+    },
+    {
+      "number": "28(a)",
+      "reason": "Answered purely by calculation (change in magnetic flux); a numerical answer from working."
+    },
+    {
+      "number": "28(b)",
+      "reason": "Answered by calculation of the induced emf (numerical answer from working) with a one-word current direction; not explanation-led."
+    },
+    {
+      "number": "30(b)(i)",
+      "reason": "Answered purely by calculation (de Broglie wavelength of a proton); a numerical answer from working."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe the behaviour of electrons in the Bohr model of the atom with reference to the law of conservation of energy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes the behaviour of electrons in the Bohr model ; Refers to the law of conservation of energy"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some understanding of the behaviour of electrons in the Bohr model and/or the law of conservation of energy"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "In the model, electrons move from lower to higher energy levels when they gain energy, and they emit energy as photons when they move from higher to lower energy levels.\nEnergy is conserved because the absorbed or emitted photon energy is equal to the energy difference between discrete electron energy levels.",
+      "answersCouldInclude": [
+        "The energy of photons emitted or absorbed is equal to the difference in energy of the energy levels between which electrons move."
+      ]
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline TWO limitations of applying special relativity to the analysis of the motion of the capsule.",
+      "stimulus": "A capsule travelling at 12 900 m s⁻¹ enters Earth’s atmosphere, causing it to rapidly slow down to 400 m s⁻¹.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Outlines TWO limitations"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines ONE limitation ; OR ; Identifies TWO limitations"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The speed of the capsule is not a significant fraction of the speed of light, hence the effects of special relativity are insignificant. The capsule is in a non-inertial frame because it is accelerating, and therefore special relativity is not applicable.\nThis limits applying special relativity to the motion of the capsule.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe the hydrogen atom in terms of the Standard Model of matter.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a thorough description of the hydrogen atom in terms of the Standard Model"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines some features of the hydrogen atom in terms of the Standard Model"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines one feature of the hydrogen atom in terms of the Standard Model ; Identifies some features of the Standard Model"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The hydrogen atom is composed of a proton nucleus and an electron. A proton is a hadron consisting of three quarks ie two up quarks, and 1 down quark. The quarks are bound together through the strong nuclear force.\nThe electron is classified as a lepton, a fundamental particle that can be isolated.",
+      "answersCouldInclude": [
+        "Fractional charge of quarks",
+        "Role of the electromagnet force",
+        "Force-carrying bosons."
+      ]
+    },
+    {
+      "number": "26(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe the difference between the spectra of the light produced by a gas discharge tube and by an incandescent lamp.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Shows how the emission spectra differ"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Light from an incandescent lamp produces a continuous spectrum.\nLight from a discharge tube produces a spectrum composed of only a few discrete wavelengths of light. (Diagrams acceptable)",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "26(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Identify an assumption of EACH model which determines the shape of its curve.",
+      "stimulus": "The graph shows the curves predicted by two different models, X and Y, for the electromagnetic radiation emitted by an object at a temperature of 5000 K. [Graph: intensity (arbitrary units) against wavelength (nm) for Model X and Model Y.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies an assumption of each model"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Model X requires that energy is absorbed and emitted in a continuous manner.\nModel Y requires that energy is absorbed and emitted in discrete packets.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2020-26b.png",
+        "page": 23,
+        "alt": "Intensity against wavelength from 0 to 3000 nm for Model X (rising steeply at long wavelengths) and Model Y (peaking near 600 nm)."
+      }
+    },
+    {
+      "number": "27",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain TWO methods of keeping the distance between the maxima at A and B constant when the wavelength of the laser light is reduced.",
+      "stimulus": "The following apparatus is used to investigate light interference using a double slit. The distance, y, from the slits to the screen can be varied. The adjustment screws (S) vary the distance, d, between the slits. The wavelength of the laser light can be varied across the visible spectrum. The diffraction pattern shown is for a specific wavelength of light. [Diagram: laser light source, double slit with spacing d and adjustment screws S, screen at distance y showing maxima A and B.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains TWO methods ; Explains ONE method and identifies another"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines TWO methods ; Outlines ONE method"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies TWO methods"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "To keep the distance between A and B constant:\n1. the slit separation d could be reduced causing θ to increase, compensating for the effect of reducing the wavelength\n2. the distance ‘y’ could be increased sinθ for any angle θ, the distance between A and B increases and ‘y’ increases and so increasing ‘y’ would compensate for the reduction in θ due to the shorter wavelength.",
+      "figure": {
+        "file": "phy-2020-27.png",
+        "page": 25,
+        "alt": "Laser, double slit with adjustment screws and a screen at distance y showing a diffraction pattern with maxima A and B."
+      }
+    },
+    {
+      "number": "28(c)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain why the force required to move the rod is different without the magnetic field.",
+      "stimulus": "A metal rod sits on a pair of parallel metal rails, 20 cm apart, that are connected by a copper wire. The rails are at 30° to the horizontal. The apparatus is in a uniform magnetic field of 1 T which is upward, perpendicular to the table. A force, F, is applied parallel to the rails to move the rod at a constant speed along the rails. The rod is moved a distance of 30 cm in 2.5 s. [Diagram: rod on parallel rails joined by a copper wire, inclined at 30° to the horizontal, with force F applied to the rod.] The experiment is repeated without the magnetic field.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides an explanation of why the force required is different"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some understanding of why the force required is different"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Less force is required to move the rod. When the magnetic field is present, the force does work in providing the energy for the current to be induced in the circuit. With the removal of the field, this energy requirement no longer exists. However, energy will still be required since the force raises the rod up the rails against gravity.",
+      "answersCouldInclude": [
+        "The induced current in the rod results in a force on the rod which opposes the motion that is inducing the current (Lenz’s law)."
+      ],
+      "figure": {
+        "file": "phy-2020-28c.png",
+        "page": 26,
+        "alt": "Metal rod on inclined parallel rails joined by a copper wire, in a vertical magnetic field, with force F applied along the rails."
+      }
+    },
+    {
+      "number": "29(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain why the hypothesis was proposed and then rejected, with reference to the observations.",
+      "stimulus": "In an experiment, alpha particles were fired into a thin sheet of beryllium. Unknown radiation was detected. Further experiments were conducted in which it was observed that the unknown radiation: • was not deflected by an electric field • caused protons to be ejected from a block of paraffin • could not produce the photoelectric effect. Scientists debated the nature of this unknown radiation, hypothesising that it was gamma radiation. [Diagram: alpha particle source directing alpha particles at a beryllium sheet, with unknown radiation emerging on the other side.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains why the hypothesis was proposed and then rejected"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some understanding of why the hypothesis was proposed and/or then rejected"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The unknown radiation was not deflected by an electric field, so it was deduced that it could not consist of charged particles. This observation is consistent with the known behaviour of gamma rays and hence with the hypothesis. The inability of the radiation to produce the photoelectric effect was inconsistent with its being gamma radiation, which because of the high energy of the photons should have readily ejected electrons from a metal. The ejection of protons from paraffin was consistent with the unknown radiation having a significant momentum that was being transferred to the protons. This was also inconsistent with the radiation being gamma radiation.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2020-29a.png",
+        "page": 28,
+        "alt": "Alpha particle source fires particles at a beryllium sheet; unknown radiation emerges from the far side."
+      }
+    },
+    {
+      "number": "29(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How did these experiments change the model of the atom?",
+      "stimulus": "In an experiment, alpha particles were fired into a thin sheet of beryllium. Unknown radiation was detected. Further experiments were conducted in which it was observed that the unknown radiation: • was not deflected by an electric field • caused protons to be ejected from a block of paraffin • could not produce the photoelectric effect. Scientists debated the nature of this unknown radiation, hypothesising that it was gamma radiation.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Shows a sound understanding of how the experiments changed the model of the atom"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "These experiments showed the existence of neutral particles called neutrons that had a mass similar to protons. Hence the model for the atomic nucleus changed from containing only protons to consisting of protons and neutrons.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain, using an example, how a particle accelerator has provided evidence for the Standard Model of matter.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides an explanation using a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a relevant example and/or the application of a particle accelerator"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A linear accelerator was used to provide electrons with sufficient energy to penetrate protons. The scattering of these electrons was consistent with the protons having an internal structure. It was inferred that the proton itself was not an elementary particle, an observation that contributed to the idea that protons were made of quarks.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(b)(ii)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the relativistic effect on the wavelength of a proton travelling at 0.95c.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides a valid explanation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The relativistic wavelength is shorter than would be predicted by classical mechanics because the momentum of the proton is greater than that predicted by classical mechanics.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "31(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Account for the changes in velocity of the comet as it completes one orbit from position P.",
+      "stimulus": "The orbit of a comet is shown. [Diagram: elliptical orbit of a comet around the Sun, with position P marked on the orbit.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Accounts for the changes in velocity of the comet"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a reason for a change in velocity of the comet"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "As the comet moves toward the sun, its gravitational potential energy (GPE) is converted into kinetic energy (KE) consistent with the law of conservation of energy. The increase in KE results in an increase in velocity as it approaches the sun. As it returns to point P, it loses velocity as its KE is converted into GPE.",
+      "answersCouldInclude": [
+        "Reference to a component of gravitational force acting parallel/antiparallel to the direction of the comet’s velocity, changing its speed."
+      ],
+      "figure": {
+        "file": "phy-2020-31a.png",
+        "page": 30,
+        "alt": "Elliptical orbit of a comet around the Sun, with position P marked on the orbit."
+      }
+    },
+    {
+      "number": "31(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Derive an expression for the speed of B.",
+      "stimulus": "Two stars, A and B, of equal mass m, separated by a distance x, interact gravitationally such that the speed of A is constant.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Applies a correct method to derive an expression for the speed of B"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some relevant steps for deriving an expression for the speed of B"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "As the speed is constant, both stars must be in circular orbits with each other. As both stars have equal mass, the centre of mass, and hence the centre of the orbit of each star, is halfway between the stars."
+    },
+    {
+      "number": "32",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 7,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the factors that limit the speed at which the mass can be pulled along the horizontal surface. Use mathematical models to support your answer.",
+      "stimulus": "A rope connects a mass on a horizontal surface to a pulley attached to an electric motor as shown. [Diagram: mass on a horizontal surface connected by a rope to a pulley on an electric motor.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Provides a comprehensive explanation of the relevant factors ; Supports the answer with mathematical models"
+        },
+        {
+          "marks": "6",
+          "text": "Provides explanations of relevant factors ; Supports the answer with at least one mathematical model"
+        },
+        {
+          "marks": "5",
+          "text": "Describes some relevant factors and provides some explanation ; Refers to at least one mathematical model"
+        },
+        {
+          "marks": "3–4",
+          "text": "Outlines relevant factor(s) and/or mathematical model(s) ; Outlines a relevant factor"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies relevant factors and/or features of a mathematical model"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Magnitude of the mass",
+        "Friction between the block and the table (related to mass and coefficient of friction)",
+        "Back emf in the motor",
+        "Power input to the motor",
+        "Diameter of the pulley",
+        "Torque produced",
+        "Motor efficiency.",
+        "F = ma",
+        "P = VI",
+        "Ff = µN",
+        "τ = rF sinθ ."
+      ],
+      "figure": {
+        "file": "phy-2020-32.png",
+        "page": 31,
+        "alt": "Mass on a horizontal surface joined by a rope to a pulley attached to an electric motor."
+      }
+    },
+    {
+      "number": "33",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 9,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Analyse the motion of the magnet by applying the law of conservation of energy. Your analysis should refer to gravity and the copper cylinder, and include both qualitative and quantitative information.",
+      "stimulus": "A strong magnet of mass 0.04 kg falls 0.78 m under the action of gravity from position X above a hollow copper cylinder. It then travels a distance of 0.20 m through the cylinder from Y to Z before falling freely again. The magnet takes 0.5 seconds to pass through the cylinder. The displacement–time graph of the magnet is shown. [Diagram: magnet X above a hollow copper cylinder, with Y and Z marked 0.20 m apart.] [Graph: falling magnet, distance (m) against time (s).]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "9",
+          "text": "Provides a comprehensive analysis of the motion of the magnet ; Applies the law of conservation of energy ; Refers to gravity and the copper cylinder ; Includes quantitative information"
+        },
+        {
+          "marks": "8",
+          "text": "Provides a thorough analysis of the motion of the magnet ; Applies the law of conservation of energy ; Refers to gravity and the copper cylinder ; Includes quantitative information"
+        },
+        {
+          "marks": "6–7",
+          "text": "Describes the motion of the magnet ; Applies the law of conservation of energy ; Refers to gravity and/or the copper cylinder ; Includes quantitative information"
+        },
+        {
+          "marks": "4–5",
+          "text": "Describes the motion of the magnet ; Relates the law of conservation of energy ; Refers to gravity and/or the copper cylinder ; Includes quantitative information"
+        },
+        {
+          "marks": "2–3",
+          "text": "Shows some understanding of the motion of the magnet and/or gravity and/or the copper cylinder"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "At position Y, the induced currents in the cylinder produce a magnetic field that causes the magnet to decelerate to a constant velocity of 0.4 m s–1 for a period of 0.5 seconds as it passes through the copper cylinder. There is zero net force on the magnet as it passes through the cylinder, as shown by the straight line in the distance vs time graph\nThe magnet’s kinetic energy is converted to heat energy during the deceleration.\nAs the magnet passes through the cylinder, the gravitational potential energy decreases and there is a corresponding increase in the heat energy in the cylinder. This is consistent with the law of conservation of energy.",
+      "figure": {
+        "file": "phy-2020-33.png",
+        "page": 32,
+        "alt": "Diagram of a magnet falling from X through a copper cylinder between Y and Z, and the displacement–time graph of the falling magnet."
+      }
+    },
+    {
+      "number": "34(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Compare the work done on q₁ and q₂.",
+      "stimulus": "A charged particle, q₁, is fired midway between oppositely charged plates X and Y, as shown in Figure 1. The voltage between the plates is V volts. The particle strikes plate Y at point P, a horizontal distance s from the edge of the plate. Ignore the effect of gravity. Plate Y is then moved to the position shown in Figure 2, with the voltage between the plates remaining the same. An identical particle, q₂, is fired into the electric field at the same velocity, entering the field at the same distance from plate X as q₁. [Diagram: Figure 1 and Figure 2 showing plates X and Y separated by d, then by 2d, with particles q₁ and q₂ fired at velocity v.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Correctly compares the work done on q₁ and q₂"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some relevant calculation on the work done on q₁ and/or q₂"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "Work on q1 = Force x distance moved in the direction of the force\nWork on q2 = Force x distance moved in the direction of the force\nAs q2 = q1 = q",
+      "figure": {
+        "file": "phy-2020-34.png",
+        "page": 34,
+        "alt": "Figure 1 with plate Y at distance d from plate X and a particle q1 fired at P; Figure 2 with plate Y at distance 2d."
+      }
+    },
+    {
+      "number": "34(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Compare the horizontal distances travelled by q₁ and q₂ in the electric field.",
+      "stimulus": "A charged particle, q₁, is fired midway between oppositely charged plates X and Y, as shown in Figure 1. The voltage between the plates is V volts. The particle strikes plate Y at point P, a horizontal distance s from the edge of the plate. Ignore the effect of gravity. Plate Y is then moved to the position shown in Figure 2, with the voltage between the plates remaining the same. An identical particle, q₂, is fired into the electric field at the same velocity, entering the field at the same distance from plate X as q₁. [Diagram: Figure 1 and Figure 2 showing plates X and Y separated by d, then by 2d, with particles q₁ and q₂ fired at velocity v.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Correctly compares the horizontal distances travelled by q1 and q2"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some relevant calculation on the horizontal distances travelled by q1 and/or q2"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "In both situations the distance travelled to the right is proportional to v and t.\nNoting that a1 ≠ a2",
+      "figure": {
+        "file": "phy-2020-34.png",
+        "page": 34,
+        "alt": "Figure 1 with plate Y at distance d from plate X and a particle q1 fired at P; Figure 2 with plate Y at distance 2d."
+      }
+    }
+  ],
+  "edits": [
+    "Figures for 24(a)/(b)-style shared parts use the same file per question; 34(a) and 34(b) share phy-2020-34.png.",
+    "Sample answers garbled by the text layer (fraction and stacked-exponent formulas) are moved to sampleAnswerTruncated: 22(b) kept; 31(b), 33, 34(a), 34(b) truncated; 27 and 31(b) and 33 use truncated text.",
+    "Question 32 has no printed sample answer; the 'Answers could include' list is recorded in answersCouldInclude.",
+    "Notation kept as the extract carries it: subscripts and superscripts (q₁, t₀, 1.2 × 2.3), with the NESA print where the text layer differs (θ for q, en-dash minus for ⁻¹, plain q1 in some ladder rows)."
+  ]
+}
