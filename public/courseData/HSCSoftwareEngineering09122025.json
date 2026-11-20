@@ -353,7 +353,8 @@
                       "structure charts",
                       "class diagrams",
                       "data stores",
-                      "classes"
+                      "classes",
+                      "external entities"
                     ],
                     "linkedOutcomes": [
                       "SE-11-01",
@@ -407,7 +408,8 @@
                       "structure charts",
                       "class diagrams",
                       "classes",
-                      "modules"
+                      "modules",
+                      "data stores"
                     ],
                     "linkedOutcomes": [
                       "SE-11-01",
@@ -707,7 +709,8 @@
                       "objects",
                       "OOP",
                       "encapsulation",
-                      "parameter"
+                      "parameter",
+                      "public method"
                     ],
                     "linkedOutcomes": [
                       "SE-11-02",
@@ -760,7 +763,8 @@
                       "objects",
                       "OOP",
                       "encapsulation",
-                      "classes"
+                      "classes",
+                      "public method"
                     ],
                     "linkedOutcomes": [
                       "SE-11-02",
@@ -3066,7 +3070,8 @@
                       "Prototypes",
                       "Mechatronic system",
                       "Programming code",
-                      "Sensor"
+                      "Sensor",
+                      "boundary value"
                     ],
                     "linkedOutcomes": [
                       "SE-11-01",
@@ -5757,7 +5762,8 @@
                       "Readability of code",
                       "Quality of documentation",
                       "Comments",
-                      "Variable names"
+                      "Variable names",
+                      "indentation"
                     ],
                     "linkedOutcomes": [
                       "SE-11-06"
@@ -5808,7 +5814,9 @@
                       "Functionality",
                       "Performance",
                       "Readability of code",
-                      "Quality of documentation"
+                      "Quality of documentation",
+                      "functional test",
+                      "nested loop"
                     ],
                     "linkedOutcomes": [
                       "SE-11-06",
@@ -7172,7 +7180,9 @@
                       "Confidentiality",
                       "Integrity",
                       "CIA Triad",
-                      "Security concepts"
+                      "Security concepts",
+                      "availability",
+                      "authorisation"
                     ],
                     "markingCriteria": "2 marks: Gives accurate, precise definitions of both confidentiality and integrity using correct security terminology\n1 mark: Gives a correct definition of one principle, or imprecise definitions of both",
                     "sampleAnswers": [
@@ -15139,7 +15149,8 @@
                       "Waterfall model",
                       "Sequential phases",
                       "Requirements specification",
-                      "Deployment"
+                      "Deployment",
+                      "design document"
                     ],
                     "linkedOutcomes": [
                       "SE-12-01",
@@ -16427,7 +16438,8 @@
                       "development approach",
                       "Agile",
                       "Waterfall",
-                      "requirements"
+                      "requirements",
+                      "iterative development"
                     ],
                     "linkedOutcomes": [
                       "SE-12-01",
@@ -16908,7 +16920,8 @@
                       "software engineering solution",
                       "budget",
                       "developer time",
-                      "back-end"
+                      "back-end",
+                      "front-end"
                     ],
                     "linkedOutcomes": [
                       "SE-12-01",
@@ -19709,7 +19722,8 @@
                       "Object",
                       "Class",
                       "NeuralNetwork",
-                      "Object-oriented programming"
+                      "Object-oriented programming",
+                      "class definition"
                     ],
                     "markingCriteria": "2 marks: Identifies instantiation as the concept, stating that an object is created from the NeuralNetwork class\n1 mark: Provides some relevant information",
                     "sampleAnswers": [

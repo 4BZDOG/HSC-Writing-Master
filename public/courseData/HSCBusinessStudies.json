@@ -750,7 +750,8 @@
                       "growth",
                       "establishment",
                       "demand",
-                      "market share"
+                      "market share",
+                      "customer base"
                     ],
                     "linkedOutcomes": [
                       "P7",
@@ -1847,7 +1848,8 @@
                       "liability",
                       "control",
                       "capital",
-                      "legal structure"
+                      "legal structure",
+                      "sole trader"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -3104,7 +3106,9 @@
                       "decline",
                       "competition",
                       "market changes",
-                      "cash flow"
+                      "cash flow",
+                      "internal factors",
+                      "external factors"
                     ],
                     "markerNotes": [
                       "Strong answers give factors that are specific and distinct, such as competition, poor management and changing customer needs",
@@ -3155,7 +3159,8 @@
                       "decline",
                       "internal factors",
                       "external factors",
-                      "cash flow"
+                      "cash flow",
+                      "resistance to change"
                     ],
                     "markerNotes": [
                       "Strong answers show interaction, for example a management decision to keep an old workshop reduces the cash available to respond to cheaper imports",
@@ -3455,7 +3460,8 @@
                       "division of labour",
                       "scientific management",
                       "hierarchical structure",
-                      "chain of command"
+                      "chain of command",
+                      "standardised methods"
                     ],
                     "linkedOutcomes": [
                       "P5",
@@ -3508,7 +3514,8 @@
                       "behavioural approach",
                       "productivity",
                       "control",
-                      "motivation"
+                      "motivation",
+                      "close supervision"
                     ],
                     "linkedOutcomes": [
                       "P5",
@@ -4264,7 +4271,8 @@
                       "goals",
                       "planning",
                       "communication",
-                      "staff"
+                      "staff",
+                      "quality standards"
                     ],
                     "linkedOutcomes": [
                       "P5",
@@ -4487,7 +4495,8 @@
                       "communication",
                       "problem-solving",
                       "flexibility",
-                      "adaptability to change"
+                      "adaptability to change",
+                      "decision-making"
                     ],
                     "linkedOutcomes": [
                       "P5"
@@ -4539,7 +4548,8 @@
                       "stakeholders",
                       "decision-making",
                       "communication",
-                      "strategic thinking"
+                      "strategic thinking",
+                      "long-term viability"
                     ],
                     "linkedOutcomes": [
                       "P6",
@@ -4651,7 +4661,8 @@
                       "business goals",
                       "cancelled bookings",
                       "strategies",
-                      "monitoring"
+                      "monitoring",
+                      "measurable goal"
                     ],
                     "linkedOutcomes": [
                       "P7",
@@ -4764,7 +4775,8 @@
                       "growth",
                       "profit",
                       "share price",
-                      "environmental"
+                      "environmental",
+                      "trade-offs"
                     ],
                     "linkedOutcomes": [
                       "P2",
@@ -4823,7 +4835,8 @@
                       "profit",
                       "social goals",
                       "environmental goals",
-                      "stakeholders"
+                      "stakeholders",
+                      "financially viable"
                     ],
                     "linkedOutcomes": [
                       "P6",
@@ -4935,7 +4948,8 @@
                       "innovation",
                       "motivation",
                       "mentoring",
-                      "training"
+                      "training",
+                      "knowledge sharing"
                     ],
                     "linkedOutcomes": [
                       "P5",
@@ -4988,7 +5002,8 @@
                       "innovation",
                       "motivation",
                       "mentoring",
-                      "training"
+                      "training",
+                      "continuous improvement"
                     ],
                     "linkedOutcomes": [
                       "P5",
@@ -5052,7 +5067,8 @@
                       "classical approach",
                       "time-and-motion",
                       "piece rate",
-                      "written procedure"
+                      "written procedure",
+                      "standard time"
                     ],
                     "linkedOutcomes": [
                       "P5"
@@ -5104,7 +5120,8 @@
                       "time-and-motion",
                       "piece rate",
                       "written procedure",
-                      "workers"
+                      "workers",
+                      "standardised tasks"
                     ],
                     "linkedOutcomes": [
                       "P5",
@@ -5163,7 +5180,8 @@
                       "organising",
                       "controlling",
                       "management functions",
-                      "target"
+                      "target",
+                      "demand forecasts"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -5216,7 +5234,8 @@
                       "organising",
                       "controlling",
                       "management functions",
-                      "target"
+                      "target",
+                      "demand forecasts"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -5275,7 +5294,8 @@
                       "lines of authority",
                       "managing director",
                       "team leaders",
-                      "chain of command"
+                      "chain of command",
+                      "levels of management"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -5328,7 +5348,8 @@
                       "chain of command",
                       "span of control",
                       "communication",
-                      "decision-making"
+                      "decision-making",
+                      "accountability"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -5499,7 +5520,8 @@
                       "social needs",
                       "human relations",
                       "staff motivation",
-                      "productivity"
+                      "productivity",
+                      "Hawthorne studies"
                     ],
                     "linkedOutcomes": [
                       "P5"
@@ -5999,7 +6021,8 @@
                       "management style",
                       "internal factors",
                       "external factors",
-                      "decentralised decision making"
+                      "decentralised decision making",
+                      "delegation"
                     ],
                     "linkedOutcomes": [
                       "P2",
@@ -6174,7 +6197,8 @@
                       "coordinating",
                       "key business functions",
                       "resources",
-                      "interdependence"
+                      "interdependence",
+                      "production schedule"
                     ],
                     "linkedOutcomes": [
                       "P4"
@@ -6226,7 +6250,8 @@
                       "marketing",
                       "operations",
                       "profitability",
-                      "interdependence"
+                      "interdependence",
+                      "production schedule"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -6337,7 +6362,8 @@
                       "batch production",
                       "continuous production",
                       "capacity",
-                      "investment"
+                      "investment",
+                      "flexibility"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -6396,7 +6422,8 @@
                       "services",
                       "tangible",
                       "intangible",
-                      "perishable"
+                      "perishable",
+                      "stock levels"
                     ],
                     "linkedOutcomes": [
                       "P4"
@@ -6563,7 +6590,8 @@
                       "job production",
                       "batch production",
                       "costs",
-                      "flexibility"
+                      "flexibility",
+                      "bulk buying"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -6787,7 +6815,8 @@
                       "market research",
                       "marketing orientation",
                       "customer needs",
-                      "product"
+                      "product",
+                      "survey"
                     ],
                     "linkedOutcomes": [
                       "P6",
@@ -6900,7 +6929,8 @@
                       "market segmentation",
                       "profitability",
                       "demographic",
-                      "behavioural"
+                      "behavioural",
+                      "niche market"
                     ],
                     "linkedOutcomes": [
                       "P6",
@@ -7185,7 +7215,8 @@
                       "operating activities",
                       "investing activities",
                       "financing activities",
-                      "closing cash balance"
+                      "closing cash balance",
+                      "net cash flow"
                     ],
                     "linkedOutcomes": [
                       "P10",
@@ -7238,7 +7269,8 @@
                       "operating activities",
                       "investing activities",
                       "closing cash balance",
-                      "working capital"
+                      "working capital",
+                      "cash buffer"
                     ],
                     "linkedOutcomes": [
                       "P10",
@@ -7350,7 +7382,8 @@
                       "gross profit",
                       "net profit before tax",
                       "cost of sales",
-                      "gross profit margin"
+                      "gross profit margin",
+                      "operating expenses"
                     ],
                     "linkedOutcomes": [
                       "P10",
@@ -8551,7 +8584,8 @@
                     "keywords": [
                       "business information system",
                       "management information system",
-                      "decision making"
+                      "decision making",
+                      "management reports"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -8604,7 +8638,8 @@
                       "efficiency",
                       "decision making",
                       "staff training",
-                      "data security"
+                      "data security",
+                      "management information system"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -8663,7 +8698,9 @@
                       "realistic",
                       "resources",
                       "staff motivation",
-                      "performance"
+                      "performance",
+                      "benchmark",
+                      "goal setting"
                     ],
                     "linkedOutcomes": [
                       "P5"
@@ -9011,7 +9048,9 @@
                       "government",
                       "SMEs",
                       "regulation",
-                      "food safety"
+                      "food safety",
+                      "GST",
+                      "record keeping"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -9064,7 +9103,8 @@
                       "SMEs",
                       "regulation",
                       "taxation",
-                      "grants"
+                      "grants",
+                      "GST"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -10217,7 +10257,8 @@
                       "failure",
                       "small to medium enterprises",
                       "finance",
-                      "cash flow"
+                      "cash flow",
+                      "customer feedback"
                     ],
                     "linkedOutcomes": [
                       "P3",
@@ -11596,7 +11637,8 @@
                       "customer feedback",
                       "market research",
                       "competitor analysis",
-                      "budget"
+                      "budget",
+                      "survey"
                     ],
                     "linkedOutcomes": [
                       "P7",
@@ -15444,7 +15486,8 @@
                       "hypothetical business",
                       "justification",
                       "risks",
-                      "trade-offs"
+                      "trade-offs",
+                      "just-in-time inventory"
                     ],
                     "markingCriteria": "8 marks: Recommends specific, justified operations strategies for one hypothetical business, linking each recommendation to the business's objectives, market and constraints, and assessing the risks and trade-offs of the recommendations\n6-7 marks: Recommends operations strategies with accurate justification and attempts to assess the risks or trade-offs\n4-5 marks: Recommends operations strategies with some justification for each, but little assessment of risk or trade-offs\n2-3 marks: Makes relevant recommendations for the bakery with little or no justification or link to the owners' concerns\n1 mark: Makes a general statement about operations",
                     "sampleAnswers": [
@@ -15740,7 +15783,8 @@
                       "industries",
                       "operations management",
                       "tangible",
-                      "intangible"
+                      "intangible",
+                      "inventory"
                     ],
                     "markingCriteria": "4 marks: Describes goods and services in different industries accurately and explains how operations management applies differently to tangible goods and intangible services, with examples from at least two industries\n3 marks: Describes goods and services with accurate detail and one industry example of each\n2 marks: Identifies goods and services in different industries with some accuracy, but gives little or no explanation\n1 mark: Makes a general statement about goods and services",
                     "sampleAnswers": [
@@ -16087,7 +16131,8 @@
                       "technology",
                       "quality expectations",
                       "cost-based competition",
-                      "environmental sustainability"
+                      "environmental sustainability",
+                      "globalisation"
                     ],
                     "markingCriteria": "8 marks: Makes a sustained analysis of the influences on operations management, weighing the relative effect of globalisation, technology, quality expectations, competition, policy, regulation and sustainability on operations decisions, with a reasoned conclusion\n5-7 marks: Analyses at least four influences with accurate examples and a link to operations decisions\n3-4 marks: Describes influences on operations management with some accuracy\n1-2 marks: Makes a basic or general statement about influences",
                     "sampleAnswers": [
@@ -16552,7 +16597,8 @@
                       "ethical responsibility",
                       "operations management",
                       "difference",
-                      "beyond the law"
+                      "beyond the law",
+                      "corporate social responsibility"
                     ],
                     "markingCriteria": "6 marks: Explains clearly the difference between legal compliance and ethical responsibility in operations management, showing that ethical responsibility can go beyond the law, with precise examples from operations decisions\n5 marks: Explains the difference with accurate examples of at least two operations decisions\n4 marks: Explains the difference with accurate detail and one example\n3 marks: Describes compliance and ethics with some accuracy\n2 marks: Identifies legal compliance or ethical responsibility\n1 mark: Makes a general statement about ethics",
                     "sampleAnswers": [
@@ -16787,7 +16833,8 @@
                       "operations process",
                       "materials",
                       "human resources",
-                      "facilities"
+                      "facilities",
+                      "transformed resources"
                     ],
                     "markingCriteria": "4 marks: Describes the inputs of an operations process accurately, including materials, information, human resources and facilities, with examples of each\n3 marks: Describes three types of input, such as materials, human resources and facilities, with accurate detail\n2 marks: Identifies inputs of an operations process with some accuracy, and gives an example for one or two\n1 mark: Makes a general statement about inputs",
                     "sampleAnswers": [
@@ -18052,7 +18099,8 @@
                       "delivery service",
                       "delivery confirmation",
                       "customer experience",
-                      "operations process"
+                      "operations process",
+                      "intangible service"
                     ],
                     "linkedOutcomes": [
                       "H4",
@@ -18631,7 +18679,8 @@
                       "operations strategy",
                       "product design",
                       "competitive advantage",
-                      "stages"
+                      "stages",
+                      "prototype"
                     ],
                     "markingCriteria": "6 marks: Explains clearly new product or service design and development as part of operations strategy, including the stages, the role of customers and suppliers, and the link to competitive advantage, with precise examples\n5 marks: Explains the stages and the link to competitive advantage with accurate examples\n4 marks: Explains the stages of design and development with accurate detail\n3 marks: Describes product or service design with some accuracy\n2 marks: Identifies a stage of design and development\n1 mark: Makes a general statement about new products",
                     "sampleAnswers": [
@@ -18674,7 +18723,8 @@
                       "outsourcing",
                       "prototype",
                       "cost",
-                      "control"
+                      "control",
+                      "operations process"
                     ],
                     "linkedOutcomes": [
                       "H2",
@@ -23988,7 +24038,8 @@
                       "goods and services",
                       "marketing mix",
                       "benefits",
-                      "product range"
+                      "product range",
+                      "intangible"
                     ],
                     "markingCriteria": "4 marks: Describes products as goods and services accurately within the marketing mix, including features, benefits and the product range, with examples\n3 marks: Describes goods and services with accurate detail on features and benefits\n2 marks: Identifies goods and services as products with some accuracy\n1 mark: Makes a general statement about products",
                     "sampleAnswers": [
@@ -24267,7 +24318,8 @@
                       "protection",
                       "promotion",
                       "sustainability",
-                      "consumer appeal"
+                      "consumer appeal",
+                      "brand"
                     ],
                     "markingCriteria": "4 marks: Describes packaging accurately, including its protective, promotional and informational roles, and its sustainability considerations, with examples\n3 marks: Describes packaging and two of its roles with accurate detail\n2 marks: Identifies packaging with some accuracy\n1 mark: Makes a general statement about packaging",
                     "sampleAnswers": [
@@ -25679,7 +25731,8 @@
                       "physical evidence",
                       "services",
                       "customer experience",
-                      "perceived quality"
+                      "perceived quality",
+                      "extended marketing mix"
                     ],
                     "markingCriteria": "6 marks: Explains clearly people, processes and physical evidence as elements of the marketing of services, showing how each shapes the customer experience and perceived quality, with precise examples\n5 marks: Explains all three elements accurately, with examples, and shows how at least two of them shape the customer experience\n4 marks: Explains two of the elements with accurate detail and an example, with limited reference to the third\n3 marks: Describes at least two of these elements with some accuracy, without explaining how they shape the customer experience\n2 marks: Identifies one of the elements, with a brief and general description of how it is used in the service\n1 mark: Makes a general statement about services",
                     "sampleAnswers": [
@@ -25845,7 +25898,8 @@
                       "marketing strategy",
                       "digital channels",
                       "social media",
-                      "online advertising"
+                      "online advertising",
+                      "search advertising"
                     ],
                     "markingCriteria": "6 marks: Explains clearly e-marketing and its effect on marketing strategy, including digital channels, data use and customer interaction, with precise examples\n5 marks: Explains e-marketing and its effect with accurate examples of two channels or uses\n4 marks: Explains e-marketing with accurate detail and one example\n3 marks: Describes e-marketing with some accuracy\n2 marks: Identifies a digital marketing channel\n1 mark: Makes a general statement about online marketing",
                     "sampleAnswers": [
@@ -31178,7 +31232,8 @@
                       "industry averages",
                       "total expenses",
                       "sales",
-                      "cost control"
+                      "cost control",
+                      "efficiency"
                     ],
                     "markingCriteria": "2 marks: Shows an understanding of what the expense ratio for 2024 indicates for this business\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -34636,7 +34691,8 @@
                       "human resource management",
                       "alternative strategies",
                       "indicators",
-                      "staff turnover"
+                      "staff turnover",
+                      "absenteeism"
                     ],
                     "markingCriteria": "10 marks: Makes a sustained, criteria-based evaluation of the effectiveness of human resource management for one business, using indicators such as turnover, absenteeism and disputes, and recommends appropriate alternative strategies with justification and risks\n9 marks: Evaluates effectiveness with precise evidence and recommends alternative strategies with justification and an account of their risks\n7-8 marks: Evaluates effectiveness with some evidence and makes a recommendation, but the reasoning is uneven\n5-6 marks: Describes human resource management and some relevant strategies, with accurate detail drawn from the scenario\n3-4 marks: Identifies some aspects of human resource management with limited evaluation and little use of scenario evidence\n1-2 marks: Minimal relevant response with little or no evaluation or recommendation",
                     "sampleAnswers": [
@@ -39696,7 +39752,8 @@
                       "indicator",
                       "causes",
                       "morale",
-                      "productivity"
+                      "productivity",
+                      "human resource effectiveness"
                     ],
                     "markingCriteria": "4 marks: Describes absenteeism as an indicator of human resource effectiveness accurately, including its causes and what high or low rates indicate, with examples\n3 marks: Describes absenteeism and two of its implications with accurate detail\n2 marks: Identifies absenteeism with some accuracy\n1 mark: Makes a general statement about absence",
                     "sampleAnswers": [
@@ -39916,7 +39973,8 @@
                       "indicator",
                       "disputes",
                       "relations",
-                      "trust"
+                      "trust",
+                      "grievance procedure"
                     ],
                     "markingCriteria": "4 marks: Describes levels of disputation as an indicator of human resource effectiveness accurately, including the number and types of disputes and what they reveal about workplace relations, with examples\n3 marks: Describes levels of disputation and two implications with accurate detail\n2 marks: Identifies levels of disputation with some accuracy\n1 mark: Makes a general statement about disputes",
                     "sampleAnswers": [

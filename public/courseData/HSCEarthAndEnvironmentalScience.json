@@ -1417,7 +1417,8 @@
                       "equipment",
                       "systematically",
                       "record",
-                      "thermometer"
+                      "thermometer",
+                      "parallax error"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-03",
@@ -1471,7 +1472,8 @@
                       "equipment",
                       "reliability",
                       "record",
-                      "systematically"
+                      "systematically",
+                      "radiant heat"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-03",
@@ -1530,7 +1532,9 @@
                     "keywords": [
                       "secondary sources",
                       "newspaper archives",
-                      "government reports"
+                      "government reports",
+                      "scientific journal articles",
+                      "secondary data"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-05",
@@ -1707,7 +1711,8 @@
                       "qualitative",
                       "quantitative",
                       "erosion",
-                      "pH"
+                      "pH",
+                      "soil profile"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-04",
@@ -1996,7 +2001,8 @@
                       "sources",
                       "referencing style",
                       "acknowledge",
-                      "pH"
+                      "pH",
+                      "dissolved oxygen"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-04",
@@ -2051,7 +2057,8 @@
                       "referencing style",
                       "quotation",
                       "paraphrased",
-                      "graph"
+                      "graph",
+                      "plagiarism"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-07",
@@ -2587,7 +2594,8 @@
                       "precision",
                       "pH",
                       "reading",
-                      "known"
+                      "known",
+                      "calibration"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-04",
@@ -2758,7 +2766,8 @@
                       "outlier",
                       "result",
                       "trend",
-                      "species"
+                      "species",
+                      "quadrat"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-05",
@@ -2818,7 +2827,8 @@
                       "reliable",
                       "turbidity",
                       "sampling",
-                      "disturbance"
+                      "disturbance",
+                      "standardised sampling"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-05",
@@ -3112,7 +3122,8 @@
                       "salinity",
                       "problem",
                       "prediction",
-                      "monitoring"
+                      "monitoring",
+                      "water table"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-06",
@@ -5086,7 +5097,8 @@
                       "heat",
                       "convection",
                       "mantle",
-                      "density"
+                      "density",
+                      "buoyancy"
                     ],
                     "linkedOutcomes": [
                       "EES-11-01"
@@ -5197,7 +5209,8 @@
                       "convection currents",
                       "fluid",
                       "mantle",
-                      "heat source"
+                      "heat source",
+                      "viscosity"
                     ],
                     "linkedOutcomes": [
                       "EES-11-01"
@@ -5756,7 +5769,8 @@
                       "plate tectonics",
                       "theory",
                       "magnetic stripes",
-                      "fossil evidence"
+                      "fossil evidence",
+                      "Mesosaurus"
                     ],
                     "linkedOutcomes": [
                       "EES-11-01"
@@ -6322,7 +6336,8 @@
                       "convergent boundary",
                       "thrust faults",
                       "mountain range",
-                      "volcanic rock"
+                      "volcanic rock",
+                      "fold and thrust belt"
                     ],
                     "linkedOutcomes": [
                       "EES-11-01"
@@ -6492,7 +6507,8 @@
                       "sand",
                       "paper",
                       "upper block",
-                      "tension"
+                      "tension",
+                      "fault plane"
                     ],
                     "linkedOutcomes": [
                       "EES-11-01"
@@ -6544,7 +6560,8 @@
                       "strike-slip fault",
                       "sand",
                       "scale",
-                      "brittle"
+                      "brittle",
+                      "hanging wall"
                     ],
                     "linkedOutcomes": [
                       "EES-11-01"
@@ -7065,7 +7082,8 @@
                       "mineral",
                       "ore",
                       "naturally occurring",
-                      "economically"
+                      "economically",
+                      "crystal structure"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -8190,7 +8208,8 @@
                       "magnetic ore",
                       "laboratory experiment",
                       "magnetometer",
-                      "magnetic anomaly"
+                      "magnetic anomaly",
+                      "magnetic field"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -8242,7 +8261,8 @@
                       "magnetic ore",
                       "validity",
                       "limitations",
-                      "magnetometer"
+                      "magnetometer",
+                      "ore body"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -8414,7 +8434,8 @@
                       "environmental impact",
                       "minimise",
                       "dust",
-                      "runoff"
+                      "runoff",
+                      "sediment ponds"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -8466,7 +8487,8 @@
                       "environmental impact",
                       "minimise",
                       "progressive rehabilitation",
-                      "sediment control"
+                      "sediment control",
+                      "erosion"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -9312,7 +9334,8 @@
                       "intermittent",
                       "solar power",
                       "wind power",
-                      "electricity demand"
+                      "electricity demand",
+                      "batteries"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -9534,7 +9557,8 @@
                       "electricity generation",
                       "coal",
                       "carbon dioxide",
-                      "emissions"
+                      "emissions",
+                      "climate change"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -9879,7 +9903,8 @@
                       "percolation",
                       "groundwater",
                       "runoff",
-                      "transpiration"
+                      "transpiration",
+                      "aquifer"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -9931,7 +9956,8 @@
                       "hydrosphere",
                       "evaporation",
                       "condensation",
-                      "precipitation"
+                      "precipitation",
+                      "infiltration"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -10210,7 +10236,8 @@
                       "precipitation",
                       "runoff",
                       "ocean",
-                      "atmosphere"
+                      "atmosphere",
+                      "water vapour"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -10321,7 +10348,8 @@
                       "oxygen",
                       "nutrients",
                       "fish",
-                      "algae"
+                      "algae",
+                      "surface water"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -10373,7 +10401,8 @@
                       "density",
                       "temperature layers",
                       "algae",
-                      "fish"
+                      "fish",
+                      "photosynthesis"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -10430,7 +10459,8 @@
                       "salt concentration",
                       "density",
                       "egg",
-                      "float"
+                      "float",
+                      "dissolved salt"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -10482,7 +10512,8 @@
                       "density",
                       "repeat trials",
                       "float",
-                      "trend"
+                      "trend",
+                      "dissolved salt"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -10651,7 +10682,8 @@
                       "salinity",
                       "density",
                       "sink",
-                      "North Atlantic"
+                      "North Atlantic",
+                      "thermohaline circulation"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -10814,7 +10846,8 @@
                       "ocean currents",
                       "trade winds",
                       "El Niño",
-                      "upwelling"
+                      "upwelling",
+                      "pressure gradient"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -10924,7 +10957,8 @@
                       "La Niña",
                       "water availability",
                       "rainfall",
-                      "irrigation"
+                      "irrigation",
+                      "El Niño"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -11092,7 +11126,8 @@
                       "aquifer",
                       "wetland",
                       "groundwater",
-                      "water level"
+                      "water level",
+                      "water table"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -11144,7 +11179,8 @@
                       "aquifer",
                       "wetland",
                       "water table",
-                      "recharge"
+                      "recharge",
+                      "water allocation"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -11202,7 +11238,8 @@
                       "secondary",
                       "tertiary",
                       "sedimentation",
-                      "microorganisms"
+                      "microorganisms",
+                      "organic matter"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -11254,7 +11291,8 @@
                       "secondary treatment",
                       "tertiary treatment",
                       "end use",
-                      "water quality"
+                      "water quality",
+                      "pathogens"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -11312,7 +11350,8 @@
                       "nitrogen",
                       "phosphorus",
                       "algae",
-                      "dissolved oxygen"
+                      "dissolved oxygen",
+                      "algal blooms"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -11422,7 +11461,8 @@
                       "nitrate",
                       "stormwater",
                       "dissolved oxygen",
-                      "monitoring data"
+                      "monitoring data",
+                      "faecal contamination"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -11585,7 +11625,8 @@
                       "human health",
                       "environmental health",
                       "algal blooms",
-                      "combined effects"
+                      "combined effects",
+                      "aquatic life"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -11649,7 +11690,8 @@
                       "parent material",
                       "climate",
                       "topography",
-                      "organisms"
+                      "organisms",
+                      "leaching"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -12487,7 +12529,8 @@
                       "secondary soil salinity",
                       "water table",
                       "land clearing",
-                      "salt-tolerant plants"
+                      "salt-tolerant plants",
+                      "weathering"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -15402,7 +15445,8 @@
                       "secondary source",
                       "water quality",
                       "peer-reviewed",
-                      "monitoring database"
+                      "monitoring database",
+                      "journal article"
                     ],
                     "linkedOutcomes": [
                       "EES-12WS-03"
@@ -16199,7 +16243,8 @@
                       "inconsistency",
                       "nutrient levels",
                       "downstream",
-                      "possible explanation"
+                      "possible explanation",
+                      "dilution"
                     ],
                     "linkedOutcomes": [
                       "EES-12WS-05"
@@ -16251,7 +16296,8 @@
                       "trend",
                       "outlier",
                       "reliability",
-                      "repeat measurement"
+                      "repeat measurement",
+                      "calibration"
                     ],
                     "linkedOutcomes": [
                       "EES-12WS-05",
@@ -16426,7 +16472,8 @@
                       "precision",
                       "systematic error",
                       "random error",
-                      "calibration"
+                      "calibration",
+                      "true value"
                     ],
                     "linkedOutcomes": [
                       "EES-12WS-05"
@@ -17286,7 +17333,8 @@
                       "scientific argument",
                       "media",
                       "audience",
-                      "graph"
+                      "graph",
+                      "line graph"
                     ],
                     "linkedOutcomes": [
                       "EES-12WS-07"
@@ -17683,7 +17731,8 @@
                       "validity",
                       "mould",
                       "cast",
-                      "trace fossil"
+                      "trace fossil",
+                      "compaction"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -17741,7 +17790,8 @@
                       "observations",
                       "fossils",
                       "ecosystem interactions",
-                      "environmental conditions"
+                      "environmental conditions",
+                      "burrows"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -17851,7 +17901,9 @@
                       "relative length",
                       "eons",
                       "eras",
-                      "periods"
+                      "periods",
+                      "Phanerozoic",
+                      "Cambrian"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -17903,7 +17955,8 @@
                       "epochs",
                       "periods",
                       "developments",
-                      "Pleistocene"
+                      "Pleistocene",
+                      "Holocene"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -18123,7 +18176,8 @@
                       "extreme events",
                       "event conjunctions",
                       "principle",
-                      "uniform rates"
+                      "uniform rates",
+                      "Deccan Traps"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -18357,7 +18411,8 @@
                       "radioactive decay",
                       "geological materials",
                       "random",
-                      "coins"
+                      "coins",
+                      "parent atoms"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -18409,7 +18464,8 @@
                       "radioactive decay",
                       "geological materials",
                       "random",
-                      "limitations"
+                      "limitations",
+                      "daughter isotopes"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -18691,7 +18747,8 @@
                       "conclusions",
                       "geological materials",
                       "age",
-                      "Earth"
+                      "Earth",
+                      "radiometric dating"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -19097,7 +19154,9 @@
                       "stromatolites",
                       "cyanobacteria",
                       "photosynthetic life",
-                      "evidence"
+                      "evidence",
+                      "sedimentary structures",
+                      "microbial mats"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -19207,7 +19266,8 @@
                       "photosynthetic life",
                       "ozone layer",
                       "oxygen",
-                      "ultraviolet"
+                      "ultraviolet",
+                      "upper atmosphere"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -19322,7 +19382,9 @@
                       "Ediacaran fossils",
                       "physical characteristics",
                       "ecosystems",
-                      "secondary-source investigation"
+                      "secondary-source investigation",
+                      "benthic",
+                      "sessile"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -19373,7 +19435,8 @@
                       "Ediacaran fossils",
                       "physical characteristics",
                       "ecosystems",
-                      "secondary-source investigation"
+                      "secondary-source investigation",
+                      "sessile organisms"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -19654,7 +19717,8 @@
                       "Cambrian period",
                       "ecosystem interactions",
                       "trace fossils",
-                      "burrows"
+                      "burrows",
+                      "feeding trails"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -19877,7 +19941,8 @@
                       "Tiktaalik",
                       "tetrapods",
                       "limb bones",
-                      "neck"
+                      "neck",
+                      "Devonian"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -20210,7 +20275,8 @@
                       "supercontinent",
                       "rifting",
                       "subduction",
-                      "dispersal"
+                      "dispersal",
+                      "ocean basins"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -20667,7 +20733,8 @@
                       "explosive eruptions",
                       "viscosity",
                       "lava flows",
-                      "pyroclastic flows"
+                      "pyroclastic flows",
+                      "shield volcano"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -20889,7 +20956,8 @@
                       "explosive eruptions",
                       "effusive eruptions",
                       "convergent boundaries",
-                      "divergent boundaries"
+                      "divergent boundaries",
+                      "mid-ocean ridges"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -20940,7 +21008,8 @@
                       "plate boundaries",
                       "past eruptions",
                       "zones",
-                      "hazard map"
+                      "hazard map",
+                      "hotspots"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -20997,7 +21066,9 @@
                       "volcanic bombs",
                       "ash clouds",
                       "causes",
-                      "effects"
+                      "effects",
+                      "molten lava",
+                      "explosive eruptions"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21049,7 +21120,8 @@
                       "lahars",
                       "causes",
                       "effects",
-                      "landscape"
+                      "landscape",
+                      "volcanic debris"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21107,7 +21179,8 @@
                       "aerosols",
                       "global",
                       "stratosphere",
-                      "timescales"
+                      "timescales",
+                      "sulphate aerosols"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21216,7 +21289,8 @@
                       "geological causes",
                       "Mount Pinatubo",
                       "effects",
-                      "environment"
+                      "environment",
+                      "magma"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21268,7 +21342,8 @@
                       "Eyjafjallajökull",
                       "geological",
                       "environment",
-                      "society"
+                      "society",
+                      "subduction zone"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21326,7 +21401,8 @@
                       "warning systems",
                       "ground deformation",
                       "evacuation",
-                      "seismometers"
+                      "seismometers",
+                      "tremor"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21377,7 +21453,9 @@
                       "prediction technologies",
                       "warning systems",
                       "volcanic eruptions",
-                      "evacuation"
+                      "evacuation",
+                      "seismometers",
+                      "gas monitoring"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21441,7 +21519,8 @@
                       "Aboriginal Oral traditions",
                       "earthquake",
                       "tsunami",
-                      "Australia"
+                      "Australia",
+                      "tsunami deposits"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21552,7 +21631,8 @@
                       "stress",
                       "elastic strain",
                       "energy",
-                      "fault"
+                      "fault",
+                      "rupture"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21604,7 +21684,8 @@
                       "energy transformations",
                       "elastic strain",
                       "friction",
-                      "rock"
+                      "rock",
+                      "kinetic energy"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21662,7 +21743,8 @@
                       "divergent boundary",
                       "transform boundary",
                       "shallow",
-                      "depth"
+                      "depth",
+                      "lithosphere"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21714,7 +21796,8 @@
                       "convergent boundary",
                       "subduction zone",
                       "depth",
-                      "subducting plate"
+                      "subducting plate",
+                      "trench"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21838,7 +21921,8 @@
                       "S waves",
                       "compressional",
                       "transverse",
-                      "liquid"
+                      "liquid",
+                      "body waves"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21949,7 +22033,8 @@
                       "built environments",
                       "seismic waves",
                       "hazards",
-                      "collapse"
+                      "collapse",
+                      "liquefaction"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -22352,7 +22437,8 @@
                       "warning systems",
                       "seismometers",
                       "P waves",
-                      "warning time"
+                      "warning time",
+                      "surface waves"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -22404,7 +22490,8 @@
                       "warning systems",
                       "effectiveness",
                       "warning time",
-                      "epicentre"
+                      "epicentre",
+                      "seismometers"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -23680,7 +23767,8 @@
                       "continents",
                       "greenhouse",
                       "icehouse",
-                      "global climate"
+                      "global climate",
+                      "ice sheets"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -23732,7 +23820,8 @@
                       "continents",
                       "greenhouse",
                       "icehouse",
-                      "global climate"
+                      "global climate",
+                      "carbon dioxide"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -25545,7 +25634,8 @@
                       "direct measurements",
                       "past climate",
                       "thermometer",
-                      "records"
+                      "records",
+                      "tree rings"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -25662,7 +25752,8 @@
                       "greenhouse gases",
                       "atmosphere",
                       "infrared radiation",
-                      "heat"
+                      "heat",
+                      "water vapour"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -26048,7 +26139,8 @@
                       "greenhouse effect",
                       "carbon dioxide",
                       "atmosphere",
-                      "limitation"
+                      "limitation",
+                      "infrared radiation"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -26218,7 +26310,8 @@
                       "carbon dioxide",
                       "concentration",
                       "greenhouse gases",
-                      "atmosphere"
+                      "atmosphere",
+                      "carbon sink"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -26604,7 +26697,8 @@
                       "shells",
                       "validity",
                       "limitation",
-                      "eggshell"
+                      "eggshell",
+                      "calcium carbonate"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -26666,7 +26760,9 @@
                     "keywords": [
                       "mitigation",
                       "adaptation",
-                      "anthropogenic climate change"
+                      "anthropogenic climate change",
+                      "greenhouse gases",
+                      "emissions reduction"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -26954,7 +27050,8 @@
                       "carbon dioxide emissions",
                       "production",
                       "solar",
-                      "wind"
+                      "wind",
+                      "fossil fuels"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -27199,7 +27296,9 @@
                       "Paris Agreement",
                       "international cooperation",
                       "greenhouse emissions",
-                      "emission targets"
+                      "emission targets",
+                      "global average temperature",
+                      "pre-industrial levels"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -27433,7 +27532,8 @@
                       "renewable",
                       "non-renewable",
                       "wind farm",
-                      "mine site"
+                      "mine site",
+                      "carbon dioxide"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"
@@ -27783,7 +27883,9 @@
                       "circular economy",
                       "linear economy",
                       "sustainable consumption",
-                      "production"
+                      "production",
+                      "remanufacture",
+                      "recycling"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"
@@ -27894,7 +27996,8 @@
                       "traditional landfill",
                       "breakdown",
                       "leachate",
-                      "methane"
+                      "methane",
+                      "organic waste"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"
@@ -28116,7 +28219,9 @@
                       "waste reduction",
                       "atmosphere",
                       "hydrosphere",
-                      "packaging"
+                      "packaging",
+                      "pollutant gases",
+                      "microplastic"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"
@@ -28234,7 +28339,8 @@
                       "wind turbines",
                       "batteries",
                       "secondary source",
-                      "lithium"
+                      "lithium",
+                      "rare earth magnets"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"
@@ -29158,7 +29264,8 @@
                       "energy resource",
                       "transport",
                       "dependence",
-                      "Australia"
+                      "Australia",
+                      "biofuels"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"
@@ -29212,7 +29319,8 @@
                       "energy resource",
                       "transport",
                       "dependence",
-                      "fuel security"
+                      "fuel security",
+                      "electric vehicles"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"

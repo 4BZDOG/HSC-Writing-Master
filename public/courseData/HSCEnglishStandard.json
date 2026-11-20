@@ -147,7 +147,8 @@
                       "authoritative",
                       "reader",
                       "imperative",
-                      "diction"
+                      "diction",
+                      "hedging"
                     ],
                     "markingCriteria": "2 marks: Identifies two specific language choices from the notice and states how each one influences the reader\n1 mark: Identifies one language choice from the notice, with or without a brief statement of its influence",
                     "sampleAnswers": [
@@ -643,7 +644,8 @@
                       "structures",
                       "similarities",
                       "differences",
-                      "within and between texts"
+                      "within and between texts",
+                      "nominalisation"
                     ],
                     "markingCriteria": "7 marks: Makes a sustained comparison of the language forms, features and structures of both texts, analysing similarities and differences within and between them and the effect each has on the reader\n4-6 marks: Compares at least two aspects of language or structure across the texts, with evidence, and explains one effect\n1-3 marks: Identifies similarities or differences in language or structure with limited comparison, or makes a relevant but general statement about one text",
                     "sampleAnswers": [
@@ -695,7 +697,8 @@
                       "fragmented",
                       "diary entry",
                       "structures",
-                      "fear"
+                      "fear",
+                      "subordinate clauses"
                     ],
                     "markingCriteria": "3 marks: Outlines the change in sentence structure across the opening, middle and closing sections, using specific features such as sentence length, clause type and fragments\n2 marks: Outlines the change in sentence structure with a general description of the opening and the closing\n1 mark: Makes a relevant but general comment about the entry's sentences",
                     "sampleAnswers": [
@@ -815,7 +818,8 @@
                       "persuasive",
                       "thesis",
                       "counter-argument",
-                      "audience"
+                      "audience",
+                      "emotive language"
                     ],
                     "markingCriteria": "3 marks: Describes at least two distinguishing features of each form, such as the balanced presentation of views in a discursive text or a deliberate call to action in a persuasive text, with reference to the student's own writing\n2 marks: Describes one distinguishing feature of each form, with limited reference to the student's writing\n1 mark: Makes a relevant but general statement about one of the forms",
                     "sampleAnswers": [
@@ -1156,7 +1160,8 @@
                       "spoken",
                       "written",
                       "audience",
-                      "engages"
+                      "engages",
+                      "pace"
                     ],
                     "markingCriteria": "4 marks: Explains how the combination of spoken and written modes changes engagement for a family audience, showing the effect of at least two features, such as pace, repetition or tone, on how the information is received\n3 marks: Explains one feature of the combined modes and its effect on the audience's engagement\n2 marks: Identifies a difference between the spoken and written modes with a general statement about engagement\n1 mark: Makes a relevant but general comment about the two versions",
                     "sampleAnswers": [
@@ -2320,7 +2325,9 @@
                       "ordering",
                       "reader",
                       "effective",
-                      "argument"
+                      "argument",
+                      "call to action",
+                      "emotional appeal"
                     ],
                     "markingCriteria": "8 marks: Justifies the ordering of the argument with reasoned links between each point and the ideas from the two texts, showing why this sequence is more effective for the reader than alternatives, with precise reference to the argument's structure\n6-7 marks: Justifies the ordering of several points with clear reasons and reference to the texts, and judges the effect of the sequence on the reader\n4-5 marks: Justifies the ordering of several points with some reasons, with limited reference to the texts\n2-3 marks: Describes the order of the argument and gives a general reason for it, or identifies the order of points with little justification\n1 mark: Makes a relevant but general comment about the argument",
                     "sampleAnswers": [
@@ -2597,7 +2604,8 @@
                       "draft",
                       "final version",
                       "medium",
-                      "text"
+                      "text",
+                      "spoken script"
                     ],
                     "markingCriteria": "2 marks: Recounts at least three steps in sequence, from first draft to final version, naming a change at each step\n1 mark: Recounts one or two steps without a sequence or a change",
                     "sampleAnswers": [
@@ -2645,7 +2653,8 @@
                     "keywords": [
                       "technologies",
                       "generate",
-                      "present"
+                      "present",
+                      "interviews"
                     ],
                     "markingCriteria": "4 marks: Describes two specific processes or technologies, explains what each one generated or investigated, and links both to presenting accurate information\n3 marks: Describes two processes or technologies with some link to gathering information, with limited detail\n2 marks: Names one or two processes or technologies and states a general purpose for each\n1 mark: Identifies a relevant process or technology without describing its use",
                     "sampleAnswers": [
@@ -2695,7 +2704,10 @@
                     "keywords": [
                       "technologies",
                       "organise",
-                      "refine"
+                      "refine",
+                      "mind-mapping",
+                      "storyboard",
+                      "video essay"
                     ],
                     "markingCriteria": "5 marks: Explains clearly how specific processes and technologies helped Marcus clarify, organise and refine ideas, with a sustained link to the quality of the final video essay\n4 marks: Explains how two processes or technologies improved his ideas, with a clear link to quality\n3 marks: Describes processes and technologies Marcus used, with a general link to quality\n2 marks: Lists tools without explaining how they improved the essay\n1 mark: Makes a general statement about technology",
                     "sampleAnswers": [
@@ -2747,7 +2759,8 @@
                       "generate",
                       "organise",
                       "refine",
-                      "present"
+                      "present",
+                      "brainstorming"
                     ],
                     "markingCriteria": "8 marks: Discusses several processes and technologies across the stages of composition, explaining how each shapes the final form, the information and ideas presented, and the audience response\n6-7 marks: Discusses processes and technologies with clear links to the final text, with uneven depth across the stages\n4-5 marks: Describes processes and technologies in general terms, with some links to form\n2-3 marks: Names tools with a brief or vague link to the composition\n1 mark: Makes a general statement about technology",
                     "sampleAnswers": [
@@ -3750,7 +3763,8 @@
                       "forms",
                       "perspectives",
                       "personal and public worlds",
-                      "human experiences"
+                      "human experiences",
+                      "direct address"
                     ],
                     "markingCriteria": "8 marks: Analyses in depth how the language, forms and features shape a range of perspectives across personal and public worlds, showing how the choices create diverse human experiences for readers\n5-7 marks: Analyses how several language and form choices shape perspectives on personal and public worlds, with clear examples\n3-4 marks: Explains some language and form choices and their effect on perspectives, with a general link to human experiences\n1-2 marks: Describes language or forms without linking them to perspectives or experiences",
                     "sampleAnswers": [
@@ -11595,7 +11609,8 @@
                       "discursive",
                       "persuasive",
                       "reflective",
-                      "passage"
+                      "passage",
+                      "direct address"
                     ],
                     "markingCriteria": "3 marks: Classifies all four passages correctly, each with one supporting feature of form or language that justifies the category\n2 marks: Classifies three of the four passages correctly, or all four without supporting features\n1 mark: Classifies one or two passages correctly, without supporting features",
                     "sampleAnswers": [
@@ -11658,7 +11673,8 @@
                     "keywords": [
                       "generate",
                       "organise",
-                      "feature article"
+                      "feature article",
+                      "interviews"
                     ],
                     "markingCriteria": "4 marks: Outlines four distinct processes, each tied to a specific action in the planning log and to its purpose in building the article\n3 marks: Outlines three processes with specific actions from the log, or four with general actions\n2 marks: Outlines two processes with limited reference to the log\n1 mark: Names a process without outlining what the student did",
                     "sampleAnswers": [
@@ -11711,7 +11727,8 @@
                       "present",
                       "audience",
                       "feature article",
-                      "local readers"
+                      "local readers",
+                      "chronological account"
                     ],
                     "markingCriteria": "5 marks: Explains how the refining and presenting processes changed the article's structure, language and presentation, with specific evidence from the drafts, and shows the effect on the intended audience\n4 marks: Explains the effect of the refining and presenting processes on the article, with specific evidence and a link to the audience\n3 marks: Describes changes made in refining and presenting, with some evidence and a general statement about the audience\n2 marks: Identifies a change between drafts with little explanation of effect\n1 mark: Names the refining or presenting process without describing a change",
                     "sampleAnswers": [
@@ -12620,7 +12637,8 @@
                       "peer feedback",
                       "meaning",
                       "writer",
-                      "tone"
+                      "tone",
+                      "imagery"
                     ],
                     "markingCriteria": "6 marks: Assesses how well the metalanguage reflects the meaning made, judging each example against precise evidence from the story, and reaches a clear view on the feedback's usefulness to the writer\n5 marks: Assesses the metalanguage with clear reference to two examples and a view on its usefulness, but the analysis of meaning is brief\n4 marks: Assesses the metalanguage with some reference to examples, and a general view on how well it reflects meaning\n3 marks: Describes the terms used in the feedback and notes whether they are precise, with limited judgement\n2 marks: Makes a general statement about the feedback with little reference to the terms\n1 mark: Quotes a term from the feedback without assessing it",
                     "sampleAnswers": [

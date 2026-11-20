@@ -1546,7 +1546,10 @@
                     "keywords": [
                       "gather",
                       "secondary sources",
-                      "primary sources"
+                      "primary sources",
+                      "first-hand",
+                      "primary data",
+                      "secondary data"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-05"
@@ -1599,7 +1602,8 @@
                       "gather",
                       "secondary sources",
                       "reliability",
-                      "evidence"
+                      "evidence",
+                      "publication date"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-05"
@@ -1782,7 +1786,8 @@
                       "representations",
                       "organise",
                       "keys",
-                      "dichotomous key"
+                      "dichotomous key",
+                      "couplets"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-04"
@@ -1835,7 +1840,8 @@
                       "representations",
                       "organise",
                       "graphs",
-                      "tables"
+                      "tables",
+                      "continuous variable"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-04",
@@ -2065,7 +2071,8 @@
                       "observations",
                       "Aboriginal and Torres Strait Islander Peoples",
                       "scientific knowledge",
-                      "contribute"
+                      "contribute",
+                      "hypothesis"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-05",
@@ -2187,7 +2194,8 @@
                       "quantitative relationship",
                       "dissolution time",
                       "water temperature",
-                      "rate of dissolution"
+                      "rate of dissolution",
+                      "negative relationship"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-04",
@@ -2246,7 +2254,8 @@
                       "patterns",
                       "trends",
                       "inconsistencies",
-                      "outlier"
+                      "outlier",
+                      "increasing trend"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-05",
@@ -2476,7 +2485,8 @@
                       "reliability",
                       "control",
                       "sample size",
-                      "confounding variable"
+                      "confounding variable",
+                      "repeated trials"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-04",
@@ -2536,7 +2546,8 @@
                       "outlier",
                       "mean height",
                       "week 6",
-                      "week 8"
+                      "week 8",
+                      "linear trend"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-05",
@@ -2589,7 +2600,9 @@
                       "outlier",
                       "conclusion",
                       "control group",
-                      "mean height"
+                      "mean height",
+                      "rate of growth",
+                      "recording error"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-05",
@@ -2770,7 +2783,8 @@
                       "real-world application",
                       "temperature",
                       "bacteria",
-                      "growth rate"
+                      "growth rate",
+                      "food poisoning"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-06",
@@ -2824,7 +2838,8 @@
                       "dissolved oxygen",
                       "temperature",
                       "respiration",
-                      "photosynthesis"
+                      "photosynthesis",
+                      "gas solubility"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-06",
@@ -2942,7 +2957,8 @@
                       "scientific investigation",
                       "bubble count",
                       "gas syringe",
-                      "oxygen"
+                      "oxygen",
+                      "indirect measure"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-05",
@@ -2996,7 +3012,8 @@
                       "scientific investigation",
                       "light intensity",
                       "gas syringe",
-                      "independent variable"
+                      "independent variable",
+                      "controlled variable"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-02",
@@ -3056,7 +3073,8 @@
                       "contestable",
                       "testable",
                       "further inquiry",
-                      "independent"
+                      "independent",
+                      "provisional"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-05"
@@ -3292,7 +3310,9 @@
                       "visual media",
                       "scientific arguments",
                       "audience",
-                      "trend"
+                      "trend",
+                      "bar graph",
+                      "line graph"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-07"
@@ -3406,7 +3426,8 @@
                       "nomenclature",
                       "units",
                       "binomial nomenclature",
-                      "scientific language"
+                      "scientific language",
+                      "genus name"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-07"
@@ -3465,7 +3486,9 @@
                       "evidence",
                       "terminology",
                       "audience",
-                      "purpose"
+                      "purpose",
+                      "technical language",
+                      "plain language"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-07"
@@ -3519,7 +3542,8 @@
                       "terminology",
                       "audience",
                       "purpose",
-                      "scientific language"
+                      "scientific language",
+                      "plain language"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-07",
@@ -5816,7 +5840,8 @@
                       "enzyme activity",
                       "optimum pH",
                       "active site",
-                      "denaturation"
+                      "denaturation",
+                      "tertiary structure"
                     ],
                     "linkedOutcomes": [
                       "BI-11-01"
@@ -5990,7 +6015,8 @@
                       "primase",
                       "DNA ligase",
                       "replication fork",
-                      "DNA replication"
+                      "DNA replication",
+                      "primer"
                     ],
                     "linkedOutcomes": [
                       "BI-11-01"
@@ -6159,7 +6185,9 @@
                       "DNA replication",
                       "physical model",
                       "simplified representation",
-                      "base pairing"
+                      "base pairing",
+                      "conceptual model",
+                      "mathematical model"
                     ],
                     "linkedOutcomes": [
                       "BI-11-01"
@@ -6566,7 +6594,8 @@
                       "gap 2",
                       "mitosis",
                       "DNA replication",
-                      "cell cycle"
+                      "cell cycle",
+                      "gap 1"
                     ],
                     "linkedOutcomes": [
                       "BI-11-01"
@@ -7057,7 +7086,8 @@
                       "colonial",
                       "organisms",
                       "cells",
-                      "specialised"
+                      "specialised",
+                      "multicellular"
                     ],
                     "linkedOutcomes": [
                       "BI-11-02"
@@ -7280,7 +7310,8 @@
                       "diffusion",
                       "cell",
                       "materials",
-                      "limitation"
+                      "limitation",
+                      "active transport"
                     ],
                     "linkedOutcomes": [
                       "BI-11-02"
@@ -7456,7 +7487,8 @@
                       "nitrate ions",
                       "magnesium ions",
                       "chlorophyll",
-                      "protein"
+                      "protein",
+                      "mineral ions"
                     ],
                     "linkedOutcomes": [
                       "BI-11-02"
@@ -7790,7 +7822,8 @@
                       "phloem",
                       "cell structure",
                       "sieve tube element",
-                      "companion cell"
+                      "companion cell",
+                      "vessel element"
                     ],
                     "linkedOutcomes": [
                       "BI-11-02"
@@ -8878,7 +8911,8 @@
                       "arteries",
                       "veins",
                       "blood pressure",
-                      "valves"
+                      "valves",
+                      "lumen"
                     ],
                     "linkedOutcomes": [
                       "BI-11-02"
@@ -11013,7 +11047,8 @@
                       "practical investigation",
                       "variation",
                       "survival",
-                      "inheritance"
+                      "inheritance",
+                      "differential survival"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -11125,7 +11160,8 @@
                       "natural selection",
                       "inheritance",
                       "variation",
-                      "limitations"
+                      "limitations",
+                      "mutation"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -12058,7 +12094,8 @@
                       "gradualism model",
                       "punctuated equilibrium model",
                       "speciation",
-                      "common ancestor"
+                      "common ancestor",
+                      "lineage"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -12636,7 +12673,8 @@
                       "practical investigation",
                       "abiotic",
                       "biotic",
-                      "ecosystem"
+                      "ecosystem",
+                      "dissolved oxygen"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -12689,7 +12727,8 @@
                       "abiotic",
                       "biotic",
                       "ecosystem",
-                      "dissolved oxygen"
+                      "dissolved oxygen",
+                      "invertebrates"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -12864,7 +12903,8 @@
                       "distribution",
                       "soil moisture",
                       "species",
-                      "tolerance"
+                      "tolerance",
+                      "limiting factor"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -12980,7 +13020,8 @@
                       "distribution",
                       "abundance",
                       "quadrat sampling",
-                      "mark-release-recapture"
+                      "mark-release-recapture",
+                      "random sampling"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -13210,7 +13251,8 @@
                       "assumptions",
                       "reliability",
                       "estimate",
-                      "closed population"
+                      "closed population",
+                      "Lincoln index"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -13270,7 +13312,8 @@
                       "mutualism",
                       "parasitism",
                       "relationship",
-                      "organisms"
+                      "organisms",
+                      "competition"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -13324,7 +13367,8 @@
                       "mutualism",
                       "competition",
                       "allelopathy",
-                      "relationship"
+                      "relationship",
+                      "parasitism"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -13437,7 +13481,9 @@
                       "competition",
                       "populations",
                       "species",
-                      "food supply"
+                      "food supply",
+                      "competitive exclusion",
+                      "competitive ability"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -13496,7 +13542,9 @@
                       "carrying capacity",
                       "biotic",
                       "abiotic",
-                      "ecosystem"
+                      "ecosystem",
+                      "drought",
+                      "limiting factor"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -13611,7 +13659,8 @@
                       "reliability",
                       "accuracy",
                       "ecological sampling data",
-                      "sampling data"
+                      "sampling data",
+                      "true value"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -14023,7 +14072,8 @@
                       "questions",
                       "new evidence",
                       "scientific knowledge",
-                      "control"
+                      "control",
+                      "solvent control"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-01",
@@ -14101,7 +14151,8 @@
                       "controlled variable",
                       "number of mosquitoes",
                       "container size",
-                      "experimental control"
+                      "experimental control",
+                      "independent variable"
                     ],
                     "markingCriteria": "2 marks: Identifies the dependent variable AND a controlled variable\n1 mark: Identifies a controlled variable OR Identifies the dependent variable",
                     "sampleAnswers": [
@@ -14163,7 +14214,8 @@
                       "repeat the experiment",
                       "replicate",
                       "consistent results",
-                      "outliers"
+                      "outliers",
+                      "primary data"
                     ],
                     "markingCriteria": "2 marks: Explains how to ensure the investigation is reliable\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -14208,7 +14260,8 @@
                       "reliability",
                       "planning",
                       "investigation",
-                      "sample size"
+                      "sample size",
+                      "replicate"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-02",
@@ -14262,7 +14315,8 @@
                       "reliability",
                       "planning",
                       "sample size",
-                      "bias"
+                      "bias",
+                      "peer review"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-02",
@@ -14437,7 +14491,8 @@
                       "technologies",
                       "scientific investigation",
                       "pH meter",
-                      "universal indicator"
+                      "universal indicator",
+                      "calibrated"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-02"
@@ -14848,7 +14903,8 @@
                       "evidence",
                       "findings",
                       "record",
-                      "reliability"
+                      "reliability",
+                      "parallax error"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-03",
@@ -14907,7 +14963,8 @@
                       "secondary sources",
                       "nitrate",
                       "units",
-                      "sampling"
+                      "sampling",
+                      "nitrate concentration"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-04"
@@ -14959,7 +15016,8 @@
                       "secondary sources",
                       "nitrate",
                       "algal growth",
-                      "limitations"
+                      "limitations",
+                      "journal article"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-04",
@@ -15080,7 +15138,8 @@
                       "quantitative",
                       "exercise intensity",
                       "heart rate recovery",
-                      "secondary source"
+                      "secondary source",
+                      "flow chart"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-04",
@@ -15316,7 +15375,10 @@
                     "keywords": [
                       "acknowledge",
                       "source",
-                      "referencing style"
+                      "referencing style",
+                      "reference list",
+                      "plagiarism",
+                      "in-text citation"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-04",
@@ -15501,7 +15563,8 @@
                       "quantitative relationship",
                       "light intensity",
                       "oxygen",
-                      "variables"
+                      "variables",
+                      "positive relationship"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-05"
@@ -15670,7 +15733,8 @@
                       "experimental error",
                       "biological variation",
                       "dish",
-                      "replicate"
+                      "replicate",
+                      "uncontrolled variable"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-05"
@@ -15735,7 +15799,8 @@
                       "precision",
                       "precise",
                       "accepted value",
-                      "uncalibrated"
+                      "uncalibrated",
+                      "repeated measurements"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-05"
@@ -18501,7 +18566,8 @@
                       "codominant",
                       "incomplete dominant",
                       "inheritance",
-                      "heterozygote"
+                      "heterozygote",
+                      "dominant allele"
                     ],
                     "markerNotes": [
                       "The top row needs all three examples classified, and each classification explained by how the two alleles are expressed, such as both being expressed in codominance or an intermediate phenotype in incomplete dominance.",
@@ -19487,7 +19553,8 @@
                       "deletion",
                       "inversion",
                       "segment",
-                      "chromosome"
+                      "chromosome",
+                      "translocation"
                     ],
                     "markerNotes": [
                       "The top row needs all three classified, each with a reason that refers to the segments that are copied, lost or reversed.",
@@ -19791,7 +19858,8 @@
                       "genetic code",
                       "altered",
                       "cloned",
-                      "inherited"
+                      "inherited",
+                      "somatic variant"
                     ],
                     "markingCriteria": "2 marks: Explains the relationship between the cloning of the dog and being born with both eyes\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -20312,7 +20380,8 @@
                       "protein",
                       "starch",
                       "flour",
-                      "seeds"
+                      "seeds",
+                      "carbohydrate"
                     ],
                     "linkedOutcomes": [
                       "BI-12-02"
@@ -22543,7 +22612,8 @@
                       "passive surveillance",
                       "active surveillance",
                       "notification",
-                      "underreporting"
+                      "underreporting",
+                      "notifiable disease"
                     ],
                     "linkedOutcomes": [
                       "BI-12-02"
@@ -23401,7 +23471,8 @@
                       "measurement bias",
                       "selection bias",
                       "error",
-                      "case counts"
+                      "case counts",
+                      "information bias"
                     ],
                     "linkedOutcomes": [
                       "BI-12-02"
@@ -23566,7 +23637,8 @@
                       "prevention",
                       "benefits",
                       "cluster",
-                      "cholera"
+                      "cholera",
+                      "control measures"
                     ],
                     "linkedOutcomes": [
                       "BI-12-02"
@@ -23752,7 +23824,8 @@
                       "pesticide use",
                       "ecosystem health",
                       "food web",
-                      "habitat loss"
+                      "habitat loss",
+                      "pollinators"
                     ],
                     "linkedOutcomes": [
                       "BI-12-03"
@@ -24281,7 +24354,8 @@
                       "genetic diversity",
                       "species diversity",
                       "alleles",
-                      "ecosystem"
+                      "ecosystem",
+                      "ecosystem diversity"
                     ],
                     "linkedOutcomes": [
                       "BI-12-03"
@@ -24520,7 +24594,8 @@
                       "pollen",
                       "ovules",
                       "anther",
-                      "ovary"
+                      "ovary",
+                      "sexual reproduction"
                     ],
                     "markingCriteria": "2 marks: Identifies BOTH structures correctly\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -25441,7 +25516,8 @@
                       "frequency",
                       "genetic diversity",
                       "population",
-                      "allele"
+                      "allele",
+                      "allele frequency"
                     ],
                     "linkedOutcomes": [
                       "BI-12-03"
@@ -25556,7 +25632,8 @@
                       "chemical change",
                       "pathogen",
                       "plant",
-                      "cell wall"
+                      "cell wall",
+                      "lignin"
                     ],
                     "linkedOutcomes": [
                       "BI-12-03"
@@ -27913,7 +27990,8 @@
                       "risk",
                       "non-infectious disease",
                       "genetic test",
-                      "BRCA1"
+                      "BRCA1",
+                      "genetic screening"
                     ],
                     "linkedOutcomes": [
                       "BI-12-04"
@@ -27965,7 +28043,8 @@
                       "risk",
                       "non-infectious disease",
                       "biotechnologies",
-                      "genetic test"
+                      "genetic test",
+                      "polygenic"
                     ],
                     "linkedOutcomes": [
                       "BI-12-04"
@@ -28025,7 +28104,8 @@
                       "outcome",
                       "vector",
                       "genetic condition",
-                      "RPE65 gene"
+                      "RPE65 gene",
+                      "adeno-associated virus"
                     ],
                     "linkedOutcomes": [
                       "BI-12-04"
@@ -28077,7 +28157,8 @@
                       "outcome",
                       "vector",
                       "adeno-associated virus",
-                      "genetic condition"
+                      "genetic condition",
+                      "target tissue"
                     ],
                     "linkedOutcomes": [
                       "BI-12-04"
@@ -28312,7 +28393,8 @@
                       "non-infectious disease",
                       "clinical trial",
                       "adverse effect",
-                      "sample size"
+                      "sample size",
+                      "representative sample"
                     ],
                     "linkedOutcomes": [
                       "BI-12-04"
@@ -28372,7 +28454,8 @@
                       "outcome",
                       "non-infectious disease",
                       "type 1 diabetes",
-                      "insulin"
+                      "insulin",
+                      "recombinant DNA technology"
                     ],
                     "linkedOutcomes": [
                       "BI-12-04"
@@ -28424,7 +28507,8 @@
                       "outcome",
                       "non-infectious disease",
                       "stem cell",
-                      "type 1 diabetes"
+                      "type 1 diabetes",
+                      "insulin-producing cells"
                     ],
                     "linkedOutcomes": [
                       "BI-12-04"

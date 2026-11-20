@@ -351,7 +351,8 @@
                       "economic decision-making",
                       "consumers",
                       "producers",
-                      "government"
+                      "government",
+                      "tax revenue"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-02"
@@ -404,7 +405,8 @@
                       "economic decision-making",
                       "consumers",
                       "producers",
-                      "government"
+                      "government",
+                      "subsidy"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-02",
@@ -578,7 +580,8 @@
                       "marginal cost",
                       "cost-benefit principle",
                       "total benefit",
-                      "total cost"
+                      "total cost",
+                      "net benefit"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-09",
@@ -632,7 +635,8 @@
                       "short-term",
                       "long-term",
                       "marginal benefit",
-                      "marginal cost"
+                      "marginal cost",
+                      "marginal analysis"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -747,7 +751,8 @@
                       "disincentives",
                       "intended consequences",
                       "unintended consequences",
-                      "economic decision-making"
+                      "economic decision-making",
+                      "perverse incentive"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -806,7 +811,8 @@
                       "percentage change",
                       "council policy",
                       "correlation",
-                      "causation"
+                      "causation",
+                      "economic performance"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-09",
@@ -859,7 +865,9 @@
                       "public policy",
                       "economic performance",
                       "forecasting",
-                      "economic decision-making"
+                      "economic decision-making",
+                      "economic indicators",
+                      "inflation"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-09",
@@ -918,7 +926,8 @@
                       "key assumptions",
                       "economic decision-making",
                       "simplified",
-                      "production possibilities model"
+                      "production possibilities model",
+                      "economic model"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -971,7 +980,8 @@
                       "key assumptions",
                       "ceteris paribus",
                       "economic decision-making",
-                      "substitutes"
+                      "substitutes",
+                      "tax revenue"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -1030,7 +1040,9 @@
                       "cognitive bias",
                       "anchoring",
                       "reference price",
-                      "shopper"
+                      "shopper",
+                      "rational behaviour",
+                      "self-interest"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -4161,7 +4173,8 @@
                       "marginal utility",
                       "total utility",
                       "utils",
-                      "satisfaction"
+                      "satisfaction",
+                      "utility maximisation"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -4273,7 +4286,8 @@
                       "collective values",
                       "social norms",
                       "consumers",
-                      "culture"
+                      "culture",
+                      "consumer choice"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -7567,7 +7581,8 @@
                       "personal income",
                       "government revenue",
                       "elasticity",
-                      "regressive"
+                      "regressive",
+                      "tax base"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-05",
@@ -7679,7 +7694,8 @@
                       "legal incidence",
                       "elasticity",
                       "burden",
-                      "consumers"
+                      "consumers",
+                      "price elasticity of demand"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-04",
@@ -7738,7 +7754,8 @@
                       "compliance costs",
                       "administration",
                       "taxpayers",
-                      "rate"
+                      "rate",
+                      "tax exemptions"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -7791,7 +7808,8 @@
                       "fairness",
                       "efficiency",
                       "turnover",
-                      "ability to pay"
+                      "ability to pay",
+                      "horizontal equity"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-05",
@@ -7850,7 +7868,8 @@
                       "Australian taxation system",
                       "bracket creep",
                       "revenue",
-                      "reasons"
+                      "reasons",
+                      "fiscal drag"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -7903,7 +7922,8 @@
                       "consumption tax",
                       "reform",
                       "efficiency",
-                      "equity"
+                      "equity",
+                      "regressive"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-05",
@@ -7968,7 +7988,8 @@
                       "non-recurrent",
                       "government spending",
                       "services",
-                      "infrastructure"
+                      "infrastructure",
+                      "capital expenditure"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -8021,7 +8042,8 @@
                       "infrastructure",
                       "income support",
                       "economic growth",
-                      "productive capacity"
+                      "productive capacity",
+                      "living standards"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-04",
@@ -8080,7 +8102,8 @@
                       "social security",
                       "health",
                       "defence",
-                      "education"
+                      "education",
+                      "social security and welfare"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -8133,7 +8156,8 @@
                       "health",
                       "expenditure",
                       "population ageing",
-                      "pensions"
+                      "pensions",
+                      "age pension"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-04",
@@ -8245,7 +8269,8 @@
                       "government spending",
                       "fiscal sustainability",
                       "value for money",
-                      "evaluation"
+                      "evaluation",
+                      "budget deficit"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-04",
@@ -9127,7 +9152,8 @@
                       "cost of credit",
                       "return on savings",
                       "borrowers",
-                      "savings rate"
+                      "savings rate",
+                      "price of money"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -11277,7 +11303,8 @@
                       "equilibrium quantity",
                       "changes in demand",
                       "demand curve",
-                      "supply curve"
+                      "supply curve",
+                      "excess demand"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-03",
@@ -12722,7 +12749,8 @@
                       "monopolistic competition",
                       "oligopoly",
                       "monopoly",
-                      "barriers to entry"
+                      "barriers to entry",
+                      "free entry"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-03",
@@ -12951,7 +12979,8 @@
                       "digital platform",
                       "market power",
                       "indirect network effects",
-                      "barriers to entry"
+                      "barriers to entry",
+                      "two-sided market"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -13071,7 +13100,8 @@
                       "price mechanism",
                       "economic and social objectives",
                       "allocative efficiency",
-                      "market failure"
+                      "market failure",
+                      "external costs"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -13303,7 +13333,8 @@
                       "marginal private benefit",
                       "marginal social benefit",
                       "over-consumption",
-                      "market failure"
+                      "market failure",
+                      "negative externalities"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -24800,7 +24831,8 @@
                       "target cash rate",
                       "inflation outlook",
                       "employment",
-                      "global conditions"
+                      "global conditions",
+                      "price stability"
                     ],
                     "markingCriteria": "6 marks: Explains clearly the role of the RBA's Monetary Policy Board and the factors influencing its decisions on the target cash rate, including inflation, employment, the outlook and global conditions, with precise examples\n5 marks: Explains the Board's role and at least three factors with accurate detail\n4 marks: Explains the Board's role and two factors with accurate detail\n3 marks: Describes the Board's role or some factors with some accuracy\n2 marks: Identifies the Board or a factor\n1 mark: Makes a general statement about interest rate decisions",
                     "sampleAnswers": [
@@ -27037,7 +27069,8 @@
                       "labour market policies",
                       "policy lags",
                       "political considerations",
-                      "effectiveness"
+                      "effectiveness",
+                      "recognition lag"
                     ],
                     "markingCriteria": "6 marks: Explains clearly the limitations to the effectiveness of labour market policies, including policy lags and political considerations, with precise examples of how each reduces effectiveness\n5 marks: Explains both limitations with accurate examples and at least one further constraint, linking each to the reduced effect of the program on the affected workers\n4 marks: Explains one limitation with accurate detail and a relevant example, showing how it reduces the effectiveness of the policy in practice\n3 marks: Describes limitations of labour market policy with some accuracy, but gives limited explanation of how either policy lags or political considerations reduce effectiveness\n2 marks: Identifies a limitation of labour market policy, such as policy lags or political considerations, without explaining how it reduces effectiveness\n1 mark: Makes a general statement about policy limits",
                     "sampleAnswers": [
@@ -30674,7 +30707,8 @@
                       "appreciation",
                       "depreciation",
                       "market determined",
-                      "Australian dollar"
+                      "Australian dollar",
+                      "foreign exchange market"
                     ],
                     "markingCriteria": "4 marks: Describes accurately the features of Australia's floating exchange rate system, including how the value of the dollar is set by the market, and the meaning of appreciation and depreciation, with examples\n3 marks: Describes the floating system and one of appreciation or depreciation with accurate detail\n2 marks: Identifies features of the floating system with some accuracy\n1 mark: Makes a general statement about exchange rates",
                     "sampleAnswers": [
@@ -31543,7 +31577,8 @@
                       "economic structure",
                       "education",
                       "health",
-                      "sustainability"
+                      "sustainability",
+                      "subsistence agriculture"
                     ],
                     "markingCriteria": "6 marks: Explains clearly the features of economic development, including economic structure, education, health and sustainability, showing how each contributes to development, with examples from different countries\n5 marks: Explains at least three features with accurate examples\n4 marks: Explains two features with accurate detail\n3 marks: Describes features of economic development with some accuracy\n2 marks: Identifies a feature of economic development\n1 mark: Makes a general statement about development",
                     "sampleAnswers": [

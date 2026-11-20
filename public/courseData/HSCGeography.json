@@ -863,7 +863,8 @@
                       "land use",
                       "natural systems",
                       "climate change",
-                      "rate of change"
+                      "rate of change",
+                      "runoff"
                     ],
                     "markingCriteria": "8 marks: Assesses the extent and rate of change in one form of land cover with accurate data, judges the significance of land use drivers and their impacts at several scales, and explains how the changes interrupt natural systems and feed back into climate change, reaching a justified overall judgement\n6-7 marks: Describes extent and rate with some impacts, and explains at least one link between land use and natural systems; at 6 marks, extent, rate and impacts are assessed with relevant evidence and a limited judgement\n4-5 marks: Describes the change and one impact, with little explanation of how natural systems are interrupted\n2-3 marks: Names the form of land cover and one impact, or describes the change without explaining it\n1 mark: Makes a general statement about land cover",
                     "sampleAnswers": [
@@ -1148,7 +1149,8 @@
                       "climate change",
                       "global",
                       "responses",
-                      "selected place"
+                      "selected place",
+                      "environmental and human impacts"
                     ],
                     "markingCriteria": "4 marks: Describes the sequence of Study 3 (global characteristics of climate change, environmental and human impacts at a range of scales, challenges, opportunities and responses, and the effectiveness of responses at one selected place), and explains how each component links to the next\n3 marks: Describes the main components of the study in sequence, with limited links between them\n2 marks: Names two components of the study without describing them\n1 mark: Makes a general statement that climate change should be studied",
                     "sampleAnswers": [
@@ -1648,7 +1650,8 @@
                       "varying perspectives",
                       "natural processes",
                       "Halvern Basin",
-                      "responses"
+                      "responses",
+                      "salinity"
                     ],
                     "markingCriteria": "8 marks: Recommends a specific, feasible management response for the plain, justifies it against environmental, social and economic criteria, minimises negative impacts on people and natural processes, weighs the varying perspectives of stakeholders, and acknowledges uncertainty and trade-offs\n6-7 marks: Recommends a response and justifies it by explaining how it limits negative impacts on people or natural processes, with some weighing of at least two stakeholder perspectives\n4-5 marks: Recommends a response and explains one way it would reduce negative impacts, with limited reference to stakeholder perspectives and no discussion of trade-offs\n2-3 marks: Describes a response and one impact with little justification, or names a management response without linking it to the negative impacts\n1 mark: Makes a general statement about managing the plain",
                     "sampleAnswers": [
@@ -2164,7 +2167,8 @@
                       "opportunities",
                       "varying perspectives",
                       "responses",
-                      "Pellow Creek"
+                      "Pellow Creek",
+                      "warning system"
                     ],
                     "markingCriteria": "6 marks: Discusses challenges and opportunities for the township with specific evidence, weighs the varying perspectives of residents, the council and insurers, and explains responses at more than one scale, reaching a reasoned conclusion on the trade-offs\n5 marks: Discusses challenges and opportunities with some evidence, outlines the perspectives of at least two groups, and explains one response at one scale\n4 marks: Discusses one challenge and one opportunity with limited evidence, and identifies one response\n3 marks: Describes challenges or opportunities with little discussion of responses or perspectives\n2 marks: Names one challenge or one response without explanation\n1 mark: Makes a general statement about flood impacts",
                     "sampleAnswers": [
@@ -2217,7 +2221,8 @@
                       "natural processes",
                       "Pellow Creek",
                       "flash flood",
-                      "catchment"
+                      "catchment",
+                      "runoff"
                     ],
                     "markingCriteria": "3 marks: Outlines at least one impact on people and communities and at least one change to natural processes in the catchment, with a brief supporting detail for each\n2 marks: Outlines one impact, on either people and communities or natural processes, with a supporting detail\n1 mark: Names an impact without outline",
                     "sampleAnswers": [
@@ -2499,7 +2504,8 @@
                       "natural systems",
                       "people and communities",
                       "climate change",
-                      "Calder Delta"
+                      "Calder Delta",
+                      "storm surge"
                     ],
                     "markingCriteria": "5 marks: Explains how climate change impacts natural systems and people and communities at several scales, linking the physical change (sea level or storm surge) to specific environmental and human consequences in the Calder Delta, with a clear causal chain\n4 marks: Explains impacts on natural systems and on people and communities at one or two scales, with a causal link for at least one\n3 marks: Identifies impacts on natural systems or on people with limited explanation\n2 marks: Names one impact without explanation\n1 mark: Makes a general statement that climate change is harmful",
                     "sampleAnswers": [
@@ -3673,7 +3679,8 @@
                       "organise",
                       "dataset",
                       "units",
-                      "field data"
+                      "field data",
+                      "metadata"
                     ],
                     "markingCriteria": "5 marks: Examines specific steps for organising the dataset (such as checking units, time periods and missing values) and processing it (such as converting units or averaging), and explains how these make the comparison with field data valid\n4 marks: Names clear organising and processing steps, with a reason for at least one of them\n3 marks: Describes organising or processing steps with little explanation of how they support the comparison\n2 marks: Names one step, such as checking units, without development\n1 mark: Makes a general statement about using data",
                     "sampleAnswers": [
@@ -3942,7 +3949,8 @@
                       "council",
                       "evidence",
                       "monitoring",
-                      "trade-off"
+                      "trade-off",
+                      "vegetated buffer strip"
                     ],
                     "markingCriteria": "6 marks: Recommends one specific council action, justified with evidence from the investigation, weighs its trade-offs, and identifies how success would be monitored\n5 marks: Recommends a specific action with evidence and a clear reason, with limited trade-offs\n4 marks: Recommends a relevant action with some supporting evidence\n3 marks: Recommends an action in general terms with little evidence\n2 marks: Names a council action without a link to the findings\n1 mark: States that the council should act",
                     "sampleAnswers": [
@@ -4001,7 +4009,8 @@
                       "findings",
                       "nitrate levels",
                       "evidence",
-                      "limitations"
+                      "limitations",
+                      "secondary sources"
                     ],
                     "markingCriteria": "8 marks: Critically evaluates the plan, process and findings, judging the validity and reliability of each against the evidence, identifying bias and limitations, and reaching a supported overall judgement on the conclusions\n7 marks: Evaluates the plan, process and findings with clear judgement against the evidence, and identifies key limitations\n5-6 marks: Evaluates at least two of the plan, process and findings with some judgement, and identifies limitations\n3-4 marks: Describes the plan, process and findings with some evaluation, but judgement is largely implicit\n2 marks: Describes the investigation with little evaluation\n1 mark: Comments on the investigation with no evaluation",
                     "sampleAnswers": [
@@ -4171,7 +4180,8 @@
                       "landscape",
                       "visitor",
                       "Wren Gully",
-                      "scale"
+                      "scale",
+                      "understorey"
                     ],
                     "markingCriteria": "4 marks: Describes at least three features of the landscape (such as scale, detail, landforms or colour) and explains why each prompts wonder for a visitor\n3 marks: Describes two or three features with a brief explanation\n2 marks: Describes features in general terms with no explanation\n1 mark: Names a single feature",
                     "sampleAnswers": [
@@ -4282,7 +4292,8 @@
                       "natural world",
                       "daily contact",
                       "livelihood",
-                      "culture"
+                      "culture",
+                      "fish stocks"
                     ],
                     "markingCriteria": "4 marks: Contrasts the two connections on at least two criteria, using specific examples, and states the basis of the difference\n3 marks: Contrasts the connections on one criterion with examples, or describes both with partial contrast\n2 marks: Describes both connections separately, with little comparison between them or the basis of the difference\n1 mark: Names one difference in a single sentence, without examples or a basis for the difference",
                     "sampleAnswers": [
@@ -4393,7 +4404,9 @@
                       "universal value",
                       "environments",
                       "biodiversity",
-                      "shared"
+                      "shared",
+                      "coastal protection",
+                      "coral reef"
                     ],
                     "markingCriteria": "3 marks: Clarifies the concept by explaining what makes the value universal, and gives one clear example\n2 marks: Explains the concept in general terms, or gives an example without explaining it\n1 mark: Restates the term with a synonym, such as saying it means the environment is important, and gives no explanation",
                     "sampleAnswers": [
@@ -4456,7 +4469,8 @@
                       "characteristics",
                       "functioning",
                       "catchment",
-                      "inputs"
+                      "inputs",
+                      "land clearing"
                     ],
                     "markingCriteria": "3 marks: Outlines three characteristics of the system, including how they connect, and one factor that affects its functioning\n2 marks: Outlines two characteristics, or one characteristic and one factor, with little development\n1 mark: Names one characteristic without development",
                     "sampleAnswers": [
@@ -4567,7 +4581,8 @@
                       "circulations",
                       "natural systems",
                       "atmosphere",
-                      "carbon cycle"
+                      "carbon cycle",
+                      "water cycle"
                     ],
                     "markingCriteria": "8 marks: Synthesises the cycles and circulations into a connected account, tracing how change in one system propagates through the others, and evaluates the significance of the links for the Earth's systems\n7 marks: Links at least three processes or cycles and explains how a change in one affects another, with relevant examples\n5-6 marks: Links at least two processes or cycles and explains how a change in one affects another, though the examples are brief and only some links are developed\n3-4 marks: Describes two processes or cycles and a link between them, with limited explanation of how a change in one affects the other\n2 marks: Describes one process or cycle with little connection to others, or outlines two processes without linking them\n1 mark: Names a process or cycle",
                     "sampleAnswers": [
@@ -5181,7 +5196,8 @@
                       "culture",
                       "Eastmoor",
                       "migration",
-                      "history"
+                      "history",
+                      "cultural clusters"
                     ],
                     "markingCriteria": "3 marks: Outlines three factors (such as migration, history and geography), each with a brief explanation of how it shapes the pattern, with the Eastmoor example\n2 marks: Outlines two factors with explanation, or three factors with no explanation of how they shape the pattern\n1 mark: Names one factor, with no explanation of how it shapes the pattern and no Eastmoor example",
                     "sampleAnswers": [
@@ -5521,7 +5537,8 @@
                       "countries",
                       "education",
                       "contraception",
-                      "birth rate"
+                      "birth rate",
+                      "demographic transition"
                     ],
                     "markingCriteria": "2 marks: States two distinct influences, each named precisely (such as women's education or access to contraception)\n1 mark: States one influence, or two vague influences",
                     "sampleAnswers": [
@@ -5906,7 +5923,8 @@
                       "environment",
                       "occupation",
                       "ingenuity",
-                      "adaptation"
+                      "adaptation",
+                      "irrigation"
                     ],
                     "markingCriteria": "2 marks: Identifies two distinct ways, each with an example\n1 mark: Identifies one way, or two ways without examples",
                     "sampleAnswers": [
@@ -6008,7 +6026,8 @@
                       "local places",
                       "residents",
                       "logistics",
-                      "Ferncliff"
+                      "Ferncliff",
+                      "global markets"
                     ],
                     "markingCriteria": "8 marks: Discusses how global economic change has transformed the place, weighs positive and negative impacts on different groups of residents, and reaches a reasoned overall judgement\n6-7 marks: Discusses the change and at least one uneven impact, with examples and some balance\n4-5 marks: Describes the change and notes one impact on residents\n2-3 marks: Describes the change with little discussion\n1 mark: States that the town has changed",
                     "sampleAnswers": [
@@ -6173,7 +6192,8 @@
                       "identity",
                       "local place",
                       "Ellery",
-                      "places of worship"
+                      "places of worship",
+                      "streetscape"
                     ],
                     "markingCriteria": "3 marks: Outlines three distinct impacts of cultural change on identity, with one example from Ellery\n2 marks: Outlines two impacts, each with an example from Ellery, or three impacts without any example\n1 mark: Names one impact of cultural change, with little or no explanation",
                     "sampleAnswers": [
@@ -6505,7 +6525,8 @@
                       "occupation",
                       "survival",
                       "environment",
-                      "constraint"
+                      "constraint",
+                      "aridity"
                     ],
                     "markingCriteria": "2 marks: Identifies two distinct environmental features, each with an example that shows the constraint on occupation or survival\n1 mark: Identifies one feature with an example, or two features without examples",
                     "sampleAnswers": [
@@ -7176,7 +7197,8 @@
                       "human characteristics",
                       "Indigenous Peoples",
                       "lands",
-                      "change"
+                      "change",
+                      "intertidal flats"
                     ],
                     "markingCriteria": "2 marks: Outlines two impacts of economic change, each linked to a physical or human characteristic of a coastal place\n1 mark: Outlines one impact of economic change on a coastal place, without linking it to a characteristic",
                     "sampleAnswers": [
@@ -7220,7 +7242,8 @@
                       "Indigenous Peoples",
                       "lands",
                       "change",
-                      "port expansion"
+                      "port expansion",
+                      "intertidal flats"
                     ],
                     "markingCriteria": "5 marks: Analyses at least two impacts of port expansion on the physical characteristics and lands of Mirrin Bay, such as the deepened channel and reclaimed intertidal flats, explaining the consequences for the Indigenous Peoples who use the site\n4 marks: Analyses two impacts, with the consequences for Indigenous Peoples partly developed and the chain from physical change to community use only briefly explained\n3 marks: Describes impacts on the physical characteristics or lands of Mirrin Bay, with a limited link to Indigenous Peoples and little analysis\n2 marks: Describes one impact on the site, with limited explanation of how it affects the people who use it\n1 mark: Identifies a relevant impact of port expansion on Mirrin Bay",
                     "sampleAnswers": [
@@ -7504,7 +7527,8 @@
                       "migration",
                       "media",
                       "Ashmere",
-                      "identity"
+                      "identity",
+                      "cultural diffusion"
                     ],
                     "markingCriteria": "5 marks: Explains how at least two influences, migration and the spread of media, change the culture of place in Ashmere, with the process of change clearly linked to each\n4 marks: Explains two influences on the culture of place in Ashmere, with the link to cultural change partly developed and the process only briefly traced\n3 marks: Outlines influences on the culture of place in Ashmere, with limited explanation of how each one changes it\n2 marks: Explains one influence on the culture of place in Ashmere, without a second influence or any process of change\n1 mark: Identifies one influence on the culture of place in Ashmere, such as imported media or migrant shops",
                     "sampleAnswers": [
@@ -7556,7 +7580,8 @@
                       "festival",
                       "Tarrin Hollow",
                       "tradition",
-                      "community"
+                      "community",
+                      "cultural continuity"
                     ],
                     "markingCriteria": "3 marks: Demonstrates how the autumn harvest festival in Tarrin Hollow influences the culture of place, using one clear example and explaining its effect on former residents and communal terrace repair\n2 marks: Gives one example of a local festival with a brief statement of its influence on the culture of place\n1 mark: Names a local festival in Tarrin Hollow without explaining its influence",
                     "sampleAnswers": [
@@ -7615,7 +7640,8 @@
                       "cultural change",
                       "places",
                       "around the world",
-                      "survey"
+                      "survey",
+                      "dominant language"
                     ],
                     "markingCriteria": "5 marks: Interprets the data for Coralmere, Dunhaven and Velt Ridge, explaining what the falling language share in Coralmere, the rising share in Dunhaven and the growing festival count in Velt Ridge suggest about cultural change, and noting the limits of a two-period survey\n4 marks: Interprets the data for all three places, explaining what each pattern suggests about cultural change, without noting the limits of the evidence\n3 marks: Interprets the data for two of the three places, with some explanation of what the patterns suggest\n2 marks: Describes the figures for one or more places, with little or no interpretation of cultural change\n1 mark: Identifies one data point from the survey without interpreting it",
                     "sampleAnswers": [
@@ -7728,7 +7754,8 @@
                       "cultural change",
                       "Velt Ridge",
                       "communities",
-                      "government"
+                      "government",
+                      "tourism"
                     ],
                     "markingCriteria": "8 marks: Makes a sustained, reasoned judgement on the extent to which community responses, rather than government policy, have managed cultural change in Velt Ridge, weighing counter-evidence from language schools, festivals and land sales and naming the criteria used\n6-7 marks: Makes a clear judgement on the extent to which community responses outweigh government policy, supported by developed examples from both sides, with the criteria for weighing them only partly stated\n4-5 marks: Discusses community responses and government policy in Velt Ridge, with an implicit rather than explicit judgement on the extent\n2-3 marks: Describes one or two responses, such as village festivals or the regional language schools, with little or no judgement about which carries more weight\n1 mark: Identifies a relevant community or government response to cultural change in Velt Ridge",
                     "sampleAnswers": [
@@ -7779,7 +7806,9 @@
                       "short-term",
                       "long-term",
                       "cultural change",
-                      "Velt Ridge"
+                      "Velt Ridge",
+                      "tourism",
+                      "heritage language"
                     ],
                     "markingCriteria": "4 marks: Distinguishes clearly between short-term and long-term impacts of cultural change on the people of Velt Ridge, with a specific example of each and a reason for the difference\n3 marks: Distinguishes between the two types of impact, with examples for both but limited reasoning about the difference\n2 marks: Describes impacts on the people of Velt Ridge, with only a partial distinction between short-term and long-term effects\n1 mark: Identifies one impact of cultural change on the people of Velt Ridge",
                     "sampleAnswers": [
@@ -7838,7 +7867,8 @@
                       "Corran Valley",
                       "place",
                       "local scale",
-                      "identity"
+                      "identity",
+                      "traditional dialect"
                     ],
                     "markingCriteria": "6 marks: Analyses cultural change in Corran Valley at a local scale, explaining how the rail link and the regional-language teaching at the local school each alter specific practices and shape identity\n5 marks: Analyses two influences on cultural change in Corran Valley, with the effects on practices mostly developed but the effects on identity only partly addressed\n4 marks: Identifies and explains two influences on cultural change in Corran Valley, with limited analysis of their effects\n3 marks: Describes cultural change in Corran Valley, with one influence explained\n2 marks: Identifies one influence on cultural change in Corran Valley, without explanation\n1 mark: Identifies a relevant change in Corran Valley",
                     "sampleAnswers": [
@@ -8055,7 +8085,8 @@
                       "conflict",
                       "resource competition",
                       "Vallen Strait",
-                      "border"
+                      "border",
+                      "historical grievances"
                     ],
                     "markingCriteria": "5 marks: Explains how resource competition and historical grievances each influence political tension and conflict along the Vallen Strait border, with a chain of effects for each drawn from the scenario\n4 marks: Explains two influences on political tension along the Vallen Strait border, with the chain of effects from scarcity to tension partly developed\n3 marks: Identifies two influences on political tension along the Vallen Strait border, each briefly explained but with no developed chain of effects\n2 marks: Explains one influence with a clear mechanism, without identifying a second influence\n1 mark: Identifies one influence on political tension along the Vallen Strait border",
                     "sampleAnswers": [
@@ -8168,7 +8199,8 @@
                       "political tension",
                       "conflict",
                       "responses",
-                      "Vallen Strait"
+                      "Vallen Strait",
+                      "catch limits"
                     ],
                     "markingCriteria": "10 marks: Evaluates the effectiveness of the joint fishing commission and the river-sharing agreement against explicitly named criteria, such as border incidents, eastern fishing catches and drought water security, weighing evidence for and against and reaching a reasoned, explicit judgement\n9 marks: Evaluates the two responses against clear criteria, using evidence on both sides, including the fall in eastern catches and the fewer border incidents, and reaching a supported judgement\n7-8 marks: Evaluates the responses using some criteria, with a judgement that is partly supported by the evidence on catches or border incidents\n5-6 marks: Discusses the responses and their impacts on fishing communities and border incidents, with limited evaluation or judgement\n3-4 marks: Describes the joint fishing commission or the river-sharing agreement and its impacts, with little evaluation\n1-2 marks: Identifies a relevant response to political tension along the Vallen Strait",
                     "sampleAnswers": [
@@ -8221,7 +8253,8 @@
                       "fishing communities",
                       "Vallen Strait",
                       "differences",
-                      "conflict"
+                      "conflict",
+                      "catch limits"
                     ],
                     "markingCriteria": "4 marks: Accounts for the differences in impacts on eastern and western fishers with at least two causes, each linked to the physical, economic or political conditions on each side and showing how it produces the difference\n3 marks: Identifies two causes of the differences in impacts, each with a brief link to the difference\n2 marks: Links one cause, such as the restricted zone, to a difference in impacts on fishers, without a second cause\n1 mark: Describes a difference in impacts between eastern and western fishers, without explanation",
                     "sampleAnswers": [
@@ -9440,7 +9473,8 @@
                       "annotate",
                       "topographic map",
                       "contour",
-                      "profile"
+                      "profile",
+                      "transect"
                     ],
                     "markingCriteria": "6 marks: Constructs a complete cross-section along the 2.5 km transect from A to B step by step, with heights from 240 m to 620 m plotted to scale, the profile drawn, and at least three features annotated\n5 marks: Draws the cross-section with heights plotted to scale and the profile shown, and annotates two features\n4 marks: Constructs the cross-section with most heights plotted, and some annotation of its features\n3 marks: Identifies the transect and heights, with the construction partly described\n2 marks: Identifies the transect and uses some of the heights\n1 mark: Identifies a relevant step in constructing the cross-section",
                     "sampleAnswers": [
@@ -11347,7 +11381,8 @@
                       "residential share",
                       "total area",
                       "hectares",
-                      "suburb"
+                      "suburb",
+                      "land use"
                     ],
                     "markingCriteria": "4 marks: Interprets both the smaller total circle for Suburb Y (240 hectares against 360) and its higher residential share (75 per cent against 50 per cent), and explains what these suggest about the land use and development of the two suburbs\n3 marks: Interprets both differences with figures, but does not explain what they suggest\n2 marks: Describes one difference with figures, without interpretation\n1 mark: States that the two circles differ, without figures or interpretation",
                     "sampleAnswers": [
@@ -15927,7 +15962,8 @@
                       "global sustainability",
                       "Sustainable Development Goals",
                       "ecological footprint",
-                      "accountability"
+                      "accountability",
+                      "sustainability indicators"
                     ],
                     "markingCriteria": "4 marks: Explains two distinct reasons, each linked to decision-making or accountability, with a specific indicator or example\n3 marks: Explains two reasons with limited development\n2 marks: Identifies two reasons, or one reason with a brief explanation\n1 mark: Names a reason without explanation",
                     "sampleAnswers": [
@@ -20434,7 +20470,8 @@
                       "geographical inquiry",
                       "limits",
                       "quality of data",
-                      "reflection"
+                      "reflection",
+                      "survey"
                     ],
                     "markingCriteria": "6 marks: Evaluates the effectiveness of the inquiry process, judging the choice of methods and data quality against the question, and identifies the limits of the findings and what the student would change\n5 marks: Evaluates the effectiveness of the process with clear reasons and identifies limits, with limited suggestions for change\n4 marks: Evaluates one or two aspects of the process with reasons, and identifies a limit\n3 marks: Describes the methods and data used, with brief comment on effectiveness\n2 marks: Describes the inquiry without evaluating it\n1 mark: Names one method or data source",
                     "sampleAnswers": [
