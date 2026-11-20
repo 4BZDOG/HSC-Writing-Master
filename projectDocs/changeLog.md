@@ -1,5 +1,13 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-20 (Outcomes from the right year)
+
+- **Fixed (DATA_VERSION 2.58.0).** 100 shipped questions were linked only to the other year's outcomes, so the Content Studio's "No Outcomes" filter flagged them.
+  - Geography (70): Year 12 questions linked Year 11 codes (e.g. GE-11-08) and now link their own year's twin (GE-12-08).
+  - Ancient History (27): six Year 12 investigation questions now link AH-12-05 or AH-12-07; eight Year 11 questions in "Features of ancient societies" now link AH-11 codes.
+  - English Standard (3): re-linked to their own year's outcomes.
+- **Added.** `tests/unit/shippedOutcomeYears.test.ts` fails if any shipped prompt links only outcomes from the other year.
+
 ## [Unreleased] - 2026-11-17 (Band 5 is full marks on short questions)
 
 - **Changed (DATA_VERSION 2.57.0).** A question worth 6 marks or fewer now tops out at Band 5, whatever its verb;
