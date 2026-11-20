@@ -1,0 +1,3067 @@
+{
+  "year": 2020,
+  "course": "Ancient History",
+  "papers": [
+    "2020-hsc-ancient-history.pdf"
+  ],
+  "skipped": [],
+  "questions": [
+    {
+      "number": "1",
+      "section": "I",
+      "sectionHeading": "Section I — Cities of Vesuvius – Pompeii and Herculaneum",
+      "marks": 3,
+      "stem": "Outline what ancient writing reveals about the eruption of Vesuvius in AD 79.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides accurate information about what ancient writing reveals about the eruption of AD 79 ; Communicates using appropriate historical terms"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information about what ancient writing reveals about the eruption of AD 79 ; May use historical terms"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about ancient writing and/or the eruption of AD 79"
+        }
+      ],
+      "sampleAnswer": "Ancient writing provides details about Vesuvius’ increasing volcanic activity. This is referred to as the Plinian phase of the eruption because it is described in the letters of Pliny the Younger. These letters are an eye witness account of people’s reactions to the eruption, and the destruction caused by it. Graffito is another form of ancient writing that reveals the time of year of the eruption.",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "2",
+      "section": "I",
+      "sectionHeading": "Section I — Cities of Vesuvius – Pompeii and Herculaneum",
+      "marks": 4,
+      "stem": "What evidence does graffiti provide about life in Pompeii? Support your response using Source A.",
+      "needsStimulus": true,
+      "stimulus": "Source A\nGraffito, Pompeii\nI beg you to elect Gaius Julius Polybius aedile. He brings good bread.\nPompeii: A Sourcebook by Allison E Cooley and Melvin George Lowe Cooley\nInforma UK Limited © 2004\nReproduced by permission of Taylor & Francis Group",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates detailed and accurate knowledge and understanding of what graffiti reveals about life in Pompeii ; Supports response using Source A ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates accurate knowledge and understanding of what graffiti reveals about life in Pompeii ; Refers to Source A ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates limited knowledge of graffiti and/or life in Pompeii ; May make reference to Source A ; May use some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about graffiti and/or life in Pompeii"
+        }
+      ],
+      "sampleAnswer": "Graffiti reveals information about various aspects of life in Pompeii. It was used for a variety of purposes, including advertising, communication, entertainment, politics etc. Source A, which refers to Gaius Julius Polybius, reveals that it was used in electoral processes, including campaigning, propaganda, voting etc. There is evidence in graffiti of political involvement of both individuals and groups such as tanners and bakers. It also provides reference to forms of entertainment such as gladiators, brothels etc.",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "3",
+      "section": "I",
+      "sectionHeading": "Section I — Cities of Vesuvius – Pompeii and Herculaneum",
+      "marks": 8,
+      "kind": "visual",
+      "stem": "To what extent do Sources B and C help historians to understand the roles of slaves and freedmen in Pompeii and Herculaneum? Support your response using evidence from these and other relevant sources.",
+      "needsStimulus": true,
+      "stimulus": "Source B\nInscription on statue, Herculaneum\nTo Marcus Nonius Balbus, son of Marcus, praetor, pronconsul,\nMarcus Nonius Volusianus, freedman of Balbus [erected this\nmonument].\n\nSource C\nWall painting from Pompeii depicting slaves serving at a banquet\n[Figure: Wall painting from Pompeii depicting slaves serving at a banquet, with servants attending reclining diners.]",
+      "figure": {
+        "file": "ah-2020-3.png",
+        "page": 30,
+        "alt": "Wall painting from Pompeii depicting slaves serving at a banquet, with servants attending reclining diners."
+      },
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Provides a reasoned judgement about the extent to which the given sources help historians to understand the roles of slaves and freedmen in Pompeii and Herculaneum ; Supports the response using evidence from the sources provided and refers to other relevant source(s) ; Communicates ideas and information using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Provides some judgement on the extent to which the given sources help historians to understand the roles of slaves and/or freedmen in Pompeii and/or Herculaneum ; Refers to the sources provided and other source(s) ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Demonstrates some knowledge and/or understanding of sources or slaves/freedmen in Pompeii and/or Herculaneum ; May refer to the sources provided ; May use some historical terms and/or concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statements about sources or slaves and/or freedmen in Pompeii and/or Herculaneum"
+        }
+      ],
+      "answersCouldInclude": [
+        "Sources are somewhat limited because this group of people were often represented by others with more power.",
+        "Sources provide evidence of social mobility within the societies of Pompeii/Herculaneum (eg means to dedicate statue to Balbus in Source B).",
+        "Sources provide evidence of activities of slaves (eg serving masters at banquets in Source C).",
+        "Evidence of positions available to freedmen (eg Augustales – Collegium in Herculaneum).",
+        "Roles of both men and women, slave and free – marriage of ex-slaves.",
+        "Source B – provides evidence from the perspective of the freedman; however, must be aware of the dedication as propaganda (ie it makes the freedman look good!).",
+        "Source C – painted from the perspective of the master, which does not offer the view of the slaves serving at the banquet.",
+        "Other sources are required to provide a fuller picture of the lives of slaves/freedmen, although historians usually lack access to the voices of these groups. For example, ‘snake bracelet’ from master to slavegirl; tombstones/epitaphs; graffiti; wax tablets of Caecilius Iucundus detailing slaves bought and sold.",
+        "Arguably difficult for historians to understand the role of slaves fully – we generally do not get their perspective on their own lives."
+      ],
+      "sampleAnswer": ""
+    },
+    {
+      "number": "4",
+      "section": "I",
+      "sectionHeading": "Section I — Cities of Vesuvius – Pompeii and Herculaneum",
+      "marks": 10,
+      "stem": "How has new research changed our understanding of Pompeii and Herculaneum? Support your response using evidence from Sources D and E, and other relevant sources.",
+      "needsStimulus": true,
+      "stimulus": "Source D\nExcerpt from ‘The New Treasures of Pompeii’, F Lidz, in the Smithsonian Magazine, September 2019\n[Massimo] Osanna [director of the Pompeii archaeological site] has embraced 21st-century technology . . . ‘We can now obtain information that was once impossible to get. This is the real revolution.’ . . . Drones produce 3-D imaging of houses and document the dig’s progress. CAT scans sweep away old certainties by peering into Fiorelli’s thick plaster casts and drawing a clearer picture of victims and what happened to them . . .\n. . . The famous ‘Muleteer’, a crouched male who appeared to be shielding his face from the fumes, turned out to have no arms. (. . . The plaster arms were apparently ‘sculptural improvements’ added to the cast in the 20th century.)\n© Smithsonian Institution, 2019. Reproduced with permission from Smithsonian Enterprises. All rights reserved.\nReproduction in any medium is strictly prohibited without permission from Smithsonian magazine.\nhttps://www.smithsonianmag.com/history/new-treasures-pompeii-180972829/\n\nSource E\nExcerpt from ‘Hidden writing revealed on ancient scroll buried in [Herculaneum]’, E Frederick, Science, 4 October 2019\nAfter some processing, the images revealed previously obscured text on the back and enhanced the readability of the words on the front . . . Overall, the new imaging method . . . allowed the researchers to correct some sections of Philodemus’ manuscript that had been wrongly interpreted. For instance, one Greek word that had previously been read as ‘charmed’ or ‘bewitched’ . . . turned out to say ‘enslaved’ when viewed in starker contrast. Clarifications like this can change how scholars interpret Philodemus’ portrayals of famous thinkers.\nCourtesy of the American Association for the Advancement of Science (AAA)",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "9–10",
+          "text": "Provides a well-developed and accurate explanation of how new research has changed our understanding of Pompeii and Herculaneum ; Supports response with detailed reference to Sources D and E and other relevant sources ; Uses a range of historical terms and concepts appropriately"
+        },
+        {
+          "marks": "7–8",
+          "text": "Provides a detailed and accurate explanation of how new research has changed our understanding of Pompeii and Herculaneum ; Supports response using Sources D and E and other relevant source(s) ; Uses historical terms and concepts appropriately"
+        },
+        {
+          "marks": "5–6",
+          "text": "Provides a sound explanation of how new research has changed our understanding of Pompeii and Herculaneum ; Refers to Sources D and E; may refer to other source(s) ; Uses some historical terms and concepts appropriately"
+        },
+        {
+          "marks": "3–4",
+          "text": "Provides some explanation of how new research has changed our understanding of Pompeii and/or Herculaneum ; Refers to Source D and/or Source E and/or other source(s) ; May use historical terms and/or concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statements relevant to the question ; May refer to Source D and/or Source E"
+        }
+      ],
+      "answersCouldInclude": [
+        "New research has changed our understanding of the sites in many ways, both uncovering new information and/or changing/enhancing our interpretation of existing evidence.",
+        "Reinterpretation of skeletal remains (eg Source D – the ‘Muleteer’).",
+        "Changing date of eruption due to discovery of graffito.",
+        "Reinterpretation of textual material in scrolls from Herculaneum using new forms of technology (eg Source E – Philodemus).",
+        "Investigation into eco-facts (eg material from sewers); changing understanding of diets and health of inhabitants (eg the demographics of the towns).",
+        "Reinterpretation of street usage in Pompeii; digital modelling offering reinterpretation of house usage in Pompeii (University of Lund)."
+      ],
+      "sampleAnswer": "",
+      "kind": "text"
+    },
+    {
+      "sampleAnswer": "The role of the army in this period was to serve as a permanent and professional force for the defence of the Egyptian borders and the expansion of the new empire. They formed garrisons in conquered territories, such as Nubia and Syria-Palestine. They were integral for the quashing of revolts, especially in Nubia. Soldiers could also be used as bodyguards to the pharaoh and for trading expeditions, such as the expedition to Punt. They were also utilised as a labour force in the construction of building projects and public works.",
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option A: New Kingdom Egypt society to the death of Amenhotep III",
+      "marks": 5,
+      "stem": "Describe the role of the Egyptian army in this period.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed description relevant to the question ; Communicates effectively using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound description relevant to the question ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some description relevant to the question ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information relevant to the question ; Uses some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) relevant to the question"
+        }
+      ],
+      "number": "5(a)",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "needsStimulus": true,
+      "kind": "visual",
+      "withheld": true,
+      "stimulus": "This material cannot be displayed,\ndue to copyright issues.\nSource F : Plan of the temple of Karnak in the 18th dynasty",
+      "answersCouldInclude": [
+        "Egypt was a polytheistic society – temples to Amun, Ptah, Hathor, Osiris etc. – link to Source F.",
+        "Theocratic nature of the Egyptian state – use of pylons and obelisks to promote the pharaoh and his activities.",
+        "Important role of festivals in Egyptian religion (eg Sed festivals, Opet festival, the Beautiful Feast of the Valley festival).",
+        "Temples built in stone highlight the significance of religion to society (eg contrasted with the mud-brick constructions of palaces).",
+        "Levels of access for different groups in Egyptian society – eg temenos walls marked sacred versus profane areas.",
+        "Central role of pharaoh in religious activities as high priest, as depicted in reliefs within temple complexes."
+      ],
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option A: New Kingdom Egypt society to the death of Amenhotep III",
+      "marks": 8,
+      "stem": "With reference to Source F, what do temples reveal about religion in Egypt in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Presents a well-developed explanation, demonstrating accurate and detailed knowledge and understanding relevant to the question ; Makes detailed reference to evidence from the source provided ; Communicates ideas and information coherently, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Presents a sound explanation including accurate knowledge and understanding relevant to the question ; Uses evidence from the source provided ; Communicates ideas and information clearly, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Presents limited explanation relevant to the question ; May refer to evidence from the source provided ; Communicates ideas using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statement/s relevant to the question ; May refer to the source provided"
+        }
+      ],
+      "number": "5(b)",
+      "sampleAnswer": ""
+    },
+    {
+      "answersCouldInclude": [
+        "Key role of agriculture in the economy, and the centrality of agriculture to state production – Nilometers, Prayer to Hapi, tomb scenes of farming.",
+        "Booty from campaigns and tribute from empire donated to the temple of Amun – Annals at Karnak, reliefs from tombs of high-ranking officials.",
+        "Role of temple/temple estates in the economy, production of agricultural goods – eg Karnak.",
+        "Centralised nature of the economy, with surveying of production and collection of grain for the state granaries – eg reliefs in the tomb of Menna.",
+        "Re-establishment of foreign trade, for instance to Punt – eg reliefs on Deir el-Bahri temple – for import of luxury items.",
+        "Range of occupations within society, such as sculptors, goldsmiths, viziers, farmers etc. – tomb paintings, tomb biographies (eg Rekhmire).",
+        "Barter economy."
+      ],
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option A: New Kingdom Egypt society to the death of Amenhotep III",
+      "marks": 12,
+      "stem": "What evidence do archaeological and written sources provide about the Egyptian economy in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "10–12",
+          "text": "Provides a well-developed explanation of what evidence archaeological and written sources provide about the topic ; Integrates evidence from a wide variety of relevant sources to support the response ; Communicates ideas and information logically and coherently using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides a sound explanation of what evidence archaeological and written sources provide about the topic ; Uses evidence from a variety of relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Provides some explanation of what evidence archaeological and written sources provide about the topic ; Refers to one or more sources in the response ; Communicates ideas and information using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statement/s ; May refer to source/s ; May use historical terms and/or concepts"
+        }
+      ],
+      "number": "5(c)",
+      "sampleAnswer": "",
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option B: New Kingdom Egypt society during the Ramesside period",
+      "marks": 5,
+      "stem": "Describe the features of personal religion in this period.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed description relevant to the question ; Communicates effectively using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound description relevant to the question ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some description relevant to the question ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information relevant to the question ; Uses some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) relevant to the question"
+        }
+      ],
+      "number": "6(a)",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "needsStimulus": true,
+      "kind": "visual",
+      "stimulus": "Source G : Wall painting from the tomb of Userhat, 19th dynasty\n[Figure: Painted tomb scene from the tomb of Userhat, 19th dynasty, showing wigged figures seated among leafy foliage and offerings.]",
+      "figure": {
+        "file": "ah-2020-6b.png",
+        "page": 11,
+        "alt": "Painted tomb scene from the tomb of Userhat, 19th dynasty, showing wigged figures seated among leafy foliage and offerings."
+      },
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option B: New Kingdom Egypt society during the Ramesside period",
+      "marks": 8,
+      "stem": "With reference to Source G, what do wall paintings reveal about women in Egypt in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Presents a well-developed explanation, demonstrating accurate and detailed knowledge and understanding relevant to the question ; Makes detailed reference to evidence from the source provided ; Communicates ideas and information coherently, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Presents a sound explanation including accurate knowledge and understanding relevant to the question ; Uses evidence from the source provided ; Communicates ideas and information clearly, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Presents limited explanation relevant to the question ; May refer to evidence from the source provided ; Communicates ideas using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statement/s relevant to the question ; May refer to the source provided"
+        }
+      ],
+      "number": "6(b)",
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option B: New Kingdom Egypt society during the Ramesside period",
+      "marks": 12,
+      "stem": "What evidence do archaeological and written sources provide about the Egyptian economy in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "10–12",
+          "text": "Provides a well-developed explanation of what evidence archaeological and written sources provide about the topic ; Integrates evidence from a wide variety of relevant sources to support the response ; Communicates ideas and information logically and coherently using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides a sound explanation of what evidence archaeological and written sources provide about the topic ; Uses evidence from a variety of relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Provides some explanation of what evidence archaeological and written sources provide about the topic ; Refers to one or more sources in the response ; Communicates ideas and information using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statement/s ; May refer to source/s ; May use historical terms and/or concepts"
+        }
+      ],
+      "number": "6(c)",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option C: Society in Israel from Solomon to the fall of Samaria",
+      "marks": 5,
+      "stem": "Describe the role of women in this period.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed description relevant to the question ; Communicates effectively using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound description relevant to the question ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some description relevant to the question ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information relevant to the question ; Uses some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) relevant to the question"
+        }
+      ],
+      "number": "7(a)",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "needsStimulus": true,
+      "stimulus": "Jeroboam thought to himself, ‘The kingdom will now likely revert to the house of David. If these people go up to offer sacrifices at the temple of the LORD in Jerusalem, they will again give their allegiance to their lord, Rehoboam king of Judah . . .’ After seeking advice, the king made two golden calves. He said to the people, ‘It is too much for you to go up to Jerusalem. Here are your gods, Israel, who brought you up out of Egypt.’ . . . And this thing became a sin; the people came to worship the one at Bethel and went as far as Dan to worship the other.\nSource H : 1 Kings 12: 26 –30\nThe Holy Bible, New International Version ® NIV ®\nCopyright © 1973, 1978, 1984, 2011 by Biblica, Inc ®",
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option C: Society in Israel from Solomon to the fall of Samaria",
+      "marks": 8,
+      "stem": "With reference to Source H, what does the Jerusalem temple reveal about religion in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Presents a well-developed explanation, demonstrating accurate and detailed knowledge and understanding relevant to the question ; Makes detailed reference to evidence from the source provided ; Communicates ideas and information coherently, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Presents a sound explanation including accurate knowledge and understanding relevant to the question ; Uses evidence from the source provided ; Communicates ideas and information clearly, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Presents limited explanation relevant to the question ; May refer to evidence from the source provided ; Communicates ideas using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statement/s relevant to the question ; May refer to the source provided"
+        }
+      ],
+      "number": "7(b)",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option C: Society in Israel from Solomon to the fall of Samaria",
+      "marks": 12,
+      "stem": "What evidence do archaeological and written sources provide about political organisation in Israel in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "10–12",
+          "text": "Provides a well-developed explanation of what evidence archaeological and written sources provide about the topic ; Integrates evidence from a wide variety of relevant sources to support the response ; Communicates ideas and information logically and coherently using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides a sound explanation of what evidence archaeological and written sources provide about the topic ; Uses evidence from a variety of relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Provides some explanation of what evidence archaeological and written sources provide about the topic ; Refers to one or more sources in the response ; Communicates ideas and information using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statement/s ; May refer to source/s ; May use historical terms and/or concepts"
+        }
+      ],
+      "number": "7(c)",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option D: Persian society at the time of Darius and Xerxes",
+      "marks": 5,
+      "stem": "Describe the role of the Magi in this period.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed description relevant to the question ; Communicates effectively using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound description relevant to the question ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some description relevant to the question ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information relevant to the question ; Uses some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) relevant to the question"
+        }
+      ],
+      "number": "8(a)",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "needsStimulus": true,
+      "stimulus": "Says Darius the king: These (are) the countries which came to me; by the grace of Ahura-Mazda they became subject to me; they bore tribute to me . . . (he) who was an enemy, him who should be well punished I punished; by the grace of Ahura-Mazda these countries respected my laws . . . Ahura-Mazda gave me this kingdom; Ahura-Mazda bore me aid until I obtained this kingdom; by the grace of Ahura-Mazda I hold this kingdom.\nSource I : Extract from the Behistan inscription\nJOSHUA J MARK, The Behistun Text\nPublished on 28 November 2019\nwww.ancient.eu/behistun_inscription/",
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option D: Persian society at the time of Darius and Xerxes",
+      "marks": 8,
+      "stem": "With reference to Source I, what do writing and inscriptions reveal about Persian kings in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Presents a well-developed explanation, demonstrating accurate and detailed knowledge and understanding relevant to the question ; Makes detailed reference to evidence from the source provided ; Communicates ideas and information coherently, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Presents a sound explanation including accurate knowledge and understanding relevant to the question ; Uses evidence from the source provided ; Communicates ideas and information clearly, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Presents limited explanation relevant to the question ; May refer to evidence from the source provided ; Communicates ideas using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statement/s relevant to the question ; May refer to the source provided"
+        }
+      ],
+      "number": "8(b)",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option D: Persian society at the time of Darius and Xerxes",
+      "marks": 12,
+      "stem": "What evidence do archaeological and written sources provide about the Persian economy in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "10–12",
+          "text": "Provides a well-developed explanation of what evidence archaeological and written sources provide about the topic ; Integrates evidence from a wide variety of relevant sources to support the response ; Communicates ideas and information logically and coherently using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides a sound explanation of what evidence archaeological and written sources provide about the topic ; Uses evidence from a variety of relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Provides some explanation of what evidence archaeological and written sources provide about the topic ; Refers to one or more sources in the response ; Communicates ideas and information using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statement/s ; May refer to source/s ; May use historical terms and/or concepts"
+        }
+      ],
+      "number": "8(c)",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option E: Society in China during the Han Dynasty 206 BC − AD 220",
+      "marks": 5,
+      "stem": "Describe the features of the Cult of the Dead in this period.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed description relevant to the question ; Communicates effectively using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound description relevant to the question ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some description relevant to the question ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information relevant to the question ; Uses some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) relevant to the question"
+        }
+      ],
+      "number": "9(a)",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "needsStimulus": true,
+      "stimulus": "If a husband be unworthy, then he possesses nothing by which to control his wife. If a wife be unworthy, then she possesses nothing with which to serve her husband. If a husband does not control his wife, then the rules of conduct [establishing] his authority are abandoned and broken. If a wife does not serve her husband, then the proper relationship between men and women and the natural order of things are neglected and destroyed.\nSource J : Extract from Lessons for Women",
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option E: Society in China during the Han Dynasty 206 BC − AD 220",
+      "marks": 8,
+      "stem": "With reference to Source J, what do writing and literature reveal about Chinese cultural life in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Presents a well-developed explanation, demonstrating accurate and detailed knowledge and understanding relevant to the question ; Makes detailed reference to evidence from the source provided ; Communicates ideas and information coherently, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Presents a sound explanation including accurate knowledge and understanding relevant to the question ; Uses evidence from the source provided ; Communicates ideas and information clearly, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Presents limited explanation relevant to the question ; May refer to evidence from the source provided ; Communicates ideas using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statement/s relevant to the question ; May refer to the source provided"
+        }
+      ],
+      "number": "9(b)",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option E: Society in China during the Han Dynasty 206 BC − AD 220",
+      "marks": 12,
+      "stem": "What evidence do archaeological and written sources provide about political organisation in China in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "10–12",
+          "text": "Provides a well-developed explanation of what evidence archaeological and written sources provide about the topic ; Integrates evidence from a wide variety of relevant sources to support the response ; Communicates ideas and information logically and coherently using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides a sound explanation of what evidence archaeological and written sources provide about the topic ; Uses evidence from a variety of relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Provides some explanation of what evidence archaeological and written sources provide about the topic ; Refers to one or more sources in the response ; Communicates ideas and information using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statement/s ; May refer to source/s ; May use historical terms and/or concepts"
+        }
+      ],
+      "number": "9(c)",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "sampleAnswer": "Minoan society featured many specialised crafts and industries (eg stone-working, metal-working), with these artisans displaying a high degree of technical ability. Many of these crafts and industries were concentrated in or around the palace complexes (eg Knossos). Products like pottery (eg the large pithoi found in palace magazines) played a key role in the Minoan economy. Jewellery and ivory objects produced by Minoan artisans are of exquisite quality, and have been found at many sites around the eastern Mediterranean, indicating their role in overseas trade.",
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option F: Bronze Age – Minoan Crete",
+      "marks": 5,
+      "stem": "Describe the features of Minoan crafts and industry.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed description relevant to the question ; Communicates effectively using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound description relevant to the question ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some description relevant to the question ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information relevant to the question ; Uses some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) relevant to the question"
+        }
+      ],
+      "number": "10(a)",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "needsStimulus": true,
+      "kind": "visual",
+      "stimulus": "Source K : Minoan tomb\n© Ministry of Culture and Sports-Fund of Archaeological Resources and Expropriations.\n[Figure: Photograph of a Minoan tomb with a large clay chest-shaped coffin with a lid, a tipped-over vessel and small pottery on the ground.]",
+      "figure": {
+        "file": "ah-2020-10b.png",
+        "page": 15,
+        "alt": "Photograph of a Minoan tomb with a large clay chest-shaped coffin with a lid, a tipped-over vessel and small pottery on the ground."
+      },
+      "answersCouldInclude": [
+        "Belief in the afterlife – eg burial goods to be taken to the afterlife contained in tombs (pottery etc.). See objects depicted in Source K.",
+        "Ritualistic behaviours attached to death and burial in Minoan society – eg use of ossuaries; toasting/offering revealed by cups/vessels/rhytons within tombs.",
+        "Practice of inhumation (rather than cremation); multiple burials, single burials develop later in the Minoan period.",
+        "Children appear to be buried separately from adults (eg at Ayia Photia).",
+        "Different types of tombs indicate changes to death and burial practices – eg house tombs, chamber tombs, tholos tombs.",
+        "Tombs could include a clay storage vessel for the body – eg clay vessel/larnax depicted in Source K."
+      ],
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option F: Bronze Age – Minoan Crete",
+      "marks": 8,
+      "stem": "With reference to Source K, what do tombs reveal about death and burial in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Presents a well-developed explanation, demonstrating accurate and detailed knowledge and understanding relevant to the question ; Makes detailed reference to evidence from the source provided ; Communicates ideas and information coherently, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Presents a sound explanation including accurate knowledge and understanding relevant to the question ; Uses evidence from the source provided ; Communicates ideas and information clearly, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Presents limited explanation relevant to the question ; May refer to evidence from the source provided ; Communicates ideas using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statement/s relevant to the question ; May refer to the source provided"
+        }
+      ],
+      "number": "10(b)",
+      "sampleAnswer": ""
+    },
+    {
+      "answersCouldInclude": [
+        "Difficult to construct a picture of Minoan social structure from available evidence with certainty.",
+        "Palace elite – frescoes in palaces depict ‘rulers’ (eg ‘Prince of the Lilies’); archaeologists have identified these figures as ‘kings’ or ‘queens’; seats in palaces (Knossos) interpreted as royal thrones. Relatively few in number, although over-represented in the sources. Evidence of palaces – suggests social structure, existence of more powerful leaders, but no evidence for a king’s residence. Classical Greek tradition mentions Minos, the king associated with Knossos, Rhadamanthys with Phaistos, Sarpedon with Mallia.",
+        "Role of bureaucrats in the economy, religion etc. Linear B – fleeting glimpses of officials and bureaucrats, but during the period of Mycenaean influence. References to a king or wanax; ‘guasileus’ – one mentioned on tablet at Knossos – interpreted as a local chief; some suggestion of a small number of kings or chiefs at centres like Arkhanes, Pyrgos-Myrtos; ‘Lawagetas’ – leader of people or in military context.",
+        "Priests and priestesses – rooms in palaces identified as ‘religious’ (eg lustral basins) reveal the important role of priests/priestesses in Minoan society. Snake goddess statuette interpreted as evidence for importance of religion (and in this case priestesses) in society.",
+        "Women – feature prominently in frescoes and seals (eg seals depicting women as priestesses or goddesses). Evidence from towns like Gournia reveal role played by women in industries like weaving etc.",
+        "Craft and agricultural workers – artefacts produced by craft workers indicate high level of skill/technology – eg gold jewellery (bee pendant, seal rings), pottery (stirrup jars). Archaeological material found reveals craft workers in palace complexes (eg workshops found in Knossos, Mallia). ‘Harvesters’ Vase’ reveals role of farmers in Minoan society; evidence of crop figures in Linear B tablets indicates role of agriculture.",
+        "Early Minoan tombs and burial practices suggest society was structured around extended families – some more wealthy or powerful than others."
+      ],
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option F: Bronze Age – Minoan Crete",
+      "marks": 12,
+      "stem": "What evidence do archaeological and written sources provide about Minoan social structure in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "10–12",
+          "text": "Provides a well-developed explanation of what evidence archaeological and written sources provide about the topic ; Integrates evidence from a wide variety of relevant sources to support the response ; Communicates ideas and information logically and coherently using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides a sound explanation of what evidence archaeological and written sources provide about the topic ; Uses evidence from a variety of relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Provides some explanation of what evidence archaeological and written sources provide about the topic ; Refers to one or more sources in the response ; Communicates ideas and information using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statement/s ; May refer to source/s ; May use historical terms and/or concepts"
+        }
+      ],
+      "number": "10(c)",
+      "sampleAnswer": "",
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "sampleAnswer": "The role of women in Sparta was dependent on their social status. Spartan women played a significant role in the management of houses and estates, and are suggested in sources to have had influence in both private and public affairs. They played a prominent role in religious festivals through choral singing and dancing. Their key social duty was to bear children for the Spartan state. Helot women tended fields with their husbands and could also serve in Spartiate households, both as domestic servants and child-rearers.",
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option G: Spartan society to the Battle of Leuctra 371 BC",
+      "marks": 5,
+      "stem": "Describe the role of women in this period.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed description relevant to the question ; Communicates effectively using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound description relevant to the question ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some description relevant to the question ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information relevant to the question ; Uses some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) relevant to the question"
+        }
+      ],
+      "number": "11(a)",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "needsStimulus": true,
+      "stimulus": "And there is a place called Platanistas . . . where it is customary for the youths to fight, [and it] is surrounded by a moat . . . you enter it by bridges. On each of the two bridges stand images; on one side an image of Heracles, on the other a likeness of Lycurgus. Among the laws Lycurgus laid down for the constitution are those regulating the fighting of the youths.\nSource L : Extract from Pausanias 3.14.8\nPAUSANIAS, VOL. II, translated by W. H. S Jones and H. A. Ormerod,\nLoeb Classical Library Volume 188, Cambridge, Mass. Harvard University Press, first published 1926.\nLoeb Classical Library ® is a registered trademark of the President and Fellows of Harvard College.",
+      "answersCouldInclude": [
+        "Interpret the term ‘culture’ broadly to include practices, beliefs, customs etc.",
+        "Greek writers reveal the features of the Spartan educational system (agoge), military training of the youths (Pausanius – see Source L – Xenophon, Plutarch).",
+        "Marriage customs, such as bride-kidnapping (Plutarch) and wife-sharing for reproduction (Xenophon).",
+        "Value of equality amongst Spartiates (Herodotus, Plutarch).",
+        "Importance, role and values of the Spartan army (Tyrtaeus, Herodotus, Thucydides, Xenophon).",
+        "Relative freedom and social participation of women (Aristotle, Aristophanes, Plato, Plutarch)."
+      ],
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option G: Spartan society to the Battle of Leuctra 371 BC",
+      "marks": 8,
+      "stem": "With reference to Source L, what do Greek writers reveal about Spartan cultural life in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Presents a well-developed explanation, demonstrating accurate and detailed knowledge and understanding relevant to the question ; Makes detailed reference to evidence from the source provided ; Communicates ideas and information coherently, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Presents a sound explanation including accurate knowledge and understanding relevant to the question ; Uses evidence from the source provided ; Communicates ideas and information clearly, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Presents limited explanation relevant to the question ; May refer to evidence from the source provided ; Communicates ideas using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statement/s relevant to the question ; May refer to the source provided"
+        }
+      ],
+      "number": "11(b)",
+      "sampleAnswer": "",
+      "kind": "text"
+    },
+    {
+      "answersCouldInclude": [
+        "Kleros system – instituted by Lycurgus (according to Plutarch) – equal division of land between Spartiates.",
+        "Distinct inheritance laws which allowed females to inherit also led to unequal distribution of kleroi over time (Aristotle?).",
+        "Range of crafts and industries, theoretically assigned to periokoi (Plutarch); however, Herodotus identifies inherited professions amongst Spartiates. Archaeological sources (such as kraters and kylikes) may suggest Spartiate artists in the earlier period.",
+        "Agricultural activities and estates relied on the slave labour of helots to sustain the military state (Tyrtaeus refers to the burden of the agricultural helot, for example).",
+        "Use of iron bars in economic exchange (Plutarch) to avoid economic stratification. Discovery of a hoard of coins within the city of Sparta, which may suggest the use of coins as currency.",
+        "Necessity of foreign trade for Spartan economic life eg Vix krater of Spartan design, uncovered in France, reveals exporting of Spartan goods; bone and ivory products (such as combs and figurines) reveal importance of importing in Spartan economy (from Syria?)."
+      ],
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option G: Spartan society to the Battle of Leuctra 371 BC",
+      "marks": 12,
+      "stem": "What evidence do archaeological and written sources provide about the Spartan economy in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "10–12",
+          "text": "Provides a well-developed explanation of what evidence archaeological and written sources provide about the topic ; Integrates evidence from a wide variety of relevant sources to support the response ; Communicates ideas and information logically and coherently using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides a sound explanation of what evidence archaeological and written sources provide about the topic ; Uses evidence from a variety of relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Provides some explanation of what evidence archaeological and written sources provide about the topic ; Refers to one or more sources in the response ; Communicates ideas and information using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statement/s ; May refer to source/s ; May use historical terms and/or concepts"
+        }
+      ],
+      "number": "11(c)",
+      "sampleAnswer": "",
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option H: Athenian society in the time of Pericles",
+      "marks": 5,
+      "stem": "Describe the role of women in this period.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed description relevant to the question ; Communicates effectively using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound description relevant to the question ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some description relevant to the question ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information relevant to the question ; Uses some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) relevant to the question"
+        }
+      ],
+      "number": "12(a)",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "needsStimulus": true,
+      "stimulus": "But when Themistocles became archon, since he thought that the Piraeus was more conveniently situated for [sailors], and had three harbours as against one at Phalerum, he made it the Athenian port. Even up to my time there were docks there, and near the largest harbour is the grave of Themistocles.\nSource M : Extract from Pausanias 1.1.2\nPausanias, Vol. II, translated by W H S Jones and H A Ormerod\nLoeb Classical Library Volume 188\nCambridge, Mass.: Harvard University Press\nFirst published 1926\nLoeb Classical Library ® is a registered trademark of the\nPresident and Fellows of Harvard College",
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option H: Athenian society in the time of Pericles",
+      "marks": 8,
+      "stem": "With reference to Source M, what does the port of Piraeus reveal about the economy during this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "7–8",
+          "text": "Presents a well-developed explanation, demonstrating accurate and detailed knowledge and understanding relevant to the question ; Makes detailed reference to evidence from the source provided ; Communicates ideas and information coherently, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "5–6",
+          "text": "Presents a sound explanation including accurate knowledge and understanding relevant to the question ; Uses evidence from the source provided ; Communicates ideas and information clearly, using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Presents limited explanation relevant to the question ; May refer to evidence from the source provided ; Communicates ideas using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statement/s relevant to the question ; May refer to the source provided"
+        }
+      ],
+      "number": "12(b)",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II — Ancient Societies",
+      "prescribedText": "Option H: Athenian society in the time of Pericles",
+      "marks": 12,
+      "stem": "What evidence do archaeological and written sources provide about Athenian religion in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "10–12",
+          "text": "Provides a well-developed explanation of what evidence archaeological and written sources provide about the topic ; Integrates evidence from a wide variety of relevant sources to support the response ; Communicates ideas and information logically and coherently using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides a sound explanation of what evidence archaeological and written sources provide about the topic ; Uses evidence from a variety of relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Provides some explanation of what evidence archaeological and written sources provide about the topic ; Refers to one or more sources in the response ; Communicates ideas and information using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statement/s ; May refer to source/s ; May use historical terms and/or concepts"
+        }
+      ],
+      "number": "12(c)",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "13(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option A: Egypt – Hatshepsut",
+      "marks": 4,
+      "stem": "Outline the nature of Hatshepsut’s marriage to Thutmose II.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates accurate knowledge and understanding of the specified topic ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates sound knowledge of the specified topic ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some knowledge of the specified topic ; Communicates using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "13(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option A: Egypt – Hatshepsut",
+      "marks": 6,
+      "stem": "Why did Hatshepsut promote the cults of various gods and goddesses?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides a developed and accurate explanation of the specified topic ; Communicates ideas and information coherently using a range of appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides a sound explanation of the specified topic ; Communicates ideas and information using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Makes general statements relevant to the specified topic ; May use some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "13(c)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option A: Egypt – Hatshepsut",
+      "marks": 15,
+      "stem": "The above source provides a view of Hatshepsut. To what extent can this assessment be justified?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a well-developed and reasoned judgement relevant to the question ; Demonstrates detailed and accurate historical knowledge and understanding relevant to the question ; Integrates evidence from the source provided and other relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a reasoned judgement relevant to the question ; Demonstrates accurate historical knowledge and understanding ; Uses evidence from the source provided and may refer to other sources to support the response ; Communicates ideas and information clearly using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides some judgement relevant to the question ; Demonstrates some historical knowledge and understanding ; Refers to the source provided and/or other source(s) ; Communicates ideas and information using some appropriate historical terms and/or concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some historical knowledge and/or understanding relevant to the question ; May refer to information from the source provided and/or another source ; Communicates using some relevant historical terms and/or concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statements in relation to the question ; May refer to a source/s ; May use some historical terms and/or concepts"
+        }
+      ],
+      "needsStimulus": true,
+      "stimulus": "Hatshepsut has the misfortune to be antiquity’s female leader who did everything right, a woman who could match her wit and energy to a task so seamlessly that she made no waves of discontent that have been recorded. For Hatshepsut, all that endured were the remnants of her success, props for later kings who never had to give her the credit she deserved.\nK COONEY, The Woman Who Would Be King, 2014\nReproduced with permission of the Licensor through PLSclear.",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "14(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option B: Egypt – Akhenaten",
+      "marks": 4,
+      "stem": "Describe the features of the city of Akhetaten.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates accurate knowledge and understanding of the specified topic ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates sound knowledge of the specified topic ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some knowledge of the specified topic ; Communicates using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "14(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option B: Egypt – Akhenaten",
+      "marks": 6,
+      "stem": "What was innovative about representations of Akhenaten and the royal family during this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides a developed and accurate explanation of the specified topic ; Communicates ideas and information coherently using a range of appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides a sound explanation of the specified topic ; Communicates ideas and information using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Makes general statements relevant to the specified topic ; May use some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "14(c)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option B: Egypt – Akhenaten",
+      "marks": 15,
+      "stem": "The above source provides a view of Akhenaten. To what extent can this assessment be justified?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a well-developed and reasoned judgement relevant to the question ; Demonstrates detailed and accurate historical knowledge and understanding relevant to the question ; Integrates evidence from the source provided and other relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a reasoned judgement relevant to the question ; Demonstrates accurate historical knowledge and understanding ; Uses evidence from the source provided and may refer to other sources to support the response ; Communicates ideas and information clearly using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides some judgement relevant to the question ; Demonstrates some historical knowledge and understanding ; Refers to the source provided and/or other source(s) ; Communicates ideas and information using some appropriate historical terms and/or concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some historical knowledge and/or understanding relevant to the question ; May refer to information from the source provided and/or another source ; Communicates using some relevant historical terms and/or concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statements in relation to the question ; May refer to a source/s ; May use some historical terms and/or concepts"
+        }
+      ],
+      "needsStimulus": true,
+      "stimulus": "In foreign policy, Akhenaten could be as aggressive as any previous or future pharaoh; this military prowess and a desire to confront potential threats were characteristics expected of the Egyptian ruler.\nJ DARNELL and C MANASSA, Tutankhamun’s Armies, 2007\nUsed with permission of John Wiley and Sons Pty Ltd.\nPermission conveyed through Copyright Clearance Center, Inc.",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "15(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option C: The Near East – Sennacherib",
+      "marks": 4,
+      "stem": "Describe the manner of Sennacherib’s death.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates accurate knowledge and understanding of the specified topic ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates sound knowledge of the specified topic ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some knowledge of the specified topic ; Communicates using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "15(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option C: The Near East – Sennacherib",
+      "marks": 6,
+      "stem": "Why did Sennacherib invade Babylon?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides a developed and accurate explanation of the specified topic ; Communicates ideas and information coherently using a range of appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides a sound explanation of the specified topic ; Communicates ideas and information using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Makes general statements relevant to the specified topic ; May use some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "15(c)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option C: The Near East – Sennacherib",
+      "marks": 15,
+      "stem": "The above source provides a view of Sennacherib. To what extent can this assessment be justified?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a well-developed and reasoned judgement relevant to the question ; Demonstrates detailed and accurate historical knowledge and understanding relevant to the question ; Integrates evidence from the source provided and other relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a reasoned judgement relevant to the question ; Demonstrates accurate historical knowledge and understanding ; Uses evidence from the source provided and may refer to other sources to support the response ; Communicates ideas and information clearly using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides some judgement relevant to the question ; Demonstrates some historical knowledge and understanding ; Refers to the source provided and/or other source(s) ; Communicates ideas and information using some appropriate historical terms and/or concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some historical knowledge and/or understanding relevant to the question ; May refer to information from the source provided and/or another source ; Communicates using some relevant historical terms and/or concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statements in relation to the question ; May refer to a source/s ; May use some historical terms and/or concepts"
+        }
+      ],
+      "needsStimulus": true,
+      "stimulus": "One major deficiency was his [angry], vindictive, and impatient character. When he was dominated by his feelings, he was pushed to take irrational decisions. He was excessively proud, stubborn, and somewhat influenceable. He was able to commit atrocities, not [for pleasure] but following the line of traditional Assyrian warfare.\nJ ELAYI, Sennacherib, King of Assyria, 2018\nCourtesy of the Society of Biblical Literature",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "16(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option D: The Near East – Xerxes",
+      "marks": 4,
+      "stem": "Describe the manner of Xerxes’ death.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates accurate knowledge and understanding of the specified topic ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates sound knowledge of the specified topic ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some knowledge of the specified topic ; Communicates using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "16(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option D: The Near East – Xerxes",
+      "marks": 6,
+      "stem": "How did Xerxes administer the Persian empire?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides a developed and accurate explanation of the specified topic ; Communicates ideas and information coherently using a range of appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides a sound explanation of the specified topic ; Communicates ideas and information using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Makes general statements relevant to the specified topic ; May use some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "16(c)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option D: The Near East – Xerxes",
+      "marks": 15,
+      "stem": "The above source provides a view of Xerxes. To what extent can this assessment be justified?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a well-developed and reasoned judgement relevant to the question ; Demonstrates detailed and accurate historical knowledge and understanding relevant to the question ; Integrates evidence from the source provided and other relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a reasoned judgement relevant to the question ; Demonstrates accurate historical knowledge and understanding ; Uses evidence from the source provided and may refer to other sources to support the response ; Communicates ideas and information clearly using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides some judgement relevant to the question ; Demonstrates some historical knowledge and understanding ; Refers to the source provided and/or other source(s) ; Communicates ideas and information using some appropriate historical terms and/or concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some historical knowledge and/or understanding relevant to the question ; May refer to information from the source provided and/or another source ; Communicates using some relevant historical terms and/or concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statements in relation to the question ; May refer to a source/s ; May use some historical terms and/or concepts"
+        }
+      ],
+      "needsStimulus": true,
+      "stimulus": "[Xerxes] has largely had a bad press from history, and even worse from the moralists. He is remembered mainly as the king who failed to conquer Greece, the villain of a heroic story of resistance. The memory is a partial one, and Xerxes should equally be recognised for his achievements . . .\nR STONEMAN, Xerxes: A Persian Life, 2015",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "17(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option E: China – Qin Shihuangdi",
+      "marks": 4,
+      "stem": "Outline the impact of Qin Shihuangdi’s death.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates accurate knowledge and understanding of the specified topic ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates sound knowledge of the specified topic ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some knowledge of the specified topic ; Communicates using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "17(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option E: China – Qin Shihuangdi",
+      "marks": 6,
+      "stem": "How did Qin Shihuangdi attempt to achieve immortality?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides a developed and accurate explanation of the specified topic ; Communicates ideas and information coherently using a range of appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides a sound explanation of the specified topic ; Communicates ideas and information using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Makes general statements relevant to the specified topic ; May use some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "17(c)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option E: China – Qin Shihuangdi",
+      "marks": 15,
+      "stem": "The above source provides a view of Qin Shihuangdi. To what extent can this assessment be justified?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a well-developed and reasoned judgement relevant to the question ; Demonstrates detailed and accurate historical knowledge and understanding relevant to the question ; Integrates evidence from the source provided and other relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a reasoned judgement relevant to the question ; Demonstrates accurate historical knowledge and understanding ; Uses evidence from the source provided and may refer to other sources to support the response ; Communicates ideas and information clearly using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides some judgement relevant to the question ; Demonstrates some historical knowledge and understanding ; Refers to the source provided and/or other source(s) ; Communicates ideas and information using some appropriate historical terms and/or concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some historical knowledge and/or understanding relevant to the question ; May refer to information from the source provided and/or another source ; Communicates using some relevant historical terms and/or concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statements in relation to the question ; May refer to a source/s ; May use some historical terms and/or concepts"
+        }
+      ],
+      "needsStimulus": true,
+      "stimulus": "The king of Qin was not necessarily the brains of the outfit – his advisers were the ones who had masterminded his rise to power. The plan to install him as the ruler of the world had commenced before he was even born . . . Ying Zheng, the king of Qin, became the First Emperor with the help of great minds – his ministers . . . and his experienced generals.\nJ CLEMENTS, The First Emperor of China, 2015\n© Jonathan Clements",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "18(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option F: Greece – Pericles",
+      "marks": 4,
+      "stem": "Outline the features of Pericles’ building program.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates accurate knowledge and understanding of the specified topic ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates sound knowledge of the specified topic ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some knowledge of the specified topic ; Communicates using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "18(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option F: Greece – Pericles",
+      "marks": 6,
+      "stem": "Why did Pericles reform democracy?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides a developed and accurate explanation of the specified topic ; Communicates ideas and information coherently using a range of appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides a sound explanation of the specified topic ; Communicates ideas and information using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Makes general statements relevant to the specified topic ; May use some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "18(c)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option F: Greece – Pericles",
+      "marks": 15,
+      "stem": "The above source provides a view of Pericles. To what extent can this assessment be justified?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a well-developed and reasoned judgement relevant to the question ; Demonstrates detailed and accurate historical knowledge and understanding relevant to the question ; Integrates evidence from the source provided and other relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a reasoned judgement relevant to the question ; Demonstrates accurate historical knowledge and understanding ; Uses evidence from the source provided and may refer to other sources to support the response ; Communicates ideas and information clearly using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides some judgement relevant to the question ; Demonstrates some historical knowledge and understanding ; Refers to the source provided and/or other source(s) ; Communicates ideas and information using some appropriate historical terms and/or concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some historical knowledge and/or understanding relevant to the question ; May refer to information from the source provided and/or another source ; Communicates using some relevant historical terms and/or concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statements in relation to the question ; May refer to a source/s ; May use some historical terms and/or concepts"
+        }
+      ],
+      "needsStimulus": true,
+      "stimulus": "These two aspects of Pericles’ leadership – the nature of his influence during the time of Athens’ greatest power and his successful advocacy of going to war with Sparta – make it imperative to ask whether, despite Pericles’ lasting fame, his life in the end has to be judged a tragedy rather than a triumph.\nT MARTIN, Pericles: A Biography in Context, 2016",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "19(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option G: Greece – Alexander the Great",
+      "marks": 4,
+      "stem": "Outline the problems of Alexander’s succession to the throne.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates accurate knowledge and understanding of the specified topic ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates sound knowledge of the specified topic ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some knowledge of the specified topic ; Communicates using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "19(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option G: Greece – Alexander the Great",
+      "marks": 6,
+      "stem": "How did Alexander win the battle of Gaugamela?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides a developed and accurate explanation of the specified topic ; Communicates ideas and information coherently using a range of appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides a sound explanation of the specified topic ; Communicates ideas and information using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Makes general statements relevant to the specified topic ; May use some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "19(c)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option G: Greece – Alexander the Great",
+      "marks": 15,
+      "stem": "The above source provides a view of Alexander the Great. To what extent can this assessment be justified?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a well-developed and reasoned judgement relevant to the question ; Demonstrates detailed and accurate historical knowledge and understanding relevant to the question ; Integrates evidence from the source provided and other relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a reasoned judgement relevant to the question ; Demonstrates accurate historical knowledge and understanding ; Uses evidence from the source provided and may refer to other sources to support the response ; Communicates ideas and information clearly using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides some judgement relevant to the question ; Demonstrates some historical knowledge and understanding ; Refers to the source provided and/or other source(s) ; Communicates ideas and information using some appropriate historical terms and/or concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some historical knowledge and/or understanding relevant to the question ; May refer to information from the source provided and/or another source ; Communicates using some relevant historical terms and/or concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statements in relation to the question ; May refer to a source/s ; May use some historical terms and/or concepts"
+        }
+      ],
+      "needsStimulus": true,
+      "stimulus": "But the man known as Alexander the Great was also one of history’s worst monsters. He was a murderous, rage-filled, paranoid, alcoholic, religious fanatic . . . He murdered often, at times indiscriminately. He assassinated rivals a dozen at a time, slaughtered innocents by the thousands, and exterminated entire tribes of people.\nR GABRIEL, Alexander the Great: Monster of Macedon, 2013\nCourtesy of historynet.com",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "20(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option H: Rome – Tiberius Gracchus",
+      "marks": 4,
+      "stem": "Describe the manner of Tiberius’ death.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates accurate knowledge and understanding of the specified topic ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates sound knowledge of the specified topic ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some knowledge of the specified topic ; Communicates using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "20(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option H: Rome – Tiberius Gracchus",
+      "marks": 6,
+      "stem": "What role did Tiberius’ political supporters play during his tribunate?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides a developed and accurate explanation of the specified topic ; Communicates ideas and information coherently using a range of appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides a sound explanation of the specified topic ; Communicates ideas and information using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Makes general statements relevant to the specified topic ; May use some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "20(c)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option H: Rome – Tiberius Gracchus",
+      "marks": 15,
+      "stem": "The above source provides a view of Tiberius Gracchus. To what extent can this assessment be justified?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a well-developed and reasoned judgement relevant to the question ; Demonstrates detailed and accurate historical knowledge and understanding relevant to the question ; Integrates evidence from the source provided and other relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a reasoned judgement relevant to the question ; Demonstrates accurate historical knowledge and understanding ; Uses evidence from the source provided and may refer to other sources to support the response ; Communicates ideas and information clearly using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides some judgement relevant to the question ; Demonstrates some historical knowledge and understanding ; Refers to the source provided and/or other source(s) ; Communicates ideas and information using some appropriate historical terms and/or concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some historical knowledge and/or understanding relevant to the question ; May refer to information from the source provided and/or another source ; Communicates using some relevant historical terms and/or concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statements in relation to the question ; May refer to a source/s ; May use some historical terms and/or concepts"
+        }
+      ],
+      "needsStimulus": true,
+      "stimulus": "This material cannot be displayed,\ndue to copyright issues.",
+      "withheld": true,
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "21(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option I: Rome – Julius Caesar",
+      "marks": 4,
+      "stem": "Outline the nature of Caesar’s relationship with Cleopatra VII.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates accurate knowledge and understanding of the specified topic ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates sound knowledge of the specified topic ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some knowledge of the specified topic ; Communicates using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "21(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option I: Rome – Julius Caesar",
+      "marks": 6,
+      "stem": "Why did Julius Caesar invade Gaul?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides a developed and accurate explanation of the specified topic ; Communicates ideas and information coherently using a range of appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides a sound explanation of the specified topic ; Communicates ideas and information using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Makes general statements relevant to the specified topic ; May use some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "21(c)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option I: Rome – Julius Caesar",
+      "marks": 15,
+      "stem": "The above source provides a view of Julius Caesar. To what extent can this assessment be justified?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a well-developed and reasoned judgement relevant to the question ; Demonstrates detailed and accurate historical knowledge and understanding relevant to the question ; Integrates evidence from the source provided and other relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a reasoned judgement relevant to the question ; Demonstrates accurate historical knowledge and understanding ; Uses evidence from the source provided and may refer to other sources to support the response ; Communicates ideas and information clearly using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides some judgement relevant to the question ; Demonstrates some historical knowledge and understanding ; Refers to the source provided and/or other source(s) ; Communicates ideas and information using some appropriate historical terms and/or concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some historical knowledge and/or understanding relevant to the question ; May refer to information from the source provided and/or another source ; Communicates using some relevant historical terms and/or concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statements in relation to the question ; May refer to a source/s ; May use some historical terms and/or concepts"
+        }
+      ],
+      "needsStimulus": true,
+      "stimulus": "Caesar was a great man . . . Politically he had a huge impact on Roman history, playing a key role in ending the Republican system of government, which had endured for four and a half centuries . . . Few would dispute Caesar’s claim to greatness, but it is much harder to say that he was a good man, or that the consequences of his career were unambiguously good.\nA GOLDSWORTHY, Caesar: The Life of a Colossus, 2013\n© Adrian Goldsworthy. Orion Publishing Group, London, 2013\nReproduced by permission of Hachette, UK",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "22(a)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option J: Rome – Agrippina the Younger",
+      "marks": 4,
+      "stem": "Describe the manner of Agrippina’s death.",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates accurate knowledge and understanding of the specified topic ; Communicates using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates sound knowledge of the specified topic ; Communicates using some historical terms and concepts"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some knowledge of the specified topic ; Communicates using some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement(s) about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "22(b)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option J: Rome – Agrippina the Younger",
+      "marks": 6,
+      "stem": "Why was Agrippina exiled during the reign of Gaius?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides a developed and accurate explanation of the specified topic ; Communicates ideas and information coherently using a range of appropriate historical terms and concepts"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides a sound explanation of the specified topic ; Communicates ideas and information using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Makes general statements relevant to the specified topic ; May use some historical terms and/or concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about the specified topic"
+        }
+      ],
+      "needsStimulus": false,
+      "stimulus": "",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "22(c)",
+      "section": "III",
+      "sectionHeading": "Section III — Personalities in their Times",
+      "prescribedText": "Option J: Rome – Agrippina the Younger",
+      "marks": 15,
+      "stem": "The above source provides a view of Agrippina the Younger. To what extent can this assessment be justified?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "communicate ideas and information logically",
+        "use historical terms and concepts appropriately"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a well-developed and reasoned judgement relevant to the question ; Demonstrates detailed and accurate historical knowledge and understanding relevant to the question ; Integrates evidence from the source provided and other relevant sources to support the response ; Communicates ideas and information logically using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a reasoned judgement relevant to the question ; Demonstrates accurate historical knowledge and understanding ; Uses evidence from the source provided and may refer to other sources to support the response ; Communicates ideas and information clearly using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides some judgement relevant to the question ; Demonstrates some historical knowledge and understanding ; Refers to the source provided and/or other source(s) ; Communicates ideas and information using some appropriate historical terms and/or concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some historical knowledge and/or understanding relevant to the question ; May refer to information from the source provided and/or another source ; Communicates using some relevant historical terms and/or concepts"
+        },
+        {
+          "marks": "1–3",
+          "text": "Makes general statements in relation to the question ; May refer to a source/s ; May use some historical terms and/or concepts"
+        }
+      ],
+      "needsStimulus": true,
+      "stimulus": ". . . Agrippina’s contribution to her time seems on the whole to have been a positive one. This does not mean, of course, that she was a paragon* of virtue and a woman of sterling character . . . in fact, the evidence, honestly and fairly evaluated, seems to suggest that she was a distinctly unattractive individual.\n*paragon   a perfect example\nA BARRETT,\nAgrippina – Sex, Power, and Politics in the Early Empire, 1996\nCourtesy of Batsford Books",
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "kind": "text"
+    },
+    {
+      "number": "23(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option A: New Kingdom Egypt to the Death of Thutmose IV",
+      "marks": 25,
+      "stem": "How important was the cult of Amun to the pharaoh’s power and authority in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "23(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option A: New Kingdom Egypt to the Death of Thutmose IV",
+      "marks": 25,
+      "stem": "To what extent did the pharaohs establish an ‘empire’ in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "24(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option B: New Kingdom Egypt – Amenhotep III to the Death of Ramesses II",
+      "marks": 25,
+      "stem": "To what extent was Amenhotep III responsible for the Amarna ‘revolution’?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "24(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option B: New Kingdom Egypt – Amenhotep III to the Death of Ramesses II",
+      "marks": 25,
+      "stem": "How significant was the image of the ‘Warrior Pharaoh’ for Ramesside imperialism?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "25(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option C: The Ancient Levant – First Temple Period c. 970−586 BC",
+      "marks": 25,
+      "stem": "How did the geopolitical location of the Ancient Levant contribute to the expansion of trade and settlement in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides a comprehensive explanation relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides a thorough explanation relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides some explanation relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "25(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option C: The Ancient Levant – First Temple Period c. 970−586 BC",
+      "marks": 25,
+      "stem": "How important was the building of the First Temple to Solomon’s power and authority in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "26(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option D: Persia – Cyrus II to the Death of Darius III",
+      "marks": 25,
+      "stem": "How important was Cambyses II’s reign to the development of Persia and its empire?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "26(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option D: Persia – Cyrus II to the Death of Darius III",
+      "marks": 25,
+      "stem": "To what extent were religious policies more significant than economic policies in the maintenance of the Persian empire?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "27(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option E: Imperial China – The Qin and Han 247−87 BC",
+      "marks": 25,
+      "stem": "To what extent were problems of succession responsible for the fall of the Qin?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "27(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option E: Imperial China – The Qin and Han 247−87 BC",
+      "marks": 25,
+      "stem": "To what extent were the empress dowagers significant to the maintenance of power and authority of the Han dynasty?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "28(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option F: The Greek World 500−440 BC",
+      "marks": 25,
+      "stem": "How significant was the battle of Plataea to Greek victory in the Persian Wars?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "28(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option F: The Greek World 500−440 BC",
+      "marks": 25,
+      "stem": "Why did the Delian League transform into the Athenian Empire?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides a comprehensive explanation relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides a thorough explanation relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides some explanation relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "29(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option G: 4th-Century Greece to the Death of Philip II",
+      "marks": 25,
+      "stem": "How did changes in Greek warfare influence developments in Greece and Macedon in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides a comprehensive explanation relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides a thorough explanation relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides some explanation relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "29(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option G: 4th-Century Greece to the Death of Philip II",
+      "marks": 25,
+      "stem": "To what extent was Demosthenes successful in opposing Philip II?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "30(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option H: The Fall of the Roman Republic 78−31 BC",
+      "marks": 25,
+      "stem": "How significant was the legacy of Sulla for political developments in the late Republic?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "30(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option H: The Fall of the Roman Republic 78−31 BC",
+      "marks": 25,
+      "stem": "To what extent did the First Triumvirate play a more significant role than the Second Triumvirate in the fall of the Roman Republic?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "31(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option I: The Augustan Age 44 BC − AD 14",
+      "marks": 25,
+      "stem": "How did Augustus use building programs to establish and maintain his principate?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides a comprehensive explanation relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides a thorough explanation relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides some explanation relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "31(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option I: The Augustan Age 44 BC − AD 14",
+      "marks": 25,
+      "stem": "To what extent were imperial women significant to the maintenance of power and authority in the Augustan principate?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "32(a)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option J: The Julio-Claudians AD 14−69",
+      "marks": 25,
+      "stem": "How important was the contribution of the Praetorian Guard to the development of the principate in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates perceptive judgement relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates judgement relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates some judgement relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    },
+    {
+      "number": "32(b)",
+      "section": "IV",
+      "sectionHeading": "Section IV — Historical Periods",
+      "prescribedText": "Option J: The Julio-Claudians AD 14−69",
+      "marks": 25,
+      "stem": "How did the role of the Senate change in this period?",
+      "assessedOn": [
+        "demonstrate historical knowledge and understanding relevant to the question",
+        "use relevant sources and interpretation to support your response",
+        "communicate ideas and information using historical terms and concepts appropriately",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides a comprehensive explanation relevant to the question ; Demonstrates extensive historical knowledge and understanding relevant to the question ; Provides detailed support with interpretation and well-selected evidence from relevant sources ; Communicates ideas and information in a sustained, logical and cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides a thorough explanation relevant to the question ; Demonstrates detailed historical knowledge and understanding relevant to the question ; Supports the response with interpretation and/or evidence from relevant sources ; Communicates ideas and information in a logical and generally cohesive response using appropriate historical terms and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides some explanation relevant to the question ; Demonstrates historical knowledge and understanding ; Supports the response with some interpretation and/or evidence from relevant sources ; Presents a logical response using some historical terms and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates some knowledge and/or understanding relevant to the question ; May use evidence from relevant sources ; Communicates using some appropriate historical terms and concepts"
+        },
+        {
+          "marks": "1–5",
+          "text": "Makes general statement/s ; May refer to source/s ; May use some historical terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "stimulus": "",
+      "needsStimulus": false,
+      "kind": "text"
+    }
+  ],
+  "edits": [
+    "stimulus: a \"[Figure: ...]\" line added to the figure parts that had no description (3, 6(b), 10(b)); the figures are shown separately"
+  ]
+}
