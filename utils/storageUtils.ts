@@ -161,7 +161,8 @@ import {
 // task-instruction wording such as "close reference to the prescribed text" dropped, real phrases of up to six words kept).
 // 2.60.0: Curated syllabus terms added to 714 questions whose lists were short (775 terms, mined from each question's own sample answers).
 // 2.61.0: Ancient History past HSC questions from the 2019–2024 papers (414, with 25 printed figures).
-export const DATA_VERSION = '2.61.0';
+// 2.62.0: Modern History past HSC questions from the 2019–2024 papers (268, with 13 printed figures).
+export const DATA_VERSION = '2.62.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
