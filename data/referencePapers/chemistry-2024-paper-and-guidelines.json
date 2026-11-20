@@ -1,0 +1,429 @@
+{
+  "year": 2024,
+  "course": "Chemistry",
+  "papers": [
+    "2024-hsc-chemistry.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "22",
+      "reason": "Requires drawing the structural formula of a six-carbon section of the polymer in the box provided."
+    },
+    {
+      "number": "24(a)",
+      "reason": "Requires plotting the boiling points on the printed grid."
+    },
+    {
+      "number": "25",
+      "reason": "Purely calculation: concentration of phosphate ions from the absorbance and the dilution."
+    },
+    {
+      "number": "26(a)",
+      "reason": "Requires sketching a graph of the iodine concentration against time on the printed axes."
+    },
+    {
+      "number": "28",
+      "reason": "Purely calculation: showing the acids are not fully dissociated from their pH values, and comparing Ka."
+    },
+    {
+      "number": "29",
+      "reason": "Purely calculation: pH of the resulting solution."
+    },
+    {
+      "number": "30",
+      "reason": "Purely calculation: amount of CO(g) added to the equilibrium mixture."
+    },
+    {
+      "number": "32",
+      "reason": "Purely calculation: concentration of cadmium ions from Ksp."
+    },
+    {
+      "number": "35",
+      "reason": "Requires completing the table of acid identities (X, Y or Z) for the structures printed on the paper, with justification."
+    },
+    {
+      "number": "36",
+      "reason": "Purely calculation: enthalpy of reaction from the mass, volume and temperature data."
+    },
+    {
+      "number": "38",
+      "reason": "Requires drawing the structures of compounds A, B and E in the answer space."
+    },
+    {
+      "number": "39",
+      "reason": "Purely calculation: equilibrium concentration of bromoacetic acid and the Keq."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–39\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Write the names of the products of this reaction in the boxes provided.",
+      "stimulus": "A solution of acetic acid reacts with magnesium metal.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies both products"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Hydrogen and magnesium acetate/ethanoate",
+      "answersCouldInclude": [
+        "H₂ and Mg(CH₃COO)₂"
+      ]
+    },
+    {
+      "number": "23",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–39\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Relate the observed colour change to the change in Keq.",
+      "stimulus": "Consider the following equilibrium system. When a solution of these ions and chloride ions is heated, the mixture becomes more blue.\n[Figure: Equilibrium equation: [Co(H₂O)₆]²⁺(aq) + 4Cl⁻(aq) ⇌ [CoCl₄]²⁻(aq) + 6H₂O(l).]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides a sound relationship between the observed colour change and Keq"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information about changes in concentration of reactants and/or products"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2024-23.png",
+        "page": 15,
+        "alt": "Equilibrium equation: [Co(H₂O)₆]²⁺(aq) + 4Cl⁻(aq) ⇌ [CoCl₄]²⁻(aq) + 6H₂O(l)."
+      },
+      "sampleAnswerTruncated": "The mixture becomes more blue as temperature is increased, which suggests that the concentration of [CoCl₄]²⁻ is increasing. This means that an increase in temperature favours the forward reaction."
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–39\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "With reference to hydrogen bonding and dispersion forces, explain the trends in the boiling point data of these compounds, within each series and between the series.",
+      "stimulus": "The boiling points for two series of compounds are listed.\n[Figure: Two tables of boiling points (°C): amines methanamine −6, ethanamine 17, propan-1-amine 48, butan-1-amine 78; alcohols methanol 65, ethanol 78, propan-1-ol 97, butan-1-ol 118.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains increase in boiling point with increasing carbon number due to increasing dispersion forces; Explains difference in boiling point between series with reference to difference in strength of hydrogen bonding"
+        },
+        {
+          "marks": "3",
+          "text": "Explains ONE trend OR Describes trends"
+        },
+        {
+          "marks": "2",
+          "text": "Makes a relevant comparison to a data series"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "For both the alcohols and the amines, dispersion forces will increase with increasing carbon number, due to increased number of electrons present, leading to increased boiling points. However, for any given carbon number, the alcohol has stronger hydrogen bonding than the corresponding amine, as oxygen has a higher electronegativity than nitrogen, so the alcohols all have higher boiling points than the corresponding amines.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2024-24b.png",
+        "page": 16,
+        "alt": "Two tables of boiling points (°C): amines methanamine −6, ethanamine 17, propan-1-amine 48, butan-1-amine 78; alcohols methanol 65, ethanol 78, propan-1-ol 97, butan-1-ol 118."
+      }
+    },
+    {
+      "number": "26(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–39\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Using collision theory, explain the rate of reaction between t = 0 min and t = 6 min. Refer to the [I₂] in your answer.",
+      "stimulus": "At t = 0 min, I₂ was added to a mixture of HCN, I⁻ and H⁺, bringing [I₂] to 2.0 × 10⁻⁵ mol L⁻¹. After 3 minutes, the system was at equilibrium, and an analysis of the mixture found that half of the I₂ had reacted.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides an explanation of the rate of reaction with clear link to [I₂] and collision theory"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some description of the rate of reaction with link to [I₂] and/or collision theory"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The initial high [I₂] results in more frequent successful collisions and a high rate of forward reaction. As the reaction proceeds, I₂ is consumed, so [I₂] decreases, so the reaction rate decreases. After t = 3 min, the system is at equilibrium so the rates of the forward and reverse reactions are the same, so [I₂] is constant.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "27",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–39\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain why this procedure gives correct results when only barium ions are present, but not when both barium and lead(II) ions are present. Include ONE balanced chemical equation in your answer.",
+      "stimulus": "The following procedure is proposed to test for the presence of lead(II) and barium ions in water at concentrations of 0.1 mol L⁻¹. 1. Add excess 0.1 mol L⁻¹ sodium sulfate solution. If a precipitate is produced, then barium ions are present. 2. Filter any precipitate produced. 3. Add excess 0.1 mol L⁻¹ sodium bromide solution to the filtrate. If a precipitate is produced, then lead(II) ions are present.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a thorough understanding of the procedure and qualitative ion testing ; Includes a balanced chemical equation, including states"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of the procedure and qualitative ion testing"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of the procedure and qualitative ion testing"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "If lead(II) ions are present, they will also precipitate at step 1 of this procedure. This will leave insufficient lead(II) ions in solution to give a precipitate in step 3. The conclusion reached will be that only barium ions are present, which is incorrect."
+    },
+    {
+      "number": "31",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–39\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Which of these two processes is preferable for urea production? Justify your answer with reference to the information provided.",
+      "stimulus": "The atom economy (AE) of a reaction is a measure of the mass of atoms in the starting materials that are incorporated into the desired product. Higher AE means lower mass of waste products. Urea can be produced in a variety of ways. One way is to react ammonia (high toxicity) with phosgene (high toxicity). Another way is to react ammonia with dimethyl carbonate (DMC, low toxicity). The chemical equations and AE for these two processes are provided.\n[Figure: Two reactions to urea: phosgene with 4NH₃ giving urea and 2NH₄Cl (AE 35.9%); dimethyl carbonate with 2NH₃ giving urea and 2CH₃OH (AE 48.4%).]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Correctly compares the processes and justifies preferred approach"
+        },
+        {
+          "marks": "2",
+          "text": "Compares one aspect of the processes"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The atom economy for the reaction with DMC is 48.4% compared to the phosgene reaction at 35.9%. As a result, there is less waste in the process involving the less harmful DMC. Less ammonia is also required (2 moles, in place of 4 for phosgene). This comparison identifies the production of urea from DMC as the preferred approach in terms of atom economy, toxicity of starting materials and quantities of harmful reactants required.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2024-31.png",
+        "page": 25,
+        "alt": "Two reactions to urea: phosgene with 4NH₃ giving urea and 2NH₄Cl (AE 35.9%); dimethyl carbonate with 2NH₃ giving urea and 2CH₃OH (AE 48.4%)."
+      }
+    },
+    {
+      "number": "33(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–39\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Identify the shape around the central carbon atom in each molecule.",
+      "stimulus": "Acetone can be reduced, as shown.\n[Figure: Reduction of acetone (a ketone, C=O) to propan-2-ol (an alcohol, CH–OH), drawn as skeletal structures.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies correct shape around both central carbon atoms in the reactant and product molecules"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The shape around the central carbon in the reactant molecule is trigonal planar, whereas the shape around the central carbon atom in the product is tetrahedral.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2024-33.png",
+        "page": 27,
+        "alt": "Reduction of acetone (a ketone, C=O) to propan-2-ol (an alcohol, CH–OH), drawn as skeletal structures."
+      }
+    },
+    {
+      "number": "33(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–39\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain how ¹³C NMR spectroscopy could be used to monitor the progress of this reaction.",
+      "stimulus": "Acetone can be reduced, as shown.\n[Figure: Reduction of acetone (a ketone, C=O) to propan-2-ol (an alcohol, CH–OH), drawn as skeletal structures.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides a sound explanation of how key ¹³C NMR spectral features can be used to monitor the reaction"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some explanation of how key ¹³C NMR spectral features can be used to monitor the reaction"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "In the ¹³C NMR spectrum of the reaction mixture at the start of the reaction, there will be two (2) signals, due to the 2 different carbons (C=O and CH₃) in the reactant molecule. However, as the reaction proceeds, the C=O bond is transformed to H—C—OH. Therefore, a new signal will appear in the ¹³C NMR spectrum of the reaction mixture that corresponds to the different carbon environment in the product. This peak will appear as the reaction proceeds, while the original peak for C=O will disappear.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2024-33.png",
+        "page": 27,
+        "alt": "Reduction of acetone (a ketone, C=O) to propan-2-ol (an alcohol, CH–OH), drawn as skeletal structures."
+      }
+    },
+    {
+      "number": "34",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–39\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the shape of the graph. Include TWO balanced chemical equations in your answer.",
+      "stimulus": "An aqueous solution of ammonia is added to a solution containing hydrochloric acid. A plot of conductivity against volume of ammonia solution added is shown. The temperature of the solution is kept constant throughout and the conductivity of the solution is corrected for dilution. The relative conductivities of some relevant ions are shown in the table.\n[Figure: Line graph of conductivity against volume of ammonia added (0 to 10 mL), with a minimum near 4.5 mL, and a table of relative conductivities of H⁺, OH⁻, Cl⁻ and NH₄⁺.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a thorough explanation of the shape of the graph ; Includes TWO balanced chemical equations"
+        },
+        {
+          "marks": "3",
+          "text": "Provides a sound explanation of the shape of the graph ; Includes a balanced chemical equation"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of the shape of the graph"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2024-34.png",
+        "page": 28,
+        "alt": "Line graph of conductivity against volume of ammonia added (0 to 10 mL), with a minimum near 4.5 mL, and a table of relative conductivities of H⁺, OH⁻, Cl⁻ and NH₄⁺."
+      },
+      "sampleAnswerTruncated": "Before the equivalence point (below 4.5 mL), hydrochloric acid is being neutralised by the added ammonia: This has the effect of replacing H⁺ ions (high conductivity) with NH₄⁺ ions (low conductivity), so the conductivity decreases. After the equivalence point, the excess ammonia added will produce some NH₄⁺ and OH⁻ ions, both of which have greater conductivity than the reactant molecules: This reaction only occurs to a small extent, however, as the NH₄⁺ already present in the solution will suppress this ionisation, in accordance with Le Châtelier’s Principle. Accordingly, the conductivity only increases slightly after the equivalence point."
+    },
+    {
+      "number": "37",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–39\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain, with reference to the information provided, why this reaction proceeds to completion rather than coming to equilibrium.",
+      "stimulus": "The relationship between the equilibrium constant, Keq, and ΔG ° for any reaction is shown in the graph, for a limited range of ΔG ° values. The ΔH ° and TΔS ° values for the reaction between copper(I) sulfide and oxygen are provided.\n[Figure: Graph of equilibrium constant Keq against ΔG° (−35 to 0 kJ mol⁻¹), with Keq very large at the most negative ΔG°; below it, the reaction equation and ΔH° = −217 kJ mol⁻¹, TΔS° = −3 kJ mol⁻¹.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides an explanation of why the reaction proceeds to completion with reference to the data provided"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of why the reaction proceeds to completion with reference to some of the data provided"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The graph shows that reactions with large negative ΔG ° values will have extremely large equilibrium constants, ie they effectively proceed to completion. For this reaction, ΔG ° = ΔH ° - TΔS ° = -217 kJ mol⁻¹ - (-3 kJ mol⁻¹) = -214 kJ mol⁻¹ This ΔG ° value is large and negative, which means that the reaction will effectively proceed to completion. Accordingly, this reaction proceeds to completion mostly due to its large, negative ΔH ° value; the TΔS ° term is small and has little effect.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2024-37.png",
+        "page": 33,
+        "alt": "Graph of equilibrium constant Keq against ΔG° (−35 to 0 kJ mol⁻¹), with Keq very large at the most negative ΔG°; below it, the reaction equation and ΔH° = −217 kJ mol⁻¹, TΔS° = −3 kJ mol⁻¹."
+      }
+    }
+  ],
+  "edits": [
+    {
+      "number": "21",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "33(a)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "23",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "24(b)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "31",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "33(a)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "33(b)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "34",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "37",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "24(b)",
+      "field": "criteria",
+      "change": "ladder rebuilt from the marking guidelines table: bullets in the printed bands, printed OR alternatives kept"
+    }
+  ]
+}

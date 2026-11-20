@@ -1,0 +1,551 @@
+{
+  "year": 2023,
+  "course": "Chemistry",
+  "papers": [
+    "2023-hsc-chemistry.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "25(a)",
+      "reason": "Purely calculation: mass of octan-1-ol burnt from the heat absorbed by the water."
+    },
+    {
+      "number": "27",
+      "reason": "Purely calculation: volume of carbon dioxide gas produced from the mass of ethanol."
+    },
+    {
+      "number": "28(b)",
+      "reason": "Requires drawing the structural formula of compound R in the answer space, with supporting calculations."
+    },
+    {
+      "number": "31",
+      "reason": "Requires drawing a line graph of absorbance against concentration and calculating the equilibrium constant."
+    },
+    {
+      "number": "32",
+      "reason": "Purely calculation: mass of ammonium ions in the fertiliser sample."
+    },
+    {
+      "number": "34",
+      "reason": "Purely calculation: equilibrium concentration of magnesium ions."
+    },
+    {
+      "number": "35(a)",
+      "reason": "Purely calculation: Ka of dichloroacetic acid from the pH."
+    },
+    {
+      "number": "36",
+      "reason": "Requires identifying the functional groups and drawing the structure of compounds A, B and C in the answer space."
+    },
+    {
+      "number": "37(a)",
+      "reason": "Purely calculation: whether the system is at equilibrium, supported by calculations."
+    },
+    {
+      "number": "37(b)",
+      "reason": "Purely calculation: amount of carbon dioxide added to the system."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Name ONE pair of functional group isomers and ONE pair of chain isomers from the structures above.",
+      "stimulus": "Some isomers with the formula C₄H₈O are shown.\n[Figure: Three structures of C₄H₈O isomers: butan-2-one, butanal and 2-methylpropanal, drawn as structural formulae.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies TWO correctly classified pairs of isomers"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies ONE correctly classified pair of isomers OR Identifies TWO correct pairs of isomers but incorrectly classifies both"
+        }
+      ],
+      "sampleAnswer": "Type of isomer Pair of Isomers\nFunctional group Butan-2-one and butanal\nChain Butanal and 2-methylpropanal",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2023-21.png",
+        "page": 14,
+        "alt": "Three structures of C₄H₈O isomers: butan-2-one, butanal and 2-methylpropanal, drawn as structural formulae."
+      }
+    },
+    {
+      "number": "22",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how the following substances would be classified under the Arrhenius and Brønsted−Lowry definitions of acids. Support your answer with relevant equations.\n• HCl(aq)\n• NH₄Cl(aq)",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Classifies both substances with respect to Arrhenius and Brønsted−Lowry theories; Provides two relevant chemical equations"
+        },
+        {
+          "marks": "3",
+          "text": "Classifies one substance with respect to Arrhenius and Brønsted−Lowry theories; Provides a relevant chemical equation OR Classifies both substances with respect to Arrhenius OR Brønsted−Lowry theory; Provides a relevant chemical equation OR Classifies both substances with respect to Arrhenius and Brønsted−Lowry theories"
+        },
+        {
+          "marks": "2",
+          "text": "Classifies one substance with respect to Arrhenius and Brønsted−Lowry theories OR Classifies both substances with respect to Arrhenius OR Brønsted−Lowry theory"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "According to Arrhenius, acids are hydrogen-containing compounds that dissociate in water to give H⁺ ions. HCl(aq) would be considered an acid by Arrhenius as it produces H⁺ ions in water.\nHCl(aq) → H⁺(aq) + Cl⁻(aq)\nArrhenius would not recognise the salt NH₄Cl as an acid, as the predominant ions present in aqueous solution are ammonium and chloride.\nIn Brønsted−Lowry theory, acids are defined as proton donors. HCl(aq) is a proton donor and therefore a Brønsted−Lowry acid.\nAmmonium chloride (NH₄Cl) is classified as a Brønsted−Lowry acid as the ammonium ion donates a proton to water and forms a hydronium ion.\nNH₄⁺(aq) + H₂O(l) ⇌ NH₃(aq) + H₃O⁺(aq)",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the pH changes that occurred in solutions X and Y.",
+      "stimulus": "The pH of two solutions, X and Y, were measured before and after 10 drops of concentrated NaOH was added to each.\n[Figure: Two beakers, solution X with initial pH 7.00 and final pH 12.00, and solution Y with initial pH 7.00 and final pH 7.02, after 10 drops of concentrated NaOH.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides a sound explanation of the pH changes that occur in both solutions"
+        },
+        {
+          "marks": "2",
+          "text": "Provides an explanation of the pH change in one of the solutions"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The pH of solution X changed significantly when base was added, while the pH of solution Y showed only a small change in pH. This indicates that solution Y contains a buffer while solution X does not.\nWhen NaOH was added to solution X, the addition of OH⁻ ions from the base, causing the increase in pH (as pH = −log10 [H₃O⁺]).\nIn solution Y, these OH⁻ ions react with the buffer solution, which minimises the change in [H₃O⁺] and therefore pH.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2023-23.png",
+        "page": 16,
+        "alt": "Two beakers, solution X with initial pH 7.00 and final pH 12.00, and solution Y with initial pH 7.00 and final pH 7.02, after 10 drops of concentrated NaOH."
+      }
+    },
+    {
+      "number": "24",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe, using chemical equations, how this ion is amphiprotic.",
+      "stimulus": "The hydrogen oxalate ion (HC₂O₄−) is classified as amphiprotic.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Demonstrates HC₂O₄⁻ is able to accept and donate protons ; Includes correct chemical equations"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "HC₂O₄⁻ can either accept H⁺ or donate a H⁺, as illustrated in the equations below:\nHC₂O₄⁻(aq) + H⁺(aq) ⇌ H₂C₂O₄(aq)\nHC₂O₄⁻(aq) + OH⁻(aq) ⇌ H₂O(l) + C₂O₄²⁻(aq)\nAs it can either accept or donate H⁺, HC₂O₄⁻ can be described as amphiprotic.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain ONE advantage of using a biofuel compared to fossil fuels.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Explains ONE advantage of using a biofuel"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Combustion of biofuels derived from plants will have a lower greenhouse impact as the carbon dioxide released during combustion will replace that used in photosynthesis, unlike fossil fuels.",
+      "answersCouldInclude": [
+        "Biofuels are biodegradable. Thus, spills pose less of an environmental threat compared to fossil fuels, which can cause long-term contamination to the environment.",
+        "Biofuels are produced from renewable resources. Compared to fossil fuels, biofuels are more sustainable."
+      ]
+    },
+    {
+      "number": "26(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain, with respect to Le Chatelier’s principle, what happens to the N₂O₄.",
+      "stimulus": "A mixture of NO₂ and N₂O₄ enters Reactor 3, where only NO₂ is consumed by the reaction with water.\n[Figure: Flow diagram of the industrial nitric acid process: reactors 1 to 3, separators, cooler/condenser and emissions control.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Explains the depletion of N₂O₄ in Reactor 3 with respect to Le Chatelier’s principle"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2023-26.png",
+        "page": 20,
+        "alt": "Flow diagram of the industrial nitric acid process: reactors 1 to 3, separators, cooler/condenser and emissions control."
+      },
+      "sampleAnswerTruncated": "NO₂ and N₂O₄ exist as an equilibrium system in Reactor 2 as shown:\nNO₂ is a reactant in Reactor 3 and is consumed by the reaction in Reactor 3, causing a disturbance to this equilibrium system. According to Le Chatelier’s Principle, the position of equilibrium will shift to counter the depletion of NO₂, causing the decomposition and depletion of N₂O₄. Ultimately, all of the N₂O₄ will decompose to form NO₂.",
+      "sampleAnswer": ""
+    },
+    {
+      "number": "26(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain TWO improvements that can be made to the design of the process shown.",
+      "stimulus": "Nitric acid can be produced industrially using the process shown.\n[Figure: Flow diagram of the industrial nitric acid process: reactors 1 to 3, separators, cooler/condenser and emissions control.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains TWO appropriate improvements to the design of the process"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies TWO appropriate improvements to the design of the process OR Explains ONE appropriate improvement to the design of the process"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Water produced at Separator 1 can be recycled and used in Reactor 3, where it is needed as a reactant, instead of being sent for disposal. This improvement will allow for the conservation of water as a resource.\nThe heat released from the cooler/condenser after Reactor 1 can be recovered and used in the Emissions control step, where energy input is required. This improvement will allow for a reduction in energy consumption and therefore costs associated with the Emissions control step.",
+      "answersCouldInclude": [
+        "Recycling of NO from Reactor 3 into Reactor 2, conserving resources and reducing the amount of oxygen and ammonia needed to produce NO in Reactor 1.",
+        "The use of a catalyst in Reactor 1 to lower the activation energy required and therefore the energy consumed. This would decrease the high temperature required."
+      ],
+      "figure": {
+        "file": "chem-2023-26.png",
+        "page": 20,
+        "alt": "Flow diagram of the industrial nitric acid process: reactors 1 to 3, separators, cooler/condenser and emissions control."
+      }
+    },
+    {
+      "number": "28(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe a chemical test that could be done in a school laboratory to confirm that Q is an alkene. Include expected observations in your answer.",
+      "stimulus": "Alkene Q undergoes an addition reaction with chlorine gas to form compound R.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Describes an appropriate test to confirm the alkene, including expected observations"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A few drops of bromine water are added to a sample of alkene Q in a test tube. The bromine water is decolourised by alkene Q.",
+      "answersCouldInclude": [
+        "Addition of potassium permanganate, which is decolourised by alkene Q."
+      ]
+    },
+    {
+      "number": "29",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the relationship between the trend shown in the graph and the relevant intermolecular forces.",
+      "stimulus": "The following graph shows the solubility of some alkan-1-ols in water at 20°C.\n[Figure: Scatter graph of solubility in water (g/100 mL) against molar mass (g mol⁻¹) for alkan-1-ols, with solubility falling as molar mass rises.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides a thorough explanation of the relationship between the trend and named intermolecular forces"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a sound explanation of the relationship"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "As the molar mass increases, the chain length increases. As the chain length increases, the solubility of alkan-1-ols in water decreases. Shorter chain alcohols dissolve in water due to the formation of hydrogen bonds between the hydroxyl group of the alcohol and water molecules. However, as the chain length increases, the dispersion forces between the alkyl groups become more significant which decreases the solubility of alkan-1-ols in water.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2023-29.png",
+        "page": 24,
+        "alt": "Scatter graph of solubility in water (g/100 mL) against molar mass (g mol⁻¹) for alkan-1-ols, with solubility falling as molar mass rises."
+      }
+    },
+    {
+      "number": "30",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline a sequence of tests that could be performed in a school laboratory to confirm the identity of the anion or anions present. Include expected observations and TWO balanced chemical equations in your answer.",
+      "stimulus": "A water sample contains at least one of the following anions at concentrations of 1.0 mol L⁻¹.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a thorough understanding of anion testing in an appropriate sequence with expected observations ; Includes TWO balanced chemical equations including states"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of anion testing with expected observation(s) and/or a correct chemical equation"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of anion testing"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Add excess silver nitrate solution – precipitate produced",
+        "Add dilute nitric acid to the precipitate",
+        "If bubbles are formed and a brown precipitate dissolves then carbonate was present",
+        "If a creamy precipitate remains then bromide was present"
+      ],
+      "sampleAnswerTruncated": "Add aqueous nitric acid – bubbles indicate carbonate present:\nAcid removes carbonate for further testing of sample\n2H⁺(aq) + CO₃²⁻(aq) → CO₂(g) + H₂O(l)\nAdd silver nitrate solution – creamy precipitate indicates bromide present\nAg⁺(aq) + Br⁻(aq) → AgBr(s)."
+    },
+    {
+      "number": "33(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain what is happening in this system between 6 minutes and 8 minutes.",
+      "stimulus": "The following graph shows changes in the amounts (in mol) of these three substances over time in this container.\n[Figure: Line graph of amount (mol) against time (minutes, 0 to 16) for A₂(g), B₂(g) and AB₂(g), with a disturbance at 8 minutes.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Explains what is happening in the system"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The system is at equilibrium between 6 and 8 minutes. Both forward and reverse reactions proceed at the same rate, so the amounts of reactants and products remain constant.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2023-33.png",
+        "page": 30,
+        "alt": "Line graph of amount (mol) against time (minutes, 0 to 16) for A₂(g), B₂(g) and AB₂(g), with a disturbance at 8 minutes."
+      }
+    },
+    {
+      "number": "33(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain TWO different factors that could result in the disturbance at 8 minutes.",
+      "stimulus": "The following graph shows changes in the amounts (in mol) of these three substances over time in this container.\n[Figure: Line graph of amount (mol) against time (minutes, 0 to 16) for A₂(g), B₂(g) and AB₂(g), with a disturbance at 8 minutes.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates an extensive understanding of TWO different factors that could result in the disturbance"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of the factors that could result in the disturbance"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of at least ONE factor that could result in the disturbance"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "At 8 minutes, there is no instantaneous change in the amount of any substance present, but subsequently AB₂ is consumed, and A₂ and B₂ are produced. This could result from two changes:\n• An increase in temperature that decreases the equilibrium constant, K. This means that the reaction quotient, Q, will be greater than K, so AB₂ will be consumed and A₂ and B₂ produced as Q approaches K and the system reaches equilibrium again.\n• Increase in volume of the container. This will increase the reaction quotient, Q, while K stays the same, so AB₂ will be consumed and A₂ and B₂ will be produced as Q approaches K and the system reaches equilibrium again.",
+      "answersCouldInclude": [
+        "Reference to relative rates of forward and reverse reactions.",
+        "Reference to Le Chatelier’s Principle"
+      ],
+      "figure": {
+        "file": "chem-2023-33.png",
+        "page": 30,
+        "alt": "Line graph of amount (mol) against time (minutes, 0 to 16) for A₂(g), B₂(g) and AB₂(g), with a disturbance at 8 minutes."
+      }
+    },
+    {
+      "number": "35(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the relative strength of these acids with reference to the data.",
+      "stimulus": "The following data apply to the ionisation of acetic acid (CH₃COOH) and trichloroacetic acid (CCl₃COOH).\n[Figure: Table of pKa, ΔH°, ΔS°, −TΔS° and ΔG° values for acetic acid (CH₃COOH) and trichloroacetic acid (CCl₃COOH).]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains why trichloroacetic acid is a stronger acid than acetic acid, with reference to the data"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies that trichloroacetic acid is a stronger acid than acetic acid, with reference to some relevant data"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The pKa of trichloroacetic acid is lower than the pKa of acetic acid, so trichloroacetic acid is a stronger acid than acetic acid. The major difference between the data for the two acids is the magnitude of the ΔS ° terms. Both are negative and will make an unfavourable contribution to the ΔG° ; however, the value for acetic acid is much larger than that for trichloroacetic acid. This means that ionisation of acetic acid is less favourable than it is for trichloroacetic acid, making the latter the stronger acid.",
+      "answersCouldInclude": [
+        "Reference to −TΔS ° or TΔS °"
+      ],
+      "figure": {
+        "file": "chem-2023-35b.png",
+        "page": 33,
+        "alt": "Table of pKa, ΔH°, ΔS°, −TΔS° and ΔG° values for acetic acid (CH₃COOH) and trichloroacetic acid (CCl₃COOH)."
+      }
+    }
+  ],
+  "edits": [
+    {
+      "number": "21",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "24",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "25(b)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "26(a)",
+      "field": "sampleAnswer",
+      "change": "NESA sample ends \"as shown:\" with its equation missing; moved to sampleAnswerTruncated, full-mark sample written by the assembler"
+    },
+    {
+      "number": "26(a)",
+      "field": "samples",
+      "change": "NESA sample truncated (\"as shown:\", equation missing); full-mark sample written by the assembler; lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "28(a)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "33(a)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "33(b)",
+      "field": "sampleAnswer",
+      "change": "AB2 normalised to AB₂ (notation only)"
+    },
+    {
+      "number": "35(b)",
+      "field": "keywords",
+      "change": "off-syllabus keyword ΔG° -> dissociation constant, data -> ionisation (Tidy Terms)"
+    },
+    {
+      "number": "21",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "23",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "26(a)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "26(b)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "29",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "33(a)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "33(b)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "35(b)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "21",
+      "field": "criteria",
+      "change": "ladder rebuilt from the marking guidelines table: bullets in the printed bands, printed OR alternatives kept"
+    },
+    {
+      "number": "22",
+      "field": "criteria",
+      "change": "ladder rebuilt from the marking guidelines table: bullets in the printed bands, printed OR alternatives kept"
+    }
+  ]
+}

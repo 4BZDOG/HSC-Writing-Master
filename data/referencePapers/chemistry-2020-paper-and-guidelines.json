@@ -1,0 +1,487 @@
+{
+  "year": 2020,
+  "course": "Chemistry",
+  "papers": [
+    "2020-hsc-chemistry.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "24(c)",
+      "reason": "Calculation of the volume of biodiesel required; purely numerical working."
+    },
+    {
+      "number": "25",
+      "reason": "Requires graphing the temperature data and calculating the NaOH concentration; graphing and calculation."
+    },
+    {
+      "number": "27(a)",
+      "reason": "Requires completing the equation using structural formulae; drawn structures."
+    },
+    {
+      "number": "27(b)",
+      "reason": "Calculation of the hydroxide ion concentration from Kb; purely numerical equilibrium working."
+    },
+    {
+      "number": "29",
+      "reason": "Requires drawing the structures of compounds A to E in the spaces provided."
+    },
+    {
+      "number": "30",
+      "reason": "Requires drawing a structural formula for the unknown compound; a drawn structure."
+    },
+    {
+      "number": "31",
+      "reason": "Calculation of chloride ion concentration in mg L−1 from titration data; purely numerical working."
+    },
+    {
+      "number": "33(a)",
+      "reason": "Calculation showing the amount of calcium hydroxide that reacts; purely numerical working."
+    },
+    {
+      "number": "33(b)",
+      "reason": "Calculation of the pH of the resulting solution; purely numerical working."
+    },
+    {
+      "number": "35",
+      "reason": "Calculation of the equilibrium constant; purely numerical working."
+    },
+    {
+      "number": "36",
+      "reason": "Calculation of the maximum temperature reached by the solution; purely numerical working."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21",
+      "section": "II",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Use the information provided to identify the alkane and justify your choice.",
+      "stimulus": "The mass spectrum of an alkane is shown.\n[Figure: Mass spectrum of an alkane: relative intensity against m/z from 10 to 50, with the highest peak near m/z 29.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Correctly identifies the alkane ; Provides a valid justification"
+        },
+        {
+          "marks": "1",
+          "text": "Correctly identifies the alkane OR Shows some understanding of the mass spectrum"
+        }
+      ],
+      "sampleAnswer": "The alkane is propane. This can be determined from the mass spectrum as the parent ion has a molecular mass of 44, which is consistent with propane C₃H₈.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2020-21.png",
+        "page": 15,
+        "alt": "Mass spectrum of an alkane: relative intensity against m/z from 10 to 50, with the highest peak near m/z 29."
+      }
+    },
+    {
+      "number": "22",
+      "section": "II",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline a sequence of tests that could be performed in a school laboratory to confirm the identity of this salt solution. Include expected observations and a balanced chemical equation in your answer.",
+      "stimulus": "A 0.1 mol L⁻¹ solution of an unknown salt is to be analysed. The cation is one of magnesium, calcium or barium. The anion is one of chloride, acetate or hydroxide.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Outlines a sequence of suitable tests with expected observations; Includes a balanced chemical equation"
+        },
+        {
+          "marks": "4",
+          "text": "Outlines a sequence of suitable tests and most of the expected observations; Includes a substantially correct balanced chemical equation"
+        },
+        {
+          "marks": "3",
+          "text": "Provides suitable tests that can identify cation(s) and anion(s) present; Includes some expected observations and/or a balanced chemical equation"
+        },
+        {
+          "marks": "2",
+          "text": "Provides one test and observation that can identify a cation OR anion present OR Provides tests that can identify cations and anions present OR Provides a balanced chemical equation and one test that can identify a cation OR anion present"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Cation\nCarry out a flame test\n  – If pale green → barium\n  – If brick red → calcium\n  – No colour → magnesium\nAnion\n1. Add Cu(NO₃)₂(aq)\n  If pale blue precipitate forms → OH⁻ present\n2. Add AgNO₃(aq)\n  – If white ppt forms → Cl⁻ present\n  – If no ppt forms → CH₃COO⁻ present\n  – Ag⁺(aq) + Cl⁻(aq) → AgCl(s)",
+      "answersCouldInclude": [
+        "Test pH with universal indicator, pH meter",
+        "Cl⁻ → neutral",
+        "CH₃COO⁻ → slightly basic",
+        "OH⁻ → very basic"
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "23",
+      "section": "II",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain THREE factors that may have been considered in the design of this industrial process. Make specific reference to the flow chart.",
+      "stimulus": "The flow chart summarises an industrial process for the synthesis of ethane-1,2-diol.\n[Figure: Flow chart of the ethane-1,2-diol process: Reactor 1 (200–300°C), Separator 1, Reactor 2 (50–70°C), Separator 2 and products.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains three relevant factors ; Makes specific reference to the flow chart"
+        },
+        {
+          "marks": "3",
+          "text": "Explains two relevant factors with some reference to the flow chart OR Explains one relevant factor and outlines two other relevant factors with some reference to the flow chart OR Explains three relevant factors without specific reference to the flow chart"
+        },
+        {
+          "marks": "2",
+          "text": "Explains one relevant factor OR Outlines two relevant factors"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The use of a catalyst in reactions 1 and 2 allows a faster rate at a lower temperature. This both increases the efficiency of the process and reduces energy consumption that makes the process more economical and ultimately less polluting.\nUnused reactant gases are recycled after being separated from the reaction mixture in separator 1. This means that resources are not wasted – making the process more economical as less reactant needs to be purchased from suppliers.\nMarkets have been accessed for the major product (ethane-1,2-diol) – without a market the industrial process is not economically viable – the location of these markets has been determined and suitable transport arranged – the industrial plant has probably been located near a major port, rail or road network to facilitate economical and rapid transport to markets.",
+      "answersCouldInclude": [
+        "By-products are also produced rather than wastes to be disposed of. These by-products are sent to markets, which indicates that all the products of the reaction have a purpose. This makes the entire process more economical and less wasteful (potentially 100% atom economy).",
+        "Access to reactants – the plant would be located so that ethylene and oxygen gases would be easily accessible – perhaps near a petrochemical plant or road/rail network so that these resources could be transported easily and cheaply."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2020-23.png",
+        "page": 17,
+        "alt": "Flow chart of the ethane-1,2-diol process: Reactor 1 (200–300°C), Separator 1, Reactor 2 (50–70°C), Separator 2 and products."
+      }
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "marks": 1,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Which functional group is present in both the oil and the biodiesel?",
+      "stimulus": "Biodiesel, an alternative fuel to diesel, may be produced from vegetable oil. The chemical reaction which converts oils from biomass into biodiesel is shown. R1, R2 and R3 are alkyl chains which may vary from 10 to 22 carbons in length.\n[Figure: Reaction of a vegetable oil (triglyceride) with ethanol and NaOH to give biodiesel (ethyl esters) and glycerol.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Correctly identifies the functional group"
+        }
+      ],
+      "sampleAnswer": "Ester",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2020-24a.png",
+        "page": 18,
+        "alt": "Reaction of a vegetable oil (triglyceride) with ethanol and NaOH to give biodiesel (ethyl esters) and glycerol."
+      }
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain why biodiesel (C₁₄H₃₀O₂) produces less soot than diesel (C₁₈H₃₈) when combusted under the same conditions. Support your answer with balanced chemical equations.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains why biodiesel produces less soot than diesel ; Supports answer with relevant and correctly balanced chemical equations (states NOT required)"
+        },
+        {
+          "marks": "2",
+          "text": "Makes use of at lease one substantially correct balanced equation to provide an explanation OR Provides two correctly balanced equations"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "C₁₈H₃₈ + O₂ → 18 CO₂ + 19H₂O\nC₁₄H₃₀O₂ + O₂ → 14 CO₂ + 15H₂O\nMore supplied oxygen is required for the complete combustion of diesel compared to biodiesel. Therefore it is more likely that diesel will combust incompletely, producing soot.\nEg C₁₈H₃₈ + O₂ → 10 CO₂ + 2CO + 6 C + 19H₂O",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "24(d)",
+      "section": "II",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain TWO advantages and TWO disadvantages of using bioethanol (ethanol produced from biomass) as an alternative to a fossil fuel.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains TWO advantages and TWO disadvantages of using bioethanol as an alternative to a fossil fuel"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines TWO advantages and TWO disadvantages of using bioethanol as an alternative to a fossil fuel ; Explains at least TWO of them"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines TWO advantages and TWO disadvantages of using bioethanol as an alternative to a fossil fuel OR Explains TWO advantages or TWO disadvantages of using bioethanol as an alternative to a fossil fuel OR Explains ONE advantage and ONE disadvantage of using bioethanol as an alternative to a fossil fuel"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Bioethanol is produced from renewable resources while petrol is produced from non-renewable crude oil reserves. Thus, ethanol is a sustainable fuel, which may be continually produced while petrol is unsustainable. Combustion of petrol increases greenhouse gas concentrations in the atmosphere. If green energy is used to produce bioethanol, the carbon dioxide released during the combustion may be removed by plants during photosynthesis, resulting in a carbon neutral process. Increased demand for ethanol to replace petrol may cause crops to be grown for fuel rather than food. Food shortages or increased food prices may result. As more crops are grown to produce biofuels, more fertiliser is used. The excess use of fertilisers can result in soil erosion and can lead to land and water pollution.",
+      "answersCouldInclude": [
+        "Ethanol produces less particulates, which can be responsible for significant lung disease and may even be associated with the formation of cancer. Reducing airborne pollutants also has the added benefit of reducing the cost of health care in a community.",
+        "Ethanol is biodegradable. Thus, spills pose less of an environmental threat than spills of non-biodegradable petrol, which can cause long-term contamination of soil and water bodies.",
+        "The use of water to produce more crops to produce bioethanol can put pressure on local water resources. In areas where there is water scarcity, production of crops to be used in making bioethanol compromises water security for this region – possibly leading to health issues due to lack of potable water.",
+        "Energy is needed for the mechanised sowing, fertilising and harvesting of crops. Significant amounts of energy are required for the distillation of ethanol from fermentation mixtures. If fossil fuels are used as the source of this energy then the use of bioethanol as an alternative would not be carbon neutral and would contribute to global warming."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "26(a)",
+      "section": "II",
+      "marks": 1,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Write the balanced chemical equation for this reaction.",
+      "stimulus": "Nitric oxide gas (NO) can be produced from the direct combination of nitrogen gas and oxygen gas in a reversible reaction.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Writes a substantially correct balanced equation, including states"
+        }
+      ],
+      "sampleAnswer": "N₂ (g) + O₂ (g) → 2NO(g)",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "26(b)",
+      "section": "II",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain, using collision theory, how an increase in temperature would affect the value of Keq for this system. Refer to the diagram in your answer.",
+      "stimulus": "The energy profile diagram for this reaction is shown.\n[Figure: Energy profile for N₂ and O₂ forming NO: enthalpy against reaction coordinate, with an activation energy peak.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides an explanation using collision theory ; Refers to the diagram"
+        },
+        {
+          "marks": "3",
+          "text": "Shows a sound understanding of how increasing temperature favours an endothermic process with reference to some aspects of the collision theory"
+        },
+        {
+          "marks": "2",
+          "text": "Shows understanding of the effect of increasing temperature"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Reference to the Maxwell–Boltzmann distribution."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2020-26b.png",
+        "page": 22,
+        "alt": "Energy profile for N₂ and O₂ forming NO: enthalpy against reaction coordinate, with an activation energy peak."
+      },
+      "sampleAnswerTruncated": "The forward reaction is endothermic. For the reaction to proceed the reacting molecules must possess the activation energy to result in successful collisions. The activation energy for the forward reaction is greater than that of the reverse, exothermic reaction. An increase in temperature will increase the average kinetic energy of all molecules, resulting in more effective collisions increasing the reaction rate for both the forward and reverse reactions. However, the added temperature will have a greater impact on the forward reaction and the rate of this reaction will be higher than that of the reverse reaction. As a result, the forward reaction is favoured."
+    },
+    {
+      "number": "28",
+      "section": "II",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain why this method produces inaccurate and unreliable results.",
+      "stimulus": "A chemist used the following method to determine the concentration of a dilute solution of propanoic acid (pKa = 4.88). The chemist weighed out 1.000 g of solid NaOH on an electronic balance and then made up the solution in a 250.0 mL volumetric flask. The chemist then performed titrations, using bromocresol green as the indicator. This indicator is yellow below pH 3.2 and green above pH 5.2 . The results are shown in the table.\n[Figure: Table of four titres of NaOH(aq) added (mL) in the propanoic acid titration: 16.35, 10.10, 12.35 and 11.25.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains why the results produced by the method are not accurate and not reliable"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some understanding of why the results produced by the method are not accurate and/or not reliable"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "NaOH is used as a primary standard, but it is not a primary standard. Solid NaOH is deliquescent, so the mass obtained by the balance is that of NaOH and water. The mass of NaOH is therefore lower than reported, and the solution made up is therefore lower in concentration than expected, resulting in a titre that is larger than it should be, giving an inaccurate result.\nThe indicator chosen is inappropriate. It changes colour in the flat region of the titration curve, prior to the equivalence point. Small titre volume differences will result in big variations in the observed endpoint, explaining the lack of reliability in titres 2, 3 and 4.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2020-28.png",
+        "page": 24,
+        "alt": "Table of four titres of NaOH(aq) added (mL) in the propanoic acid titration: 16.35, 10.10, 12.35 and 11.25."
+      }
+    },
+    {
+      "number": "32",
+      "section": "II",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Using the information in the table, account for this observation.",
+      "stimulus": "The table shows three compounds and their boiling points. An ester does not always have a lower boiling point than both the alcohol and the alkanoic acid from which it is produced.\n[Figure: Table of boiling points: methanol 64.7 °C, propanoic acid 141.2 °C, methyl propanoate 79.8 °C.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Accounts for the observation using the information provided"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines reasons for the observation using some of the information provided"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a reason for the observation OR Identifies reasons for the observation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The boiling points of all three compounds are determined by the intermolecular forces between their molecules. Both methanol and propanoic acid have hydrogen bonding between molecules, while the ester (methyl propanoate) does not. As hydrogen bonding is the strongest type of intermolecular force it might be assumed that this would give the ester a lower boiling point. However, all three compounds also have dispersion forces between molecules. These increase with the number of electrons per molecule. The dispersion forces between the ester molecules are larger than the combined effect of dispersion forces and hydrogen bonding in the alcohol.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2020-32.png",
+        "page": 30,
+        "alt": "Table of boiling points: methanol 64.7 °C, propanoic acid 141.2 °C, methyl propanoate 79.8 °C."
+      }
+    },
+    {
+      "number": "34",
+      "section": "II",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the trends in the graph. Include relevant chemical equations in your answer.",
+      "stimulus": "The effect of concentration on the pH of acrylic acid (C₂H₃COOH) and hydrochloric acid (HCl) solutions is shown in the graph. Both of these acids are monoprotic.\n[Figure: pH against acid concentration for acrylic acid (crosses) and hydrochloric acid (dots), from 1×10⁻⁶ to 1×10⁻¹ mol L⁻¹.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains trends in the graph ; Includes relevant chemical equations"
+        },
+        {
+          "marks": "3",
+          "text": "Explains a trend in the graph and outlines a second trend in the graph ; Includes at least one relevant chemical equation"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies some trends/features from the graph OR Outlines a trend/feature of the graph"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Increasing concentration decreases pH for both acids",
+        "The pH of the HCl is lower than that of the C₂H₃COOH",
+        "For C₂H₃COOH the degree of ionisation increases as concentration decreases."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2020-34.png",
+        "page": 32,
+        "alt": "pH against acid concentration for acrylic acid (crosses) and hydrochloric acid (dots), from 1×10⁻⁶ to 1×10⁻¹ mol L⁻¹."
+      },
+      "sampleAnswerTruncated": "The trend for both acids is for pH to decrease with increasing concentration as [H⁺] increases. The strong acid, HCl, shows a linear trend with pH (the log of [HCl]). This is because HCl fully dissociates at all concentrations, and therefore the [H⁺] equals [HCl]. However, acrylic acid is a weak acid. The degree of dissociation is dependent on the concentration of the acid. We can see that the trend of the acrylic acid is not linear. It bends up at higher concentrations. This reflects the proportionally lower fraction of dissociation."
+    }
+  ],
+  "edits": [
+    {
+      "number": "21",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "24(a)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "26(a)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "26(b)",
+      "field": "samples",
+      "change": "full-mark sample rewritten to fit the app word band"
+    },
+    {
+      "number": "34",
+      "field": "samples",
+      "change": "full-mark sample rewritten to fit the app word band"
+    },
+    {
+      "number": "21",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "23",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "24(a)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "26(b)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "28",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "32",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "34",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "22",
+      "field": "criteria",
+      "change": "ladder rebuilt from the marking guidelines table: bullets in the printed bands, printed OR alternatives kept"
+    }
+  ]
+}
