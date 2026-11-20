@@ -1,5 +1,18 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-20 (Biology: the 2019–2021 HSC papers)
+
+- **Added (DATA_VERSION 2.63.0).** 53 past HSC questions from the 2019–2021 Biology papers (2017 syllabus), each mapped
+  to the 2025 dot point that covers it (6 to Year 11 dot points), as the 2022–2025 papers were. Biology now has past
+  questions from every paper since the 2017 syllabus was first examined.
+  - Every full-mark sample is NESA's own answer, verbatim; the middle and bottom samples are written to the ladder.
+    32 printed graphs, maps, tables and diagrams ship as `scenarioImage`, with a text description in the scenario.
+  - Left out: multiple choice and parts answered by drawing or plotting; 2021 25(b)–(c) on hearing loss, which the
+    2025 syllabus no longer covers; and 2021 33(b), whose graph NESA withheld for copyright. The 2018 paper (the
+    pre-2017 syllabus) is not used.
+  - Extracts are in `data/referencePapers/biology-2019…2021-paper-and-guidelines.json`, with `edits` recording nine
+    ladders re-copied from the printed tables and one row reworded to open with a verb.
+
 ## [Unreleased] - 2026-11-20 (Modern History: six more years of HSC papers)
 
 - **Added (DATA_VERSION 2.62.0).** 268 past HSC questions from the 2019–2024 Modern History papers (2017 syllabus), each

@@ -1,0 +1,624 @@
+{
+  "year": 2021,
+  "course": "Biology",
+  "papers": [
+    "2021-hsc-biology.pdf",
+    "2021-hsc-biology-mg.pdf (marking guidelines)"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "21(a)",
+      "reason": "Requires labelling two features on the printed diagram; answered by completing a diagram on the paper."
+    },
+    {
+      "number": "21(b)",
+      "reason": "Requires completing the boxes of the printed flowchart; answered by completing a diagram on the paper."
+    },
+    {
+      "number": "25(a)",
+      "reason": "Requires plotting the data on the printed grid and including a key; a drawn answer."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(c)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Outline ONE benefit and ONE limitation of the strategies used on each farm.",
+      "stimulus": "Two pig farmers on neighbouring farms noticed that their pigs were suffering from diarrhoea and gradually losing weight. The farmers each adopted a different strategy to deal with this disease, as shown in the table. [Table: Farm | Strategy | Result. Farm 1: Treatment with antibiotics; All pigs recovered after two weeks. Farm 2: Elimination of rats and mice from pig sheds to improve hygiene; Decrease in number of sick animals over three months.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Outlines a benefit and a limitation of the strategies"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a benefit or limitation OR Identifies a benefit and a limitation OR Identifies benefits or limitations"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The use of antibiotics on Farm 1 eliminates the disease quickly but may induce resistance in the bacteria with longer term use so the strategy will become less effective. On Farm 2, improved hygiene including removal of rats and mice is slow to eliminate the disease but provides a long-term solution that will prevent future outbreaks.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bio-2021-21c.png",
+        "page": 16,
+        "alt": "Table of two farms' strategies for pig diarrhoea (antibiotics; removing rats and mice to improve hygiene) and their results."
+      }
+    },
+    {
+      "number": "22",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Predict the phenotypic ratio for the offspring of this cross. Show your working.",
+      "stimulus": "In a population of rabbits, black fur colour is dominant over white fur. A black rabbit, whose mother has white fur, mates with a white rabbit.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Predicts the correct phenotypic ratio of the offspring ; Provides parental genotypes and suitable working out"
+        },
+        {
+          "marks": "2",
+          "text": "Predicts the correct phenotypic ratio of the offspring ; Provides some correct working OR Identifies correct parental genotypes ; Provides appropriate working out OR Provides parental genotypes ; Provides appropriate working out and relevant phenotypic ratio"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Bb × bb\nb | b\nB | Bb | Bb\nb | bb | bb\nRatio — Black : White\n1:1",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Which of the results indicates a valid test which shows that ovulation is NOT occurring? Justify your answer.",
+      "stimulus": "Ovulation in women is associated with a rapid increase in luteinising hormone (LH). Test strips can be used to detect high levels of LH in urine. Once a test strip is used, a control line should appear and the presence of a test line indicates high levels of LH in urine. The image below represents four different results that were obtained. [Four test strips, numbered 1 to 4, each with a stop line; labelled control line and test line; strips 1 and 2 show a control line, strips 1 and 4 show a test line.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Correctly identifies the valid result; Provides a suitable justification; Includes reference to test line and control line"
+        },
+        {
+          "marks": "2",
+          "text": "Correctly identifies a negative result; Provides a justification"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information about the test"
+        }
+      ],
+      "sampleAnswer": "Strip 2 is the only valid negative result. The control line is present therefore indicating that the test itself has worked. No LH surge line has been detected in strip 2 therefore it is a negative result (unlike test 3 and 4 which have no control line, making those results invalid). Ovulation is not occurring according to test 2.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bio-2021-23.png",
+        "page": 17,
+        "alt": "Four LH test strips (1 to 4), each with a stop line, a control line and a test line, showing different results after dipping in urine."
+      }
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Is this trait likely to be the result of a somatic or a germ-line mutation? Justify your answer.",
+      "stimulus": "An incidence of an autosomal dominant trait is shown in the pedigree. [Pedigree chart with key: unaffected female, unaffected male, male with trait.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Identifies the type of mutation; Justifies the type of mutation with reference to the information provided"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies the type of mutation; Provides a reason for the type of mutation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "It is a somatic mutation because it is a dominant trait but not present in the parents or the offspring of the affected male. If it were a germ-line mutation which occurs in the cells that form gametes, it is most likely it would be seen in the offspring.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bio-2021-24a.png",
+        "page": 18,
+        "alt": "Pedigree of an autosomal dominant trait over three generations, with an affected male in the second generation; key included."
+      }
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the effects of Mutation B and Mutation C on each twin and on any offspring that they may have.",
+      "stimulus": "The diagram shows the early stages of embryonic development from a fertilised egg. The developing ball of cells has split and monozygotic (identical) twins have formed. Mutations can occur at different times during embryonic development, for example Mutation A would result in both twins having the mutation in all their cells. [Diagram: fertilised egg; mutation A before twin formation; twin 1 and twin 2; mutation B (twin 1) and mutation C (twin 2) at cell differentiation into germ or somatic cells.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains the effects of the mutations on the twins and their offspring"
+        },
+        {
+          "marks": "3",
+          "text": "Explains some effects of the mutations on the twins and/or their offspring"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of the effect(s) of the mutation(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Mutation B occurred after twin formation, therefore affecting only Twin 1. Because it occurred prior to formation of the germ cells it will be evident in both the germ cells and the somatic cells of Twin 1 and through the germ cells may be passed to the offspring.\nBecause Mutation C occurs in the cells leading to somatic cells in Twin 2 only, it will be evident in the somatic cells of Twin 2 but not in the germline cells and can’t be passed on to offspring.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bio-2021-24b.png",
+        "page": 19,
+        "alt": "Diagram of embryonic development from a fertilised egg through twin formation and cell differentiation, with Mutations A, B and C marked."
+      }
+    },
+    {
+      "number": "25(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "What conclusions can be drawn about the patient’s hearing?",
+      "stimulus": "A patient visited an audiologist for a hearing test. The audiologist tested both ears at specific frequencies. The volumes at which each frequency could be heard are shown. [Table: Frequency (Hz) | Minimum volume at which sound could be detected (dB) for Right ear and Left ear: 250 Hz 5 and 55; 500 Hz 9 and 60; 1000 Hz 9 and 75; 2000 Hz 5 and 75; 4000 Hz 9 and 80; 8000 Hz 20 and 100.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Draws correct conclusions about the hearing level in both left and right ears"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some appropriate information about the hearing"
+        }
+      ],
+      "sampleAnswer": "Right ear has normal hearing.\nLeft ear has a deficit/cannot hear at a normal level.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bio-2021-25.png",
+        "page": 20,
+        "alt": "Table of minimum sound volume (dB) that could be detected at six frequencies, for the patient's right and left ears."
+      }
+    },
+    {
+      "number": "25(c)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Justify the use of a suitable technology to assist the patient’s hearing.",
+      "stimulus": "It is discovered that there is a complete and permanent blockage of the outer ear, but the cochlea is still fully functional.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Justifies the use of a suitable technology to assist hearing"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a relevant hearing technology"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information on any hearing technology"
+        }
+      ],
+      "sampleAnswer": "Bone conduction implants would be the most suitable technology for this patient. The blocked outer ear needs to be completely bypassed, and bone conduction works by detecting sound waves via a microphone, and relaying it to a sound processor that converts the waves into vibrations. These vibrations are transferred directly to the cochlea in order to hear the sound and so improve the patient’s hearing.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "26",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain possible reasons for the increase in these offspring.",
+      "stimulus": "Zebra populations are suffering from a reduction in their gene pools due to habitat destruction and increasing isolation. This has led to an increase in the number of offspring born with coat patterns different to that of their parents. An example is shown. [Photograph of a zebra foal with a polka-dot coat pattern. Not reproduced in the NESA PDF, which prints only the notice: This material cannot be displayed due to copyright issues. https://www.forbes.com/sites/grrlscientist/2019/09/26/rare-zebra-foal-with-polka-dots-spotted-in-kenya/?sh=b39b7a344bd4]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains reasons for the changing phenotypes with reference to recessive alleles and gene pools in populations; Relates concentration of recessive alleles to offspring being different to parents"
+        },
+        {
+          "marks": "3",
+          "text": "Explains a reason for the changing phenotypes showing a sound knowledge of gene pools in populations"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of inheritance in populations"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A reduction in gene flow occurs as populations become smaller and more isolated. This results in inbreeding, a reduction in the gene pool and the accumulation of mutations. Many mutations are recessive and when offspring receive two copies of a mutation it is expressed (and offspring will appear different to their parents). Inbreeding with close relatives results in increased risk of phenotype being affected by mutations.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "27",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Use the DNA profile provided to justify whether Child 3 will have sickle cell anaemia.",
+      "stimulus": "Sickle cell anaemia is a genetic disorder. In a family, the parents are both known to be heterozygous for the mutation that causes sickle cell anaemia. The couple has two unaffected children and is now expecting a third child. They have had an allele screening test to determine whether the child will have sickle cell anaemia. A part of the DNA profile is shown. It shows the alleles present. [DNA profile: columns for Mother, Father, Child 1, Child 2 and Child 3, with bands in two rows.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides correct phenotype for Child 3; Justifies it using the DNA profile"
+        },
+        {
+          "marks": "2",
+          "text": "Provides correct phenotype for Child 3; Provides some justification"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The third child will have sickle cell anaemia because the mother, father and child two are all heterozygous/unaffected (Aa) and this is depicted by the 2 bands on the DNA profile. Child one is unaffected and displays only 1 band therefore must be homozygous normal (AA). Child 3 displays one band in a different location to child one but is a common band to the heterozygous family member therefore must be (aa) recessive and will have sickle cell anaemia.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bio-2021-27.png",
+        "page": 23,
+        "alt": "DNA profile bands for Mother, Father, Child 1, Child 2 and Child 3, shown in two rows of bands."
+      }
+    },
+    {
+      "number": "28(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe the role of mRNA in human cells.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Demonstrates a thorough knowledge of the role of mRNA"
+        },
+        {
+          "marks": "2",
+          "text": "Describes a feature of the role of mRNA OR Identifies features of the role of mRNA"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "mRNA carries a complementary copy of a section of DNA that codes for a polypeptide to the ribosomes. At the ribosomes mRNA provides a template. Each codon (three nucleotides) on the mRNA results in the addition of a correct amino acid to form a polypeptide chain.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "28(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 5,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain how this vaccine can lead to active immunity to the virus.",
+      "stimulus": "An mRNA vaccine has been developed in order to immunise people against a virus. The vaccine contains modified mRNA which codes for the spike protein on the surface of the virus. [Diagram of a virus particle with spike proteins on its surface; one spike protein labelled.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a comprehensive explanation of how the vaccine results in active immunity; Applies knowledge of mRNA and protein to the production of active immunity"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound explanation of how the vaccine results in active immunity; Links mRNA and protein to the production of active immunity"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound knowledge of vaccination and the development of active immunity OR Links mRNA and protein to the production of active immunity"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines how a vaccine could provide immunity OR Demonstrates an understanding of active immunity"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The vaccine’s mRNA enters cells and provides instructions for the production of the spike protein. The mRNA is translated at the ribosomes and the viral spike protein is produced and released into the body. The protein will be an antigen in the body as it is foreign (not coded for by the human genome). This will trigger a specific response by B and T lymphocytes that match the antigen. Once the viral protein has been removed, memory B and T cells for the spike protein will remain, providing active immunity that allows for a rapid future response. If the person is later exposed to the virus, the spike protein molecules on the virus’s surface will trigger a rapid, large response by the memory cells.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bio-2021-28b.png",
+        "page": 25,
+        "alt": "Diagram of a spherical virus with spike proteins projecting from its surface, one labelled spike protein."
+      }
+    },
+    {
+      "number": "29",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the adaptations used by the koalas in this study to maintain a stable body temperature. Make reference to the stimulus provided.",
+      "stimulus": "The koala is a mammal that maintains a stable body temperature of close to 36.6°C. A study was conducted. Koalas were observed in natural forests in south-eastern Australia. Their posture in the tree and the ambient temperature were recorded. Ambient temperatures were divided into two categories, hot and mild. The graph shows the posture of koalas observed. [Bar graph: percentage of observations (0 to 50) by koala posture, for air temperature hot (>30°C) and mild (<25°C); photographs of five koala postures below the axis.] Additional data showed that the temperature of some tree trunks and large branches was up to 9°C cooler than air temperature during hot conditions.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a thorough understanding of adaptations to maintain stable body temperature; Relates the answer to the stimulus provided; Explains the relevant adaptations in the koala"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of adaptations to maintain stable body temperature; Links the answer to the stimulus provided; Describes adaptations in the koala"
+        },
+        {
+          "marks": "2",
+          "text": "Describes an adaptation to maintain stable body temperature; Refers to the stimulus provided"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The posture of the koala on the tree is associated with the category of hot or mild air temperatures. Posture is a behavioural adaptation that changes the surface area of the skin exposed to the air. In mild conditions koalas were sometimes observed to curl up, minimising the surface area exposed and therefore minimising heat loss, a behaviour which was never observed in hot conditions. Maximising the surface area of ventral skin exposed by leaning back on a branch occurred much more frequently in hot conditions than in mild. Hugging of tree trunks was observed more often in hot conditions. Since the tree trunk temperatures have been shown to be lower than air temperatures in hot conditions, this is also a behavioural adaptation by the koala to expose its ventral surface to the cool trunk and use it as a heat sink.",
+      "answersCouldInclude": [
+        "Reference to physiological adaptation of directing blood flow to the koala’s belly to make contact with the tree trunk."
+      ],
+      "figure": {
+        "file": "bio-2021-29.png",
+        "page": 26,
+        "alt": "Bar graph of percentage of koala observations by posture for hot (>30°C) and mild (<25°C) air temperatures, with koala photographs below."
+      }
+    },
+    {
+      "number": "30",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 7,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "‘A vaccine only protects the community against a specific disease.’ Analyse the data with reference to this statement.",
+      "stimulus": "A study compared the incidence of disease and survival of 8134 children who had received the measles vaccine with 8134 children from a neighbouring area who remained unvaccinated against measles. Children in each group were matched for age, sex, size of dwelling, number of siblings and maternal education. [Two bar graphs, Unvaccinated and Vaccinated: number of cases of measles (0 to 200) by month from October 1982 to October 1985.] The table compares the cause of death and number of deaths of the two groups over the same three years. [Table: Cause of death | Number of deaths: Children vaccinated against measles | Children unvaccinated against measles. Measles 2 | 40; Diarrhoea and dysentery 85 | 156; Oedema 6 | 21; Fever 22 | 25; Total 115 | 242.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Provides a comprehensive analysis and interpretation of scientific data reference to the statement; Provides arguments for and against the statement"
+        },
+        {
+          "marks": "6",
+          "text": "Provides a sound analysis and interpretation of scientific data; Provides argument(s) for and against the statement"
+        },
+        {
+          "marks": "4–5",
+          "text": "Interprets scientific data to support arguments for and/or against the statement"
+        },
+        {
+          "marks": "2–3",
+          "text": "Demonstrates some understanding of the information provided and/or the role of vaccines in the control of infectious disease"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The measles vaccine protects children against contracting measles. The graph shows that the incidence of measles in vaccinated children is very low, sometimes zero, compared with unvaccinated children. Since these children are matched for age and other social factors, it is likely that the vaccine is responsible for the differences. The table supports this conclusion in that only two vaccinated children died of measles compared with 40 in the unvaccinated group. Therefore the data supports the statement that the measles vaccine protected the community against measles.\nThe table provides data that suggests the measles vaccine protects children against dying from diseases other than measles and therefore contradicts the statement that a vaccine targets a specific disease. Children vaccinated against measles died at about half the rate of unvaccinated children from diarrhoea and dysentery, and less than one third the rate from oedema. However, numbers dying of oedema are small so this conclusion needs further study. If all other variables were taken into account then the vaccine appears to have non-specific beneficial effects, especially for diarrhoea. However, only small differences between the groups with respect to fever suggest that the protection of the vaccine is for selected diseases only. Since it is likely the vaccine targeted specific antigens for the measles virus, the mechanism for this wider protection is not clear.\nOverall the vaccinated group showed about half the mortality of the unvaccinated group supporting the conclusion that the vaccine was protective in a more general way. The results in the table question the specificity of the measles vaccine and therefore the statement requires qualification.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bio-2021-30.png",
+        "page": 28,
+        "alt": "Bar graphs of monthly measles cases for unvaccinated and vaccinated children (1982 to 1985), with a table of deaths by cause for each group."
+      }
+    },
+    {
+      "number": "31",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 6,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Evaluate this study and its results.",
+      "stimulus": "Millions of people around the world take drugs known as statins, which have been shown to reduce the incidence of heart attacks and strokes in vulnerable patients. However, up to 20% of people stop taking statins due to side-effects such as muscle aches, fatigue, feeling sick and joint pain. A recent study at a public hospital focused on 60 patients who had all stopped taking statins in the past due to severe side-effects. Patients took statin tablets for four months, placebo tablets for four months and no tablets for four months. Every day for the year the patients scored, from zero to 100, how bad their symptoms were. The results are shown. [Table: Four month treatment | Average score symptoms / 100. Statin tablets 16.3; Placebo tablets 15.4; No tablets 8.0.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Evaluates the validity of the design of the study; Provides a suitable interpretation of the data; Provides a suitable judgement"
+        },
+        {
+          "marks": "5",
+          "text": "Demonstrates an understanding of the validity of the study; Provides an interpretation of the data; Provides a judgement"
+        },
+        {
+          "marks": "3–4",
+          "text": "Outlines suitable points about the validity of the study and/or the data"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies several suitable points about the study and/or the data OR Outlines one suitable point about the study or the data"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "The study results show that when patients were in the ‘no tablet’ period they still displayed the symptoms of side effects (score 8). Taking placebo tablets doubled the severity of side effects (from 8 to 15.4) even though no active ingredients were present. Statin tablets and placebo tablets had very similar results (16.3 and 15.4). These data seem to indicate that side effects in patients taking statins may not be due to the active ingredients in statins but other factors.\nHowever these results cannot be regarded as valid as only 60 patients were involved (millions of people take statins). Also, symptoms were monitored and recorded by the patients themselves in a qualitative way and cannot be regarded as reliable measurements. The study should also have included a control group that could be used for comparison. The study and its results cannot be regarded as valid. However, it is valuable as it indicates it would be worthwhile following this up with a large randomised control trial to confirm that statins do not cause side effects in most people.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bio-2021-31.png",
+        "page": 30,
+        "alt": "Table of average symptom scores (out of 100) over four months on statin tablets, placebo tablets and no tablets."
+      }
+    },
+    {
+      "number": "32",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 5,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the changes that would occur in the testes of a male athlete continuously taking anabolic steroids. Support your answer with reference to the flow chart.",
+      "stimulus": "The flow chart shows negative feedback by the hormones testosterone and inhibin in a human male. [Flow chart: hypothalamus, releasing hormone, anterior pituitary, LH and FSH, testes (Sertoli cells / sperm production; Leydig cells), inhibin and testosterone feedback, with plus and minus signs; source: Concepts of Biology, Molnar and Gair.] Some athletes take anabolic steroids to increase their muscle mass and strength. These steroids may be testosterone or a synthetic modification of testosterone.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Explains changes that would occur in the testes in response to anabolic steroids; Demonstrates a comprehensive knowledge and understanding of negative feedback loops; Correctly interprets the diagram"
+        },
+        {
+          "marks": "4",
+          "text": "Describes changes that would occur and provides a reason for the proposed changes; Demonstrates an understanding of negative feedback loops; Correctly interprets some steps in the diagram"
+        },
+        {
+          "marks": "2–3",
+          "text": "Identifies change(s) that would occur and/or provides a reason for the proposed change(s); Demonstrates some understanding of negative feedback loops and/or relates answer to the diagram"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "In a normal male as shown in the diagram, the hypothalamus releases Releasing Hormone which stimulates the anterior pituitary to produce hormones that stimulate the testes to produce sperm and the hormones testosterone and inhibin. Testosterone stimulates sperm production also. When a large dose of an anabolic steroid that is like testosterone is taken, while this may initially increase sperm production and the associated hormone inhibin, the testosterone effect of negative feedback on both the hypothalamus and the anterior pituitary cause less stimulatory hormones to be released so that the testes produce less sperm and less inhibin and less testosterone. Although less inhibin would mean a smaller negative feedback on the anterior pituitary caused by this hormone, the ongoing dose of testosterone would ensure a large overall negative feedback effect. In time, the testes would lose their normal function.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bio-2021-32.png",
+        "page": 31,
+        "alt": "Flow chart of negative feedback by testosterone and inhibin on the hypothalamus, anterior pituitary and testes, with plus and minus signs."
+      }
+    },
+    {
+      "number": "33(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the processes shown in steps 1– 4.",
+      "stimulus": "Genetically engineered Atlantic salmon have been produced and approved for aquaculture in the US. These salmon have a transgene that includes a protein-coding sequence from a Chinook salmon’s growth hormone gene and the promoter region of an Ocean Pout’s antifreeze protein gene. The following diagram provides an overview of the production of the transgenic salmon. [Seven-step diagram: steps 1 to 7 with bacteria, Ocean Pout fish, Chinook salmon, salmon eggs and transgenic Atlantic salmon.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains the processes in the steps"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines the process of gene cloning"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "The transgene is inserted into a plasmid by using enzymes. The plasmid is then placed into a bacterial host. As the host reproduces the plasmid is copied and so is the transgene (gene cloning). This is done in order to produce multiple copies of the gene.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bio-2021-33a.png",
+        "page": 32,
+        "alt": "Seven-step flow diagram of producing transgenic Atlantic salmon, from DNA fragments and plasmid cloning in bacteria to salmon eggs and fish."
+      }
+    },
+    {
+      "number": "33(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain ONE potential benefit of using transgenic salmon in aquaculture. Support your answer with data from the graph.",
+      "stimulus": "The graph summarises the growth of standard salmon and transgenic salmon. Due to copyright restrictions, this material cannot be displayed until permission has been obtained.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains a benefit of the use of transgenic salmon in aquaculture ; Links answer to data in the graph"
+        },
+        {
+          "marks": "2",
+          "text": "Describes a benefit of the transgenic species OR Identifies a benefit of the transgenic salmon and links it to the data"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "Transgenic salmon has a higher rate of growth in the first two years than standard salmon. Transgenic salmon reaches market size in the second year whereas the standard salmon takes five months longer. This saves money in producing the fish for market as there are lower feed and maintenance costs.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "33(c)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 9,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse how these techniques protect and preserve biodiversity.",
+      "stimulus": "Transgenic fish can reproduce and pass on the dominant transgene (T). Reproduction for aquaculture is strictly controlled using a variety of techniques in order to protect and preserve biodiversity. Some of these techniques are outlined below. 1. Homozygous (TT) female (XX) breeding stock are kept in quarantine. 2. The female fish undergo hormone treatment that results in sex reversal and the development of male sex organs and sperm. 3. The sperm produced is collected and used to fertilise eggs obtained from wild-type, non-transgenic salmon. 4. The eggs are treated with pressure shock to prevent the completion of meiosis II. As a result, offspring are triploid (three copies of each chromosome). All offspring are transgenic female fish and have XXX (XXX fish cannot develop sex organs). 5. Offspring are transported to inland aquaculture tanks to be grown to market size.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "9",
+          "text": "Demonstrates extensive knowledge and understanding of biotechnology, reproduction and biodiversity; Provides scientific analyses for the techniques used; Relates analyses to protecting and preserving biodiversity"
+        },
+        {
+          "marks": "7–8",
+          "text": "Demonstrates thorough knowledge of biotechnology, reproduction and biodiversity; Provides scientific analyses for the main techniques used; Links techniques to maintaining biodiversity"
+        },
+        {
+          "marks": "5–6",
+          "text": "Demonstrates sound knowledge of biotechnology and reproduction; Applies knowledge to explain technique(s) used; Links technique(s) to effect(s) on biodiversity"
+        },
+        {
+          "marks": "3–4",
+          "text": "Demonstrates a sound knowledge of biotechnology/techniques and/or reproduction and/or biodiversity OR Demonstrates basic knowledge of biotechnology/techniques and makes a link to biodiversity"
+        },
+        {
+          "marks": "1–2",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "Biodiversity is the variety in gene pools of species as well as the variety of species in ecosystems. Transgenic salmon carries the risk of reducing biodiversity and has the potential to do great harm. Physical isolation techniques 1 and 5 prevent transgenic salmon from escaping into the environment. They may have a survival advantage, and pass the transgene onto offspring. This may reduce biodiversity as wild-type fish become less common and the gene pool is reduced. Transgenic salmon could outcompete other species, potentially reducing species biodiversity.\nReproductive techniques such as the hormone treatment in technique 2 allow sperm to be produced that only carries X chromosomes as the parents are genetically female. This sperm is used to fertilise eggs from wild-type salmon, and all offspring are female as none of the sperm have a Y chromosome. They will all have a copy of T from the sperm – only one T is needed as it is dominant. Technique 4 prevents meiosis II and results in diploid eggs being fertilised by haploid sperm. This produces infertile, triploid offspring that have three copies of each type of chromosome. These techniques prevent the transgene from being passed on.\nUsing eggs from wild-type salmon is crucial to preserving biodiversity as it prevents inbreeding of transgenic fish stock and ensures hybrid vigour in the offspring, preventing the accumulation of mutations. Physical isolation, reproductive technologies and the introduction of hybrid vigour are crucial in protecting biodiversity in ecosystems as well as within the transgenic salmon population.",
+      "answersCouldInclude": []
+    }
+  ],
+  "edits": [
+    "markingCriteria: rows re-copied from the printed guideline where a bullet sat in the wrong band or was missing (23, 31, 28(b)); NESA's OR and AND are kept inline, as printed",
+    "markingCriteria: 20 rows with bullets run together joined with \"; \" as printed (words unchanged)"
+  ]
+}
