@@ -1439,7 +1439,7 @@
       "prescribedText": "Option A: Pro-democracy Movement in Burma 1945−2010",
       "marks": 12,
       "kind": "text",
-      "needsStimulus": true,
+      "needsStimulus": false,
       "stem": "To what extent did ethnic tensions and separatist uprisings influence the response of the military government from 1990−2010?",
       "stimulus": "",
       "assessedOn": [
@@ -1558,7 +1558,7 @@
       "prescribedText": "Option B: The Cultural Revolution to Tiananmen Square 1966−1989",
       "marks": 12,
       "kind": "text",
-      "needsStimulus": true,
+      "needsStimulus": false,
       "stem": "To what extent did Deng Xiaoping’s economic reforms change Chinese society?",
       "stimulus": "",
       "assessedOn": [
@@ -1689,7 +1689,7 @@
       "prescribedText": "Option C: Civil Rights in the USA 1945−1968",
       "marks": 12,
       "kind": "text",
-      "needsStimulus": true,
+      "needsStimulus": false,
       "stem": "To what extent did changes in social attitudes lead to the successes of the Civil Rights movement?",
       "stimulus": "",
       "assessedOn": [
@@ -1812,7 +1812,7 @@
       "prescribedText": "Option D: The Changing World Order 1945−2011",
       "marks": 12,
       "kind": "text",
-      "needsStimulus": true,
+      "needsStimulus": false,
       "stem": "To what extent did new centres of global power challenge US influence internationally between 1989−2011?",
       "stimulus": "",
       "assessedOn": [
@@ -1924,7 +1924,7 @@
       "prescribedText": "Option E: The Nuclear Age 1945−2011",
       "marks": 12,
       "kind": "text",
-      "needsStimulus": true,
+      "needsStimulus": false,
       "stem": "To what extent did issues of proliferation influence the movement towards nuclear disarmament?",
       "stimulus": "",
       "assessedOn": [
@@ -2036,7 +2036,7 @@
       "prescribedText": "Option F: Apartheid in South Africa 1960−1994",
       "marks": 12,
       "kind": "text",
-      "needsStimulus": true,
+      "needsStimulus": false,
       "stem": "To what extent did the methods of control used by the South African government influence the international response to apartheid?",
       "stimulus": "",
       "assessedOn": [

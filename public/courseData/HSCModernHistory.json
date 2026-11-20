@@ -14459,6 +14459,68 @@
                       "updatedAt": 0,
                       "src": "courseData/images/mh-2024-23b.png"
                     }
+                  },
+                  {
+                    "id": "prompt-mh-hsc-2022-24c",
+                    "question": "To what extent did the methods of control used by the South African government influence the international response to apartheid?",
+                    "totalMarks": 12,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "MH-12-02",
+                      "MH-12-03"
+                    ],
+                    "markerNotes": [
+                      "The top band judges how far the government's methods influenced the international response, rather than describing repression and sanctions as separate topics.",
+                      "Strong answers link repression events such as Sharpeville and Soweto to specific international decisions, such as the 1977 arms embargo and the 1986 sanctions.",
+                      "Answers that show the limits of the international response, and identify internal resistance as a key factor, earn the top criteria."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing apartheid laws without explaining their effect on international opinion.",
+                      "Assuming the international response was united, when Western governments were slow to impose sanctions.",
+                      "Attributing the end of apartheid to sanctions alone, without the internal resistance or the 1990 negotiations."
+                    ],
+                    "keywords": [
+                      "apartheid",
+                      "methods of control",
+                      "international response",
+                      "economic sanctions",
+                      "arms embargo",
+                      "Sharpeville Massacre",
+                      "state of emergency"
+                    ],
+                    "markingCriteria": "11-12 marks: Provides a well-developed and reasoned judgement which clearly addresses the question; Supports the response with detailed and accurate historical knowledge and understanding; Presents a well-structured and logical response using appropriate historical terms and concepts\n9-10 marks: Provides a reasoned judgement which addresses the question; Supports the response with relevant and accurate historical knowledge and understanding; Presents a structured and logical response using historical terms and concepts\n6-8 marks: Provides a judgement which addresses the question; Uses relevant historical knowledge and understanding; Presents a structured response using historical terms and concepts\n3-5 marks: Provides a description relevant to the question (that may make an implied judgement); Uses some historical knowledge and understanding; Presents a response using some historical terms AND/OR concepts\n1-2 marks: Makes a general statement(s) in relation to the topic",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-hsc-2022-24c-1",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "The methods of control used by the South African government did influence the international response to apartheid, but the influence was mostly indirect. Repression produced images and events that shocked the world and encouraged sanctions, yet the decisive pressure came from internal resistance, economic costs and changes in the Cold War context. International responses reinforced the movement, but they rarely drove the government to change on their own.\n\nThe government's methods were severe and widely publicised. After the Sharpeville Massacre of March 1960, in which police killed 69 people protesting against the pass laws, the government declared a state of emergency and banned the African National Congress and the Pan Africanist Congress. Laws such as the Suppression of Communism Act of 1950 and the Terrorism Act of 1967 allowed detention without trial and banning orders. The Soweto uprising of 1976 showed that repression could be applied to children as well as adults, and the deaths that followed were reported across the world.\n\nThese methods shaped the international response. The United Nations Security Council imposed a mandatory arms embargo in 1977, and the Commonwealth and many governments condemned apartheid in official forums. Repression also helped to build a global movement, including sporting boycotts and divestment campaigns that targeted banks and universities. In the United States, the Comprehensive Anti-Apartheid Act of 1986 introduced economic sanctions over the objections of President Reagan. Many of these responses were direct consequences of the government's violence.\n\nNevertheless, the international response was limited for much of the period. Major Western powers, including the United States and Britain, preferred engagement to sanctions for many years, and trade with South Africa continued. International pressure became more effective in the late 1980s, when economic costs, the political and military strain on the government and the end of the Cold War made the regime's position less tenable. Internal resistance, including the mass uprisings of the 1980s, mattered more in forcing change.\n\nThe overall judgement is that the methods of control influenced the international response to a considerable extent, since repression made apartheid impossible to ignore and gave campaigners the evidence they needed. However, the international response depended on the decisions of foreign governments and was slowed by their economic interests. The methods of control therefore strengthened the case for sanctions, but the end of apartheid came mainly from the South African struggle and the negotiations that followed the release of Nelson Mandela in 1990.",
+                        "feedback": "Meets the 11–12 row: a well-developed judgement on how far the methods of control shaped the international response, supported by detailed and accurate evidence of Sharpeville, the 1977 arms embargo and the 1986 sanctions, in a logical structure. The answer could weigh the role of internal resistance more explicitly against the international factors.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-mh-hsc-2022-24c-2",
+                        "source": "AI",
+                        "mark": 7,
+                        "answer": "The South African government's methods of control, including the state of emergency after Sharpeville and the banning of the ANC and the PAC, drew international criticism. The United Nations imposed a mandatory arms embargo in 1977, and many countries supported sporting boycotts and divestment campaigns. The Comprehensive Anti-Apartheid Act of 1986 introduced sanctions in the United States, passed over the objections of President Reagan. Britain and other Western governments resisted broader sanctions for much longer. However, Western governments were slow to act for many years, and internal resistance together with changing economic conditions eventually forced change. The methods of control therefore shaped the response, but they were not the main cause of the end of apartheid.",
+                        "feedback": "Meets the 6–8 row: gives a judgement that the methods of control shaped the response but did not cause its end, with relevant knowledge of the state of emergency, the arms embargo and the 1986 sanctions. To reach 9–10, develop the judgement with evidence of how the international response was limited and why.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-hsc-2022-24c-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "The government banned opposition groups and used detention without trial. Other countries criticised apartheid, and some of them placed sanctions on South Africa in the 1980s.",
+                        "feedback": "Meets the 3–5 row: describes the government's methods and the international reaction with some accuracy, but makes no judgement about how far one influenced the other. To lift it, link the methods to a specific international decision.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate historical knowledge and understanding relevant to the question\n• communicate ideas and information logically\n• use historical terms and concepts appropriately",
+                    "isPastHSC": true,
+                    "hscYear": 2022,
+                    "hscQuestionNumber": "24(c)",
+                    "hscSection": "Section IV — Change in the Modern World",
+                    "hscText": "Option F: Apartheid in South Africa 1960−1994"
                   }
                 ]
               },
@@ -28195,6 +28257,68 @@
                     "hscQuestionNumber": "23(b)",
                     "hscSection": "Section IV — Change in the Modern World",
                     "hscText": "Option E: The Nuclear Age 1945−2011"
+                  },
+                  {
+                    "id": "prompt-mh-hsc-2022-23c",
+                    "question": "To what extent did issues of proliferation influence the movement towards nuclear disarmament?",
+                    "totalMarks": 12,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "MH-12-02",
+                      "MH-12-03"
+                    ],
+                    "markerNotes": [
+                      "The top band judges how far proliferation influenced the disarmament movement, and weighs it against the superpower negotiations and the anti-nuclear movements.",
+                      "Strong answers use specific cases such as India, Pakistan and North Korea, and explain how each either pushed towards disarmament or weakened it.",
+                      "Answers that conclude which factor was more important, with evidence, meet the top criteria."
+                    ],
+                    "commonStudentErrors": [
+                      "Listing proliferation cases without explaining how they affected disarmament.",
+                      "Describing the Non-Proliferation Treaty as having ended proliferation, when several states acquired weapons outside it.",
+                      "Answering about the arms race between the superpowers, so the question about proliferation is not addressed."
+                    ],
+                    "keywords": [
+                      "proliferation",
+                      "nuclear disarmament",
+                      "Non-Proliferation Treaty",
+                      "North Korea",
+                      "India",
+                      "Pakistan",
+                      "Iran"
+                    ],
+                    "markingCriteria": "11-12 marks: Provides a well-developed and reasoned judgement which clearly addresses the question; Supports the response with detailed and accurate historical knowledge and understanding; Presents a well-structured and logical response using appropriate historical terms and concepts\n9-10 marks: Provides a reasoned judgement which addresses the question; Supports the response with relevant and accurate historical knowledge and understanding; Presents a structured and logical response using historical terms and concepts\n6-8 marks: Provides a judgement which addresses the question; Uses relevant historical knowledge and understanding; Presents a structured response using historical terms and concepts\n3-5 marks: Provides a description relevant to the question (that may make an implied judgement); Uses some historical knowledge and understanding; Presents a response using some historical terms AND/OR concepts\n1-2 marks: Makes a general statement(s) in relation to the topic",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-hsc-2022-23c-1",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Issues of proliferation influenced the movement towards nuclear disarmament, but they did so in a contradictory way. The spread of nuclear weapons created the fear that drove arms control agreements, yet it also weakened the momentum for disarmament by showing that states could acquire weapons outside the existing treaty system. Proliferation was therefore a significant influence, though the major drivers of disarmament were the superpower relationship and the mass anti-nuclear movements.\n\nThe clearest influence of proliferation was on the treaty system. The Partial Test Ban Treaty of 1963 and the Non-Proliferation Treaty, which opened for signature in 1968, were designed to stop the spread of weapons to new states while the nuclear powers reduced their arsenals. The Non-Proliferation Treaty linked the acceptance of restrictions by non-nuclear states to a commitment by the nuclear powers to negotiate disarmament. Its success depended on the willingness of states to remain within it.\n\nProliferation also showed the limits of this system. India tested a device in 1974 and carried out further tests in 1998, when Pakistan also tested weapons. Neither India nor Pakistan had signed the Non-Proliferation Treaty, and their tests undermined the claim that proliferation could be contained. North Korea withdrew from the treaty in 2003 and conducted its first nuclear test in 2006, creating a new security crisis. Iran's nuclear programme became a major international issue in the 2000s, and the 2015 Joint Comprehensive Plan of Action was an attempt to limit it through negotiation rather than force.\n\nYet the more significant drivers of disarmament were the arms control agreements between the superpowers. The Strategic Arms Limitation Talks of the 1970s, the Intermediate-Range Nuclear Forces Treaty of 1987 and the START treaty of 1991 reduced the arsenals of the United States and the Soviet Union. The anti-nuclear movements in Europe and North America pressed governments for these agreements. Proliferation contributed to the sense of danger that motivated these movements, but it did not determine their outcomes.\n\nThe overall judgement is that proliferation shaped the disarmament movement chiefly by raising the stakes and exposing the weaknesses of the treaty regime. It influenced the agenda of disarmament, but it was less decisive than superpower negotiation and public pressure. Disarmament advanced most where the great powers chose to negotiate, and proliferation strengthened the case for doing so.",
+                        "feedback": "Meets the 11–12 row: a well-developed judgement on how far proliferation shaped the disarmament movement, supported by detailed and accurate evidence of the treaties, India, Pakistan, North Korea and Iran, in a logical structure. The answer could test the claim about the anti-nuclear movements more directly against the evidence.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-mh-hsc-2022-23c-2",
+                        "source": "AI",
+                        "mark": 7,
+                        "answer": "Proliferation influenced the movement towards nuclear disarmament mainly by creating fear and pushing governments to negotiate. The spread of weapons to India and Pakistan, which both tested in 1998, and North Korea's nuclear test in 2006 showed that the Non-Proliferation Treaty could not stop new states from acquiring weapons. Iran's nuclear programme also caused international concern, and the 2015 Joint Comprehensive Plan of Action later set limits on it through negotiation. The treaty system therefore faced its most serious tests in these years. These events encouraged the superpowers to pursue arms control agreements such as START. However, the anti-nuclear movements and the superpower relationship were also important, so proliferation was one influence among several.",
+                        "feedback": "Meets the 6–8 row: gives a judgement that proliferation was one influence among several, with relevant knowledge of India, Pakistan, North Korea and the Non-Proliferation Treaty. To reach 9–10, develop the judgement by weighing proliferation directly against the superpower agreements.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-hsc-2022-23c-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Nuclear weapons spread to countries such as India, Pakistan and North Korea, which made people worried. Governments then tried to limit the spread of weapons through treaties such as the Non-Proliferation Treaty.",
+                        "feedback": "Meets the 3–5 row: describes the spread of weapons and a relevant treaty with some accuracy, but makes no judgement about how far proliferation influenced disarmament. To lift it, weigh proliferation against the superpower agreements.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate historical knowledge and understanding relevant to the question\n• communicate ideas and information logically\n• use historical terms and concepts appropriately",
+                    "isPastHSC": true,
+                    "hscYear": 2022,
+                    "hscQuestionNumber": "23(c)",
+                    "hscSection": "Section IV — Change in the Modern World",
+                    "hscText": "Option E: The Nuclear Age 1945−2011"
                   }
                 ]
               },
@@ -29532,6 +29656,68 @@
                     "hscQuestionNumber": "21(c)",
                     "hscSection": "Section IV — Change in the Modern World",
                     "hscText": "Option C: Civil Rights in the USA 1945−1968"
+                  },
+                  {
+                    "id": "prompt-mh-hsc-2022-21c",
+                    "question": "To what extent did changes in social attitudes lead to the successes of the Civil Rights movement?",
+                    "totalMarks": 12,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "MH-12-02",
+                      "MH-12-05"
+                    ],
+                    "markerNotes": [
+                      "The top band judges how far changes in social attitudes caused the movement's successes, and weighs them against court decisions, protest tactics and federal action.",
+                      "Strong answers link specific attitude changes, such as the public reaction to the Birmingham campaign, to specific legislation in 1964 and 1965.",
+                      "Answers that treat social attitudes as a necessary factor among several, with evidence for each, earn the top criteria."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the Civil Rights movement's campaigns without explaining how they changed attitudes.",
+                      "Assuming all Americans shared one change in attitudes, rather than noting regional and racial differences.",
+                      "Attributing the 1964 and 1965 Acts to changing attitudes alone, without considering the role of presidents and the courts."
+                    ],
+                    "keywords": [
+                      "Civil Rights movement",
+                      "social attitudes",
+                      "Civil Rights Act 1964",
+                      "Voting Rights Act 1965",
+                      "Birmingham campaign",
+                      "Brown v Board of Education",
+                      "federal government"
+                    ],
+                    "markingCriteria": "11-12 marks: Provides a well-developed and reasoned judgement which clearly addresses the question; Supports the response with detailed and accurate historical knowledge and understanding; Presents a well-structured and logical response using appropriate historical terms and concepts\n9-10 marks: Provides a reasoned judgement which addresses the question; Supports the response with relevant and accurate historical knowledge and understanding; Presents a structured and logical response using historical terms and concepts\n6-8 marks: Provides a judgement which addresses the question; Uses relevant historical knowledge and understanding; Presents a structured response using historical terms and concepts\n3-5 marks: Provides a description relevant to the question (that may make an implied judgement); Uses some historical knowledge and understanding; Presents a response using some historical terms AND/OR concepts\n1-2 marks: Makes a general statement(s) in relation to the topic",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-hsc-2022-21c-1",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Changes in social attitudes were a major reason for the successes of the Civil Rights movement, but they were not the only one. Attitudes shifted most decisively when the movement's campaigns made segregation visible to the nation and the world, and this shift created the conditions in which federal governments could act. Other factors, including court decisions, the movement's own strategies and the actions of presidents, were also necessary for the legislative gains of 1964 and 1965.\n\nThe shift in attitudes began with the courts and with the cost of segregation to the national image. The Supreme Court's decision in Brown v Board of Education (1954) declared segregated schools unconstitutional, and the Cold War made segregation an embarrassment to the United States abroad. Yet the Brown decision was resisted across the South, and its enforcement depended on the willingness of the public and of federal officials to accept it.\n\nThe movement's campaigns changed attitudes by exposing the brutality of segregation. The Montgomery Bus Boycott, the sit-ins and the Freedom Rides brought the issue into everyday life. The Birmingham campaign of 1963, in which police used dogs and fire hoses against peaceful demonstrators, was broadcast to millions of television viewers. Public support for integration grew among white Americans, although it was uneven and weakest in the South. The March on Washington in August 1963 showed the breadth of support across races and classes.\n\nChanging attitudes also influenced presidents. John F. Kennedy's televised address of June 1963 presented civil rights as a moral issue. His successor, Lyndon Johnson, used the mood created by Kennedy's assassination to pass the Civil Rights Act 1964, which outlawed discrimination in public accommodations and employment. The Voting Rights Act 1965 followed the violence at Selma and targeted the barriers that had kept African Americans from voting in the South.\n\nHowever, the legislative successes also depended on the movement's organisation, on the leadership of Martin Luther King Jr and on a federal system in which the national government could override state resistance. Attitudes changed, but the entrenched opposition of southern politicians and segregationist groups meant that these changes required sustained pressure. Social attitudes were therefore a necessary condition for the successes of the movement, but its achievements came from the interaction of changing opinion, strategic protest and federal action.",
+                        "feedback": "Meets the 11–12 row: a well-developed judgement that social attitudes were necessary but not sufficient, supported by detailed and accurate evidence of Brown, Birmingham and the 1964 and 1965 Acts, in a logical structure. The answer could test the regional differences in attitudes more directly.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-mh-hsc-2022-21c-2",
+                        "source": "AI",
+                        "mark": 7,
+                        "answer": "Changes in social attitudes helped the Civil Rights movement succeed, particularly after television showed the violence against protesters in Birmingham in 1963. Support for integration grew among white Americans, and this made it easier for presidents to act. Kennedy and then Johnson supported civil rights legislation, and the Civil Rights Act 1964 and the Voting Rights Act 1965 were passed. However, court decisions, the movement's own protests and the leadership of Martin Luther King Jr were also important. Attitudes changed, but southern opposition remained strong in many states, where segregationist politicians and groups resisted both the courts and federal law. For this reason, changing attitudes alone did not explain the successes, and the movement's organisation and federal action were also needed.",
+                        "feedback": "Meets the 6–8 row: gives a judgement that attitudes were one important cause among several, with relevant knowledge of Birmingham and the 1964 and 1965 Acts. To reach 9–10, develop the judgement with evidence of the limits of changing attitudes, such as regional opposition.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-hsc-2022-21c-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Civil rights protesters were attacked in the South, and people saw this on television. Attitudes changed, and the government passed laws to protect African Americans' rights to vote and to use public facilities.",
+                        "feedback": "Meets the 3–5 row: describes relevant events and laws with some knowledge, but makes no judgement about how far attitudes caused the successes. To lift it, weigh attitudes against court decisions or protest tactics.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate historical knowledge and understanding relevant to the question\n• communicate ideas and information logically\n• use historical terms and concepts appropriately",
+                    "isPastHSC": true,
+                    "hscYear": 2022,
+                    "hscQuestionNumber": "21(c)",
+                    "hscSection": "Section IV — Change in the Modern World",
+                    "hscText": "Option C: Civil Rights in the USA 1945−1968"
                   }
                 ]
               }
@@ -30547,6 +30733,68 @@
                     "isPastHSC": true,
                     "hscYear": 2024,
                     "hscQuestionNumber": "18(a)",
+                    "hscSection": "Section IV — Change in the Modern World",
+                    "hscText": "Option A: Pro-democracy Movement in Burma 1945−2010"
+                  },
+                  {
+                    "id": "prompt-mh-hsc-2022-19c",
+                    "question": "To what extent did ethnic tensions and separatist uprisings influence the response of the military government from 1990−2010?",
+                    "totalMarks": 12,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "MH-12-01",
+                      "MH-12-07"
+                    ],
+                    "markerNotes": [
+                      "The top band takes a clear position on how far ethnic tensions and separatist uprisings shaped the regime's response, rather than listing them as background.",
+                      "Strong answers separate the regime's security response to ethnic groups (ceasefires, the Tatmadaw's role, the 2008 constitution) from its response to the NLD and the 2007 protests, and judge which was dominant.",
+                      "Specific evidence of the regime's ethnic policy and its effects, such as the ceasefire agreements from 1989, is needed for the top knowledge criterion."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing ethnic conflicts in Burma without linking them to the regime's response, so the question is never answered.",
+                      "Treating the 1990 to 2010 period as one unchanged policy, without distinguishing the early SLORC years from the period of the 2008 constitution.",
+                      "Claiming that ethnic policy alone explained the treatment of the NLD, without evidence of the regime's own priorities."
+                    ],
+                    "keywords": [
+                      "ethnic tensions",
+                      "separatist uprisings",
+                      "military government",
+                      "Tatmadaw",
+                      "State Law and Order Restoration Council",
+                      "ceasefire agreements",
+                      "2008 constitution"
+                    ],
+                    "markingCriteria": "11-12 marks: Provides a well-developed and reasoned judgement which clearly addresses the question; Supports the response with detailed and accurate historical knowledge and understanding; Presents a well-structured and logical response using appropriate historical terms and concepts\n9-10 marks: Provides a reasoned judgement which addresses the question; Supports the response with relevant and accurate historical knowledge and understanding; Presents a structured and logical response using historical terms and concepts\n6-8 marks: Provides a judgement which addresses the question; Uses relevant historical knowledge and understanding; Presents a structured response using historical terms and concepts\n3-5 marks: Provides a description relevant to the question (that may make an implied judgement); Uses some historical knowledge and understanding; Presents a response using some historical terms AND/OR concepts\n1-2 marks: Makes a general statement(s) in relation to the topic",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-hsc-2022-19c-1",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "The military government's response to the pro-democracy movement from 1990 to 2010 was shaped by many pressures, but ethnic tensions and separatist uprisings were a significant influence rather than the decisive one. The regime's core concern was to preserve its own power, and its most consequential choices, including the refusal to honour the 1990 election result, were driven by that goal. Nevertheless, the ethnic dimension shaped how the military ruled, and in several respects it made the regime more determined to hold a centralised state.\n\nEthnic tensions had deep roots. Several minority peoples, including the Karen, Kachin, Shan and Mon, had been in armed conflict with the central government for decades. When the State Law and Order Restoration Council (SLORC) took power after the 8888 Uprising in 1988, it inherited this conflict and had to manage armed resistance alongside protest in the cities. From 1989 the regime negotiated ceasefire agreements with several armed groups, which allowed it to concentrate on the National League for Democracy (NLD). This approach showed that the regime would make limited concessions to ethnic groups in order to isolate its main political challenge.\n\nSeparatist uprisings also reinforced the military's view of itself as the only force able to hold the country together. The Tatmadaw presented its rule as necessary to prevent the country from breaking apart, and this argument justified the army's dominant role in government and the economy. The 2008 constitution, approved in a referendum held after Cyclone Nargis, reserved a quarter of parliamentary seats for the military and gave it control of key ministries, which protected the army's position against any future civilian government.\n\nYet the evidence also points to limits on this influence. The regime's most violent responses were directed mainly at the democratic movement, including the crackdown on the 2007 protests led by Buddhist monks. The government's central fear was the loss of control to an elected opposition that had won the 1990 election by a large margin and had been denied power. Judged by these outcomes, ethnic tensions shaped the regime's methods and its security policy, but they did not determine its overall response. The influence was significant, though secondary to the regime's commitment to its own rule.",
+                        "feedback": "Meets the 11–12 row: a well-developed judgement on how far ethnic tensions shaped the response, supported by detailed and accurate evidence of ceasefires, the Tatmadaw and the 2008 constitution, in a logical structure. The judgement could be sharpened by testing the 1990 to 2010 timeline more closely.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-mh-hsc-2022-19c-2",
+                        "source": "AI",
+                        "mark": 7,
+                        "answer": "Ethnic tensions and separatist uprisings did influence the military government's response from 1990 to 2010, mainly by shaping its security policy. Several minority groups, including the Karen and the Kachin, had fought the central government for decades, and the military saw them as a threat to national unity. From 1989 the government signed ceasefire agreements with some armed groups, which allowed it to concentrate its forces against the NLD and the protesters in the cities. The 2008 constitution also reflected this concern, because it kept a large role for the Tatmadaw in government. However, the regime's main priority was keeping its own power, so the ethnic issue was one influence among several rather than the main cause of its response.",
+                        "feedback": "Meets the 6–8 row: gives a judgement that ethnic tensions were one influence among several, with relevant knowledge of ceasefires and the 2008 constitution. To reach 9–10, develop the judgement with more evidence of how far the influence was decisive, rather than only naming it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-hsc-2022-19c-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "The government faced ethnic tensions from groups that wanted separate states, and it used the army against these uprisings. It also used the military against the pro-democracy protests in the cities, so its response was mainly military.",
+                        "feedback": "Meets the 3–5 row: describes the ethnic conflict and the army's role with some relevant knowledge, but makes no judgement about how far the conflict influenced the response. To lift it, weigh the ethnic influence against the regime's fear of the NLD.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate historical knowledge and understanding relevant to the question\n• communicate ideas and information logically\n• use historical terms and concepts appropriately",
+                    "isPastHSC": true,
+                    "hscYear": 2022,
+                    "hscQuestionNumber": "19(c)",
                     "hscSection": "Section IV — Change in the Modern World",
                     "hscText": "Option A: Pro-democracy Movement in Burma 1945−2010"
                   }
@@ -31781,6 +32029,68 @@
                     "hscQuestionNumber": "19(c)",
                     "hscSection": "Section IV — Change in the Modern World",
                     "hscText": "Option B: The Cultural Revolution to Tiananmen Square 1966−1989"
+                  },
+                  {
+                    "id": "prompt-mh-hsc-2022-20c",
+                    "question": "To what extent did Deng Xiaoping’s economic reforms change Chinese society?",
+                    "totalMarks": 12,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "MH-12-02",
+                      "MH-12-03"
+                    ],
+                    "markerNotes": [
+                      "The top band weighs the economic changes against their social effects, and judges whether the reforms changed Chinese society deeply or only in limited ways.",
+                      "Strong answers use the Four Modernisations, the household responsibility system and the Special Economic Zones as evidence, then test whether these changes altered the political hierarchy.",
+                      "Answers that show the reforms changed the economy more than the political structure, with evidence for each claim, meet the top criteria."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing Deng's reforms in chronological order without judging how far they changed society.",
+                      "Confusing Deng's reforms with the Cultural Revolution, or placing the household responsibility system in the Mao period.",
+                      "Claiming the reforms brought political freedom, when the Tiananmen Square protests showed that the Communist Party kept political control."
+                    ],
+                    "keywords": [
+                      "Deng Xiaoping",
+                      "Four Modernisations",
+                      "Special Economic Zones",
+                      "household responsibility system",
+                      "iron rice bowl",
+                      "migrant workers",
+                      "open door policy"
+                    ],
+                    "markingCriteria": "11-12 marks: Provides a well-developed and reasoned judgement which clearly addresses the question; Supports the response with detailed and accurate historical knowledge and understanding; Presents a well-structured and logical response using appropriate historical terms and concepts\n9-10 marks: Provides a reasoned judgement which addresses the question; Supports the response with relevant and accurate historical knowledge and understanding; Presents a structured and logical response using historical terms and concepts\n6-8 marks: Provides a judgement which addresses the question; Uses relevant historical knowledge and understanding; Presents a structured response using historical terms and concepts\n3-5 marks: Provides a description relevant to the question (that may make an implied judgement); Uses some historical knowledge and understanding; Presents a response using some historical terms AND/OR concepts\n1-2 marks: Makes a general statement(s) in relation to the topic",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-hsc-2022-20c-1",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Deng Xiaoping's economic reforms changed Chinese society profoundly, although they changed it in uneven ways and did not alter its political structure. After Mao's death in 1976 and the end of the Cultural Revolution, Deng consolidated his leadership of the Chinese Communist Party and, at the Third Plenum of December 1978, committed the party to economic modernisation. The reforms transformed the lives of rural and urban people, but their limits were also clear.\n\nThe reforms transformed agriculture first. The household responsibility system allowed families to farm land under contract and keep a share of what they produced, which replaced the commune system. Rural incomes rose quickly in the early 1980s, and many peasants gained a degree of independence that the collective system had denied them. This shift was the foundation of the wider economic changes that followed.\n\nIndustrial and urban reform followed, guided by the Four Modernisations of agriculture, industry, science and technology, and defence. The open door policy brought foreign investment and technology into China, and the Special Economic Zones on the southern coast, such as Shenzhen, became centres of export manufacturing. The state's grip on employment loosened, and the iron rice bowl of guaranteed jobs and welfare in state enterprises gradually gave way. Millions of migrant workers left the countryside for the coastal cities, where they often lived in poor conditions and had limited access to services.\n\nSocial changes followed these economic shifts. Education was restored after the disruption of the Cultural Revolution, and the university entrance examination resumed in 1977. Consumer goods became far more available, and a new urban middle class emerged. Yet the reforms also created sharp inequalities between the coast and the interior, and between city and countryside. Families who had depended on lifetime employment faced new insecurity as state enterprises were restructured.\n\nThe reforms did not change the political structure of the one-party state. The Tiananmen Square protests of 1989 showed that economic liberalisation did not bring political liberalisation. On balance, Deng's economic reforms changed Chinese society more than any other policy of the period, but they transformed its economy and daily life more than its political hierarchy.",
+                        "feedback": "Meets the 11–12 row: a well-developed judgement that the reforms changed the economy and daily life more than the political structure, supported by detailed and accurate evidence of the household responsibility system, the Four Modernisations and the Special Economic Zones. The answer could weigh the social costs of the reforms more explicitly against their gains.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-mh-hsc-2022-20c-2",
+                        "source": "AI",
+                        "mark": 7,
+                        "answer": "Deng Xiaoping's economic reforms changed Chinese society in important ways, mainly by replacing the commune system with the household responsibility system and opening the economy to foreign investment. Farmers gained more control over what they grew and sold, and rural incomes rose. The Special Economic Zones on the coast attracted investment, and the growth of coastal industry drew migrant workers from the countryside. Education was restored and consumer goods became more available. However, the Communist Party kept its political control, and the Tiananmen Square protests showed that economic change did not bring political freedom. The reforms changed the economy and daily life more than the structure of the state.",
+                        "feedback": "Meets the 6–8 row: gives a judgement that the reforms changed the economy more than the state, with relevant knowledge of the household responsibility system and the Special Economic Zones. To reach 9–10, develop the judgement with evidence of the social costs and weigh them against the gains.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-hsc-2022-20c-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Deng's reforms changed the economy of China. Farmers were allowed to farm their own land, and factories began to work with foreign companies. Many people had better lives, but the Communist Party still controlled politics.",
+                        "feedback": "Meets the 3–5 row: describes the reforms and some of their effects with some accuracy, but does not judge how far society changed. To lift it, explain the Four Modernisations or the Special Economic Zones and weigh their effects.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate historical knowledge and understanding relevant to the question\n• communicate ideas and information logically\n• use historical terms and concepts appropriately",
+                    "isPastHSC": true,
+                    "hscYear": 2022,
+                    "hscQuestionNumber": "20(c)",
+                    "hscSection": "Section IV — Change in the Modern World",
+                    "hscText": "Option B: The Cultural Revolution to Tiananmen Square 1966−1989"
                   }
                 ]
               },
@@ -32844,6 +33154,68 @@
                     "isPastHSC": true,
                     "hscYear": 2019,
                     "hscQuestionNumber": "22(a)",
+                    "hscSection": "Section IV — Change in the Modern World",
+                    "hscText": "Option D: The Changing World Order 1945−2011"
+                  },
+                  {
+                    "id": "prompt-mh-hsc-2022-22c",
+                    "question": "To what extent did new centres of global power challenge US influence internationally between 1989−2011?",
+                    "totalMarks": 12,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "MH-12-02",
+                      "MH-12-04"
+                    ],
+                    "markerNotes": [
+                      "The top band defines what counts as a challenge to US influence, then judges its extent using evidence from both economic and security affairs.",
+                      "Strong answers use the rise of China and Russia's actions in 2008 as evidence, and recognise that the challenge was limited before the 2008 financial crisis.",
+                      "Answers that compare the economic and military dimensions, and reach a clear conclusion, meet the top criteria."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing China's economic growth without linking it to US influence.",
+                      "Treating the BRIC countries as a single bloc with a shared foreign policy against the United States.",
+                      "Ignoring the period after 2008, or writing as though the United States had already lost its dominance by 1989."
+                    ],
+                    "keywords": [
+                      "new centres of global power",
+                      "US influence",
+                      "rise of China",
+                      "BRIC",
+                      "Shanghai Cooperation Organisation",
+                      "WTO",
+                      "unipolar"
+                    ],
+                    "markingCriteria": "11-12 marks: Provides a well-developed and reasoned judgement which clearly addresses the question; Supports the response with detailed and accurate historical knowledge and understanding; Presents a well-structured and logical response using appropriate historical terms and concepts\n9-10 marks: Provides a reasoned judgement which addresses the question; Supports the response with relevant and accurate historical knowledge and understanding; Presents a structured and logical response using historical terms and concepts\n6-8 marks: Provides a judgement which addresses the question; Uses relevant historical knowledge and understanding; Presents a structured response using historical terms and concepts\n3-5 marks: Provides a description relevant to the question (that may make an implied judgement); Uses some historical knowledge and understanding; Presents a response using some historical terms AND/OR concepts\n1-2 marks: Makes a general statement(s) in relation to the topic",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-hsc-2022-22c-1",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "New centres of global power did challenge US influence between 1989 and 2011, but the extent of that challenge was limited before 2008 and grew substantially after it. The United States emerged from the Cold War in a unipolar position as the sole superpower, and its influence was wide-ranging in economics, security and diplomacy. The rise of China and, to a lesser degree, of Russia altered this position, though neither power sought to replace the US order, and their challenge was indirect rather than decisive.\n\nIn the 1990s the US enjoyed a dominant position. The Gulf War of 1991 showed the military reach of the United States, and institutions such as the World Trade Organisation (WTO) reinforced its economic leadership. China was growing rapidly, but it concentrated on domestic development and avoided confrontation with the United States. Its entry into the WTO in 2001 tied it more closely to the global economic order that the US had helped to shape, and this integration limited its capacity to challenge that order.\n\nThe first decade of the twenty-first century brought a more serious challenge. The rise of China accelerated, and its economy overtook Japan's to become the second largest in the world in 2010. Beijing hosted the Olympic Games in 2008, and the Shanghai Cooperation Organisation, formed in 2001 with Russia and Central Asian states, gave China and Russia a regional forum that excluded the US. Russia under Vladimir Putin recovered its economic and diplomatic weight, drawing on energy exports, and opposed the 2003 invasion of Iraq. The term BRIC, coined in 2001 for Brazil, Russia, India and China, showed how economic power was spreading beyond the West.\n\nThe 2008 global financial crisis weakened the reputation of the American economic model and increased the importance of forums such as the G20, where China and others had a greater voice. The Russo-Georgian War of 2008 confirmed Russia's willingness to use force in its neighbourhood, but it also showed the limits of its power.\n\nOverall, new centres of global power challenged US influence most clearly in economic and regional affairs, while the US remained the strongest military power. The challenge was real, but it stopped short of creating a new order, and by 2011 the US still held the largest network of alliances and the most powerful military.",
+                        "feedback": "Meets the 11–12 row: a well-developed judgement that the challenge was real but limited, supported by detailed and accurate evidence of China, Russia and the 2008 crisis, in a logical structure. The answer could define the criteria of 'challenge' more explicitly at the start.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-mh-hsc-2022-22c-2",
+                        "source": "AI",
+                        "mark": 7,
+                        "answer": "New centres of global power challenged US influence after 1989, mainly in economic affairs. China's economy grew rapidly and it joined the WTO in 2001, and by 2010 it was the second largest economy in the world. Russia under Vladimir Putin recovered from the economic collapse of the 1990s and used its energy exports to regain influence in Europe and Central Asia. The Beijing Olympics of 2008 displayed China's growing standing, and the Russo-Georgian War of 2008 showed Russia's willingness to act in its neighbourhood. However, the US remained the strongest military power and still led most of the world's major alliances, so these challenges were real but limited.",
+                        "feedback": "Meets the 6–8 row: gives a judgement that the challenge was real but limited, with relevant knowledge of China, Russia and the 2008 war. To reach 9–10, develop the judgement with evidence from the security sphere and explain why the challenge stopped short of a new order.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-hsc-2022-22c-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "China and Russia grew more powerful after 1989, and they sometimes disagreed with the United States. The US was still the strongest country, but other countries began to have more influence in world affairs.",
+                        "feedback": "Meets the 3–5 row: describes the growth of China and Russia with some relevant knowledge, but makes no clear judgement about the extent of the challenge. To lift it, name a specific example and weigh it against US strength.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate historical knowledge and understanding relevant to the question\n• communicate ideas and information logically\n• use historical terms and concepts appropriately",
+                    "isPastHSC": true,
+                    "hscYear": 2022,
+                    "hscQuestionNumber": "22(c)",
                     "hscSection": "Section IV — Change in the Modern World",
                     "hscText": "Option D: The Changing World Order 1945−2011"
                   }
