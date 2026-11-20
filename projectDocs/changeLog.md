@@ -1,5 +1,19 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-20 (Ancient History: six more years of HSC papers)
+
+- **Added (DATA_VERSION 2.61.0).** 414 past HSC questions from the 2019–2024 Ancient History papers (2017 syllabus),
+  each mapped to the 2024 dot point that still covers it, as the 2025 paper was. Every option gains 11–23 past
+  questions; most had 2–3.
+  - Stems, sources and marking-guideline ladders are NESA's, verbatim. NESA's own sample answers are the full-mark
+    exemplar where the guidelines print one; elsewhere the three samples (full, middle, bottom) are written to the
+    ladder. 25 printed figures (photographs, plans, frescoes, a price-list table) ship as `scenarioImage`, with a text
+    description kept in the scenario for the marker.
+  - Left out: the Sennacherib and Tiberius Gracchus options, which the 2024 syllabus drops; three parts whose source
+    NESA withheld for copyright; and a few parts no 2024 dot point covers (Spartan art, the site of Malkata).
+  - Verbatim extracts with their guidelines are in `data/referencePapers/ancient-history-2019…2024-paper-and-guidelines.json`;
+    each records in `edits` the few ladder rows reordered so a row opens with its verb.
+
 ## [Unreleased] - 2026-11-20 (Syllabus terms for short lists)
 
 - **Changed (DATA_VERSION 2.60.0).** 714 questions had fewer than six syllabus terms (1,263 of 6,811 before). 775 terms
