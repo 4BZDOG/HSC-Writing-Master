@@ -1,5 +1,18 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-20 (Missing Terms proposes terms, not fragments)
+
+- **Fixed.** The Content Studio's Missing Terms filter, and its Add Terms action, proposed verbs and broken phrases as
+  syllabus terms. Of 1,131 proposals on the shipped questions, about 300 were junk. Some were verbs not on the command
+  list ("develop", "promote", "gather"). Others were runs cut across a phrase boundary ("shape meaning", "country
+  studied", "Gather data", "field around"), and "Australias" came from dropping an apostrophe.
+  - `utils/syllabusTermGaps.ts`: prepositions and auxiliaries count as function words, and common non-command verbs
+    are recognised. A candidate that starts or ends on a function word or a verb form is not proposed. Possessives
+    keep their apostrophe ("Australia's").
+  - Every proposal now passes the syllabus-term rule (`isSyllabusTerm`), and Add Terms writes only what passes it.
+  - On the shipped data the filter falls from 926 questions to 765, and junk from about 300 proposals to about 100. No
+    shipped data changed: what is left is for a teacher to accept or not.
+
 ## [Unreleased] - 2026-11-20 (Syllabus terms that are terms)
 
 - **Fixed.** The syllabus-term rule no longer drops real terms. Named Acts, conventions and proper
