@@ -1471,7 +1471,8 @@
                       "authoring software",
                       "navigation menu",
                       "event",
-                      "trigger"
+                      "trigger",
+                      "hidden layer"
                     ],
                     "linkedOutcomes": [
                       "EC-11-08",
@@ -1525,7 +1526,8 @@
                       "interactive media",
                       "elements",
                       "faults",
-                      "navigation menu"
+                      "navigation menu",
+                      "unit testing"
                     ],
                     "linkedOutcomes": [
                       "EC-11-08",
@@ -3083,7 +3085,8 @@
                       "threat actor",
                       "vulnerabilities",
                       "phishing",
-                      "technology"
+                      "technology",
+                      "patching"
                     ],
                     "linkedOutcomes": [
                       "EC-11-03",
@@ -3268,7 +3271,8 @@
                       "physical security",
                       "biometrics",
                       "encryption",
-                      "firewall"
+                      "firewall",
+                      "password protection"
                     ],
                     "linkedOutcomes": [
                       "EC-11-03",
@@ -3323,7 +3327,8 @@
                       "multi-factor authentication",
                       "antivirus",
                       "backup",
-                      "budget"
+                      "budget",
+                      "ransomware"
                     ],
                     "linkedOutcomes": [
                       "EC-11-03",
@@ -4046,7 +4051,8 @@
                       "infrastructure",
                       "hardware",
                       "trends",
-                      "everyday computing"
+                      "everyday computing",
+                      "cloud computing"
                     ],
                     "linkedOutcomes": [
                       "EC-11-01",
@@ -4163,7 +4169,8 @@
                       "social network",
                       "friend suggestions",
                       "mutual friends",
-                      "shortest path"
+                      "shortest path",
+                      "nodes"
                     ],
                     "linkedOutcomes": [
                       "EC-11-05",
@@ -4457,7 +4464,8 @@
                       "individual cultural characteristic",
                       "start-up",
                       "business model",
-                      "collaboration"
+                      "collaboration",
+                      "milestones"
                     ],
                     "linkedOutcomes": [
                       "EC-11-01",
@@ -4990,7 +4998,8 @@
                       "Software as a Service",
                       "SaaS",
                       "timetabling",
-                      "provider"
+                      "provider",
+                      "security patches"
                     ],
                     "linkedOutcomes": [
                       "EC-11-06",
@@ -6184,7 +6193,8 @@
                       "biometric measures",
                       "access to networks",
                       "convenience",
-                      "fingerprint readers"
+                      "fingerprint readers",
+                      "phishing"
                     ],
                     "linkedOutcomes": [
                       "EC-11-03",
@@ -6487,7 +6497,8 @@
                       "work breakdown structure",
                       "wired and wireless network",
                       "sub-tasks",
-                      "milestones"
+                      "milestones",
+                      "access points"
                     ],
                     "linkedOutcomes": [
                       "EC-11-09",
@@ -10264,7 +10275,8 @@
                       "map",
                       "network diagram",
                       "postcode",
-                      "supplier"
+                      "supplier",
+                      "nodes"
                     ],
                     "linkedOutcomes": [
                       "EC-12-11"
@@ -10438,7 +10450,8 @@
                       "unstructured data",
                       "dataset",
                       "text mining",
-                      "query"
+                      "query",
+                      "data types"
                     ],
                     "linkedOutcomes": [
                       "EC-12-05",
@@ -10917,7 +10930,8 @@
                       "autofill",
                       "public",
                       "private",
-                      "encryption"
+                      "encryption",
+                      "data in transit"
                     ],
                     "linkedOutcomes": [
                       "EC-12-03"
@@ -12959,7 +12973,8 @@
                       "DSS",
                       "enterprise",
                       "inventory management",
-                      "financial planning"
+                      "financial planning",
+                      "investment appraisal"
                     ],
                     "markingCriteria": "2 marks: Identifies TWO distinct enterprise applications of a DSS, each briefly showing how it supports a decision\n1 mark: Identifies ONE relevant enterprise application of a DSS, OR Names TWO applications only",
                     "sampleAnswers": [
@@ -16180,7 +16195,8 @@
                       "reorder level",
                       "stock",
                       "spreadsheet",
-                      "maintenance"
+                      "maintenance",
+                      "macro"
                     ],
                     "linkedOutcomes": [
                       "EC-12-08",

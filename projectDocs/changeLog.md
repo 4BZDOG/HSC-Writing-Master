@@ -1,5 +1,13 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-20 (Syllabus terms for short lists)
+
+- **Changed (DATA_VERSION 2.60.0).** 714 questions had fewer than six syllabus terms (1,263 of 6,811 before). 775 terms
+  were added, mined from the phrases each question's own sample answers repeat, then curated: scenario details, generic
+  words, verbs and fragments were rejected, and each kept term or its head noun appears in a sample answer or the dot
+  point. Every addition passed the term rule. The thin count is now 612, and no list went past eight terms from these
+  additions. Off-Syllabus Terms stays at zero, and the Exemplar Mismatch count is unchanged at 86.
+
 ## [Unreleased] - 2026-11-20 (Missing Terms proposes terms, not fragments)
 
 - **Fixed.** The Content Studio's Missing Terms filter, and its Add Terms action, proposed verbs and broken phrases as

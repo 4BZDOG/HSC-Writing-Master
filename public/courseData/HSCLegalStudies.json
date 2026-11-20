@@ -220,7 +220,8 @@
                       "values",
                       "society",
                       "community",
-                      "public opinion"
+                      "public opinion",
+                      "bill"
                     ],
                     "linkedOutcomes": [
                       "LST-11-03",
@@ -936,7 +937,8 @@
                       "values",
                       "society",
                       "survey",
-                      "committee"
+                      "committee",
+                      "Parliament"
                     ],
                     "linkedOutcomes": [
                       "LST-11-03",
@@ -990,7 +992,8 @@
                       "values",
                       "society",
                       "survey",
-                      "committee"
+                      "committee",
+                      "privacy protection"
                     ],
                     "linkedOutcomes": [
                       "LST-11-03",
@@ -1592,7 +1595,8 @@
                       "legal system",
                       "outdated laws",
                       "technology",
-                      "law reform"
+                      "law reform",
+                      "defamation law"
                     ],
                     "linkedOutcomes": [
                       "LST-11-03",
@@ -6073,7 +6077,8 @@
                       "common law",
                       "Australia",
                       "judges",
-                      "precedent"
+                      "precedent",
+                      "colonial law"
                     ],
                     "linkedOutcomes": [
                       "LST-11-01",
@@ -6941,7 +6946,8 @@
                       "Legislative Council",
                       "bill",
                       "assent",
-                      "New South Wales"
+                      "New South Wales",
+                      "single-member electorates"
                     ],
                     "linkedOutcomes": [
                       "LST-11-03",
@@ -7293,7 +7299,8 @@
                       "inconsistency",
                       "Commonwealth law",
                       "New South Wales",
-                      "section 51"
+                      "section 51",
+                      "state law"
                     ],
                     "linkedOutcomes": [
                       "LST-11-01",
@@ -7468,7 +7475,8 @@
                       "Constitution",
                       "Commonwealth law",
                       "section 51",
-                      "invalid"
+                      "invalid",
+                      "final court of appeal"
                     ],
                     "linkedOutcomes": [
                       "LST-11-01",
@@ -7821,7 +7829,8 @@
                       "international law",
                       "nation-states",
                       "consent",
-                      "treaty"
+                      "treaty",
+                      "supreme authority"
                     ],
                     "linkedOutcomes": [
                       "LST-11-02",
@@ -7940,7 +7949,8 @@
                       "nation-states",
                       "international law",
                       "treaty",
-                      "domestic law"
+                      "domestic law",
+                      "pacta sunt servanda"
                     ],
                     "linkedOutcomes": [
                       "LST-11-02",
@@ -8298,7 +8308,8 @@
                       "resolving disputes",
                       "International Court of Justice",
                       "jurisdiction",
-                      "nation-states"
+                      "nation-states",
+                      "contentious cases"
                     ],
                     "linkedOutcomes": [
                       "LST-11-01",
@@ -8474,7 +8485,8 @@
                       "international law",
                       "treaty",
                       "nation-states",
-                      "campaign"
+                      "campaign",
+                      "Ottawa Convention"
                     ],
                     "linkedOutcomes": [
                       "LST-11-02",
@@ -8777,7 +8789,8 @@
                       "international",
                       "protection of rights",
                       "mechanism",
-                      "Human Rights Committee"
+                      "Human Rights Committee",
+                      "court system"
                     ],
                     "linkedOutcomes": [
                       "LST-11-01",
@@ -8896,7 +8909,8 @@
                       "breach of rights",
                       "remedies",
                       "damages",
-                      "injunction"
+                      "injunction",
+                      "civil remedies"
                     ],
                     "linkedOutcomes": [
                       "LST-11-01",
@@ -8951,7 +8965,8 @@
                       "breach of rights",
                       "remedies",
                       "damages",
-                      "false imprisonment"
+                      "false imprisonment",
+                      "civil remedies"
                     ],
                     "linkedOutcomes": [
                       "LST-11-01",
@@ -9144,7 +9159,8 @@
                       "mens rea",
                       "causation",
                       "intention",
-                      "criminal law"
+                      "criminal law",
+                      "guilty mind"
                     ],
                     "linkedOutcomes": [
                       "LST-11-01",
@@ -9316,7 +9332,8 @@
                       "mens rea",
                       "stolen",
                       "prosecution",
-                      "guilty mind"
+                      "guilty mind",
+                      "physical act"
                     ],
                     "linkedOutcomes": [
                       "LST-11-03",
@@ -9850,7 +9867,8 @@
                       "justice",
                       "criminal case",
                       "presumption of innocence",
-                      "fair trial"
+                      "fair trial",
+                      "legal advice"
                     ],
                     "linkedOutcomes": [
                       "LST-11-06",
@@ -9974,7 +9992,8 @@
                       "purpose",
                       "characteristics",
                       "compensation",
-                      "balance of probabilities"
+                      "balance of probabilities",
+                      "defendant"
                     ],
                     "linkedOutcomes": [
                       "LST-11-01",
@@ -11385,7 +11404,9 @@
                       "Ombudsman",
                       "investigating complaints",
                       "remedies",
-                      "recommendations"
+                      "recommendations",
+                      "jurisdiction",
+                      "complaints process"
                     ],
                     "linkedOutcomes": [
                       "LST-11-01",
@@ -11620,7 +11641,8 @@
                       "findings",
                       "recommendations",
                       "over-representation",
-                      "imprisonment"
+                      "imprisonment",
+                      "deaths in custody"
                     ],
                     "linkedOutcomes": [
                       "LST-11-03",
@@ -11736,7 +11758,8 @@
                       "justice",
                       "procedural fairness",
                       "access to justice",
-                      "fairness"
+                      "fairness",
+                      "right to be heard"
                     ],
                     "linkedOutcomes": [
                       "LST-11-01",
@@ -12943,7 +12966,8 @@
                       "young people",
                       "legal advice",
                       "remote areas",
-                      "cognitive impairment"
+                      "cognitive impairment",
+                      "defence"
                     ],
                     "linkedOutcomes": [
                       "LST-11-04",
@@ -19623,7 +19647,8 @@
                       "function",
                       "complaints",
                       "conciliation",
-                      "inquiries"
+                      "inquiries",
+                      "statutory body"
                     ],
                     "markingCriteria": "4 marks: Describes at least two functions of the Australian Human Rights Commission accurately (for example, handling complaints through conciliation, conducting national inquiries, educating the public and advising on legislation) and explains why these functions are important for protecting human rights\n3 marks: Describes two functions accurately with limited explanation of importance\n2 marks: Describes one function accurately\n1 mark: Makes a general statement about the Commission",
                     "sampleAnswers": [
@@ -29336,7 +29361,8 @@
                       "media",
                       "humanitarian response",
                       "advocacy",
-                      "state sovereignty"
+                      "state sovereignty",
+                      "public opinion"
                     ],
                     "markingCriteria": "6 marks: Analyses clearly how non-government organisations and the media influence government responses to conflict, weighing the role of evidence, public attention and the limits on that influence, with precise examples\n5 marks: Analyses at least one way in which these actors influence government response, with accurate examples and some explanation of limits\n4 marks: Analyses one way of influence with accurate detail\n3 marks: Describes an influence of non-government organisations or the media with some accuracy\n2 marks: Identifies a way these actors act on governments, with limited explanation\n1 mark: Makes a general statement about influence",
                     "sampleAnswers": [
@@ -32209,7 +32235,8 @@
                       "non-government organisations",
                       "media",
                       "workers' rights",
-                      "law reform"
+                      "law reform",
+                      "collective bargaining"
                     ],
                     "markingCriteria": "8 marks: Makes a sustained assessment of how far trade unions, non-government organisations and the media can influence the law, weighing their different methods, their access to decision-makers and their limits, and reaches a supported judgement using the scenario\n6-7 marks: Assesses the influence of one or two of these groups with reasoning, a limitation and some application to the scenario\n4-5 marks: Describes the roles of the groups with some judgement about their influence\n2-3 marks: Identifies or describes one group and its role, with limited or minimal comment on its influence\n1 mark: Makes a general statement that groups influence the law",
                     "sampleAnswers": [
@@ -35068,7 +35095,8 @@
                       "society",
                       "values",
                       "reflection",
-                      "marriage"
+                      "marriage",
+                      "Marriage Act 1961"
                     ],
                     "linkedOutcomes": [
                       "LST-12-03",
@@ -35790,7 +35818,8 @@
                       "criteria",
                       "legal assistance",
                       "courts and tribunals",
-                      "enforce"
+                      "enforce",
+                      "legal processes"
                     ],
                     "linkedOutcomes": [
                       "LST-12-06",
