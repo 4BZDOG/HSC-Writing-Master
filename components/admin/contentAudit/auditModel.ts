@@ -248,20 +248,34 @@ export const hasSyllabusTermGaps = (n: TreeNode): boolean => syllabusTermGaps(n)
  * the library, and Immer hands back the same object for anything a batch task
  * did not touch.
  */
-const offSyllabusCache = new WeakMap<Prompt, boolean>();
+const offSyllabusCache = new WeakMap<Prompt, { dotPointText: string; result: boolean }>();
 
-export const offSyllabusTermCount = (prompt: Prompt): number => {
+/**
+ * The text a term may be drawn from: the question, its scenario and the dot
+ * point it answers. A phrase the text uses verbatim is a term even when it is
+ * longer than a clause-length cap, so the dot point has to be part of it.
+ */
+export const termContextFor = (prompt: Prompt, dotPointText?: string): string =>
+  [prompt.question, prompt.scenario, dotPointText].filter(Boolean).join(' ');
+
+export const offSyllabusTermCount = (prompt: Prompt, dotPointText?: string): number => {
   const listed = (prompt.keywords ?? []).filter((k) => typeof k === 'string' && k.trim());
-  return listed.length - dropNonSyllabusTerms(listed, prompt.verb).length;
+  const context = termContextFor(prompt, dotPointText);
+  return listed.length - dropNonSyllabusTerms(listed, prompt.verb, context).length;
 };
 
+/**
+ * Keyed on the dot point's text as well as the prompt object, for the same
+ * reason `termGapCache` is: the answer depends on the dot point's own words.
+ */
 export const hasOffSyllabusTerms = (n: TreeNode): boolean => {
   if (n.type !== 'prompt') return false;
   const prompt = n.dataRef as Prompt;
+  const dotPointText = n.dotPointText ?? '';
   const cached = offSyllabusCache.get(prompt);
-  if (cached !== undefined) return cached;
-  const result = offSyllabusTermCount(prompt) > 0;
-  offSyllabusCache.set(prompt, result);
+  if (cached && cached.dotPointText === dotPointText) return cached.result;
+  const result = offSyllabusTermCount(prompt, dotPointText) > 0;
+  offSyllabusCache.set(prompt, { dotPointText, result });
   return result;
 };
 
@@ -418,7 +432,7 @@ export const AUDIT_FILTERS: AuditFilterDefinition[] = [
     id: 'offSyllabusTerms',
     label: 'Off-Syllabus Terms',
     title:
-      'Questions whose Syllabus Terms list carries something that is not a syllabus term — a command verb in any form ("evaluate", "evaluating"), a lone word the whole subject is written in ("security", "testing"), a generic academic word, a connective like "therefore", an over-long phrase, or a duplicate. A phrase built on one of those words is left alone: the subject matter is in the noun. Tidy Terms removes the rest without touching the real terms, and needs no AI.',
+      'Questions whose Syllabus Terms list carries something that is not a syllabus term — a command verb in any form ("evaluate", "evaluating"), a lone word the whole subject is written in ("security", "testing"), a generic academic word, a connective like "therefore", an over-long phrase (past six words; a named Act or other proper name, or a phrase the question or dot point uses, may run longer), task-instruction wording such as "close reference to the prescribed text", or a duplicate. A phrase built on one of those words is left alone: the subject matter is in the noun. Tidy Terms removes the rest without touching the real terms, and needs no AI.',
     tone: 'sky',
     group: 'review',
     matches: hasOffSyllabusTerms,

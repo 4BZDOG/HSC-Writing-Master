@@ -1063,7 +1063,6 @@
                     "keywords": [
                       "ethical issues",
                       "scientific knowledge",
-                      "development",
                       "pesticide",
                       "bees",
                       "waterways"
@@ -1118,7 +1117,6 @@
                     "keywords": [
                       "ethical issues",
                       "scientific knowledge",
-                      "development",
                       "test data",
                       "evidence",
                       "farmers",
@@ -1425,7 +1423,6 @@
                     "markingCriteria": "3 marks: Outlines correct use of the burette, including reading at eye level and recording each reading with units straight away, so the data are reliable\n2 marks: Outlines two relevant steps for using the burette and recording its volume readings\n1 mark: Identifies a relevant step for reading or recording the burette",
                     "keywords": [
                       "equipment",
-                      "data",
                       "record",
                       "evidence",
                       "burette",
@@ -1482,7 +1479,6 @@
                     "markingCriteria": "6 marks: Assesses how the named errors in equipment use and data recording affect the accuracy, precision and reliability of the findings, and judges how far each error could change the conclusion\n5 marks: Assesses how errors in equipment use and data recording could affect the findings, with a clear judgement of their effect\n4 marks: Discusses at least two sources of error in equipment or data recording and links them to the findings\n3 marks: Identifies two sources of error and describes how each could affect the data\n2 marks: Identifies one source of error in the equipment or data\n1 mark: Provides some relevant information about errors in the investigation",
                     "keywords": [
                       "equipment",
-                      "data",
                       "record",
                       "systematic error",
                       "random error",
@@ -1545,8 +1541,6 @@
                     "markingCriteria": "4 marks: Describes three distinct types of secondary source for ethanol and gives a specific advantage of each for the report\n3 marks: Describes three types of secondary source relevant to ethanol, with an advantage given for some of them\n2 marks: Identifies two types of secondary source for gathering information about ethanol\n1 mark: Identifies a relevant secondary source for the report",
                     "keywords": [
                       "secondary sources",
-                      "data",
-                      "information",
                       "reliability",
                       "textbook",
                       "peer-reviewed journal",
@@ -1602,8 +1596,6 @@
                     "markingCriteria": "6 marks: Analyses the reliability of each source using criteria such as author expertise, currency and purpose, and judges which data and information can be trusted for the report\n5 marks: Analyses the reliability of each source with relevant criteria and judges which source is most trustworthy\n4 marks: Analyses the reliability of at least two sources with some relevant criteria\n3 marks: Describes features of the sources that affect their reliability, with limited analysis\n2 marks: Identifies a feature of one source that affects its reliability\n1 mark: Provides some relevant information about the sources",
                     "keywords": [
                       "secondary sources",
-                      "data",
-                      "information",
                       "reliability",
                       "peer-reviewed",
                       "credible",
@@ -1788,7 +1780,6 @@
                     "markingCriteria": "3 marks: Explains that values in different units cannot be compared directly, and that quantitative processes put the data on one consistent scale\n2 marks: Explains that the units must match before the data are compared\n1 mark: Identifies that the units of the data differ",
                     "keywords": [
                       "quantitative processes",
-                      "data",
                       "consistent units",
                       "comparison",
                       "millilitres",
@@ -1843,7 +1834,6 @@
                     "markingCriteria": "5 marks: Analyses how mixed units distort the graph and the reading of the trend, and explains why quantitative processes must come before the data are displayed\n4 marks: Analyses how mixed units would distort the graph, with some reasons for the effect on the reader\n3 marks: Explains that the trials would be shown on different scales, so the trend would be wrong\n2 marks: Identifies a way that mixed units would affect the graph\n1 mark: Provides some relevant information about units in the graph",
                     "keywords": [
                       "quantitative processes",
-                      "data",
                       "consistent units",
                       "laboratory report",
                       "misleading",
@@ -1906,7 +1896,6 @@
                     "keywords": [
                       "representations",
                       "organise",
-                      "data",
                       "tables",
                       "graphs",
                       "diagrams",
@@ -1963,7 +1952,6 @@
                     "keywords": [
                       "representations",
                       "graphs",
-                      "data",
                       "line graph",
                       "column graph",
                       "organise"
@@ -2024,7 +2012,6 @@
                     "markingCriteria": "4 marks: Outlines the authors, year, title, journal name, volume, issue, page numbers and DOI to record from the article, and shows how each supports an accepted referencing style\n3 marks: Outlines most of the key details of a journal article needed for an accepted referencing style\n2 marks: Identifies two details to record from the article for referencing\n1 mark: Identifies one detail of the article that should be recorded",
                     "keywords": [
                       "extract data",
-                      "information",
                       "sources",
                       "acknowledge",
                       "referencing style",
@@ -2389,8 +2376,6 @@
                       "patterns",
                       "trends",
                       "inconsistencies",
-                      "data",
-                      "information",
                       "volume",
                       "marble",
                       "limiting reactant"
@@ -2446,7 +2431,6 @@
                       "patterns",
                       "trends",
                       "inconsistencies",
-                      "data",
                       "boiling point",
                       "molar mass",
                       "hydrogen bonding",
@@ -2510,8 +2494,7 @@
                       "random error",
                       "systematic error",
                       "uncertainty",
-                      "limitations",
-                      "data"
+                      "limitations"
                     ],
                     "linkedOutcomes": [
                       "CH-11WS-04",
@@ -2629,8 +2612,7 @@
                       "reliability",
                       "accuracy",
                       "precision",
-                      "balance",
-                      "data"
+                      "balance"
                     ],
                     "linkedOutcomes": [
                       "CH-11WS-05"
@@ -2743,7 +2725,6 @@
                     "markingCriteria": "3 marks: Outlines how the result is identified as an outlier by comparing it with the other repeat trials and checking for a recorded cause, and states that it should be excluded only with a documented reason\n2 marks: Outlines that the 4.1 °C result differs markedly from the other trials, with some reason for how it should be treated\n1 mark: Identifies the 4.1 °C result as different from the other trials",
                     "keywords": [
                       "outlier",
-                      "data",
                       "temperature",
                       "repeat trials",
                       "exclude"
@@ -2796,9 +2777,7 @@
                     "scenario": "Hypothetical: A student adds different masses of magnesium ribbon to 50 mL of excess 2.0 mol L⁻¹ hydrochloric acid in a polystyrene cup and records the temperature rise. A mass of 0.05 g gives a rise of 4.6 °C, 0.10 g gives 9.2 °C, 0.15 g gives 13.8 °C and 0.20 g gives 18.4 °C. The student has no data for masses above 0.20 g.",
                     "markingCriteria": "6 marks: Extrapolates the linear trend to predict that the temperature rise for 0.30 g would continue to increase in equal steps, explains the assumptions needed such as excess acid, and discusses the limitations of predicting beyond the data\n5 marks: Extrapolates the trend to predict a larger rise for 0.30 g, with an explanation of the assumptions and some limitation of the prediction\n4 marks: Extrapolates the trend to predict a larger rise for 0.30 g, with some reference to the data\n3 marks: Describes the pattern in the data, that the temperature rise increases in equal steps for equal masses\n2 marks: Identifies that the temperature rise increases as the mass increases\n1 mark: Provides some relevant information",
                     "keywords": [
-                      "data",
                       "predictions",
-                      "extrapolate",
                       "temperature",
                       "magnesium",
                       "trend",
@@ -2860,7 +2839,6 @@
                     "markingCriteria": "4 marks: Outlines two specific weaknesses in the method, such as the reading precision of the balance and the lack of repeat trials, and suggests a clear improvement for each\n3 marks: Outlines two weaknesses in the method with a suggested improvement for one of them\n2 marks: Identifies one weakness in the method with a relevant improvement\n1 mark: Provides some relevant information about the method",
                     "keywords": [
                       "improvement",
-                      "method",
                       "balance",
                       "surface area",
                       "mass"
@@ -2914,7 +2892,6 @@
                     "scenario": "Hypothetical: A student compares how the surface area of calcium carbonate affects the reaction rate with dilute hydrochloric acid. The powder reaches a steady mass after about 90 seconds, and the chips take about 3 minutes, with one trial each on a balance reading to 0.1 g. The flask was open to the air and the temperature of the acid was not recorded.",
                     "markingCriteria": "8 marks: Evaluates the data and the method, judging the reliability and validity of the results and the significance of the weaknesses, and suggests specific improvements and further investigations that would strengthen the conclusion\n7 marks: Evaluates the reliability of the data and the method, with clear and sound suggestions for improvements and a further investigation\n5-6 marks: Evaluates some weaknesses of the data and the method, with suggestions for improvements that relate to them\n3-4 marks: Discusses the data with some weaknesses identified, and suggests an improvement\n2 marks: Identifies a weakness in the method or the data\n1 mark: Provides some relevant information",
                     "keywords": [
-                      "data",
                       "improvements",
                       "investigations",
                       "surface area",
@@ -3333,7 +3310,6 @@
                     "keywords": [
                       "modelling",
                       "cause-and-effect relationship",
-                      "predict",
                       "particle model",
                       "pressure",
                       "kinetic energy",
@@ -3391,8 +3367,7 @@
                       "cause-and-effect relationship",
                       "collision model",
                       "surface area",
-                      "carbon dioxide",
-                      "predict"
+                      "carbon dioxide"
                     ],
                     "linkedOutcomes": [
                       "CH-11WS-06",
@@ -4168,7 +4143,6 @@
                       "heterogeneous mixtures",
                       "filtration",
                       "particle size",
-                      "solution",
                       "dissolved"
                     ],
                     "linkedOutcomes": [
@@ -4860,7 +4834,6 @@
                     "scenario": "Chlorine has two naturally occurring isotopes, chlorine-35 and chlorine-37. Each isotope forms a neutral atom with 17 electrons.",
                     "markingCriteria": "4 marks: Explains that the electron arrangement is the same in both isotopes and controls bonding, so the chemical properties are similar, and notes that the extra neutrons change only the mass and density\n3 marks: Explains that both isotopes have the same electrons and so bond in the same way, with a clear example\n2 marks: Describes how chlorine-35 and chlorine-37 react in a similar way without explaining why\n1 mark: Provides some relevant information about isotopes or chlorine",
                     "keywords": [
-                      "examples",
                       "chemical properties",
                       "densities",
                       "isotopes",
@@ -4914,7 +4887,6 @@
                     "scenario": "Heavy water (D₂O) is water in which the hydrogen atoms are replaced by deuterium, an isotope of hydrogen with one proton and one neutron in its nucleus. Ordinary water (H₂O) contains hydrogen whose nucleus has no neutrons.",
                     "markingCriteria": "5 marks: Applies the idea of isotopes to explain that deuterium has the same electrons and bonding as hydrogen, so chemical properties are similar, and that the extra neutron increases mass and density\n4 marks: Applies the idea of isotopes to explain both the similar chemical properties and the higher density of heavy water\n3 marks: Explains that deuterium and hydrogen are isotopes with the same electrons, with some reference to the density difference\n2 marks: Identifies that heavy water contains deuterium without linking this to chemical properties or density\n1 mark: Provides some relevant information about isotopes or water",
                     "keywords": [
-                      "examples",
                       "chemical properties",
                       "densities",
                       "isotopes",
@@ -6726,7 +6698,6 @@
                       "atomic radii",
                       "tabulate",
                       "plot",
-                      "data",
                       "reliable sources"
                     ],
                     "linkedOutcomes": [
@@ -6780,8 +6751,7 @@
                       "atomic radii",
                       "first ionisation energy",
                       "electronegativity",
-                      "reliability",
-                      "data"
+                      "reliability"
                     ],
                     "linkedOutcomes": [
                       "CH-11-01"
@@ -6838,7 +6808,6 @@
                     "keywords": [
                       "trends",
                       "atomic radii",
-                      "data",
                       "Period 3",
                       "nuclear charge",
                       "outer shell"
@@ -7302,7 +7271,6 @@
                       "lattice formation",
                       "delocalised electrons",
                       "metal cations",
-                      "model",
                       "electrostatic attraction"
                     ],
                     "linkedOutcomes": [
@@ -7354,7 +7322,6 @@
                     "keywords": [
                       "metallic bonding",
                       "lattice formation",
-                      "model",
                       "delocalised electrons",
                       "metal cations",
                       "electrostatic attraction"
@@ -8966,7 +8933,6 @@
                     "scenario": "Hypothetical: A teacher's diagrams show ionic compounds as an alternating lattice of ions, covalent substances as ball-and-stick molecules, and metals as a lattice of cations in a sea of electrons.",
                     "markingCriteria": "3 marks: Explains how the lattice model shows the regular arrangement and electrostatic attraction that account for the properties of an ionic compound, including its melting point\n2 marks: Identifies the regular arrangement of ions in the model and links it to an ionic compound\n1 mark: Provides some relevant information about models or ionic compounds",
                     "keywords": [
-                      "models",
                       "ionic compound",
                       "lattice",
                       "electrostatic attraction",
@@ -9020,7 +8986,6 @@
                     "scenario": "Hypothetical: A year 11 student's report compares a ball-and-stick model of methane with a sea-of-electrons model of copper, and claims that both models show the key characteristics of their compounds.",
                     "markingCriteria": "5 marks: Discusses the usefulness of each model for its compound and evaluates the limitations of each, showing that each is a simplified representation\n4 marks: Discusses the usefulness of each model, with at least one limitation for each\n3 marks: Describes what each model shows for its compound, with limited comment on limitations\n2 marks: Identifies one feature shown by a model, or one limitation of a model\n1 mark: Provides some relevant information about models of compounds",
                     "keywords": [
-                      "models",
                       "ball-and-stick",
                       "sea-of-electrons",
                       "limitations",
@@ -9667,7 +9632,6 @@
                       "law of conservation of mass",
                       "practical investigation",
                       "chemical reaction",
-                      "model",
                       "closed system",
                       "sodium carbonate"
                     ],
@@ -10330,7 +10294,6 @@
                       "concentration",
                       "ppb",
                       "percentage volume",
-                      "justify",
                       "solute"
                     ],
                     "linkedOutcomes": [
@@ -10390,7 +10353,6 @@
                       "moles",
                       "volume",
                       "solute",
-                      "solution",
                       "sodium chloride"
                     ],
                     "linkedOutcomes": [
@@ -10444,7 +10406,6 @@
                       "moles",
                       "solute",
                       "volumetric flask",
-                      "solution",
                       "volume"
                     ],
                     "linkedOutcomes": [
@@ -12808,7 +12769,6 @@
                       "chemical reaction",
                       "medicine",
                       "agriculture",
-                      "impact",
                       "evidence"
                     ],
                     "linkedOutcomes": [
@@ -12860,7 +12820,6 @@
                     "keywords": [
                       "neutralise",
                       "agriculture",
-                      "impact",
                       "secondary source",
                       "limitations",
                       "chemical reaction"
@@ -14780,8 +14739,7 @@
                       "reliability",
                       "anonymous author",
                       "date",
-                      "reference",
-                      "method"
+                      "reference"
                     ],
                     "linkedOutcomes": [
                       "CH-12WS-01"
@@ -14833,7 +14791,6 @@
                       "secondary data",
                       "reliability",
                       "planning",
-                      "method",
                       "textbook",
                       "author"
                     ],
@@ -15118,7 +15075,6 @@
                     "markingCriteria": "3 marks: Describes an ethical issue in the development and an ethical issue in the use of the pesticide, each linked to the scientific knowledge available\n2 marks: Describes one ethical issue in the development or use of the pesticide\n1 mark: Provides some relevant information about ethics in science",
                     "keywords": [
                       "ethical issues",
-                      "development",
                       "scientific knowledge",
                       "pesticide",
                       "regulator"
@@ -15171,7 +15127,6 @@
                     "markingCriteria": "5 marks: Discusses the ethical issues in both the development and use of the compound, weighing the duty to report results against commercial pressure and environmental risk, and reaches a supported position\n4 marks: Discusses the duty to report the results honestly and at least one ethical issue in the use of the compound, with sound reasoning\n3 marks: Describes an ethical issue in the development or use of the compound, with some reference to scientific knowledge\n2 marks: Identifies an ethical concern about the environment or about reporting the results\n1 mark: Provides some relevant information about ethics in science",
                     "keywords": [
                       "ethical issues",
-                      "development",
                       "scientific knowledge",
                       "environment",
                       "published",
@@ -15523,8 +15478,6 @@
                     "markingCriteria": "3 marks: Describes two features of the secondary sources to check, such as authorship, date or method, and explains why each helps the student use the data\n2 marks: Describes one feature of the secondary sources to check before gathering data\n1 mark: Provides some relevant information about secondary sources",
                     "keywords": [
                       "secondary sources",
-                      "data",
-                      "information",
                       "database",
                       "video",
                       "combustion"
@@ -15578,8 +15531,6 @@
                     "markingCriteria": "6 marks: Assesses the reliability of the data and information in all three sources with sound reasons based on authorship, method, date and origin, and judges which should be used in the report on biofuels\n5 marks: Assesses the data and information in the sources with sound reasons, and makes a judgement about which to use for biofuels\n4 marks: Explains why the data book and database are more reliable than the forum, with reference to their origin\n3 marks: Describes features of each source that affect its data and information, with some reference to biofuels\n2 marks: Identifies that one source is less reliable than the others, with some reason\n1 mark: Provides some relevant information about secondary sources",
                     "keywords": [
                       "secondary sources",
-                      "data",
-                      "information",
                       "reliability",
                       "biofuels",
                       "database"
@@ -15758,7 +15709,6 @@
                     "markingCriteria": "4 marks: Describes a sequence that checks every unit, converts the mixed volumes to one unit, checks the converted values, and only then applies the quantitative process\n3 marks: Describes converting the mixed units to one unit before a quantitative process is applied, with a reason\n2 marks: Identifies that the millilitre and litre values must be put into the same unit\n1 mark: Provides some relevant information about the units in the data",
                     "keywords": [
                       "quantitative processes",
-                      "data",
                       "unit conversions",
                       "millilitres",
                       "litres",
@@ -15874,7 +15824,6 @@
                       "representations",
                       "graph",
                       "table",
-                      "data",
                       "trials"
                     ],
                     "linkedOutcomes": [
@@ -15928,7 +15877,6 @@
                       "graph",
                       "table",
                       "spreadsheet",
-                      "data",
                       "report"
                     ],
                     "linkedOutcomes": [
@@ -15987,8 +15935,6 @@
                       "referencing style",
                       "sources",
                       "acknowledge",
-                      "information",
-                      "data",
                       "website"
                     ],
                     "linkedOutcomes": [
@@ -16039,8 +15985,6 @@
                     "markingCriteria": "6 marks: Assesses the reliability of each source and of the data extracted from it, and judges that all three sources must be acknowledged in an accepted referencing style, with a consequence for the report\n5 marks: Assesses the reliability of at least two sources and the adequacy of the referencing, with a clear judgement\n4 marks: Explains how the reliability of the sources differs, with some reference to the referencing style\n3 marks: Describes the sources and the data taken from each, with some comment on the referencing\n2 marks: Identifies the journal article and the database as sources of data\n1 mark: Provides some relevant information about the sources",
                     "keywords": [
                       "sources",
-                      "data",
-                      "information",
                       "referencing style",
                       "acknowledge",
                       "reliability"
@@ -17548,8 +17492,6 @@
                       "peer review",
                       "scientific conclusion",
                       "evaluation",
-                      "data",
-                      "method",
                       "control"
                     ],
                     "linkedOutcomes": [
@@ -17603,8 +17545,7 @@
                       "argument",
                       "peer review",
                       "conclusion",
-                      "control",
-                      "data"
+                      "control"
                     ],
                     "linkedOutcomes": [
                       "CH-12WS-05",
@@ -17829,8 +17770,7 @@
                       "nomenclature",
                       "scientific language",
                       "audience",
-                      "hydrochloric acid",
-                      "method"
+                      "hydrochloric acid"
                     ],
                     "linkedOutcomes": [
                       "CH-12WS-07",

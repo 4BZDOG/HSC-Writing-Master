@@ -439,7 +439,7 @@ const GapBadgesInner: React.FC<{ node: TreeNode }> = ({ node }) => {
         title: `The dot point and this question are built on ${termGaps.length === 1 ? 'a term' : 'terms'} the Syllabus Terms list leaves out: ${termGaps.join(', ')}`,
       });
     if (matchesFilter(node, 'offSyllabusTerms')) {
-      const stray = offSyllabusTermCount(node.dataRef as Prompt);
+      const stray = offSyllabusTermCount(node.dataRef as Prompt, node.dotPointText);
       badges.push({
         label: 'Off-Syllabus Terms',
         tone: AUDIT_TONE.sky.badge,

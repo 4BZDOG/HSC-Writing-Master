@@ -38,6 +38,7 @@ import {
   hasSamplesToRecalibrate,
   hasOffSyllabusTerms,
   offSyllabusTermCount,
+  termContextFor,
   syllabusTermGaps,
   hasThinTerms,
   broadenTermList,
@@ -1479,14 +1480,16 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
    */
   const handleTidyTerms = () => {
     if (isProcessing) return;
-    const targets: { path: StatePath; label: string; dropped: number }[] = [];
+    const targets: { path: StatePath; label: string; dropped: number; dotPointText: string }[] = [];
     selectedIds.forEach((id) => {
       const node = flatMap.get(id);
       if (!node || !hasOffSyllabusTerms(node)) return;
+      const dotPointText = node.dotPointText ?? '';
       targets.push({
         path: node.path,
         label: node.label,
-        dropped: offSyllabusTermCount(node.dataRef as Prompt),
+        dropped: offSyllabusTermCount(node.dataRef as Prompt, dotPointText),
+        dotPointText,
       });
     });
     if (targets.length === 0) return;
@@ -1494,9 +1497,14 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     const droppedTotal = targets.reduce((sum, t) => sum + t.dropped, 0);
 
     updateCourses((draft) => {
-      targets.forEach(({ path }) => {
+      targets.forEach(({ path, dotPointText }) => {
         const prompt = findDraftPrompt(draft, path);
-        if (prompt) prompt.keywords = dropNonSyllabusTerms(prompt.keywords, prompt.verb);
+        if (prompt)
+          prompt.keywords = dropNonSyllabusTerms(
+            prompt.keywords,
+            prompt.verb,
+            termContextFor(prompt, dotPointText)
+          );
       });
     });
 

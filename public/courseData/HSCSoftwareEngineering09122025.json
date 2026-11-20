@@ -234,8 +234,7 @@
                       "classes",
                       "objects",
                       "encapsulation",
-                      "functions",
-                      "data"
+                      "functions"
                     ],
                     "linkedOutcomes": [
                       "SE-11-01",
@@ -353,8 +352,6 @@
                       "data flow diagrams",
                       "structure charts",
                       "class diagrams",
-                      "system",
-                      "processes",
                       "data stores",
                       "classes"
                     ],
@@ -409,10 +406,8 @@
                       "data flow diagrams",
                       "structure charts",
                       "class diagrams",
-                      "system",
                       "classes",
-                      "modules",
-                      "design"
+                      "modules"
                     ],
                     "linkedOutcomes": [
                       "SE-11-01",
@@ -595,8 +590,7 @@
                       "algorithm",
                       "correctness",
                       "efficiency",
-                      "robustness",
-                      "testing"
+                      "robustness"
                     ],
                     "linkedOutcomes": [
                       "SE-11-08",
@@ -652,8 +646,7 @@
                       "algorithm",
                       "correctness",
                       "efficiency",
-                      "maintainability",
-                      "testing"
+                      "maintainability"
                     ],
                     "linkedOutcomes": [
                       "SE-11-08",
@@ -713,7 +706,6 @@
                       "message-passing",
                       "objects",
                       "OOP",
-                      "methods",
                       "encapsulation",
                       "parameter"
                     ],
@@ -767,7 +759,6 @@
                       "message-passing",
                       "objects",
                       "OOP",
-                      "methods",
                       "encapsulation",
                       "classes"
                     ],
@@ -1073,7 +1064,6 @@
                       "iteration",
                       "functions",
                       "OOP language",
-                      "design",
                       "implement"
                     ],
                     "linkedOutcomes": [
@@ -1129,7 +1119,6 @@
                       "iteration",
                       "functions",
                       "OOP language",
-                      "design",
                       "implement"
                     ],
                     "linkedOutcomes": [
@@ -1441,7 +1430,6 @@
                     "keywords": [
                       "Mechatronic systems",
                       "Specialised fields",
-                      "Applications",
                       "Sensors",
                       "Actuators",
                       "Robotic arm",
@@ -1499,7 +1487,6 @@
                     "keywords": [
                       "Mechatronic systems",
                       "Specialised fields",
-                      "Applications",
                       "Sensors",
                       "Actuators",
                       "Control program",
@@ -2174,7 +2161,6 @@
                     "keywords": [
                       "Wiring diagram",
                       "Power supply",
-                      "Data",
                       "Mechatronic system",
                       "Motor driver",
                       "Microcontroller",
@@ -2235,8 +2221,7 @@
                       "Microcontroller",
                       "Drive motor",
                       "Current",
-                      "Mechatronic system",
-                      "Data"
+                      "Mechatronic system"
                     ],
                     "linkedOutcomes": [
                       "SE-11-03",
@@ -2297,7 +2282,6 @@
                       "Specialist requirements",
                       "Mechatronic systems",
                       "People with disability",
-                      "Design",
                       "Design features",
                       "Wheelchair",
                       "Safety"
@@ -2355,7 +2339,6 @@
                       "Specialist requirements",
                       "Mechatronic systems",
                       "People with disability",
-                      "Design",
                       "Functions",
                       "Emergency stop",
                       "Speed limit"
@@ -3028,8 +3011,7 @@
                       "Prototypes",
                       "Mechatronic system",
                       "Programming code",
-                      "Sensor",
-                      "Testing"
+                      "Sensor"
                     ],
                     "linkedOutcomes": [
                       "SE-11-06",
@@ -3084,8 +3066,7 @@
                       "Prototypes",
                       "Mechatronic system",
                       "Programming code",
-                      "Sensor",
-                      "Testing"
+                      "Sensor"
                     ],
                     "linkedOutcomes": [
                       "SE-11-01",
@@ -3806,8 +3787,6 @@
                       "requirements definition",
                       "determining specifications",
                       "software development steps",
-                      "design",
-                      "development",
                       "testing and debugging",
                       "rework"
                     ],
@@ -5777,8 +5756,6 @@
                     "keywords": [
                       "Readability of code",
                       "Quality of documentation",
-                      "Test",
-                      "Evaluate",
                       "Comments",
                       "Variable names"
                     ],
@@ -5831,9 +5808,7 @@
                       "Functionality",
                       "Performance",
                       "Readability of code",
-                      "Quality of documentation",
-                      "Evaluate",
-                      "Test"
+                      "Quality of documentation"
                     ],
                     "linkedOutcomes": [
                       "SE-11-06",
@@ -15164,8 +15139,6 @@
                       "Waterfall model",
                       "Sequential phases",
                       "Requirements specification",
-                      "Design",
-                      "Testing",
                       "Deployment"
                     ],
                     "linkedOutcomes": [
@@ -16397,7 +16370,6 @@
                     "keywords": [
                       "software problem",
                       "development approach",
-                      "solution",
                       "pseudocode",
                       "inputs",
                       "outputs"
@@ -16453,7 +16425,6 @@
                     "keywords": [
                       "software problem",
                       "development approach",
-                      "solution",
                       "Agile",
                       "Waterfall",
                       "requirements"
@@ -16882,9 +16853,7 @@
                     "keywords": [
                       "resources",
                       "software engineering solution",
-                      "development",
                       "developer hours",
-                      "testing",
                       "time plan"
                     ],
                     "linkedOutcomes": [
@@ -16937,7 +16906,6 @@
                     "keywords": [
                       "resources",
                       "software engineering solution",
-                      "development",
                       "budget",
                       "developer time",
                       "back-end"

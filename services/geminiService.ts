@@ -45,7 +45,7 @@ import {
 import { generateId } from '../utils/idUtils';
 import { getQuestionSeconds } from '../utils/pastHscUtils';
 import { splitSyllabusTerms } from '../utils/syllabusTermSource';
-import { isWeakLoneTerm } from '../utils/syllabusTermGaps';
+import { isWeakLoneTerm, normalise } from '../utils/syllabusTermGaps';
 import { guideLadderProblem } from '../utils/markingGuideLadder';
 import { promptBandForMark } from '../utils/guideBands';
 import { capOutcomeLinks, OUTCOME_LINK_RULE } from '../utils/outcomeCodes';
@@ -911,6 +911,36 @@ const GENERIC_KEYWORD_STOPWORDS = new Set([
   'significantly',
 ]);
 
+/** A four-digit year in the 1600s–2000s, as in "Family Law Act 1975". */
+const YEAR_IN_TERM = /\b1[6-9]\d\d\b|\b20\d\d\b/;
+
+/**
+ * Is this a proper name a syllabus or a course names — a statute, a convention,
+ * a school, an organisation — rather than a clause?
+ *
+ * True for a term with a four-digit year or a jurisdiction tag ("(Cth)",
+ * "(NSW)"), or with at least two capitalised words after the first one:
+ * "Universal Declaration of Human Rights", "Convention on the Rights of the
+ * Child". A clause like "Data that should be stored" has none of these.
+ */
+export const isProperNameTerm = (term: string): boolean => {
+  const trimmed = term.trim();
+  if (!trimmed) return false;
+  if (YEAR_IN_TERM.test(trimmed) || /\((?:Cth|NSW)\)/.test(trimmed)) return true;
+  const capitalised = trimmed
+    .split(/\s+/)
+    .slice(1)
+    .filter((word) => word.length >= 2 && /^\p{Lu}/u.test(word)).length;
+  return capitalised >= 2;
+};
+
+/**
+ * Task-instruction wording, not subject matter: "close reference to the
+ * prescribed text", "study of the prescribed poems". These name the task, not
+ * the subject, so they are never a syllabus term whatever their length.
+ */
+export const INSTRUCTION_PHRASE = /\bprescribed (?:texts?|poems?)\b|\bclose reference\b/i;
+
 /**
  * Is this a syllabus term, as `keywordInstruction` defines one?
  *
@@ -919,8 +949,15 @@ const GENERIC_KEYWORD_STOPWORDS = new Set([
  * which is a preference about new content and would be destructive applied to
  * a curated list of nineteen. The studio drops what is not a term and keeps
  * everything else.
+ *
+ * Length is the last test, and it is not a bare cap. Task-instruction wording
+ * (`INSTRUCTION_PHRASE`) is never a term. Up to six words is a term. Past that,
+ * a named Act, convention or other proper name is still a term
+ * (`isProperNameTerm`, up to ten words), and so is a phrase of up to eight
+ * words that the question, its scenario or its dot point uses verbatim
+ * (`context`). Anything else longer is a clause.
  */
-export const isSyllabusTerm = (term: string, verb?: string): boolean => {
+export const isSyllabusTerm = (term: string, verb?: string, context?: string): boolean => {
   const trimmed = term.trim();
   if (!trimmed) return false;
   const lower = trimmed.toLowerCase();
@@ -933,22 +970,39 @@ export const isSyllabusTerm = (term: string, verb?: string): boolean => {
   // those as subject matter. Applied here rather than only in the studio's
   // repair, so the app stops writing terms its own audit would strip.
   if (isWeakLoneTerm(trimmed)) return false;
-  return trimmed.split(/\s+/).length <= 4;
+  if (INSTRUCTION_PHRASE.test(trimmed)) return false;
+  // A word has a letter or a digit in it: "S + T + M = I + G + X" is six
+  // words, not eleven, because the operators are not words.
+  const words = trimmed.split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)).length;
+  if (words <= 6) return true;
+  if (words <= 10 && isProperNameTerm(trimmed)) return true;
+  if (words <= 8 && context) {
+    const key = normalise(trimmed);
+    return key !== '' && ` ${normalise(context)} `.includes(` ${key} `);
+  }
+  return false;
 };
 
 /**
  * A keyword list with everything that is not a syllabus term taken out, and
  * nothing else changed — no cap, no reordering. What the audit studio's
  * "Tidy Terms" writes back.
+ *
+ * `context` is the question, scenario and dot point text, as `isSyllabusTerm`
+ * takes it; without it a phrase past six words the text uses is dropped.
  */
-export const dropNonSyllabusTerms = (raw: string[] | undefined, verb?: string): string[] => {
+export const dropNonSyllabusTerms = (
+  raw: string[] | undefined,
+  verb?: string,
+  context?: string
+): string[] => {
   if (!Array.isArray(raw)) return [];
   const seen = new Set<string>();
   const kept: string[] = [];
   for (const item of raw) {
     if (typeof item !== 'string') continue;
     const term = item.trim().replace(/^(?:[-–—•*]\s+|\d+[.)]\s+)/, '');
-    if (!isSyllabusTerm(term, verb)) continue;
+    if (!isSyllabusTerm(term, verb, context)) continue;
     const lower = term.toLowerCase();
     if (seen.has(lower)) continue;
     seen.add(lower);

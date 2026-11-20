@@ -110,7 +110,7 @@ const NORMALISE = /[^\p{L}\p{N}\s'-]/gu;
  * apostrophe leaves a stray "s"; keeping it makes "peoples'" a different word
  * from "peoples", and the name stopped matching at three words out of four.
  */
-const normalise = (text: string): string =>
+export const normalise = (text: string): string =>
   (text || '')
     .toLowerCase()
     .replace(/['’]/g, '')

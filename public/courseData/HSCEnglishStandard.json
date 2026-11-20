@@ -92,7 +92,6 @@
                       "language",
                       "meaning",
                       "shape",
-                      "influence",
                       "reader",
                       "connotation",
                       "imperative",
@@ -145,7 +144,6 @@
                     ],
                     "keywords": [
                       "language",
-                      "influence",
                       "authoritative",
                       "reader",
                       "imperative",
@@ -315,7 +313,6 @@
                       "perspective",
                       "speaker",
                       "shape",
-                      "ideas",
                       "language features",
                       "metaphor"
                     ],
@@ -422,8 +419,7 @@
                       "interpretation",
                       "familiar",
                       "unfamiliar",
-                      "language",
-                      "extract"
+                      "language"
                     ],
                     "markingCriteria": "8 marks: Discusses how close analysis of language and literary devices produces interpretations of both texts, weighing the strengths and limits of each reading with precise textual evidence\n6-7 marks: Discusses close analysis in both texts with relevant evidence, making a developed link between literary devices and interpretation\n4-5 marks: Discusses the role of close analysis in one text in some depth, with brief reference to the other\n2-3 marks: Describes features of the texts and states an interpretation with limited analysis\n1 mark: Makes a relevant but unsupported comment on either text",
                     "sampleAnswers": [
@@ -644,7 +640,6 @@
                     ],
                     "keywords": [
                       "language forms",
-                      "features",
                       "structures",
                       "similarities",
                       "differences",
@@ -700,7 +695,6 @@
                       "fragmented",
                       "diary entry",
                       "structures",
-                      "features",
                       "fear"
                     ],
                     "markingCriteria": "3 marks: Outlines the change in sentence structure across the opening, middle and closing sections, using specific features such as sentence length, clause type and fragments\n2 marks: Outlines the change in sentence structure with a general description of the opening and the closing\n1 mark: Makes a relevant but general comment about the entry's sentences",
@@ -819,7 +813,6 @@
                     "keywords": [
                       "discursive",
                       "persuasive",
-                      "features",
                       "thesis",
                       "counter-argument",
                       "audience"
@@ -1163,8 +1156,7 @@
                       "spoken",
                       "written",
                       "audience",
-                      "engages",
-                      "information"
+                      "engages"
                     ],
                     "markingCriteria": "4 marks: Explains how the combination of spoken and written modes changes engagement for a family audience, showing the effect of at least two features, such as pace, repetition or tone, on how the information is received\n3 marks: Explains one feature of the combined modes and its effect on the audience's engagement\n2 marks: Identifies a difference between the spoken and written modes with a general statement about engagement\n1 mark: Makes a relevant but general comment about the two versions",
                     "sampleAnswers": [
@@ -1332,7 +1324,6 @@
                     ],
                     "keywords": [
                       "metalanguage",
-                      "assess",
                       "value",
                       "reflect",
                       "writing",
@@ -1386,7 +1377,6 @@
                     ],
                     "keywords": [
                       "metalanguage",
-                      "identify",
                       "paragraph",
                       "rhetorical question",
                       "anecdote",
@@ -1946,8 +1936,7 @@
                       "intertextual",
                       "purpose",
                       "audience",
-                      "content",
-                      "impact"
+                      "content"
                     ],
                     "markingCriteria": "5 marks: Accounts for the impact of the intertextual reference on purpose, audience and content, explaining the causes of each effect and how they interact in the new text\n4 marks: Accounts for the impact on at least two of purpose, audience and content, with clear causes\n3 marks: Describes the intertextual reference and gives one effect on purpose, audience or content\n2 marks: Identifies the reference and states a general effect\n1 mark: Makes a relevant but unsupported comment about intertextuality",
                     "sampleAnswers": [
@@ -1998,8 +1987,6 @@
                       "intertextuality",
                       "reference",
                       "text",
-                      "example",
-                      "define",
                       "fairy tale"
                     ],
                     "markingCriteria": "2 marks: Defines intertextuality accurately as the relationship between texts, and gives an example of a reference from the film\n1 mark: Gives an accurate partial definition, or an example of a reference without the definition",
@@ -2103,8 +2090,7 @@
                       "young readers",
                       "rewards system",
                       "communicated",
-                      "chatbot",
-                      "points"
+                      "chatbot"
                     ],
                     "markingCriteria": "3 marks: Describes two assumptions about young readers, each linked to a specific feature of the rewards system in the chatbot story\n2 marks: Describes one assumption about young readers, linked to the rewards system\n1 mark: Makes a relevant but general comment about the rewards system",
                     "sampleAnswers": [
@@ -2221,7 +2207,6 @@
                       "conventions",
                       "mystery",
                       "genre",
-                      "apply",
                       "expectations",
                       "reader"
                     ],
@@ -2282,7 +2267,6 @@
                       "ordered",
                       "cohesive",
                       "argument",
-                      "ideas",
                       "texts"
                     ],
                     "markingCriteria": "7 marks: Composes a logical, ordered and cohesive argument that develops ideas drawn from both texts, with each point building on the last, and a rationale that explains the ordering choices\n5-6 marks: Composes an ordered argument that draws on ideas from both texts, with clear links between points and a rationale that describes the order\n3-4 marks: Composes an argument with a stated position and some ordering, with general use of both texts and a rationale that identifies the order\n2 marks: Composes a statement of position with limited ordering and little use of the source texts, and a general rationale\n1 mark: Makes a relevant comment about the texts without constructing an argument",
@@ -2333,9 +2317,7 @@
                       "Justifying the order by calling it 'logical' with no account of the reader's response."
                     ],
                     "keywords": [
-                      "justify",
                       "ordering",
-                      "ideas",
                       "reader",
                       "effective",
                       "argument"
@@ -2506,7 +2488,6 @@
                       "Treating the two mediums as the same process with a different layout."
                     ],
                     "keywords": [
-                      "processes",
                       "composition",
                       "mediums",
                       "technologies",
@@ -2560,7 +2541,6 @@
                       "Explaining the processes in general terms that could apply to any medium."
                     ],
                     "keywords": [
-                      "processes",
                       "technology",
                       "composition",
                       "digital",
@@ -2613,7 +2593,6 @@
                       "Skipping from the first draft to the final version without the stage in between."
                     ],
                     "keywords": [
-                      "recount",
                       "steps",
                       "draft",
                       "final version",
@@ -2664,11 +2643,8 @@
                       "Describing the finished podcast rather than the processes used to make it."
                     ],
                     "keywords": [
-                      "processes",
                       "technologies",
                       "generate",
-                      "investigate",
-                      "information",
                       "present"
                     ],
                     "markingCriteria": "4 marks: Describes two specific processes or technologies, explains what each one generated or investigated, and links both to presenting accurate information\n3 marks: Describes two processes or technologies with some link to gathering information, with limited detail\n2 marks: Names one or two processes or technologies and states a general purpose for each\n1 mark: Identifies a relevant process or technology without describing its use",
@@ -2717,12 +2693,9 @@
                       "Asserting that the video was better without explaining what improved."
                     ],
                     "keywords": [
-                      "processes",
                       "technologies",
-                      "clarify",
                       "organise",
-                      "refine",
-                      "ideas"
+                      "refine"
                     ],
                     "markingCriteria": "5 marks: Explains clearly how specific processes and technologies helped Marcus clarify, organise and refine ideas, with a sustained link to the quality of the final video essay\n4 marks: Explains how two processes or technologies improved his ideas, with a clear link to quality\n3 marks: Describes processes and technologies Marcus used, with a general link to quality\n2 marks: Lists tools without explaining how they improved the essay\n1 mark: Makes a general statement about technology",
                     "sampleAnswers": [
@@ -2770,11 +2743,8 @@
                       "Writing about technology in general rather than naming the processes used at each stage."
                     ],
                     "keywords": [
-                      "processes",
                       "technologies",
                       "generate",
-                      "investigate",
-                      "clarify",
                       "organise",
                       "refine",
                       "present"
@@ -3303,7 +3273,6 @@
                       "Choosing evidence that does not support the interpretation being argued."
                     ],
                     "keywords": [
-                      "interpret",
                       "textual evidence",
                       "informed",
                       "personal interpretation",
@@ -3423,8 +3392,7 @@
                       "ordered",
                       "cohesive",
                       "argument",
-                      "literary text",
-                      "ideas"
+                      "literary text"
                     ],
                     "markingCriteria": "8 marks: Composes an opinion piece that builds a logical, ordered and cohesive argument, developing its ideas in depth and using the protagonist's silence and the final answer to it as evidence for each claim, and the rationale explains the structural choices with precision\n6-7 marks: Argues a clear position in ordered paragraphs with some cohesion, supported by the text, and the rationale explains some structural choices\n4-5 marks: Makes a claim with uneven ordering or cohesion, and the rationale describes the structure in general terms\n2-3 marks: States an opinion with little argument, and the rationale is absent or only restates the piece\n1 mark: Makes an unsupported statement of opinion, with no rationale",
                     "sampleAnswers": [
@@ -3478,7 +3446,6 @@
                       "ordered",
                       "cohesive",
                       "argument",
-                      "ideas",
                       "claim",
                       "final chapter"
                     ],
@@ -3666,7 +3633,6 @@
                     "keywords": [
                       "language",
                       "forms",
-                      "features",
                       "audience",
                       "purpose",
                       "rhetorical questions",
@@ -3722,7 +3688,6 @@
                     "keywords": [
                       "language",
                       "forms",
-                      "features",
                       "shape meaning",
                       "audience",
                       "colloquial words",
@@ -3783,7 +3748,6 @@
                     "keywords": [
                       "language",
                       "forms",
-                      "features",
                       "perspectives",
                       "personal and public worlds",
                       "human experiences"
@@ -3839,7 +3803,6 @@
                       "forms",
                       "human experiences",
                       "readers",
-                      "contrast",
                       "first-person language",
                       "third-person language",
                       "fragmented structure"
@@ -4436,7 +4399,6 @@
                     ],
                     "keywords": [
                       "aesthetic qualities",
-                      "features",
                       "language",
                       "experience",
                       "personal",
@@ -5875,8 +5837,7 @@
                       "to what extent",
                       "human experiences",
                       "human qualities",
-                      "emotions",
-                      "close reference"
+                      "emotions"
                     ],
                     "markingCriteria": "17-20 marks: Evaluates skilfully the extent to which the prescribed text ignites ideas about collective human experiences that enrich our view of the world; Presents an insightful response supported by well-chosen textual references from the prescribed text; Writes a coherent and sustained response using language appropriate for audience, purpose and context\n13-16 marks: Evaluates effectively the extent to which the prescribed text ignites ideas about collective human experiences that enrich our view of the world; Presents a thoughtful response supported by relevant textual references from the prescribed text; Writes an organised response using language appropriate for audience, purpose and context\n9-12 marks: Explains the extent to which the prescribed text ignites ideas about collective human experiences that enrich our view of the world; Presents a response supported by some textual references from the prescribed text; Writes a response using variable control of language appropriate for audience and purpose\n5-8 marks: Expresses limited understanding of the extent to which the prescribed text ignites ideas about collective human experiences that enrich our view of the world; Describes aspects of the prescribed text; Writes a response with minimal control of language\n1-4 marks: Refers to the prescribed text in a minimal way; Attempts to compose a response",
                     "sampleAnswers": [
@@ -5940,7 +5901,6 @@
                       "actions",
                       "complex relationships",
                       "insights",
-                      "close reference",
                       "human experiences",
                       "representation in texts",
                       "textual evidence"
@@ -6009,7 +5969,6 @@
                       "critical",
                       "affirm",
                       "challenge",
-                      "ideas",
                       "first-person reflection",
                       "closing line"
                     ],
@@ -6371,7 +6330,6 @@
                       "forms",
                       "perceptions",
                       "cultural perspectives",
-                      "influence",
                       "generalisations",
                       "measured tone",
                       "single viewpoint"
@@ -6423,9 +6381,7 @@
                       "Confusing the content, such as the group's actions, with the forms used to present them."
                     ],
                     "keywords": [
-                      "interpret",
                       "forms",
-                      "influence",
                       "perceptions",
                       "people",
                       "direct speech",
@@ -7069,7 +7025,6 @@
                       "context",
                       "implicit cultural assumptions",
                       "perspectives",
-                      "ideas",
                       "author",
                       "rapid social change",
                       "common sense",
@@ -7125,7 +7080,6 @@
                       "context",
                       "author",
                       "perspectives",
-                      "ideas",
                       "family duty",
                       "men lead"
                     ],
@@ -7243,7 +7197,6 @@
                       "content",
                       "social",
                       "moral",
-                      "ethical",
                       "positions",
                       "unresolved compromise",
                       "empty canteen",
@@ -7733,7 +7686,6 @@
                       "perspectives",
                       "wind farm",
                       "letters to the editor",
-                      "distinguish",
                       "evidence"
                     ],
                     "markingCriteria": "4 marks: Distinguishes the two writers' values and attitudes clearly, using a specific word or phrase from each letter as evidence, and explains why the difference matters to the debate\n3 marks: Distinguishes the values and attitudes with evidence from both letters, but the explanation of their significance is limited\n2 marks: Identifies a value or attitude for each writer, with little contrast or evidence\n1 mark: Names one writer's view without a comparison",
@@ -7841,8 +7793,7 @@
                       "represented",
                       "where we come from",
                       "passing on values",
-                      "understanding each other",
-                      "close reference"
+                      "understanding each other"
                     ],
                     "markingCriteria": "17-20 marks: Explains in a highly effective manner how the ideas in the statement highlight the way cultural values and identity are represented in the prescribed text; Presents a highly effective response using relevant, detailed textual evidence; Organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the ideas in the statement highlight the way cultural values and identity are represented in the prescribed text; Presents an effective response using relevant textual evidence; Organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently how the ideas in the statement highlight the way cultural values and identity are represented in the prescribed text; Presents a competent response using adequate textual evidence; Organises, develops and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the text with some reference to the question; Presents a response using limited textual knowledge; Organises a response in a limited way\n1-4 marks: Attempts to describe aspects of the text; Organises a response in an elementary way",
                     "sampleAnswers": [
@@ -8020,7 +7971,6 @@
                     "keywords": [
                       "close textual analysis",
                       "final stanza",
-                      "technique",
                       "tense",
                       "effect",
                       "poem",
@@ -8627,7 +8577,6 @@
                       "narrator",
                       "adults",
                       "reader",
-                      "influence",
                       "perspective"
                     ],
                     "markingCriteria": "5 marks: Explains how the first-person perspective shapes the reader's view of each adult, with precise evidence from the story and a clear account of how the narrator's limited knowledge affects judgement\n4 marks: Explains the influence of the first-person perspective on the reader's view of the adults, with specific evidence and some account of its effect\n3 marks: Describes the first-person perspective and one adult, with evidence and a general statement about influence\n2 marks: Makes a general statement about the narrator's perspective and the adults, with little evidence\n1 mark: Names the first-person perspective without linking it to the adults",
@@ -8915,8 +8864,7 @@
                       "distinctive qualities",
                       "competing values",
                       "context",
-                      "form",
-                      "close reference"
+                      "form"
                     ],
                     "markingCriteria": "17-20 marks: Analyses in a highly effective manner how different values and attitudes are exposed through the key features of their prescribed text; Presents a highly effective response using relevant, detailed references to the prescribed text; Organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Analyses effectively how different values and attitudes are exposed through the key features of their prescribed text; Presents an effective response using relevant references to the prescribed text; Organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently how different values and attitudes are exposed through the key features of their prescribed text; Presents a competent response using adequate references to the prescribed text; Organises and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the prescribed text with some reference to the question; Presents a response with limited reference to the prescribed text; Attempts to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text; Attempts to organise a response in an elementary way",
                     "sampleAnswers": [
@@ -8978,7 +8926,6 @@
                     "keywords": [
                       "central ideas",
                       "distinctive qualities",
-                      "extract",
                       "Feed",
                       "Anderson",
                       "Titus",
@@ -9044,8 +8991,6 @@
                       "central ideas",
                       "distinctive qualities",
                       "explored",
-                      "extract",
-                      "prescribed poem",
                       "Harbour Dusk",
                       "Byron Bay: Winter",
                       "Coast Road"
@@ -9108,8 +9053,6 @@
                     "keywords": [
                       "central ideas",
                       "distinctive qualities",
-                      "extract",
-                      "prescribed poem",
                       "Entombed Warriors",
                       "The Past",
                       "Earth Mother",
@@ -9238,8 +9181,6 @@
                     "keywords": [
                       "central ideas",
                       "distinctive qualities",
-                      "extract",
-                      "prescribed text",
                       "A Midsummer Night’s Dream",
                       "Puck",
                       "Pyramus",
@@ -9303,8 +9244,6 @@
                     "keywords": [
                       "central ideas",
                       "distinctive qualities",
-                      "extract",
-                      "prescribed text",
                       "Stasiland",
                       "Funder",
                       "pearl",
@@ -9368,8 +9307,6 @@
                     "keywords": [
                       "central ideas",
                       "distinctive qualities",
-                      "extracts",
-                      "prescribed text",
                       "composite",
                       "historic value",
                       "Frank Hurley: The Man Who Made History",
@@ -9494,7 +9431,6 @@
                       "Giving two reasons that are really the same point restated."
                     ],
                     "keywords": [
-                      "predict",
                       "listener",
                       "personal response",
                       "podcast",
@@ -10358,7 +10294,6 @@
                       "Blurring the two perspectives so that they give the same reading."
                     ],
                     "keywords": [
-                      "interpret",
                       "final line",
                       "historical",
                       "ecological",
@@ -10540,8 +10475,7 @@
                       "to what extent",
                       "describing our world",
                       "distinctive qualities",
-                      "audience",
-                      "close reference"
+                      "audience"
                     ],
                     "markingCriteria": "17-20 marks: Evaluates in a highly effective manner the extent to which the prescribed text reflects the ideas about literature in the statement provided; Presents a highly effective response using relevant, detailed references to the prescribed text; Organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Evaluates effectively the extent to which the prescribed text reflects the ideas about literature in the statement provided; Presents an effective response using relevant references to the prescribed text; Organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently the extent to which the prescribed text reflects the ideas about literature in the statement provided; Presents a competent response using adequate references to the prescribed text; Organises and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the prescribed text with some reference to the statement provided; Presents a response with limited reference to the prescribed text; Attempts to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text; Attempts to organise a response in an elementary way",
                     "sampleAnswers": [
@@ -11248,7 +11182,6 @@
                       "paragraphs",
                       "claim",
                       "lighthouse",
-                      "summarise",
                       "counterpoint"
                     ],
                     "markingCriteria": "4 marks: Summarises the logical order of all four paragraphs, showing how each builds on the claim and how the paragraphs relate to one another\n3 marks: Summarises the order of the paragraphs with clear reference to the claim, but the relationship between paragraphs is only partly shown\n2 marks: Lists the content of the paragraphs with limited reference to the claim\n1 mark: Names the claim or one paragraph",
@@ -11303,12 +11236,10 @@
                     ],
                     "keywords": [
                       "connections between ideas, form and language",
-                      "significance",
                       "distinctive qualities",
                       "how meaning is shaped",
                       "form",
                       "context",
-                      "close reference",
                       "audience and purpose"
                     ],
                     "markingCriteria": "17-20 marks: Explains in a highly effective manner how the connections between ideas, form and language have informed their understanding of the significance of their prescribed text; Presents a highly effective response using relevant, detailed references to the prescribed text; Organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the connections between ideas, form and language have informed their understanding of the significance of their prescribed text; Presents an effective response using relevant references to the prescribed text; Organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently how the connections between ideas, form and language have informed their understanding of the significance of their prescribed text; Presents a competent response using adequate references to the prescribed text; Organises, develops and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the text with some reference to the question; Presents a response with limited reference to the prescribed text; Attempts to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text; Attempts to organise a response in an elementary way",
@@ -11439,7 +11370,6 @@
                     "keywords": [
                       "figurative language",
                       "memoir",
-                      "example",
                       "kitchen",
                       "weather",
                       "metaphor",
@@ -11495,7 +11425,6 @@
                       "perspective",
                       "grief",
                       "memoir extract",
-                      "example",
                       "restraint",
                       "flat tone",
                       "ordinary routines",
@@ -11549,7 +11478,6 @@
                       "personification",
                       "homebound",
                       "parallel structure",
-                      "extract",
                       "podcast"
                     ],
                     "markingCriteria": "5 marks: Provides a highly detailed description of how ideas about the power of taste are conveyed; Describes skilfully the effect of a language device or stylistic feature; Demonstrates effective control of language\n4 marks: Provides a detailed description of how ideas about the power of taste are conveyed; Describes competently the effect of a language device or stylistic feature; Demonstrates competent control of language\n3 marks: Provides a description of how ideas about the power of taste are conveyed; Describes the effect of a language device or stylistic feature; Demonstrates sound control of language\n2 marks: Identifies an aspect of how idea(s) about the power of taste are conveyed; Identifies a language device or stylistic feature\n1 mark: Provides some relevant information about the text",
@@ -11667,8 +11595,7 @@
                       "discursive",
                       "persuasive",
                       "reflective",
-                      "passage",
-                      "feature"
+                      "passage"
                     ],
                     "markingCriteria": "3 marks: Classifies all four passages correctly, each with one supporting feature of form or language that justifies the category\n2 marks: Classifies three of the four passages correctly, or all four without supporting features\n1 mark: Classifies one or two passages correctly, without supporting features",
                     "sampleAnswers": [
@@ -11729,10 +11656,7 @@
                       "Confusing investigating with generating, so that the brainstorm and the interviews are described as the same step."
                     ],
                     "keywords": [
-                      "processes",
                       "generate",
-                      "investigate",
-                      "clarify",
                       "organise",
                       "feature article"
                     ],
@@ -11787,8 +11711,7 @@
                       "present",
                       "audience",
                       "feature article",
-                      "local readers",
-                      "process"
+                      "local readers"
                     ],
                     "markingCriteria": "5 marks: Explains how the refining and presenting processes changed the article's structure, language and presentation, with specific evidence from the drafts, and shows the effect on the intended audience\n4 marks: Explains the effect of the refining and presenting processes on the article, with specific evidence and a link to the audience\n3 marks: Describes changes made in refining and presenting, with some evidence and a general statement about the audience\n2 marks: Identifies a change between drafts with little explanation of effect\n1 mark: Names the refining or presenting process without describing a change",
                     "sampleAnswers": [
@@ -12643,7 +12566,6 @@
                       "metalanguage",
                       "draft",
                       "metaphor",
-                      "example",
                       "rhetorical question",
                       "tricolon"
                     ],
@@ -12697,7 +12619,6 @@
                       "metalanguage",
                       "peer feedback",
                       "meaning",
-                      "example",
                       "writer",
                       "tone"
                     ],
