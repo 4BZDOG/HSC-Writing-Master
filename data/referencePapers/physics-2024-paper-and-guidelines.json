@@ -1,0 +1,559 @@
+{
+  "year": 2024,
+  "course": "Physics",
+  "papers": [
+    "2024-hsc-physics.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "21(a)",
+      "reason": "Calculate the magnitude of the torque produced by the applied force; calculation-only."
+    },
+    {
+      "number": "24(a)",
+      "reason": "Determine the surface temperature of the star from the graph (Wien's law); calculation-only."
+    },
+    {
+      "number": "24(b)",
+      "reason": "Calculate the frequency of light absorbed for line W using the given equation; calculation-only."
+    },
+    {
+      "number": "25(b)",
+      "reason": "Use the graph to calculate the mass of the planet; calculation-only."
+    },
+    {
+      "number": "27(b)",
+      "reason": "Calculate the energy released per pion; calculation-only."
+    },
+    {
+      "number": "28(a)",
+      "reason": "Show that the acceleration of an electron between the plates is 2.6 × 10¹⁵ m s⁻²; calculation-only."
+    },
+    {
+      "number": "28(b)",
+      "reason": "Show that the vertical displacement of the beam at the end of the plates is approximately 8.1 mm; calculation-only."
+    },
+    {
+      "number": "28(c)",
+      "reason": "Calculate how far from point X the beam strikes the screen; calculation-only."
+    },
+    {
+      "number": "29(a)",
+      "reason": "Draw wires to connect the battery to the rods; answered by drawing on the paper."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain TWO ways in which torque can be increased in a simple DC motor.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains TWO ways of increasing the torque in a DC motor"
+        },
+        {
+          "marks": "3",
+          "text": "Identifies TWO ways of increasing the torque in a DC motor with a partial explanation of either way"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies TWO ways of increasing the torque ; OR ; Identifies and partially explains ONE way of increasing the torque"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Increase the area of the motor coil as this increases torque according to τ = nIA⊥B.\nIncrease the current through the motor by increasing the voltage as this increases the force on the sides of the motor coil.",
+      "answersCouldInclude": [
+        "Radial magnetic field",
+        "More turns."
+      ]
+    },
+    {
+      "number": "22(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Describe the significance of the graph to our understanding of the universe.",
+      "stimulus": "The following graph, based on the data gathered by Hubble, shows the relationship between the recessional velocity of galaxies and their distance from Earth. [Graph: recessional velocity (km/s) against distance (Mpc), with a line of best fit through the plotted galaxies.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Describes the significance of the graph"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The graph shows that the further away the galaxy, the faster it is receding. From this it was concluded that the universe is expanding.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2024-22a.png",
+        "page": 19,
+        "alt": "Graph of recessional velocity against distance for galaxies, with a line of best fit, based on Hubble's data."
+      }
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How were the recessional velocities of galaxies determined?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Demonstrates understanding of how the recessional velocities of galaxies were determined"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines some aspects of determination of recessional velocities of galaxies"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The spectra of the galaxies were compared to the spectra of hydrogen. The degree of red-shift of the galaxies was determined. The larger the red-shift is, the greater recessional velocity of the light source, hence the velocities of the galaxies were able to be determined.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(a)(i)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "What was the role of paraffin in Chadwick’s experiment?",
+      "stimulus": "A key piece of experimental evidence supporting the nuclear model of the atom was a discovery by Chadwick in 1932. An aspect of the experimental design is shown. [Diagram: source of alpha particles directed at beryllium; paraffin on the far side; unknown radiation between them. © Breaking Atom.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines the role of paraffin in the experiment"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Paraffin has a large number of hydrogen atoms containing single protons. When the unknown radiation hit these protons, they were ejected from the paraffin. These protons were then analysed.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2024-23a.png",
+        "page": 20,
+        "alt": "Chadwick's apparatus: alpha source, beryllium target, paraffin block and unknown radiation, from Breaking Atom."
+      }
+    },
+    {
+      "number": "23(a)(ii)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How did Chadwick’s experiment change the model of the atom?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Demonstrates understanding of how Chadwick’s experiment changed the model of the atom"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines the change in the model of the atom"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Chadwick deduced that there were neutral particles that were of similar mass to protons coming from the target. From this, the model of the atom changed to include neutrons as well as protons in the nucleus of atoms.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Explain how de Broglie’s hypothesis regarding the nature of electrons addressed limitations in the Bohr–Rutherford model of the atom.",
+      "stimulus": "Development of models of the atom has resulted from both experimental investigations and hypotheses based on theoretical considerations.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains how the de Broglie hypothesis addressed limitations in the Bohr–Rutherford atomic model"
+        },
+        {
+          "marks": "3",
+          "text": "Describes how the de Broglie hypothesis addressed limitations in the Bohr–Rutherford atomic model ; OR ; Explains how the de Broglie hypothesis addressed a limitation in the Bohr–Rutherford atomic model"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of the de Broglie hypothesis and/or a limitation in the Bohr–Rutherford atomic model"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "De Broglie’s hypothesis suggested that electrons in the hydrogen atom are in a stable state when they formed standing waves. As the electron was no longer considered an accelerating charge, the problem of accelerating charges producing electromagnetic radiation was resolved. Additionally, the problem of why electrons had only certain allowed orbits was resolved by the criteria of an electron orbit only being allowed when it consisted of a whole number of electron wavelengths.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(c)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the physical processes that produce an absorption spectrum.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains the physical processes that result in the absorption spectrum"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines some aspects of physical processes involved in the production of an absorption spectrum"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The star produces a continuous spectrum of light. When this light passes through the hydrogen atmosphere, certain frequencies of light are absorbed as they have energies (from E = hf) that correspond to particular transitions of electrons to higher energy levels. Such frequencies produce wavelengths that do not progress through the atmosphere, and as a result show as a drop in intensity on the graph.",
+      "answersCouldInclude": [
+        "Absorption spectron of non-stellar origin"
+      ]
+    },
+    {
+      "number": "25(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "By considering gravitational force, show how this model can be derived.",
+      "stimulus": "The mathematical model below shows the relationship between the orbital radius of a satellite and its period. [Equation: r³/T² = GM/4π².]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Shows how the mathematical model is derived"
+        },
+        {
+          "marks": "1",
+          "text": "Shows some relevant steps"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "FC = FG"
+    },
+    {
+      "number": "26",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain qualitatively why these muons can reach Earth’s surface, regardless of whether their motion is considered from either the muon’s frame of reference or the Earth’s frame of reference.",
+      "stimulus": "Muons are unstable particles produced when cosmic rays strike atoms high in the atmosphere. The muons travel downward, perpendicular to Earth’s surface, at almost the speed of light. Classical physics predicts that these muons will decay before they have time to reach Earth’s surface.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains why muons reach the Earth’s surface with reference to relativistic effects in both frames of reference"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines some relativistic effects that apply to the muon ; OR ; Explains one relativistic effect that applies to the muon"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "In the muon’s reference frame, the distance travelled is less than that observed by a stationery observer on Earth’s surface, due the effects of length contraction. This shortened distance means that they will get further than would be expected by an observer observing the rest length.\nFrom the Earth’s frame of reference, the time dilation means that the half-life of the muon is dilated compared to the half-life measured in the rest frame of the muon. This greater time allows more muons to reach the ground than would otherwise be expected.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "27(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Identify the quarks present in the p–, p+ and the p0 particles.",
+      "stimulus": "Each of the pions consists of two quarks. The following tables provide information about hadrons and quarks. [Tables 1 and 2: hadron rest mass and charge; quark charges.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies the quarks in all three pions"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies the quarks in at least one pion"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "π −: u̅ d\nπ +: u d̅\nπ 0: u u̅",
+      "figure": {
+        "file": "phy-2024-27a.png",
+        "page": 28,
+        "alt": "Table 1 of hadron rest masses and charges, and Table 2 of quark charges."
+      }
+    },
+    {
+      "number": "27(c)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the problem with this prediction and how it can be resolved.",
+      "stimulus": "Calculation of the pions’ velocities using classical physics predicts that each pion has a velocity, relative to the point at which the proton–antiproton reaction occurred, which exceeds 3 × 10⁸ m s⁻¹.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains the problem and how it can be resolved"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates understanding of the problem and/or its solution"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "The problem raised by this calculation is that the pions’ velocities exceed the velocity of light (3 × 10⁸), which is impossible.\nThe pions’ velocities are relativistic, so their relativistic masses are greater than their rest masses which limits their velocity to less than the speed of light. Some of the energy imparted to each pion is converted into increased mass.",
+      "answersCouldInclude": [
+        "Reference to relativistic momentum increase."
+      ]
+    },
+    {
+      "number": "29(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Evaluate this statement with reference to relevant physics principles.",
+      "stimulus": "Two horizontal metal rods, A and B, of different materials are resting on a frictionless table. Initially they are at rest in position 1. Both rods are then connected to a battery using wires. After the switch is turned on, currents of different magnitude flow in each rod. The rods move to position 2 after time, t. In position 2, B has a larger displacement than A from position 1. The masses of the wires are negligible. [Diagrams: position 1 and position 2 of rods A and B on a table with a switch and battery.] When the switch is turned on, the current in rod A is greater than the current in rod B.\n\nConsider this statement. Position 2 results from the larger current in rod A, causing a larger force to act on rod B.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Evaluates the statement with thorough reference to relevant physics principles"
+        },
+        {
+          "marks": "3",
+          "text": "Evaluates the statement using some relevant physics principles"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of relevant physics principle(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "Rod B does have a larger displacement from the original position than rod A. However this is not due to the current in rod A being larger. The force on rod B due to electromagnetic force from rod A is the same magnitude as the force on rod A due to electromagnetic force from rod B, according to Newton’s third law. The magnitude of electromagnetic force between both rods is given by",
+      "figure": {
+        "file": "phy-2024-29b.png",
+        "page": 32,
+        "alt": "Rods A and B on a frictionless table with a switch and battery, shown in position 1 and position 2."
+      }
+    },
+    {
+      "number": "30",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the effect on all of the forces acting on the object if the period of the cylinder’s rotation is halved. Ignore the effects of friction.",
+      "stimulus": "An object sits on the floor of a hollow cylinder rotating around an axis, as shown. The cylinder’s rotation causes the object to undergo uniform circular motion. [Diagram: object on the floor of a rotating hollow cylinder, with the axis of rotation shown.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains the effect of halving the period on all the forces acting on the object"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates understanding of the change in the period on the forces acting on the object"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines an effect of the rotation of the object on a force on the object"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "The forces acting on the object are gravitational force downwards, force from the floor upwards and centripetal force from the side of the cylinder towards the centre of the cylinder. The period of rotation is related to centripetal force by:",
+      "figure": {
+        "file": "phy-2024-30.png",
+        "page": 34,
+        "alt": "Object on the floor of a hollow cylinder rotating about a vertical axis."
+      }
+    },
+    {
+      "number": "31",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Compare the maximum height reached by the projectile, using each model. In your answer, describe the energy changes of the projectile.",
+      "stimulus": "In a thought experiment, a projectile is launched vertically from Earth’s surface. Its initial velocity is less than the escape velocity. The behaviour of the projectile can be analysed by using two different models, Model A and Model B as shown. [Table: Model A: Earth’s gravitational field is uniform | Model B: Earth’s gravitational field is radial.] The effects of Earth’s atmosphere and Earth’s rotational and orbital motions can be ignored.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Correctly compares the maximum height of the projectile in each model ; Describes the energy change of the projectile in each model"
+        },
+        {
+          "marks": "3",
+          "text": "Compares maximum height with reference to the models ; Refers to energy change in each model"
+        },
+        {
+          "marks": "2",
+          "text": "Provides aspects of a comparison of maximum heights and/or energy change"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "In both models, the initial kinetic energy is the same and at the maximum height, the initial kinetic energy is fully converted to gravitational potential energy.\nIn Model A, for each metre moved vertically, the same amount of kinetic energy is converted to gravitational potential energy. In Model B, because of the decreasing gravitational field strength, the amount of kinetic energy converted to gravitational potential energy per metre decreases as the object travels upward.\nTherefore, in Model B, the object reaches a greater maximum height before all the kinetic energy is converted to potential energy.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "32",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse how evidence from at least THREE such experiments has contributed to our understanding of physics.",
+      "stimulus": "Many scientists have performed experiments to explore the interaction of light and matter.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "8",
+          "text": "Provides a detailed analysis using evidence from at least THREE experiments investigating the interaction of light and matter ; Provides a clear link between experimental evidence and greater understanding of physics"
+        },
+        {
+          "marks": "6–7",
+          "text": "Provides analysis using evidence from experiments investigating the interaction of light and matter ; Provides a link between experimental evidence and greater understanding of physics"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides evidence from experiments investigating the interaction of light and matter ; Relates evidence to a greater understanding of physics"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about evidence from an experiment AND/OR a link to physics"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Black body radiation experiments and the development of quantum physics",
+        "Photoelectric experiments and the development of quantum physics",
+        "Spectroscopy experiments and the development of astrophysics and the atomic model",
+        "Polarisation experiments and the development of the wave nature of light",
+        "Interference and diffraction and the development of the wave model of light",
+        "Cosmic gamma rays and the development of theory of special relativity and/or the standard model."
+      ]
+    },
+    {
+      "number": "33",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–33\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 7,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Analyse the motion and energy transformations of both the can and the magnet.",
+      "stimulus": "A magnet is swinging as a pendulum. Close below it is an aluminium (non-ferromagnetic) can. The can is free to spin around a fixed axis as shown. [Diagram: magnet swinging as a pendulum above a can free to spin about a fixed axis.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Provides a detailed analysis of the motion of the can AND the magnet ; Provides a detailed analysis of the energy transformations in the system"
+        },
+        {
+          "marks": "6",
+          "text": "Analyses the motion of the can AND the magnet ; Provides an analysis of the energy transformations in the system"
+        },
+        {
+          "marks": "4–5",
+          "text": "Describes the motion of the can and/or the magnet ; Describes the energy transformations of the magnet and/or can"
+        },
+        {
+          "marks": "2–3",
+          "text": "Demonstrates some understanding of the motion of the can and/or the magnet and/or the energy transformations of both magnet and/or can"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Reference to non-uniform, clockwise rotation of the can"
+      ],
+      "sampleAnswerTruncated": "As the magnet swings from a high position towards the can, it loses gravitational potential energy and gains kinetic energy.",
+      "figure": {
+        "file": "phy-2024-33.png",
+        "page": 37,
+        "alt": "Magnet swinging as a pendulum above an aluminium can free to spin about a fixed axis."
+      }
+    }
+  ],
+  "edits": [
+    "25(a), 27(a), 29(b), 30, 33: sample answers with formulas or combining-mark notation the text layer scrambles are in sampleAnswerTruncated (readable portion only) with sampleAnswer empty.",
+    "24(c) and 26: NESA's own spellings ('spectron', 'stationery', 'due the effects') are kept verbatim.",
+    "Notation kept as the extract carries it: subscripts and superscripts (q₁, t₀, 1.2 × 2.3), with the NESA print where the text layer differs (θ for q, en-dash minus for ⁻¹, plain q1 in some ladder rows)."
+  ]
+}

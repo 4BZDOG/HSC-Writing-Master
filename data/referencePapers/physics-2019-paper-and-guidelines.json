@@ -1,0 +1,645 @@
+{
+  "year": 2019,
+  "course": "Physics",
+  "papers": [
+    "2019-hsc-physics.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "23",
+      "reason": "Asks the student to plot the data on the axes provided and read off the work function; a drawn graph cannot be answered as text."
+    },
+    {
+      "number": "30(a)",
+      "reason": "Answered purely by calculation (height difference from kinetic energy); a numerical answer from working."
+    },
+    {
+      "number": "30(b)",
+      "reason": "Answered purely by calculation (height of Q above the floor from projectile motion); a numerical answer from working."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline de Broglie’s contribution to quantum mechanics. Support your answer with a relevant equation.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Refers to de Broglie’s characterisation of the wave nature of matter ; Refers to a relevant equation"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to de Broglie’s characterisation of the wave nature of matter ; OR ; Refers to a relevant equation"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "It was postulated by de Broglie that particles, such as electrons, possess wave properties.\nThe wavelength associated with such particles is predicted by:"
+    },
+    {
+      "number": "22",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe how spectra provide information about OTHER features of stars.",
+      "stimulus": "Spectra can be used to determine the chemical composition and surface temperature of stars.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Relates observations to features of stars"
+        },
+        {
+          "marks": "2",
+          "text": "Relates an observation to a feature of a star"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies an observation or other feature of a star"
+        }
+      ],
+      "sampleAnswer": "Absorption spectra can reveal information about the density of a star. Darker, broader spectral lines indicate significant levels of absorption associated with denser stars, whereas fainter, narrower spectral lines are associated with less dense stars.\nThe frequency of lines in absorption spectra can reveal information about the motion of a star. A shift towards lower frequencies indicates that the star is moving away from the observer.",
+      "answersCouldInclude": [
+        "Red and blue shifts from the edges of a star’s light disc which can provide information about its rotational velocity.",
+        "Binary/multiple star systems."
+      ]
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain how the operation of this transformer remains consistent with the law of conservation of energy. Include a relevant calculation in your answer.",
+      "stimulus": "A step-up transformer is constructed using a solid iron core. The coils are made using copper wires of different thicknesses as shown. [Diagram: AC supply connected to a primary coil, a solid iron core, and a secondary coil connected to a resistor.] The table shows electrical data for this transformer. [Table: Vs | Is | VpIp; 50 V | 9 A | 500 J s⁻¹]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains how the operation of the transformer is consistent with conservation of energy ; Includes a relevant calculation"
+        },
+        {
+          "marks": "2",
+          "text": "Relates transformer input and output using power or energy calculations"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The energy input is 500 J s⁻¹.\nThe electrical energy output is VsIs per second = 450 J s⁻¹\nTo be consistent with the law of conservation of energy, 50 J s⁻¹ of energy must be converted into other forms, such as heat.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2019-24a.png",
+        "page": 20,
+        "alt": "Step-up transformer with solid iron core, AC supply, resistor, and a table of Vs, Is and VpIp values."
+      }
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain how TWO modifications to this transformer would improve its efficiency.",
+      "stimulus": "A step-up transformer is constructed using a solid iron core. The coils are made using copper wires of different thicknesses as shown. [Figure: Step-up transformer with solid iron core, AC supply, resistor, and a table of Vs, Is and VpIp values.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains how modifications improve efficiency"
+        },
+        {
+          "marks": "3",
+          "text": "Explains how a modification improves efficiency and identifies a second modification ; OR ; Outlines how modifications improve efficiency ; Identifies modifications"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines how a modification improves efficiency"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The iron core could be laminated. Laminations reduce the magnitude of the induced eddy currents, minimising energy loss.\nThe thicker wire could be used in the primary coil rather than the secondary coil to decrease the resistance where there is a higher current, and hence reduce energy lost as heat.\nBoth modifications would increase its efficiency.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2019-24a.png",
+        "page": 20,
+        "alt": "Step-up transformer with solid iron core, AC supply, resistor, and a table of Vs, Is and VpIp values."
+      }
+    },
+    {
+      "number": "25",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Relate this model to predictions made by Maxwell.",
+      "stimulus": "The diagram shows a model of electromagnetic waves. [Diagram: an oscillating charge emitting an electromagnetic wave, with electric field E and magnetic field B perpendicular to each other and to the propagation direction v.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Relates the model to predictions made by Maxwell ; Relates the model to a prediction made by Maxwell"
+        },
+        {
+          "marks": "3",
+          "text": "Identifies another prediction made by Maxwell or another feature of the model ; Identifies prediction(s) made by Maxwell"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies feature(s) of the model"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The model shows alternating electric and magnetic fields perpendicular to each other. This is consistent with Maxwell’s prediction that a changing electric field produces a changing magnetic field and vice versa.\nThe model shows a wave propagating at velocity v. Maxwell predicted the existence of a range of waves with different wavelengths, all travelling with the same speed.",
+      "answersCouldInclude": [
+        "The model shows an oscillating charge and an e/m wave emanating from it. This is consistent with Maxwell’s prediction that an oscillating charge produces an e/m wave.",
+        "Ways in which this model differs from Maxwell’s predications."
+      ],
+      "figure": {
+        "file": "phy-2019-25.png",
+        "page": 21,
+        "alt": "Oscillating charge emitting an electromagnetic wave with E and B fields perpendicular to each other and to the propagation direction v."
+      }
+    },
+    {
+      "number": "26(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Justify the validity of the student’s model using information from the graph.",
+      "stimulus": "A student carried out an experiment to investigate the relationship between the torque produced by a force and the angle at which the force is applied. A 400 N force was applied to the same position on the handle of a spanner at different angles, as shown. A high-precision device measured the torque applied to the bolt. The data from the experiment is graphed below. [Diagram: spanner with a 25 cm handle, a bolt, and a 400 N force applied at angle θ.] [Graph: torque (Nm) against angle (degrees), with points rising from about 8 Nm at 5° to about 42 Nm at 25°.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides reasons for the validity of the model"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a reason for the validity of the model"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The graph shows a linear relationship with a gradient of 1.7, consistent with the model τ = kθ.\nThe model can be used to accurately predict the torque at any angle within the range of angles measured.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2019-26a.png",
+        "page": 22,
+        "alt": "Spanner with a 25 cm handle and 400 N force at angle θ, above a graph of torque against angle with six data points."
+      }
+    },
+    {
+      "number": "26(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "What happens to the accuracy of this model’s predictions as the angle increases beyond 25°? Justify your answer with reference to a different model.",
+      "stimulus": "A student carried out an experiment to investigate the relationship between the torque produced by a force and the angle at which the force is applied. A 400 N force was applied to the same position on the handle of a spanner at different angles, as shown. A high-precision device measured the torque applied to the bolt. The data from the experiment is graphed below. [Diagram: spanner with a 25 cm handle, a bolt, and a 400 N force applied at angle θ.] [Graph: torque (Nm) against angle (degrees), with points rising from about 8 Nm at 5° to about 42 Nm at 25°.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Justifies an increasing reduction in the student’s model’s accuracy using another model"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a reduction in the model’s accuracy using another model ; Identifies a feature of an alternative model"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a reduction in the model’s accuracy"
+        }
+      ],
+      "sampleAnswer": "The torque produced by a force is more accurately described by τ = rFsinθ, which predicts values of torque smaller than those predicted by the student’s model. The discrepancy between the models increases as the angle is increased.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2019-26a.png",
+        "page": 22,
+        "alt": "Spanner with a 25 cm handle and 400 N force at angle θ, above a graph of torque against angle with six data points."
+      }
+    },
+    {
+      "number": "27(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline a thought experiment that relates to the prediction of time dilation.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Outlines a thought experiment related to the prediction of time dilation"
+        },
+        {
+          "marks": "2",
+          "text": "Provides features of a relevant thought experiment"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a thought experiment or a feature of time dilation"
+        }
+      ],
+      "sampleAnswer": "Imagine a person on a train travelling at near the speed of light with a light pulse that bounces up and down between two mirrors. An observer outside the train sees the light pulse travel in a triangular path. This path is longer than that observed by the person on the train. Since the speed of light is constant for both observers, their measured times would be different. The observer outside the train observes a longer time demonstrating time dilation.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "27(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline experimental evidence that validated the prediction of time dilation.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Outlines experimental evidence that validates time dilation"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a relevant experiment"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Measurements of the decay time of muons produced by cosmic rays in the upper atmosphere, and traveling >0.99c, were made on top of a mountain and at sea level. The data from the mountain top allowed the number of muons that would be observed at sea level, assuming no relativistic effects, to be predicted. The actual number observed at sea level was greater that this model predicted, and was consistent with the increase in the muons’ half-life, predicted by taking time dilation into account, thus validating the prediction of time dilation.",
+      "answersCouldInclude": [
+        "Evidence from atomic clocks on planes",
+        "Evidence from particle accelerators, or",
+        "Evidence from cosmological studies."
+      ]
+    },
+    {
+      "number": "28",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Compare the forces acting on WX and XY before and after this rotation.",
+      "stimulus": "A metal loop, WXYZ is connected to a battery and placed in a uniform magnetic field. A current flows through the loop in the direction shown. The loop is then allowed to rotate by 90° about the axis PQ. [Diagram: metal loop WXYZ between an N and an S pole, with battery, axis PQ and current I shown.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Compares the forces acting on WX and XY before and after the rotation ; Identifies some features of the forces acting on WX and XY"
+        },
+        {
+          "marks": "2",
+          "text": "Compares the forces acting on WX or XY before and after the rotation"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a feature of the force acting on WX or XY"
+        }
+      ],
+      "sampleAnswer": "The magnitude and direction of the force on WX remains the same when it is rotated. Initially, XY experiences no force, whereas after rotation it experiences a force to the right.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2019-28.png",
+        "page": 25,
+        "alt": "Metal loop WXYZ with battery and axis PQ between an N pole above and an S pole below, with current I shown."
+      }
+    },
+    {
+      "number": "29",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Show that the final velocity of the particle is given by v = √(2qV/m).",
+      "stimulus": "A particle having mass m and charge q is accelerated from rest through a potential difference V. Assume that the only force acting on the particle is due to the electric field associated with this potential difference.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Correctly derives the relationship"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some correct steps or reasoning"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Use of calculus."
+      ],
+      "sampleAnswerTruncated": "The work done is equal to the change in kinetic energy.\n∴W = ΔK"
+    },
+    {
+      "number": "31(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the changes that would be observed on the spring balance in the first 15 seconds after the fan is switched on.",
+      "stimulus": "A student suspends an electric ceiling fan from a spring balance. The fan is switched on, reaching a maximum rotational velocity after ten seconds. [Diagram: electric ceiling fan hung from a spring balance, with air movement shown below the fan. Electrical connections are not shown.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains the changes observed on the spring balance"
+        },
+        {
+          "marks": "3",
+          "text": "Explains a change observed on the spring balance ; OR ; Relates changes observed on the spring balance to forces acting on the fan"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies changes observed on the spring balance and/or forces acting on the fan"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "After being switched on, the fan exerts a downward force on the air and due to Newton’s 3rd Law an equal upward force is exerted on the fan by the air. This reduces the net vertical force observed on the spring balance. This effect increases as the fan’s speed increases.\nSince the fan increases in speed until reaching its maximum after 10 seconds, the force observed on the spring balance will decrease until it reaches a minimum at ten seconds, after which it remains constant because the forces are balanced.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2019-31a.png",
+        "page": 28,
+        "alt": "Electric ceiling fan suspended from a spring balance attached to the ceiling, with air movement shown below the fan blades."
+      }
+    },
+    {
+      "number": "31(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Assess the accuracy of the student’s prediction.",
+      "stimulus": "A student suspends an electric ceiling fan from a spring balance. The fan is switched on, reaching a maximum rotational velocity after ten seconds. The student predicted that the current through the fan’s motor would vary as shown on the graph. [Graph: current against time (s), rising linearly from 0 to 10 s and constant from 10 s to 15 s.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Assesses features of the prediction"
+        },
+        {
+          "marks": "3",
+          "text": "Assesses a feature of the prediction ; OR ; Outlines issues with the prediction"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines an issue with the prediction"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Between 0–10 s the student’s prediction incorrectly shows an increasing current. During this time the magnitude of back emf in the motor is increasing, therefore reducing the current in the motor.\nFrom 10–15 s the student’s prediction correctly shows a constant current. Since the fan has reached a constant speed, the magnitude of the back emf is also constant, so the net current in the motor is constant.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "phy-2019-31b.png",
+        "page": 29,
+        "alt": "Graph of predicted motor current against time from 0 to 15 s, rising linearly to 10 s and then constant."
+      }
+    },
+    {
+      "number": "32",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe how specific experiments have contributed to our understanding of the electron and ONE other fundamental particle.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Presents features of relevant experiments and how their results increased our understanding"
+        },
+        {
+          "marks": "4",
+          "text": "Presents feature(s) of relevant experiments and how their results increased our understanding"
+        },
+        {
+          "marks": "3",
+          "text": "Presents features of a relevant experiment and how the result increased our understanding"
+        },
+        {
+          "marks": "2",
+          "text": "Presents feature(s) of relevant experiments ; Identifies a relevant experiment and its result or its effect on our understanding"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "In an experiment, the velocity of charged oil droplets moving under the influence of gravitational and electric fields was measured. Discrete differences in velocity were observed, providing evidence to determine the charge on an electron.\nOther fundamental particles include quarks. In one experiment, an accelerated beam of electrons was fired at protons. Scattering patterns produced were interpreted to show that the protons they struck consisted of three smaller particles, later named quarks.",
+      "answersCouldInclude": [
+        "Experimental evidence showing properties of cathode rays in glass tubes, electron properties such as charge : mass ratio or wave properties.",
+        "Experiments which revealed information about second or third generation quarks (strange, charm, top, bottom)."
+      ]
+    },
+    {
+      "number": "33",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain ONE similarity and ONE difference in their trajectories as they move in the magnetic field.",
+      "stimulus": "A proton and an alpha particle are fired into a uniform magnetic field with the same speed from opposite sides as shown. Their trajectories are initially perpendicular to the field. [Diagram: uniform magnetic field shown as crosses, with a proton entering from the left and an alpha particle entering from the right.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains a similarity and a difference"
+        },
+        {
+          "marks": "3",
+          "text": "Explains a similarity or a difference ; AND ; Outlines the other"
+        },
+        {
+          "marks": "2",
+          "text": "Explains a similarity or a difference ; OR ; Outlines a similarity and a difference"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Similarity – both particles will experience a force perpendicular to both their velocity and the magnetic field lines. This will result in both particles experiencing circular motion (in a clockwise direction).\nDifference – since the radius is proportional to the mass and inversely proportional to the charge of the particle, the radius of the alpha particle trajectory is greater.",
+      "answersCouldInclude": [
+        "Sketches the diagram in the question."
+      ],
+      "figure": {
+        "file": "phy-2019-33.png",
+        "page": 31,
+        "alt": "Uniform magnetic field into the page with a proton entering from the left and an alpha particle entering from the right."
+      }
+    },
+    {
+      "number": "34",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 9,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Describe both the production and radiation of energy by the sun. In your answer, include a quantitative analysis of both the power output and the surface temperature of the sun.",
+      "stimulus": "Use the following information to answer this question. [Table: Earth’s distance from the sun, r = 1.5 × 10¹¹ m; intensity of solar radiation at a distance r from the sun = 1360 W m⁻²; surface area of a sphere = 4πr².] [Graph: radiation curve for the sun, intensity against wavelength (nm), peaking near 500 nm.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "9",
+          "text": "Describes the production and radiation of energy ; Provides quantitative analysis of power output and surface temperature"
+        },
+        {
+          "marks": "7–8",
+          "text": "Describes aspects of the production and radiation of energy ; Provides aspects of quantitative analysis of power output and surface temperature ; Describes aspect(s) of the production and radiation of energy ; Provides aspects of quantitative analysis of power output or surface temperature"
+        },
+        {
+          "marks": "5–6",
+          "text": "Describes aspects of the production or radiation of energy ; Provides aspects of quantitative analysis of power output and surface temperature ; Outlines aspect(s) of the production and/or radiation of energy"
+        },
+        {
+          "marks": "3–4",
+          "text": "Provides aspect(s) of quantitative analysis of power output and/or surface temperature"
+        },
+        {
+          "marks": "1–2",
+          "text": "Identifies aspect(s) of the production and/or radiation of energy"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Quantitative analysis relating the calculated power and E = mc2 in lieu of proton–proton chain."
+      ],
+      "sampleAnswerTruncated": "Most of the sun’s energy is produced by the proton-proton chain fusion reactions which convert hydrogen into helium via intermediate reactions involving the formation of deuterium and helium. During this process mass is converted to energy.\nThe sun acts like a black body and its radiation is characterised by a black body curve. Energies are determined by the wavelength of the radiation. It peaks at a specific wavelength which characterises its temperature.",
+      "figure": {
+        "file": "phy-2019-34.png",
+        "page": 32,
+        "alt": "Table of solar constants with a radiation curve for the sun, intensity against wavelength from about 400 to 700 nm."
+      }
+    },
+    {
+      "number": "35",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Describe how the apparatus can be used to determine features of the car’s motion. In your answer, derive an expression that relates a feature of the car’s motion to the angle θ.",
+      "stimulus": "The apparatus shown is attached horizontally to the roof inside a stationary car. The plane of the protractor is perpendicular to the sides of the car. [Diagram: protractor and light string hung from the car roof with a mass at the end of the string, viewed towards the front of the car.] The car was then driven at a constant speed (v), on a horizontal surface, causing the string to swing to the right and remain at a constant angle (θ) measured with respect to the vertical.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Relates observations to features of the car’s motion ; Derives an expression that relates the radius in terms of θ"
+        },
+        {
+          "marks": "3",
+          "text": "Relates observations to features of the car’s motion ; Provides some steps toward determining an expression for a feature of the motion in terms of θ"
+        },
+        {
+          "marks": "2",
+          "text": "Relates an observation to a features of the car’s motion"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sampleAnswerTruncated": "The constant deflection of the pendulum to the right indicates that the car has a uniform acceleration to the left, and is therefore travelling in uniform circular motion.\nLarger values of θ indicate smaller radii of motion.\nThe radius of motion can be expressed in terms of θ:",
+      "figure": {
+        "file": "phy-2019-35.png",
+        "page": 34,
+        "alt": "Protractor attached to a car roof with a light string and mass hanging at angle θ from the vertical."
+      }
+    },
+    {
+      "number": "36",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 7,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "By considering mass defect, calculate the kinetic energy of the alpha particle, and explain why it is significantly greater than that of the polonium atom.",
+      "stimulus": "A radon-198 atom, initially at rest, undergoes alpha decay. The masses of the atoms involved are shown in atomic mass units (u). [Equation: radon-198 → polonium-194 + helium-4, with masses 197.999 u, 193.988 u and 4.00260 u.] The kinetic energy of the polonium atom produced is 2.55 × 10−14 J.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Applies correct method to calculate KE of the alpha particle ; Explains the greater KE of the alpha particle using the principle of conservation of momentum"
+        },
+        {
+          "marks": "6",
+          "text": "Applies correct method to calculate KE of the alpha particle ; Applies the principle of conservation of momentum"
+        },
+        {
+          "marks": "4–5",
+          "text": "Shows the main steps of the calculation of KE ; Shows a sound understanding of the conservation of momentum"
+        },
+        {
+          "marks": "2–3",
+          "text": "Shows step(s) of the calculation of KE ; Shows some understanding of the conservation of momentum"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Calculation not using mass defect (K → P)."
+      ],
+      "sampleAnswerTruncated": "Alpha decay\nMass defect = 197.999 – (193.988 + 4.000260) = 0.0084u\nConverting to kilograms = 0.0084 × 1.661 × 10–27 = 1.395 × 10–29 kg\nTotal energy produced = mc2 = 1.395 × 10–29 × (3 × 108)2 = 1.256 × 10–12 J\nKEalpha = Total Energy produced – KEpolonium = 1.256 × 10–12 – 2.44 × 10–14\n= 1.23 × 10–12 J\nSince the radon atom is initially at rest, the decay products move away from each other with equal and opposite momenta. As the alpha particle’s mass is significantly less than that of the polonium atom, it therefore has a significantly higher velocity (p = mv), and consequently a higher KE."
+    }
+  ],
+  "edits": [
+    "24(a) and 24(b): figure cropped as one image (diagram above table) with the table placed beneath the diagram.",
+    "26(a)/(b): figure composed from two crops (spanner diagram; graph) to exclude body text lines between them.",
+    "Sample answers garbled by the text layer (fraction and stacked-exponent formulas) are moved to sampleAnswerTruncated: 21, 29, 34, 35, 36.",
+    "24(b): stimulus carries the figure line [Figure: alt] in place of \"[Diagram: as for part (a).]\", which points to another part.",
+    "Notation kept as the extract carries it: subscripts and superscripts (q₁, t₀, 1.2 × 2.3), with the NESA print where the text layer differs (θ for q, en-dash minus for ⁻¹, plain q1 in some ladder rows)."
+  ]
+}
