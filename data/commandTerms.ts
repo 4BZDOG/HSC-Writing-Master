@@ -1056,9 +1056,14 @@ export const lengthMismatchNote = (verb: PromptVerb | string, totalMarks: number
  * raising its band ceiling a tier. Used first wherever a missing verb is
  * inferred from a question; `extractCommandVerb` remains the fallback for a
  * question that leads with something else ("Design a model… Describe…").
+ *
+ * A quotation mark, bracket or markdown emphasis before the verb is skipped, so
+ * a stem written as `"Analyse the extract…"` still opens with ANALYSE. The match
+ * is anchored to the start, so a noun such as "the extract" or "state" mid-sentence
+ * is never read as a command.
  */
 export const leadingCommandVerb = (question: string): CommandTermInfo | undefined => {
-  const opening = question.trim().toLowerCase();
+  const opening = question.replace(/^[\s"'“”‘’([{*_]+/, '').toLowerCase();
   if (!opening) return undefined;
   let best: CommandTermInfo | undefined;
   for (const info of commandTerms.values()) {
