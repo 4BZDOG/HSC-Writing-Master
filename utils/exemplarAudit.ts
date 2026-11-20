@@ -39,12 +39,34 @@ export interface ExemplarFlag {
   message: string;
 }
 
-/** Only real, curated library exemplars are audited — not a student's own draft. */
-const isLibraryExemplar = (sa: SampleAnswer): boolean =>
+/**
+ * Whether a sample's text counts as an answer at all, for a question worth this
+ * many marks. Used by the audit's No Samples check and by this module, so the two
+ * cannot disagree about what a sample is.
+ *
+ * A stub of 30 characters or fewer is not an answer, except on a 1-2 mark
+ * question, where the correct answer is legitimately short ("Coal", "4 am",
+ * "Sugar, phosphate and base"): any non-empty answer counts there.
+ */
+export const sampleCountsAsAnswer = (answer: unknown, totalMarks: number): boolean => {
+  if (typeof answer !== 'string') return false;
+  const trimmed = answer.trim();
+  const marks = Number(totalMarks);
+  if (marks > 0 && marks <= 2) return trimmed.length > 0;
+  return trimmed.length > 30;
+};
+
+/**
+ * Only real, curated library exemplars are audited: not a student's own draft,
+ * and not NESA's published HSC answers (`HSC_EXEMPLAR`), which are the standard
+ * the app calibrates to. Their length is NESA's own, so flagging them as too
+ * short would flag the benchmark, not the library.
+ */
+const isLibraryExemplar = (sa: SampleAnswer, totalMarks: number): boolean =>
   sa.source !== 'USER' &&
+  sa.source !== 'HSC_EXEMPLAR' &&
   !sa.derivedFromStudent &&
-  typeof sa.answer === 'string' &&
-  sa.answer.trim().length > 30;
+  sampleCountsAsAnswer(sa.answer, totalMarks);
 
 const clampBand = (b: number): number => Math.max(1, Math.min(6, Math.round(b)));
 
@@ -68,9 +90,9 @@ export const auditSampleAnswer = (
   dotPointText?: string
 ): ExemplarFlag[] => {
   const flags: ExemplarFlag[] = [];
-  if (!isLibraryExemplar(sample)) return flags;
-
   const totalMarks = Number(prompt.totalMarks) || 0;
+  if (!isLibraryExemplar(sample, totalMarks)) return flags;
+
   const band = clampBand(sample.band);
   const analysis = analyzeText(sample.answer);
   const { wordCount, paragraphCount } = analysis;
@@ -87,8 +109,16 @@ export const auditSampleAnswer = (
   //    own length expects — its word count reads as three or more bands lower —
   //    it is likely under-developed for the band it claims. A gap of two bands
   //    is a softer note. (A one-band gap is far too common to be worth raising.)
+  //
+  //    The length is judged against the marks THIS sample answers, not the whole
+  //    question's. A 4-of-6 sample is a 4-mark answer: sized against 6 marks it
+  //    reads as a band too short, which is how #503 ("marks that match their
+  //    length") sized samples in the first place. Falls back to the question's
+  //    marks when the sample has none.
   if (totalMarks > 0 && wordCount > 0) {
-    const lengthBand = getBandForWordCount(wordCount, totalMarks);
+    const sampleMarks =
+      Number.isFinite(sample.mark) && sample.mark > 0 ? Math.round(sample.mark) : totalMarks;
+    const lengthBand = getBandForWordCount(wordCount, sampleMarks);
     const shortfall = band - lengthBand;
     if (shortfall >= 2) {
       flags.push({
@@ -96,7 +126,7 @@ export const auditSampleAnswer = (
         band,
         severity: shortfall >= 3 ? 'warning' : 'info',
         code: 'under-length',
-        message: `A Band ${band} exemplar but only ${wordCount} words — a Band ${band} answer here is usually ~${expectedMinWords(band, totalMarks)}+.`,
+        message: `A Band ${band} exemplar but only ${wordCount} words — a Band ${band} answer for ${sampleMarks} mark${sampleMarks === 1 ? '' : 's'} is usually ~${expectedMinWords(band, sampleMarks)}+.`,
       });
     }
   }

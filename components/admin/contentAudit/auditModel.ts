@@ -1,9 +1,13 @@
 import { Course, Topic, SubTopic, DotPoint, Prompt, StatePath } from '../../../types';
 import { outcomesForYear, yearOfTopic } from '../../../utils/syllabusYear';
 import { SUBJECT_AREAS, subjectAreaOf, type SubjectArea } from '../../../utils/subjectAreas';
-import { extractCommandVerb } from '../../../data/commandTerms';
+import {
+  extractCommandVerb,
+  leadingCommandVerb,
+  minimumTierForMarks,
+} from '../../../data/commandTerms';
 import { createKeywordRegex } from '../../../utils/renderUtils';
-import { promptHasExemplarMismatch } from '../../../utils/exemplarAudit';
+import { promptHasExemplarMismatch, sampleCountsAsAnswer } from '../../../utils/exemplarAudit';
 import { dropNonSyllabusTerms } from '../../../services/geminiService';
 import { missingSyllabusTerms } from '../../../utils/syllabusTermGaps';
 import { guideStyleProblem } from '../../../utils/markingGuideLadder';
@@ -139,8 +143,13 @@ export const hasNonStandardRubric = (n: TreeNode) =>
  * highlighter from the recorded verb, so nothing is coloured, and the Verb Gate
  * reads the same tag for the band ceiling.
  *
- * `extractCommandVerb` agreed with all twelve, so it is the natural detector —
- * but it stays a FLAG rather than a fix. Which verb governs a two-part question
+ * That was the first rule: any tagged verb missing from the text. It flagged all
+ * 282 shipped exam-form stems that carry the nearest verb on purpose ("How…",
+ * "To what extent…") and every long question tagged with the verb its length
+ * floor requires, so the rule now flags only a real mistag (`verbIsMistagged`):
+ * the question opens with a different command verb that the length calls for.
+ *
+ * It stays a FLAG rather than a fix. Which verb governs a two-part question
  * ("Convert this length … and justify …") is a marker's call, not a codemod's.
  */
 export const verbNotInQuestion = (n: TreeNode) =>
@@ -374,7 +383,7 @@ export const AUDIT_FILTERS: AuditFilterDefinition[] = [
     id: 'verbNotInQuestion',
     label: 'Verb Not In Question',
     title:
-      'Questions tagged with a command verb their own text never uses — the tag sets the band ceiling, so this one changes what a student can score',
+      'Questions whose opening command verb differs from the verb they are tagged with — the tag sets the band ceiling, so this one changes what a student can score. Allows for the length floor (a long question may carry a higher-tier verb than it opens with) and for verbless exam stems like "How…" or "To what extent…"',
     tone: 'rose',
     group: 'review',
     matches: verbNotInQuestion,
@@ -541,6 +550,27 @@ const verbTestRegex = (verb: string): RegExp | null => {
 };
 
 /**
+ * True when a question's recorded verb is a mistag: the question opens with a
+ * different command verb, and that verb is one the length calls for.
+ *
+ * A tagged verb found anywhere in the question is never a mistag. Otherwise the
+ * question must lead with a command verb (`leadingCommandVerb`), the tag must
+ * differ from it, and the verb must reach the length floor. The floor is why a
+ * 20-mark "Analyse how…" tagged DISCUSS is deliberate: a question of 15 marks or
+ * more must carry Tier 5, and ANALYSE is Tier 4 (see `minimumTierForMarks`), so
+ * the tag is the floor's stand-in, not a mistake. A verbless exam stem ("To what
+ * extent…", "In what ways…") is never flagged: the playbook stores the nearest
+ * verb for those.
+ */
+export const verbIsMistagged = (question: string, tag: string, totalMarks: number): boolean => {
+  const regex = verbTestRegex(tag);
+  if (regex && regex.test(question)) return false;
+  const lead = leadingCommandVerb(question);
+  if (!lead || lead.term.toLowerCase() === tag.toLowerCase()) return false;
+  return lead.tier >= minimumTierForMarks(totalMarks);
+};
+
+/**
  * The library as an audit tree, grouped by faculty.
  *
  * Faculty is the top level because it is the unit a head teacher works in: the
@@ -613,20 +643,19 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
 
             // 3. Samples
             const validSamples = Array.isArray(p.sampleAnswers)
-              ? p.sampleAnswers.filter(
-                  (sa) => typeof sa.answer === 'string' && sa.answer.trim().length > 30
+              ? p.sampleAnswers.filter((sa) =>
+                  sampleCountsAsAnswer(sa.answer, Number(p.totalMarks) || 0)
                 )
               : [];
 
-            // 4. The verb the question actually asks for. Matched with the
+            // 4. The verb the question actually asks for. Present-ness uses the
             //    SAME matcher that drives the highlighting, so the flag and the
-            //    colour can never disagree about what counts as present.
-            const verbRegex = p.verb ? verbTestRegex(p.verb) : null;
+            //    colour can never disagree; see `verbIsMistagged` for the rest.
             const promptVerbIsAbsent =
               !!p.verb &&
               typeof p.question === 'string' &&
               p.question.trim().length > 0 &&
-              !(verbRegex && verbRegex.test(p.question));
+              verbIsMistagged(p.question, p.verb, Number(p.totalMarks) || 0);
 
             return {
               id: p.id,

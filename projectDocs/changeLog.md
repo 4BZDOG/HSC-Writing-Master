@@ -1,5 +1,21 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-20 (Content Studio checks that flag real problems)
+
+- **Fixed.** Three Content Studio filters flagged content that follows the seed's own rules. No shipped data changed.
+  - **Verb Not In Question** (294 → 4). Every flag was a past HSC question tagged by the playbook's convention: an
+    exam stem with no command verb ("How…", "To what extent…") stores the nearest one, and the length floor
+    (`minimumTierForMarks`) makes a 20-mark "Analyse…" a DISCUSS. A question is now flagged only when it opens with a
+    different command verb that its length allows. `leadingCommandVerb` also skips a leading quotation mark. The four
+    left open with Evaluate and are tagged ASSESS, which is for a marker to decide.
+  - **Exemplar Mismatch** (164 → 97). NESA's own sample answers (`HSC_EXEMPLAR`) are no longer judged against the
+    app's length targets, and a part-mark sample is sized by its own mark rather than the question's.
+  - **No Samples** (7 → 0). On a 1–2 mark question any non-empty answer counts ("Coal", "4 am"); the 30-character
+    floor stays from 3 marks (`sampleCountsAsAnswer`).
+- **Still open.** The remaining Exemplar Mismatch flags are mostly 20-mark Band 6 essays missing a phrase the question
+  names (often a literal-match miss such as "Keats' poetry" against "Keats's"), and 25-mark Band 6 answers under the
+  Band 6 length target. The single-paragraph note is still sized against full marks.
+
 ## [Unreleased] - 2026-11-20 (Outcomes from the right year)
 
 - **Fixed (DATA_VERSION 2.58.0).** 100 shipped questions were linked only to the other year's outcomes, so the Content Studio's "No Outcomes" filter flagged them.
