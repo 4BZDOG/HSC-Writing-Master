@@ -2,7 +2,11 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import ContentAuditModal from '../../components/admin/ContentAuditModal';
-import { isNonStandardRubric } from '../../components/admin/contentAudit/auditModel';
+import {
+  isNonStandardRubric,
+  syllabusTermGaps,
+  type TreeNode,
+} from '../../components/admin/contentAudit/auditModel';
 import { dropNonSyllabusTerms, sanitiseKeywords } from '../../services/geminiService';
 import { missingSyllabusTerms } from '../../utils/syllabusTermGaps';
 import type { Course } from '../../types';
@@ -448,5 +452,144 @@ describe('the studio offers the missing terms as an edit', () => {
     expect(kept.slice(0, 2)).toEqual(['verify', 'validate']);
     expect(kept).toContain('test data');
     expect(kept).toContain('bug data');
+  });
+});
+
+/**
+ * Missing Terms proposed fragments and verbs: "shape meaning", "Gather data",
+ * "achieving Australias economic", "have shaped", "Australias". The candidate
+ * rules are the same whatever the question says, so each case is a dot point
+ * whose words the question and scenario repeat — the case most likely to be
+ * proposed, and the one the rules exist for.
+ */
+describe('missingSyllabusTerms — fragments and non-command verbs are not terms', () => {
+  const echoed = (dotPoint: string, fragment: string) => ({
+    question: `Explain the ${fragment} in this case.`,
+    scenario: `In the case, the ${fragment} is set out.`,
+    keywords: [] as string[],
+    dotPoint,
+  });
+
+  it.each([
+    'develop',
+    'produce',
+    'generate',
+    'prepare',
+    'collect',
+    'promote',
+    'protect',
+    'improve',
+    'achieve',
+    'have',
+    'make',
+    'give',
+    'take',
+    'name',
+    'writing',
+  ])('never proposes "%s" as a term, alone or in a phrase', (word) => {
+    const dotPoint = `Discuss how governments ${word} human rights in a democracy.`;
+    const terms = missingSyllabusTerms(dotPoint, {
+      question: `Discuss how governments ${word} human rights in a democracy.`,
+      scenario: `Governments ${word} human rights in a democracy.`,
+      keywords: [],
+    });
+    const words = terms.flatMap((t) => t.toLowerCase().split(' '));
+    expect(words).not.toContain(word);
+  });
+
+  it.each([
+    ['Analyse how texts shape meaning.', 'shape meaning'],
+    ['Gather data about the local council.', 'Gather data'],
+    ['Assess how policies improve access to services.', 'improve access'],
+    ['Discuss how the states promoting international trade.', 'promoting international'],
+    [
+      'Assess how Australia achieving Australia’s economic goals.',
+      'achieving Australia’s economic',
+    ],
+    ['Explain how the artists have shaped the movement.', 'have shaped'],
+    ['Suggest probable future outcomes.', 'suggest probable future'],
+    ['Describe the field around a magnet.', 'field around'],
+    ['Infer past climates from the record.', 'infer past'],
+    ['Describe how the firm can make informed choices.', 'make informed'],
+  ])('does not propose the fragment from "%s"', (dotPoint, fragment) => {
+    const terms = missingSyllabusTerms(dotPoint, echoed(dotPoint, fragment.replace(/ ?’s/, 's')));
+    expect(terms.map((t) => t.toLowerCase())).not.toContain(
+      fragment.replace(/’/g, "'").toLowerCase()
+    );
+  });
+
+  it('keeps a final -ing word after subject matter: problem solving, decision making', () => {
+    const terms = missingSyllabusTerms('Analyse the role of problem solving in decision making.', {
+      question: 'Analyse the role of problem solving in decision making in a company.',
+      scenario: 'A manager uses problem solving and decision making in a dispute.',
+      keywords: [],
+    });
+    expect(terms).toContain('problem solving');
+    expect(terms).toContain('decision making');
+  });
+
+  it('does not keep a listed verb that ends a phrase: particle moving', () => {
+    const terms = missingSyllabusTerms('Describe the force on a particle moving in a field.', {
+      question: 'Describe the force on a particle moving in a magnetic field.',
+      scenario: 'A particle moving through the field is deflected.',
+      keywords: [],
+    });
+    expect(terms).not.toContain('particle moving');
+  });
+
+  it('keeps the terms the syllabus writes, as they were in the syllabus', () => {
+    const dotPoint =
+      'Analyse human rights and problem solving, including Torres Strait Islander Peoples, ' +
+      'import-competing domestic markets and secondary-source investigation.';
+    const terms = missingSyllabusTerms(dotPoint, {
+      question:
+        'Analyse human rights and problem solving, including Torres Strait Islander Peoples, ' +
+        'import-competing domestic markets and secondary-source investigation.',
+      keywords: [],
+    });
+    for (const term of [
+      'human rights',
+      'problem solving',
+      'Torres Strait Islander Peoples',
+      'import-competing domestic markets',
+      'secondary-source investigation',
+    ])
+      expect(terms, term).toContain(term);
+  });
+
+  it('keeps an apostrophe in the display text, and never proposes "Australias"', () => {
+    const dotPoint = "Analyse Australia's economic objectives and Australia's policies.";
+    const terms = missingSyllabusTerms(dotPoint, {
+      question: "Analyse Australia's economic objectives and Australia's policies.",
+      scenario: "The government sets Australia's economic objectives.",
+      keywords: [],
+    });
+    expect(terms).toContain("Australia's economic objectives");
+    expect(terms.some((t) => /australias/i.test(t))).toBe(false);
+  });
+});
+
+describe('syllabusTermGaps — the app’s term rule applies to every proposal', () => {
+  it('never proposes a word the term rule rejects, even when the question repeats it', () => {
+    const dotPoint = 'Analyse the influence and significance of the media on public opinion.';
+    const prompt = {
+      id: 'p',
+      question: 'Analyse the influence and significance of the media on public opinion.',
+      scenario: 'A council assesses the influence and significance of its newsletter.',
+      verb: 'ANALYSE',
+      keywords: [],
+    };
+    const node = {
+      id: 'p',
+      type: 'prompt',
+      label: 'p',
+      dataRef: prompt,
+      dotPointText: dotPoint,
+      path: {},
+      stats: {},
+    } as unknown as TreeNode;
+    const terms = syllabusTermGaps(node).map((t) => t.toLowerCase());
+    expect(terms).not.toContain('influence');
+    expect(terms).not.toContain('significance');
   });
 });

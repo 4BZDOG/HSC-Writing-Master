@@ -1529,21 +1529,39 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
    */
   const handleAddTerms = () => {
     if (isProcessing) return;
-    const targets: { path: StatePath; label: string; terms: string[] }[] = [];
+    const targets: { path: StatePath; label: string; terms: string[]; dotPointText?: string }[] =
+      [];
     selectedIds.forEach((id) => {
       const node = flatMap.get(id);
       if (!node) return;
       const terms = syllabusTermGaps(node);
-      if (terms.length > 0) targets.push({ path: node.path, label: node.label, terms });
+      if (terms.length > 0)
+        targets.push({
+          path: node.path,
+          label: node.label,
+          terms,
+          dotPointText: node.dotPointText,
+        });
     });
     if (targets.length === 0) return;
 
     const added = targets.reduce((sum, t) => sum + t.terms.length, 0);
 
+    // The same rule Tidy Terms applies, and the same context, so a term is
+    // appended only if the app would keep it. Deduped against what is already
+    // listed, in case the list changed since the gap was computed.
     updateCourses((draft) => {
-      targets.forEach(({ path, terms }) => {
+      targets.forEach(({ path, terms, dotPointText }) => {
         const prompt = findDraftPrompt(draft, path);
-        if (prompt) prompt.keywords = [...(prompt.keywords ?? []), ...terms];
+        if (!prompt) return;
+        const existing = prompt.keywords ?? [];
+        const have = new Set(existing.map((k) => String(k).trim().toLowerCase()));
+        const fresh = dropNonSyllabusTerms(
+          terms,
+          prompt.verb,
+          termContextFor(prompt, dotPointText)
+        ).filter((t) => !have.has(t.toLowerCase()));
+        prompt.keywords = [...existing, ...fresh];
       });
     });
 
