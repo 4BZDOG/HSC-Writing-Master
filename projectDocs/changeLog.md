@@ -1,5 +1,20 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-20 (Chemistry: six more years of HSC papers)
+
+- **Added (DATA_VERSION 2.64.0).** 68 past HSC questions from the 2019–2024 Chemistry papers (2017 syllabus), each
+  mapped to the 2025 dot point that covers it (3 to Year 11), as the 2025 paper was. 35 printed graphs, spectra,
+  tables and diagrams ship as `scenarioImage`.
+  - Chemical notation follows the 2025 questions (Unicode subscripts and superscripts, → and ⇌, ΔH). The PDF text
+    layer drops these, so each corrupted arrow was checked against the rendered page.
+  - NESA's sample answers are the full-mark exemplars, verbatim, except where the text layer truncated an equation
+    (2020 26(b) and 34, 2023 26(a) and 30, 2024 23, 27 and 34): those get a complete written answer. Marker notes flag
+    one slip in a NESA sample (2019 34 says ethanol has two ¹H NMR signals; NESA's own guidelines say three).
+  - Left out, as in 2.52.0: multiple choice, drawing, and calculation-only parts. Also left out is content the 2025
+    syllabus drops (entropy, Gibbs energy, atom economy).
+  - Extracts are in `data/referencePapers/chemistry-2019…2024-paper-and-guidelines.json`, with `edits` recording the
+    re-copied ladders and notation-only changes.
+
 ## [Unreleased] - 2026-11-20 (Biology: the 2019–2021 HSC papers)
 
 - **Added (DATA_VERSION 2.63.0).** 53 past HSC questions from the 2019–2021 Biology papers (2017 syllabus), each mapped
