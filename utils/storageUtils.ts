@@ -163,7 +163,8 @@ import {
 // 2.61.0: Ancient History past HSC questions from the 2019–2024 papers (414, with 25 printed figures).
 // 2.62.0: Modern History past HSC questions from the 2019–2024 papers (268, with 13 printed figures).
 // 2.63.0: Biology past HSC questions from the 2019–2021 papers (53, with 32 printed figures).
-export const DATA_VERSION = '2.63.0';
+// 2.64.0: Chemistry past HSC questions from the 2019–2024 papers (68, with 35 printed figures).
+export const DATA_VERSION = '2.64.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

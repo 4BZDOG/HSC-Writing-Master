@@ -1,0 +1,490 @@
+{
+  "year": 2021,
+  "course": "Chemistry",
+  "papers": [
+    "2021-hsc-chemistry.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "21(b)",
+      "reason": "Requires identifying the four liquids by writing them into the answer table; a table completion."
+    },
+    {
+      "number": "24",
+      "reason": "Requires drawing structural formulae of the alkane and its isomers and naming them; drawn structures plus naming."
+    },
+    {
+      "number": "25",
+      "reason": "Calculation of the mass of ethanol from gas volumes; purely numerical working with an equation."
+    },
+    {
+      "number": "26(a)",
+      "reason": "Requires drawing structural formulae for compounds A to D in the flow chart."
+    },
+    {
+      "number": "27(a)",
+      "reason": "Calculation of the range of Ksp; purely numerical working."
+    },
+    {
+      "number": "28",
+      "reason": "Calculation identifying the alkali metal hydroxide; purely numerical working with an equation."
+    },
+    {
+      "number": "31",
+      "reason": "Calculation of moles of nitrogen gas to add at equilibrium; purely numerical equilibrium working."
+    },
+    {
+      "number": "33(a)",
+      "reason": "Calculation of ΔG at 300 K; purely numerical working."
+    },
+    {
+      "number": "35",
+      "reason": "Calculation of ethanol concentration to test the manufacturer's requirement; purely numerical titration working."
+    },
+    {
+      "number": "36",
+      "reason": "Calculation of the equilibrium constant from pKa values; purely numerical working."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "State ONE safety concern associated with organic liquids and suggest ONE way to address this safety concern.",
+      "stimulus": "Four organic liquids are used in an experiment. The four liquids are • hexane • hex-1-ene • propan-1-ol • propanoic acid.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies a safety concern associated with organic liquids ; States how the safety concern could be addressed"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Organic solvents are generally flammable so no sources of ignition should be present.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "21(c)",
+      "section": "II",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "What chemical test, other than those used in part (b), could be used to confirm the identification of ONE of the liquids? Include the expected observation in your answer.",
+      "stimulus": "Four organic liquids are used in an experiment. The four liquids are • hexane • hex-1-ene • propan-1-ol • propanoic acid. The organic liquids are held separately in four flasks but the flasks are not labelled. Tests were conducted to identify these liquids.\n[Figure: Table of flasks 1 to 4 with reaction with acidified KMnO₄/H⁺ and miscibility with water (Yes/No).]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides a relevant test for the liquid ; States the expected observation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Liquid: propanoic acid\nAdd a small amount of solid sodium hydrogen carbonate to the organic liquid. Bubbles of gas are produced indicating propanoic acid.",
+      "answersCouldInclude": [
+        "Liquid: propanoic acid\nAdd drops of universal indicator to the organic liquid. If it is propanoic acid, the indicator will change colour from green to yellow/orange/red.",
+        "Use of other indicators such at litmus paper or a pH probe.",
+        "Liquid: hex-1-ene\nAdd drops of bromine water to the organic liquid. If it is hex-1-ene, the bromine water will decolourise.",
+        "Liquid: propan-1-ol\nSodium metal or Lucas test."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2021-21c.png",
+        "page": 14,
+        "alt": "Table of flasks 1 to 4 with reaction with acidified KMnO₄/H⁺ and miscibility with water (Yes/No)."
+      }
+    },
+    {
+      "number": "22",
+      "section": "II",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Justify TWO ways to shift the equilibrium to the left to change the colour of the solution.",
+      "stimulus": "Consider the following equilibrium system. 2CrO₄²⁻(aq) + 2H⁺(aq) ⇌ Cr₂O₇²⁻(aq) + H₂O(l) ΔH = –895 kJ mol⁻¹ yellow orange The solution is orange.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Justifies TWO relevant ways"
+        },
+        {
+          "marks": "2",
+          "text": "Justifies ONE relevant way OR Identifies TWO relevant ways"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The concentration of hydrogen ions could be reduced. This would increase the concentration of chromate ions, which will make the solution more yellow.\nHeating the solution will drive the reaction to the left, as the forward reaction is exothermic. Thus the concentration of yellow chromate ions would increase.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Write a balanced chemical equation for this reaction.",
+      "stimulus": "Methanoic acid reacts with aqueous potassium hydroxide. A salt is produced in this reaction.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides a substantially correct balanced equation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "HCOOH(aq) + KOH(aq) → KHCOO(aq) + H₂O(l).",
+      "answersCouldInclude": [
+        "HCOOH(aq) + KOH(aq) → KHCOO(s) + H₂O(l)."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Is the salt acidic, basic or neutral? Justify your answer.",
+      "stimulus": "Methanoic acid reacts with aqueous potassium hydroxide. A salt is produced in this reaction.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Correctly identifies salt as basic ; Provides suitable justification"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Potassium methanoate is a basic salt as HCOO⁻ is the conjugate base of a weak acid.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "26(b)",
+      "section": "II",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Provide TWO reasons for using this technique.",
+      "stimulus": "Reflux is used in the synthesis of methyl 2-methylpropanoate.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Gives TWO reasons for refluxing reaction mixture"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Reflux uses heat to speed up the reaction.\nThe condenser retains the volatile reactants and products.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "27(b)",
+      "section": "II",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Justify ONE way in which the procedure of this investigation could be improved to increase the accuracy of the calculated result.",
+      "stimulus": "An experiment is carried out to determine the Ksp value for lithium phosphate (Li₃PO₄). Five samples of Li⁺ ion solution were prepared, and a different solution of PO₄³⁻ was added to each of them. Columns 2 and 3 of the table show the values before any reaction occurs.\n[Figure: Table of five samples: [Li⁺] 0.15 mol L⁻¹, [PO₄³⁻] from 0.00010 to 1.00 mol L⁻¹, and observations from no precipitate to heavy white precipitate.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "States one way to improve the investigation and relates that to the accuracy of the calculated result"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Increase the number of solutions of PO₄³⁻ ions in the concentration range of 0.010 mol L⁻¹ to 0.10 mol L⁻¹. This will narrow the range of values and bring the estimated value closer to the SI value of lithium phosphate.",
+      "answersCouldInclude": [
+        "Titrate the Li⁺ ions against a PO₄³⁻ ion solution until a permanent precipitate is formed. This will give an experimental value that is correct or close to correct to the SI value for lithium phosphate."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2021-27b.png",
+        "page": 20,
+        "alt": "Table of five samples: [Li⁺] 0.15 mol L⁻¹, [PO₄³⁻] from 0.00010 to 1.00 mol L⁻¹, and observations from no precipitate to heavy white precipitate."
+      }
+    },
+    {
+      "number": "29",
+      "section": "II",
+      "marks": 7,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Relate the highlighted features of the spectra to the structure of pentane-1,5-diamine.",
+      "stimulus": "A chemist obtained spectral data of pentane-1,5-diamine (C₅H₁₄N₂).\n[Figure: Structure of pentane-1,5-diamine, with IR, mass spectrum and ¹³C NMR (page 22) above the ¹H NMR spectrum (page 23), highlighted features shaded.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Demonstrates a comprehensive understanding of the relationship between the highlighted features of the spectra and the structure of pentane-1,5-diamine ; Refers to the relevant spectroscopic data in each of the four spectra"
+        },
+        {
+          "marks": "6",
+          "text": "Demonstrates a thorough understanding of the relationship between the highlighted features of the spectra and the structure of pentane-1,5-diamine ; Refers to relevant spectroscopic data in at least three of the spectra"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates a sound understanding of the relationship between the highlighted features of the spectra and the structure of pentane-1,5-diamine ; Refers to relevant spectroscopic data in at least two of the spectra"
+        },
+        {
+          "marks": "2–3",
+          "text": "Demonstrates some understanding of the interpretation of spectroscopic data"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Peak at wave number range 3300–3400 cm⁻¹ is due to N-H group (amino group)",
+        "The spectrum confirms the presence of amino group.",
+        "The highlighted feature is the fragment CH₂NH₂⁺ (12 × 1 + 1.0 × 4 + 14 × 1 = 30)",
+        "There are 5 carbon atoms in the molecule, however, there are only three peaks (three signals) shown in the spectrum.",
+        "Due to symmetry, carbon atoms 1 and 5 are in identical environments. The same is true for carbon atoms 2 and 4. Carbon atom 3 is in a unique environment.",
+        "The signals at 24 and 33 ppm are consistent with –CH₂–CH₂⁻ carbon atoms (5−40 ppm)",
+        "The signal at 42 ppm is due to the C-N-H groups (25−60 ppm)",
+        "Quintets arise from H atoms with four H atoms on neighbouring C atoms, e.g. the H atoms on C-3 have four neighbouring H atoms on C-2 and C-4.",
+        "The highlighted signal results from similar chemical shifts of protons in two different environments.",
+        "The highlighted signal results from overlap of a 2H signal and a 4H signal, giving 6 H."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2021-29.png",
+        "page": 22,
+        "alt": "Structure of pentane-1,5-diamine, with IR, mass spectrum and ¹³C NMR (page 22) above the ¹H NMR spectrum (page 23), highlighted features shaded."
+      }
+    },
+    {
+      "number": "30",
+      "section": "II",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate this procedure as a method of identifying the ions.",
+      "stimulus": "A student was trying to identify the ions present in a dilute aqueous solution. The solution contained ions of barium, calcium or magnesium, and ions of hydroxide or acetate. The student performed the following tests and recorded their observations. A fresh sample of the solution was used for each test. • When aqueous sodium chloride was added, no visible reaction was observed. • When aqueous silver nitrate was added, brown precipitate was produced. The precipitate dissolved when dilute hydrochloric acid was added. • When concentrated aqueous sodium sulfate was added, white precipitate was produced.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Shows a comprehensive understanding of the procedure; Outlines positive and negative aspects of the procedure; Makes an informed judgement"
+        },
+        {
+          "marks": "4",
+          "text": "Outlines some positive and negative aspects of the procedure; Makes a judgement"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines some positive and/or negative aspects of the procedure"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies positive and/or negative aspects of the procedure OR Outlines a positive OR negative aspect of the procedure"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The first test is not necessary to identify either the anion or cation. Sodium won’t precipitate with either of the anions and chloride will not precipitate with any of the possible cations.\nAdding silver ions to the solution in the second test is appropriate to identify the anion. Silver acetate is a soluble salt, but silver hydroxide is an insoluble, brown salt which dissolves when HCl is added. Therefore the anion must be hydroxide.\nThe second test also eliminates magnesium as the cation, as magnesium hydroxide is insoluble.\nA third test is needed to distinguish between barium and calcium. However, both barium and calcium will produce a precipitate with concentrated sulfate ions as seen in the observations, so this test can’t accurately distinguish between barium and calcium ions.\nThis procedure is insufficient to completely identify both ions in the compound and so is not an appropriate method to identify the unknown compound. A flame test is needed to identify the cation.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "32",
+      "section": "II",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain why the first two reactions have the same enthalpy value but the third reaction has a different value.",
+      "stimulus": "The molar enthalpies of neutralisation of three reactions are given. Reaction 1: HCl(aq) + KOH(aq) → KCl(aq) + H₂O(l) ΔH = –57.6 kJ mol⁻¹ Reaction 2: HNO₃(aq) + KOH(aq) → KNO₃(aq) + H₂O(l) ΔH = –57.6 kJ mol⁻¹ Reaction 3: HCN(aq) + KOH(aq) → KCN(aq) + H₂O(l) ΔH = –12.0 kJ mol⁻¹",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Shows a thorough understanding of why the first two values are the same and why the last value is different"
+        },
+        {
+          "marks": "3",
+          "text": "Shows a sound understanding of why the first two values are the same and why the last value is different"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some understanding of the reactions"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The net ionic equation for all three reactions is H⁺(aq) + OH⁻(aq) → H₂O(l).\nHCl and HNO₃ are strong acids and completely ionised. When they react with aqueous KOH they both have the same exothermic enthalpy value due to the same net ionic equation.\nWhen weak acid HCN reacts with aqueous KOH, HCN starts off only partially ionised in an equilibrium reaction with water HCN(aq) + H₂O(l) ⇌ H₃O⁺(aq) + CN⁻(aq). As the reaction proceeds, the HCN will further ionise as the equilibrium shifts to the right. This is endothermic so it removes some heat from the system and the overall reaction is less exothermic than the first two reactions. The reaction has a smaller but still exothermic ΔH value.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "33(b)",
+      "section": "II",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "What can be deduced about the system when the temperature is T1, T2 and T3? Support your answer with reference to the graph.",
+      "stimulus": "The relationships between ΔH and TΔS with temperature for a chemical system are displayed in the graph.\n[Figure: Graph of ΔH and TΔS (kJ mol⁻¹) against temperature (200 to 400 K), with T1, T2 and T3 marked; the lines cross near T2.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Makes correct deductions about the system at temperatures T1, T2 and T3 ; Supports answer with reference to the graph"
+        },
+        {
+          "marks": "3",
+          "text": "Makes correct deductions about the system at two of the temperatures ; Refers to the graph"
+        },
+        {
+          "marks": "2",
+          "text": "Makes a relevant deduction about the system at temperature(s) T1 and/or T2 and/or T3"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "At all three temperatures the reaction is exothermic, as ΔH is negative. The entropy of reaction, ΔS is also negative as TΔS is negative, and T is always positive. From the relationship ΔG = ΔH − TΔS we can see that at T1, ΔG is negative and therefore the reaction is spontaneous. At T2 ΔG = 0 and therefore the system is in equilibrium. At T3, ΔG is positive and therefore the reaction is non-spontaneous.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2021-33b.png",
+        "page": 28,
+        "alt": "Graph of ΔH and TΔS (kJ mol⁻¹) against temperature (200 to 400 K), with T1, T2 and T3 marked; the lines cross near T2."
+      }
+    },
+    {
+      "number": "34",
+      "section": "II",
+      "marks": 5,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the observed pH of the water and each of the solutions at t0, t1 and t2. Include a relevant balanced chemical equation in your answer.",
+      "stimulus": "Gaseous HCl was bubbled into water and two solutions, X and Y. Solutions X and Y contain the same type of ions. The pH of each was monitored over time and recorded in the graph shown.\n[Figure: pH against time for water, solution X and solution Y, with t0, t1 and t2 marked; the pH of water falls fastest.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Explains the pH of water, solution X and solution Y ; Includes a relevant balanced equation"
+        },
+        {
+          "marks": "4",
+          "text": "Shows a sound understanding of the pH of the water, solution X and solution Y ; Includes a balanced equation"
+        },
+        {
+          "marks": "2–3",
+          "text": "Shows some understanding of the pH of the water and/or solution X and/or solution Y AND/OR Includes a balanced equation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "At t0 the pH of water is 7. X and Y have pH 4.9 so are acidic.\nAt t1, the pH of water is dropping rapidly due to production of H₃O⁺. The pH of X and Y have only dropped slightly, therefore they are buffers. When HCl is added it donates a proton to the base, producing HA instead of H₃O⁺ minimising the change in pH:\nHCl(g) + A⁻(aq) → HA(aq) + Cl⁻ (aq)\nAt t2, the pH of X and Y have begun to decrease, but the pH of X is lower. A⁻ has been used up so [H₃O⁺] increases lowering the pH. The pH is lower for X because it was a less concentrated buffer initially and the A⁻ was used up more rapidly.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2021-34.png",
+        "page": 29,
+        "alt": "pH against time for water, solution X and solution Y, with t0, t1 and t2 marked; the pH of water falls fastest."
+      }
+    }
+  ],
+  "edits": [
+    {
+      "number": "21(a)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "21(c)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "23(a)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "23(b)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "26(b)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "27(b)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "21(c)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "27(b)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "29",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "33(b)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "34",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "30",
+      "field": "criteria",
+      "change": "ladder rebuilt from the marking guidelines table: bullets in the printed bands, printed OR alternatives kept"
+    }
+  ]
+}

@@ -1,0 +1,589 @@
+{
+  "year": 2019,
+  "course": "Chemistry",
+  "papers": [
+    "2019-hsc-chemistry.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "21(a)",
+      "reason": "Requires drawing a structural isomer of 2-methylpropan-2-ol in the table; a drawn structure."
+    },
+    {
+      "number": "23(a)",
+      "reason": "Calculation of the experimental molar enthalpy of combustion; purely numerical working."
+    },
+    {
+      "number": "24(b)",
+      "reason": "Calculation of the concentration of barium hydroxide from the equivalence volume; purely numerical working with an equation."
+    },
+    {
+      "number": "25(a)",
+      "reason": "Requires sketching the concentrations of the remaining species on the printed graph."
+    },
+    {
+      "number": "27(a)",
+      "reason": "Calculation showing Kb of OCl− from Ka; purely numerical."
+    },
+    {
+      "number": "27(b)",
+      "reason": "Calculation of the pH of the sodium hypochlorite solution; purely numerical equilibrium working."
+    },
+    {
+      "number": "29(c)",
+      "reason": "Requires plotting calibration curves and calculating concentrations and percentage removal; graphing and calculation."
+    },
+    {
+      "number": "31",
+      "reason": "Calculation of the equilibrium concentration of Hg2+; purely numerical equilibrium working."
+    },
+    {
+      "number": "33",
+      "reason": "Calculation of the pH of the resulting solution; purely numerical working."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(b)",
+      "section": "II",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Why are these two compounds classed as functional group isomers?",
+      "stimulus": "The structural formulae for two compounds are shown below.\n[Figure: Isomer A is a ketone with C=O between two carbons; Isomer B is an aldehyde with C=O at the end of the chain.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "States why the two compounds are classed as functional group isomers"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Both compounds have the same molecular formula (C₃H₆O) but have different functional groups.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2019-21b.png",
+        "page": 14,
+        "alt": "Isomer A is a ketone with C=O between two carbons; Isomer B is an aldehyde with C=O at the end of the chain."
+      }
+    },
+    {
+      "number": "21(c)",
+      "section": "II",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Identify a suitable test and explain the expected observations.",
+      "stimulus": "A chemical test is required to distinguish between the isomers in part (b).\n[Figure: Isomer A is a ketone with C=O between two carbons; Isomer B is an aldehyde with C=O at the end of the chain.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Identifies a suitable test ; Provides the appropriate observations ; Explains the observations ; Identifies the observations and the test reagent"
+        },
+        {
+          "marks": "2",
+          "text": "Explains the observations"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Tollens' test could be used to distinguish between Isomer A (ketone) and Isomer B (aldehyde). Aldehydes are readily oxidised to carboxylic acids whereas ketones are not. Isomer B will therefore reduce the silver ions in the Tollens’ reagent to form a silver mirror inside the test tube whereas Isomer A will not react.",
+      "answersCouldInclude": [
+        "Other oxidants that can oxidise Isomer B but not Isomer A, eg Cr₂O₇²⁻, MnO₄⁻.",
+        "I₂/OH⁻ will give iodoform with Isomer A but not with Isomer B.",
+        "The orange dichromate solution will change to green.",
+        "The purple permanganate solution will decolourise."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2019-21b.png",
+        "page": 14,
+        "alt": "Isomer A is a ketone with C=O between two carbons; Isomer B is an aldehyde with C=O at the end of the chain."
+      }
+    },
+    {
+      "number": "22",
+      "section": "II",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain these observations. Support your answer with at least ONE chemical equation.",
+      "stimulus": "A buffer was prepared with acetic acid and sodium acetate. A few drops of universal indicator were then added. When small amounts of either 0.1 mol L⁻¹ HCl(aq) or 0.1 mol L⁻¹ NaOH(aq) were added, no change in the colour of the solution was observed.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Identifies that the observed effect is due to small variation in pH ; Explains what occurs when acid and base are added ; Includes at least one equation"
+        },
+        {
+          "marks": "3",
+          "text": "Identifies that the observed effect is due to small variation in pH ; Explains what occurs when acid or base is added ; Includes a substantially correct equation"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a correct equation OR Includes a partially correct equation and shows some understanding of what occurs when acid or base is added"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The colour of the universal indicator did not change because the pH did not change very much despite the addition of acid and/or base. This is due to the equilibrium position of the buffer equation shifting in response to the addition of acid and/or base in accordance with Le Chatelier’s Principle.\nCH₃COOH(aq) + H₂O(l) ⇌ CH₃COO⁻(aq) + H₃O⁺(aq)\nIf acid is added the equilibrium position will shift left and if base is added the equilibrium position shifts right. In both cases the concentration of H₃O⁺ remains nearly constant.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain ONE change that could be made to the experiment that would improve the accuracy of the obtained value.",
+      "stimulus": "The following apparatus was used in an experiment to determine the molar enthalpy of combustion of ethanol. Upon replication, the molar enthalpy of combustion obtained in the experiment was consistently much lower than the accepted value.\n[Figure: Apparatus for measuring molar enthalpy of combustion of ethanol: thermometer, aluminium beaker with water, gauze on tripod, spirit burner.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides a change that would improve accuracy ; Gives a reason for the low molar enthalpy of combustion related to the change"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The experimental value for the molar enthalpy of combustion is low, primarily due to heat loss to the environment.\nA change that would reduce heat loss and improve accuracy is moving the spirit burner closer to the beaker.\n(There are many other possible improvements that are acceptable.)",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2019-23.png",
+        "page": 16,
+        "alt": "Apparatus for measuring molar enthalpy of combustion of ethanol: thermometer, aluminium beaker with water, gauze on tripod, spirit burner."
+      }
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the shape of the titration curve.",
+      "stimulus": "A conductometric titration was undertaken to determine the concentration of a barium hydroxide solution. The solution was added to 250.0 mL of standardised 1.050 × 10⁻³ mol L⁻¹ hydrochloric acid solution. The results of the titration are shown in the conductivity graph.\n[Figure: Conductivity against volume of barium hydroxide added (0 to 30 mL), falling to an equivalence point near 18 mL then rising.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains the shape of the titration curve, in terms of ions present, as it falls, at equivalence point and as it rises"
+        },
+        {
+          "marks": "2",
+          "text": "Describes the trend in the titration curve and makes an explanation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The curve steadily falls as OH⁻ ions are added because they react and remove the highly conductive H⁺ ions from the solution. At equivalence point, conductivity is lowest because the solution contains only Ba²⁺ and Cl⁻ ions, which are much less mobile than the H + or OH⁻ ions. The curve then rises as more OH⁻ ions are added.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2019-24.png",
+        "page": 18,
+        "alt": "Conductivity against volume of barium hydroxide added (0 to 30 mL), falling to an equivalence point near 18 mL then rising."
+      }
+    },
+    {
+      "number": "25(b)",
+      "section": "II",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Using collision theory, explain the change in the concentration of CO after time T.",
+      "stimulus": "The concentrations of reactants and products as a function of time for the following system were determined. CO(g) + H₂O(g) ⇌ CO₂(g) + H₂(g) At time T, some CO(g) was removed from the system.\n[Figure: Concentration against time for H₂, H₂O, CO₂ and CO, with CO removed at time T.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides a thorough explanation of the change in the concentration of CO"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some explanation of the change in the concentration of CO"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "At time T, the concentration of CO was decreased.\nA decrease in the concentration of CO results in a decrease in the rate of the forward reaction due to fewer collisions between CO and H₂O molecules.\nThe rate of the reverse reaction is now greater than the forward reaction so the concentrations of H₂(g) and CO₂(g) decrease. As this occurs, the concentrations of CO(g) and H₂O(g) gradually increase.\nThe rate of the forward reaction subsequently increases until at some point the rate of the reverse reaction will be the same as the rate of the forward reaction as equilibrium is established.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2019-25b.png",
+        "page": 19,
+        "alt": "Concentration against time for H₂, H₂O, CO₂ and CO, with CO removed at time T."
+      }
+    },
+    {
+      "number": "26(a)",
+      "section": "II",
+      "marks": 5,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "What is the structural formula of this compound? Justify your answer with reference to the information given on its reactivity and to at least THREE of the provided spectra.",
+      "stimulus": "The following data were obtained for an organic compound containing carbon, hydrogen and oxygen. The compound is a colourless liquid that reacts with sodium carbonate powder to produce bubbles.\n[Figure: Mass spectrum, infrared spectrum, ¹H NMR and ¹³C NMR spectra of an unknown colourless liquid containing C, H and O.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Gives correct structure and justifies using reactivity and at least three spectra"
+        },
+        {
+          "marks": "4",
+          "text": "Gives substantially correct structure and justifies using reactivity and at least two spectra OR Gives a correct structure and justifies using at least three spectra"
+        },
+        {
+          "marks": "2–3",
+          "text": "Gives substantially correct structure and some correct analyses OR Gives substantially correct analyses with incorrect structure"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Reaction with sodium carbonate implies that it is an organic acid as shown.\nThe ¹³C NMR spectrum has three peaks; the peak at 180 ppm confirms the presence of a COOH group.\nThe ¹H NMR spectrum shows 3 separate proton environments – the splitting and integration indicate a CH₃ group and a CH₂ group.\nThe mass spectrum has a parent ion at 74, indicating that the compound must have a molar mass of 74 g mol⁻¹.",
+      "answersCouldInclude": [
+        "Condensed or skeletal formula.",
+        "Could use infrared to confirm the presence of a carboxylic acid group."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2019-26.png",
+        "page": 20,
+        "alt": "Mass spectrum, infrared spectrum, ¹H NMR and ¹³C NMR spectra of an unknown colourless liquid containing C, H and O."
+      }
+    },
+    {
+      "number": "26(b)",
+      "section": "II",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain why a chemist should use more than one spectroscopic technique to identify an organic compound. Use TWO spectroscopic techniques to support your answer.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains why more than one spectroscopic technique should be used ; Supports answer with two spectroscopic techniques"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines why more than one spectroscopic technique should be used ; Supports answer with at least one spectroscopic technique"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Different techniques are used in the identification of organic molecules but give different information about structure.\nFor example, ¹H NMR provides information about the chemical environment and relative number of hydrogen nuclei. This can be used to identify functional groups and distinguish between isomers.\nMass spectrometry gives information about the molecular weight of a molecule and its characteristic fragments.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "28",
+      "section": "II",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the usefulness of the Brønsted–Lowry model in classifying acids and bases. Support your answer with at least TWO chemical equations.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Makes an informed judgement about the usefulness of the B–L model; Considers an advantage and a limitation of the model; Includes at least TWO relevant equations"
+        },
+        {
+          "marks": "4",
+          "text": "Makes a judgement about the usefulness of the B–L model; Considers an advantage and a limitation of the model; Includes at least ONE relevant equation OR Outlines an advantage and a limitation of the B–L model; Includes at least TWO relevant equations"
+        },
+        {
+          "marks": "2–3",
+          "text": "Outlines an advantage and/or a limitation of the model AND/OR Includes at least ONE relevant equation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The Brønsted–Lowry model describes acids as proton donors and bases as proton acceptors. It was an improvement on the Arrhenius theory as it describes more acid and base behaviour.\nFor example, in the reaction NH₃(g) + HCl(g) → NH₄Cl(s), ammonia is classified as a Brønsted–Lowry base and hydrogen chloride as a Brønsted–Lowry acid, as a proton has been transferred from the hydrogen chloride to the ammonia. Ammonia is not an Arrhenius base as it does not dissociate to form OH⁻ ions.\nHowever, the Brønsted–Lowry model does not explain the acidity of acidic oxides such as SO₂ and SO₃ and their reaction with basic oxides such as CaO. For example, in the reaction CaO(s) + SO₃(g) → CaSO₄(s) there is no proton transfer, so Brønsted–Lowry theory cannot be used to explain this as an acid–base reaction.\nThe Brønsted–Lowry model is useful to explain many acid–base reactions but has its limitations.",
+      "answersCouldInclude": [
+        "Descriptions of Lewis acid–base reactions."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "29(a)",
+      "section": "II",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the recommended treatment with reference to solubility. Include a relevant chemical equation.",
+      "stimulus": "Stormwater from a mine site has been found to be contaminated with copper(II) and lead(II) ions. The required discharge limit is 1.0 mg L⁻¹ for each metal ion. Treatment of the stormwater with Ca(OH)₂ solid to remove the metal ions is recommended.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Explains the treatment with reference to solubility ; Provides a correct chemical equation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Calcium hydroxide, Ca(OH)₂, is slightly soluble in water. Copper(II) hydroxide and lead(II) hydroxide are both very insoluble in water shown by their small Ksp values, which will result in most of the metal ions precipitating.\nA chemical equation Cu(OH)₂(s) ⇌ Cu²⁺(aq) + 2OH⁻(aq)",
+      "answersCouldInclude": [
+        "Pb(OH)₂(s) ⇌ Pb²⁺(aq) + 2OH⁻(aq)",
+        "M(OH)ₙ(s) ⇌ Mⁿ⁺(aq) + nOH⁻(aq)"
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "29(b)",
+      "section": "II",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain why atomic absorption spectroscopy can be used to determine the concentrations of Cu²⁺ and Pb²⁺ ions in a solution containing both species.",
+      "stimulus": "Stormwater from a mine site has been found to be contaminated with copper(II) and lead(II) ions. The required discharge limit is 1.0 mg L⁻¹ for each metal ion.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides a valid explanation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "AAS determines the concentration of metal ions by measuring the absorbance of light at different characteristic wavelengths for each metal. This allows the determination of the concentration of one metal without interference from the other metal.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "30",
+      "section": "II",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Compare the effects of enthalpy and entropy on the solubility of these salts.",
+      "stimulus": "The following data apply to magnesium fluoride and magnesium chloride dissolving in water at 298 K.\n[Figure: Table of enthalpy, entropy, TΔS and free energy of solution for magnesium fluoride and magnesium chloride at 298 K.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Compares the effects of enthalpy and entropy in relation to the solubility of both salts"
+        },
+        {
+          "marks": "2",
+          "text": "Compares enthalpy and entropy values for both salts ; Identifies the solubility of both salts"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Magnesium chloride has a negative ΔsolG (−125 kJ mol⁻¹) and hence dissolves in water spontaneously, whereas the corresponding value for magnesium fluoride is +58.6 kJ mol⁻¹, so magnesium fluoride does not dissolve in water spontaneously.\nBoth salts have a negative ΔsolS ; both result in a positive −TΔsolS contribution to ΔsolG .\nBoth salts have a negative ΔsolH , however magnesium chloride has a significantly negative ΔsolH (−160 kJ mol⁻¹) which is greater than the −TΔsolS contribution (+34.2 kJ mol⁻¹), resulting in a negative ΔsolG . On the other hand, magnesium fluoride has a relatively small negative ΔsolH (−7.81 kJ mol⁻¹) which is smaller than the −TΔsolS contribution ( +66.4 kJ mol⁻¹), resulting in a positive ΔsolG .",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2019-30.png",
+        "page": 26,
+        "alt": "Table of enthalpy, entropy, TΔS and free energy of solution for magnesium fluoride and magnesium chloride at 298 K."
+      }
+    },
+    {
+      "number": "32",
+      "section": "II",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the patterns of the boiling points shown in the graph.",
+      "stimulus": "Thiols are the sulfur analogues of alcohols in that the oxygen atom of the alcohol is replaced by a sulfur atom. For example, methanethiol (CH₃SH) is the analogue of methanol (CH₃OH). The boiling points of some straight chain alcohols and thiols are given in the following graph.\n[Figure: Boiling points against number of carbon atoms for straight chain alcohols (dots) and thiols (crosses).]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains patterns in the boiling points"
+        },
+        {
+          "marks": "3",
+          "text": "Explains most of the patterns in the boiling points"
+        },
+        {
+          "marks": "2",
+          "text": "Describes the patterns in the boiling point OR Explains a pattern in the boiling points"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Boiling points for both series increase with increasing number of carbon atoms. This is due to dispersion forces increasing with increasing chain length.\nThe boiling point of the alcohol is always higher than the analogous thiol. This is due to hydrogen bonding between alcohols being stronger than the dispersion forces between thiols.\nThe difference between the boiling points of analogous alcohols and thiols decreases with increasing chain length. This is due to the hydrogen bonding having a smaller and smaller contribution to total intermolecular forces as chain length increases.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2019-32.png",
+        "page": 28,
+        "alt": "Boiling points against number of carbon atoms for straight chain alcohols (dots) and thiols (crosses)."
+      }
+    },
+    {
+      "number": "34",
+      "section": "II",
+      "marks": 7,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Outline the reagents and conditions required for each step and how the product of each step could be identified.",
+      "stimulus": "The following reaction scheme can be used to synthesise ethyl ethanoate.\n[Figure: Reaction scheme: chloroethane (A) to ethanol (B) to ethanoic acid (C), and B and C to ethyl ethanoate (D).]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Outlines the appropriate reagents and conditions ; Outlines differences in chemical reactivity or spectroscopic data for products of all three steps"
+        },
+        {
+          "marks": "6",
+          "text": "Outlines the appropriate reagents and conditions ; Outlines differences in chemical reactivity or spectroscopic data for products of two steps"
+        },
+        {
+          "marks": "4–5",
+          "text": "Outlines some appropriate reagents and conditions ; Outlines chemical reactivity or spectroscopic data for the products of some steps"
+        },
+        {
+          "marks": "2–3",
+          "text": "Outlines an appropriate reagent and/or condition AND/OR Outlines chemical reactivity or spectroscopic data for the products"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "In step 1, chloroethane (A) can be converted to ethanol (B) by heating with dilute aqueous potassium hydroxide. The mass spectrum of ethanol will have a single molecular ion peak at m/z = 46, whereas chloroethane will give two peaks at m/z 64 and 66.\nIn step 2, ethanol (B) can be converted to ethanoic acid (C) using a strong oxidant, for example: acidified potassium permanganate. A C=O peak will appear in the IR spectrum (1680–1750 cm⁻¹) or in the ¹³C NMR spectrum (160–185 ppm); ethanol will show neither peak.\nIn step 3, ethyl ethanoate (D) can be synthesised by heating a mixture of ethanol, ethanoic acid and concentrated sulfuric acid under reflux. The ¹H NMR spectrum of ethyl ethanoate will have 3 signals, whereas both ethanol and ethanoic acid will have 2.",
+      "answersCouldInclude": [
+        "Ethanol (B) can be identified in a number of ways, for example:",
+        "Reactivity tests eg turns acidified potassium dichromate solution from orange to green, or decolourises acidified potassium permanganate solution from purple. Also gives a red colour with ceric ammonium nitrate, or gives hydrogen gas with sodium. Chloroethane reacts with none of these reagents.",
+        "An O−H peak will appear in the IR spectrum (broad peak at 3230–3550 cm⁻¹) and in the ¹H NMR spectrum (variable chemical shift, 1–6 ppm, concentration-dependent); the IR spectrum of chloroethane will not contain this peak.",
+        "The ¹H NMR spectrum of ethanol will have 3 signals, whereas that of chloroethane will have 2.",
+        "The mass spectrum of ethanol will have a single molecular ion peak at m/z = 46, whereas chloroethane will give two peaks at m/z 64 and 66.",
+        "In step 2, ethanol (B) can be converted to ethanoic acid (C) using a strong oxidant, for example: Jones’ reagent (CrO₃ in H₂SO₄), and many others.",
+        "Ethanoic acid (C) can be identified in a number of ways, for example:",
+        "Indicators (eg blue litmus turning red), carbon dioxide given off when reacted with sodium carbonate or sodium hydrogencarbonate. Ethanol will do neither.",
+        "C=O peak will appear in the IR spectrum (1680–1750 cm⁻¹) and in the ¹³C NMR spectrum (160 – 185 ppm); ethanol will show neither peak.",
+        "The ¹H NMR spectrum of ethanoic acid will not have a peak in 3.3–4.8 ppm range; the ¹³C NMR spectrum will not have a peak in the 50–90 ppm range. Ethanol will have a peak in both ranges due to the CH₂ group.",
+        "The ¹H NMR spectrum of ethanoic acid will have 2 signals, whereas that of ethanol will have 3.",
+        "The mass spectrum of ethanoic acid will have a molecular ion peak at m/z = 60, whereas that of ethanol is at m/z 46.",
+        "Ethyl ethanoate (D) can be identified in a number of ways, for example:",
+        "Ethyl ethanoate will have no O−H peaks in the IR spectrum (broad peak at 3230–3550 cm⁻¹) and the ¹H NMR spectrum (variable chemical shift, 1–6 ppm, concentration-dependent). These peaks are present in the spectra of ethanol and ethanoic acid.",
+        "The mass spectrum of ethyl ethanoate will have a molecular ion peak at m/z = 102; ethanoic acid will have a molecular ion peak at m/z = 60 and ethanol at m/z 46.",
+        "Ethyl ethanoate has a distinct smell."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–34\nAllow about 2 hours and 25 minutes for this section",
+      "figure": {
+        "file": "chem-2019-34.png",
+        "page": 30,
+        "alt": "Reaction scheme: chloroethane (A) to ethanol (B) to ethanoic acid (C), and B and C to ethyl ethanoate (D)."
+      }
+    }
+  ],
+  "edits": [
+    {
+      "number": "21(b)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "23(b)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "29(a)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "29(b)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "21(b)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "21(c)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "23(b)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "24(a)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "25(b)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "26(a)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "30",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "32",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "34",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "26(a)",
+      "field": "criteria",
+      "change": "ladder rebuilt from the marking guidelines table: bullets in the printed bands, printed OR alternatives kept"
+    },
+    {
+      "number": "28",
+      "field": "criteria",
+      "change": "ladder rebuilt from the marking guidelines table: bullets in the printed bands, printed OR alternatives kept"
+    }
+  ]
+}

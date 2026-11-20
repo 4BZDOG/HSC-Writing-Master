@@ -1,0 +1,531 @@
+{
+  "year": 2022,
+  "course": "Chemistry",
+  "papers": [
+    "2022-hsc-chemistry.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "21",
+      "reason": "Requires drawing the structural formula of the product in the box provided."
+    },
+    {
+      "number": "26(a)",
+      "reason": "Purely calculation: heat energy released from the mass and temperature data."
+    },
+    {
+      "number": "26(b)",
+      "reason": "Purely calculation: enthalpy of neutralisation from the heat energy and moles."
+    },
+    {
+      "number": "27(a)",
+      "reason": "Requires drawing the two isomers of propanol in the answer space."
+    },
+    {
+      "number": "28(b)",
+      "reason": "Purely calculation: percentage of iron from the mass of iron(III) oxide."
+    },
+    {
+      "number": "29(a)",
+      "reason": "Requires plotting the results and drawing a curved line of best fit on the printed grid."
+    },
+    {
+      "number": "30",
+      "reason": "Requires drawing and naming the unknown compound (structure) in the answer space."
+    },
+    {
+      "number": "31(b)",
+      "reason": "Purely calculation: equilibrium concentration of aqueous ammonia."
+    },
+    {
+      "number": "32(a)",
+      "reason": "Purely calculation: concentration of the citric acid in the soft drink."
+    },
+    {
+      "number": "34",
+      "reason": "Purely calculation: volume of sodium hypochlorite solution required."
+    },
+    {
+      "number": "35",
+      "reason": "Purely calculation: Ksp of strontium hydroxide."
+    }
+  ],
+  "questions": [
+    {
+      "number": "22",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Identify ONE base and its conjugate acid in the above equation.",
+      "stimulus": "The following equation describes an equilibrium reaction. HF(aq) + PO₄³⁻(aq) ⇌ HPO₄²⁻(aq) + F⁻(aq)",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides a correct base and its conjugate acid"
+        },
+        {
+          "marks": "1",
+          "text": "Provides a correct base or conjugate acid from the reaction"
+        }
+      ],
+      "sampleAnswer": "Base\nConjugate acid\nPO₄³⁻\nHPO₄²⁻\nOR\nBase\nConjugate acid\nF⁻\nHF",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 1,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Identify what would happen to the amount of NO(g) if the temperature was increased.",
+      "stimulus": "Consider the following system which is at equilibrium in a rigid, sealed container. 4NH₃(g) + 5O₂(g) ⇌ 4NO(g) + 6H₂O(g)  ΔH = −950 kJ mol⁻¹",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies what would happen to the amount of NO(g)"
+        }
+      ],
+      "sampleAnswer": "Amount of NO would decrease.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain why a catalyst does not affect the equilibrium position of this system.",
+      "stimulus": "Consider the following system which is at equilibrium in a rigid, sealed container. 4NH₃(g) + 5O₂(g) ⇌ 4NO(g) + 6H₂O(g)  ΔH = −950 kJ mol⁻¹",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Explains why a catalyst does not affect equilibrium position in terms of reaction rates"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A catalyst will increase the rate of the forward and reverse reactions of this system. As both rates increase, the overall equilibrium position is unchanged.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Using collision theory, explain what would happen to the concentration of NO(g) if H₂O(g) was removed from the system.",
+      "stimulus": "Consider the following system which is at equilibrium in a rigid, sealed container. 4NH₃(g) + 5O₂(g) ⇌ 4NO(g) + 6H₂O(g)  ΔH = −950 kJ mol⁻¹",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Identifies the change in NO concentration ; Explains the change in terms of collision theory"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some understanding of the relationship between collision theory and equilibrium concentrations"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "When H₂O(g) is removed, there are fewer H₂O(g) molecules to collide with NO in the reverse reaction which decreases the rate. The rate of the forward reaction is therefore proportionally higher. As a result [NO] increases.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the trend shown in the graph.",
+      "stimulus": "The following graph shows the boiling points of some 1-chloroalkanes.\n[Figure: Scatter graph of boiling point (°C) against molar mass (g mol⁻¹) for 1-chloroalkanes; boiling point rises as molar mass increases.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides a thorough explanation of the trend with reference to dispersion forces"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some explanation of the trend"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "As molar mass increases, the boiling point increases. As molar mass increases, the number of electrons increases which increases the strength of the dispersion forces between molecules. Stronger intermolecular forces require more energy to break and therefore a higher boiling point.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2022-24.png",
+        "page": 17,
+        "alt": "Scatter graph of boiling point (°C) against molar mass (g mol⁻¹) for 1-chloroalkanes; boiling point rises as molar mass increases."
+      }
+    },
+    {
+      "number": "25",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain why the HCN(aq) solution has a higher pH than the HCl(aq) solution. Include a relevant chemical equation for the HCN(aq) solution.",
+      "stimulus": "The pH of two aqueous solutions was compared.\n[Figure: Two beakers: 0.2 mol L⁻¹ HCl with pH = 0.70, and 0.2 mol L⁻¹ HCN with pH = 5.0.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides a balanced chemical equation ; Explains the difference in pH in terms of weak and strong acids and their relative ionisation"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of weak and strong acids"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "HCN(aq) is a weak acid, so partially ionises: HCN(aq) + H₂O(l) ⇌ H₃O⁺(aq) + CN⁻(aq). HCl(aq) is a strong acid and ionises completely. So the [H⁺] of the HCN(aq) solution will be lower than the [H⁺] of the HCl(aq) solution. As pH = −log[H⁺], the HCN(aq) solution will have a higher pH.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2022-25.png",
+        "page": 18,
+        "alt": "Two beakers: 0.2 mol L⁻¹ HCl with pH = 0.70, and 0.2 mol L⁻¹ HCN with pH = 5.0."
+      }
+    },
+    {
+      "number": "27(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe how ¹³C NMR spectroscopy might be used to identify which isomer is in the bottle.",
+      "stimulus": "A bottle labelled ‘propanol’ contains one of two isomers of propanol.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Describes the use of ¹³C NMR to identify that the two isomers have different signals and could thus be used to identify the isomer"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "If the spectrum produced by ¹³C NMR has 2 signals, then the isomer that is in the labelled bottle is propan-2-ol and if it has three then it is propan-1-ol.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "27(c)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Each isomer produces a different product when oxidised. Write equations to represent the oxidation reactions of the two isomers. Include reaction conditions.",
+      "stimulus": "A bottle labelled ‘propanol’ contains one of two isomers of propanol.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Writes TWO correct equations with correct products and includes correct reaction conditions"
+        },
+        {
+          "marks": "2",
+          "text": "Writes ONE correct equation, with correct product and correct reaction conditions OR Writes TWO equations with correct product and does not include or includes incorrect reaction conditions"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Word equations",
+        "Other representations including skeletal structures",
+        "Other appropriate reagents and corresponding products."
+      ]
+    },
+    {
+      "number": "28(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 1,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Identify the brown precipitate formed at the end of step 3.",
+      "stimulus": "The iron content of an impure sample (4.32 g) was determined by the process shown in the flow chart.\n[Figure: Flow chart of five steps from impure iron sample to iron(III) oxide, showing the brown precipitate formed at step 3.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Correctly identifies the brown precipitate formed"
+        }
+      ],
+      "sampleAnswer": "Iron(III) hydroxide",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "chem-2022-28a.png",
+        "page": 21,
+        "alt": "Flow chart of five steps from impure iron sample to iron(III) oxide, showing the brown precipitate formed at step 3."
+      }
+    },
+    {
+      "number": "29(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "The published value for the enthalpy of combustion of pentan-1-ol is closer to −3331 kJ mol⁻¹. Justify ONE possible reason for the difference between the school’s results and published values.",
+      "stimulus": "The enthalpies of combustion of four alcohols were determined in a school laboratory. The results are shown in the table.\n[Figure: Table of enthalpy of combustion ΔcH (kJ mol⁻¹): methanol −596, ethanol −978, propan-1-ol −1507, pentan-1-ol −2910.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides a justification"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "In a school laboratory, the calorimeters used are often simple, such as a tin can. There will be significant heat loss as some of the heat is lost to the environment or equipment. The published value is obtained using more appropriate equipment in a standard environment.",
+      "answersCouldInclude": [
+        "Incomplete combustion of the alcohol – this produces less heat energy than complete combustion.",
+        "Heat not evenly distributed in water measured and therefore measured to be less than the amount of heat energy produced."
+      ],
+      "figure": {
+        "file": "chem-2022-29b.png",
+        "page": 22,
+        "alt": "Table of enthalpy of combustion ΔcH (kJ mol⁻¹): methanol −596, ethanol −978, propan-1-ol −1507, pentan-1-ol −2910."
+      }
+    },
+    {
+      "number": "31(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "In order to determine the free Ag⁺ concentration in an aqueous ammonia solution, a student carried out a precipitation titration with NaI(aq) as the titrant. Evaluate the suitability of this method.",
+      "stimulus": "Silver ions form the following complex with ammonia solution. The equilibrium constant is 1.6 × 107 at 25°C.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Evaluates the suitability of the method"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates a sound understanding of the suitability of the method"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Le Chatelier’s Principle predicts that as the silver ions precipitate, the complex will decompose to release more silver ions. This disturbs the equilibrium to the left. This will continue until all of the complex is broken up into its ions, so the value obtained from the titration would be the total of both the free and complex silver ions rather than just the free. Therefore the method is unsuitable.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "32(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how your answer to part (a) would be different if the carbon dioxide was not removed from the soft drink.",
+      "stimulus": "The soft drink was gently heated to remove CO₂.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Correctly explains the effect of not removing the carbon dioxide on the calculated concentration of citric acid"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Carbon dioxide would react with the NaOH during the titration. A greater volume of NaOH would then have been used than was necessary to neutralise the citric acid resulting in a higher calculated concentration of the citric acid than was correct.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "33",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse how a student could design a chemical synthesis process to be undertaken in the school laboratory. In your response, use a specific process relating to the synthesis of an organic compound, including a chemical equation, and refer to:\n• selection of reagent(s)\n• reaction conditions\n• any potential hazards and any safety precautions to minimise the risk\n• yield and purity of the product(s).",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "8",
+          "text": "Provides an extensive explanation of the selection of reagents, the reaction conditions, any potential hazards and any safety precautions and the yield and purity of the product produced in the chemical synthesis process ; Provides correct and relevant chemical equation ; Communicates an extensive understanding succinctly and logically"
+        },
+        {
+          "marks": "6–7",
+          "text": "Demonstrates a thorough knowledge of the factors to consider when designing a chemical synthesis process ; Succinct and logical response"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates a sound knowledge of at least two factors to consider when designing a chemical synthesis process"
+        },
+        {
+          "marks": "2–3",
+          "text": "Demonstrates basic knowledge of the factors to consider when designing a chemical synthesis process"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Process: Esterification",
+        "Esterification can be performed in the school laboratory for the acid-catalysed reaction between an alcohol and a carboxylic acid. A student would need to choose an alcohol and carboxylic acid that are relatively non-toxic and readily available. Methanol and ethanoic acid meet these criteria. The reaction also requires an acid catalyst to speed up the reaction, and the acid should be a dehydrating agent as water is produced in the reaction. Concentrated sulfuric acid is therefore suitable.",
+        "The reaction between methanol and ethanoic acid produces the ester methyl ethanoate and water.",
+        "The conditions for the process must also be considered. In addition to the small amount of concentrated sulfuric acid catalyst, the reaction should be performed under reflux by heating the alcohol, carboxylic acid and concentrated sulfuric acid in a vessel with a condenser tube attached. Reflux enables heat to be used to speed up the reaction without loss of volatile reactants or products and without the build-up of pressure that occurs with a closed vessel reaction.",
+        "Alcohols are flammable, so do not use open flames. A heating mantle should be used instead of a Bunsen burner.",
+        "Liquid carboxylic acids are corrosive, so wear safety glasses to avoid contact with eyes.",
+        "Concentrated sulfuric acid is corrosive, so only small quantities should be used, and safety glasses must be worn.",
+        "The yield of the reaction is maximised by using a high temperature and reflux for a sufficient time (approximately 30−60 min) but as it is an equilibrium process the reaction mixture will contain methanol, ethanoic acid, water and sulfuric acid as well as the desired methyl ethanoate. This means that the reaction mixture needs to be purified to obtain the methyl ethanoate."
+      ]
+    },
+    {
+      "number": "36",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–36\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the differences in evaporation for these TWO samples. In your answer, consider changes in enthalpy and entropy for this process.",
+      "stimulus": "Consider the equilibrium system shown. H₂O(l) ⇌ H₂O(g) In a laboratory at 23°C, a 100 mL sample of water is held in a beaker and another 100 mL sample is held in a sealed bottle.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides an explanation for the differences in evaporation for the two systems ; Considers changes in enthalpy and entropy"
+        },
+        {
+          "marks": "3",
+          "text": "Shows a sound understanding of the differences in evaporation of the two systems ; Considers changes in enthalpy AND/OR entropy"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some understanding of the differences in evaporation of the two systems AND/OR changes in enthalpy AND/OR entropy"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "At room temperature the water from the beaker will evaporate, and the water in the bottle will not appear to evaporate. The forward reaction is endothermic. ΔS would be positive as H₂O(g) has higher entropy than the condensed phase. The forward reaction is non-spontaneous, because ΔH > TΔS. The water in the beaker is not at standard conditions. In equilibrium expression terms Q = [H₂O(g)] where [H₂O(g)] is low and therefore Q < Keq. Q will remain less than Keq due to the dilution of the evaporated water thus continuously driving the reaction in the forward direction. In the case of the bottle, the [H₂O(g)] will reach a value of Q = Keq and an equilibrium will be established.",
+      "answersCouldInclude": []
+    }
+  ],
+  "edits": [
+    {
+      "number": "22",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "23(a)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "23(b)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "27(b)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "28(a)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "29(b)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "32(b)",
+      "field": "samples",
+      "change": "lower samples: distinct marks, each no longer than the one above"
+    },
+    {
+      "number": "24",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "25",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "28(a)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "29(b)",
+      "field": "stimulus",
+      "change": "figure caption plus one [Figure: alt] line"
+    },
+    {
+      "number": "23(a)",
+      "field": "stimulus",
+      "change": "ΔH = −950 kJ mol⁻¹ restored from the printed equation line"
+    },
+    {
+      "number": "23(a)",
+      "field": "stem",
+      "change": "ΔH line moved out of the stem into the stimulus"
+    },
+    {
+      "number": "23(b)",
+      "field": "stimulus",
+      "change": "ΔH = −950 kJ mol⁻¹ restored from the printed equation line"
+    },
+    {
+      "number": "23(c)",
+      "field": "stimulus",
+      "change": "ΔH = −950 kJ mol⁻¹ restored from the printed equation line"
+    },
+    {
+      "number": "27(c)",
+      "field": "criteria",
+      "change": "ladder rebuilt from the marking guidelines table: bullets in the printed bands, printed OR alternatives kept"
+    }
+  ]
+}
