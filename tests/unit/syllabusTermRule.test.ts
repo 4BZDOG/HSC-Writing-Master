@@ -3,14 +3,16 @@ import {
   isSyllabusTerm,
   isProperNameTerm,
   dropNonSyllabusTerms,
+  INSTRUCTION_PHRASE,
 } from '../../services/geminiService';
 
 /**
  * The length test that decides what the Off-Syllabus Terms filter and Tidy
  * Terms remove. A bare word count dropped real syllabus terms — named Acts,
- * conventions and schools, and clause-length phrases the question itself uses —
- * so the rule now keeps proper names outright and a phrase only when the text
- * says it.
+ * conventions and schools, and longer phrases the question itself uses — so the
+ * rule keeps up to six words outright, proper names up to ten, phrases of up to
+ * eight only when the text says them, and drops task-instruction wording
+ * ("close reference to the prescribed text") at any length.
  */
 
 describe('isProperNameTerm', () => {
@@ -34,7 +36,7 @@ describe('isProperNameTerm', () => {
 });
 
 describe('isSyllabusTerm — the length rule', () => {
-  it('keeps the named examples with no context', () => {
+  it('keeps the named examples and real long phrases with no context', () => {
     for (const term of [
       'Universal Declaration of Human Rights',
       'Family Law Act 1975 (Cth)',
@@ -43,52 +45,82 @@ describe('isSyllabusTerm — the length rule', () => {
       'Convention on the Rights of the Child',
       'Residential Tenancies Act 2010 (NSW)',
       'Little Rock Central High School',
+      'movement along the supply curve',
+      'law of increasing opportunity cost',
+      'basket of goods and services',
+      'duty to take reasonable care',
+      'S + T + M = I + G + X',
+      'detention as a last resort',
+      'so far as is reasonably practicable',
+      'deflection in a magnetic field',
+      'best interests of the child',
+      'family and domestic violence leave',
+      'relationship between texts and contexts',
+      '2 to 3 per cent',
     ]) {
       expect(isSyllabusTerm(term), term).toBe(true);
     }
   });
 
-  it('keeps a clause-length phrase only when the context uses it', () => {
-    const term = 'law of conservation of mass';
-    expect(isSyllabusTerm(term)).toBe(false);
-    expect(
-      isSyllabusTerm(term, undefined, 'Explain the Law of Conservation of Mass in this reaction.')
-    ).toBe(true);
-    expect(isSyllabusTerm('circular flow of income model')).toBe(false);
-    expect(
-      isSyllabusTerm(
-        'circular flow of income model',
-        undefined,
-        'Describe the circular flow of income model.'
-      )
-    ).toBe(true);
-    expect(isSyllabusTerm('best interests of the child')).toBe(false);
-    expect(
-      isSyllabusTerm(
-        'best interests of the child',
-        undefined,
-        'Discuss the best interests of the child.'
-      )
-    ).toBe(true);
+  it('drops task-instruction wording at any length, even when the context has it', () => {
+    for (const term of [
+      'close reference to the prescribed text',
+      'close reference to both prescribed texts',
+      'study of the prescribed text',
+      'at least two prescribed poems',
+    ]) {
+      expect(isSyllabusTerm(term), term).toBe(false);
+      expect(isSyllabusTerm(term, undefined, term), term).toBe(false);
+    }
+    expect(INSTRUCTION_PHRASE.test('Close Reference to the text')).toBe(true);
+    expect(INSTRUCTION_PHRASE.test('prescribed content')).toBe(false);
   });
 
-  it('matches the context on whole words, ignoring punctuation and apostrophes', () => {
-    expect(isSyllabusTerm('ideas expressed in the text', undefined, 'ideas expressed in the')).toBe(
-      false
-    );
+  it('keeps a seven- or eight-word phrase only when the context uses it', () => {
+    const seven = 'the ways that the data is stored';
+    expect(seven.split(' ')).toHaveLength(7);
+    expect(isSyllabusTerm(seven)).toBe(false);
+    expect(isSyllabusTerm(seven, undefined, `Discuss ${seven}.`)).toBe(true);
+
+    const eight = 'the ways that the data should be stored';
+    expect(eight.split(' ')).toHaveLength(8);
+    expect(isSyllabusTerm(eight)).toBe(false);
+    expect(isSyllabusTerm(eight, undefined, `Discuss ${eight} in this scenario.`)).toBe(true);
+  });
+
+  it('drops a nine-word phrase with no proper name even when the context has it', () => {
+    const nine = 'the ways in which data should be stored safely';
+    expect(nine.split(' ')).toHaveLength(9);
+    expect(isSyllabusTerm(nine, undefined, nine)).toBe(false);
+  });
+
+  it('keeps a five-word clause with no context (the trade-off of the six-word cap)', () => {
+    // "ideas expressed in the text" is five words, so it is a term outright now.
+    // A clause of this length that no question uses is kept, and that is accepted.
+    const five = 'ideas expressed in the text';
+    expect(five.split(' ')).toHaveLength(5);
+    expect(isSyllabusTerm(five)).toBe(true);
+    expect(isSyllabusTerm(five, undefined, 'Compare the arguments presented.')).toBe(true);
+  });
+
+  it('keeps a phrase the context uses verbatim, and matches it on whole words', () => {
+    expect(
+      isSyllabusTerm(
+        'law of conservation of mass in reactions',
+        undefined,
+        'Explain the Law of Conservation of Mass in reactions.'
+      )
+    ).toBe(true);
     expect(
       isSyllabusTerm('best interests of the child', undefined, 'the best interests, of the child!')
     ).toBe(true);
+    // Seven words, so the context must hold the whole phrase, not a part of it.
     expect(
-      isSyllabusTerm('best interests of the chil', undefined, 'the best interests of the child')
-    ).toBe(false);
-  });
-
-  it('drops clause-like junk the text does not name', () => {
-    expect(isSyllabusTerm('ideas expressed in the text')).toBe(false);
-    expect(isSyllabusTerm('data that should be stored')).toBe(false);
-    expect(
-      isSyllabusTerm('ideas expressed in the text', undefined, 'Compare the arguments presented.')
+      isSyllabusTerm(
+        'best interests of the child and family',
+        undefined,
+        'the best interests of the child'
+      )
     ).toBe(false);
   });
 
@@ -100,21 +132,17 @@ describe('isSyllabusTerm — the length rule', () => {
     expect(isSyllabusTerm('big data')).toBe(true);
     expect(isSyllabusTerm('primary data sources')).toBe(true);
   });
-
-  it('still drops a phrase of seven or more words with no proper name, even if the context has it', () => {
-    const long = 'the long run average annual rainfall over the catchment';
-    expect(isSyllabusTerm(long, undefined, long)).toBe(false);
-  });
 });
 
 describe('dropNonSyllabusTerms — context passes through, nothing else changes', () => {
   const context = 'Explain the law of conservation of mass. Scenario: a Universal Declaration.';
 
-  it('keeps proper names and context-backed phrases, drops clauses, dedupes, keeps order', () => {
+  it('keeps proper names and context-backed phrases, drops junk, dedupes, keeps order', () => {
     const raw = [
       'Universal Declaration of Human Rights',
       'law of conservation of mass',
-      'ideas expressed in the text',
+      'close reference to the prescribed text',
+      'the ways in which data should be stored safely',
       'data',
       'Universal Declaration of Human Rights',
       'Convention on the Rights of the Child',
@@ -126,8 +154,13 @@ describe('dropNonSyllabusTerms — context passes through, nothing else changes'
     ]);
   });
 
-  it('without context drops the context-only phrase', () => {
-    expect(dropNonSyllabusTerms(['law of conservation of mass'], 'Explain')).toEqual([]);
+  it('without context drops a phrase past eight words the text uses', () => {
+    const long = 'the ways in which data should be stored safely';
+    expect(dropNonSyllabusTerms([long], 'Explain')).toEqual([]);
+    expect(dropNonSyllabusTerms([long], 'Explain', long)).toEqual([]);
+    const seven = 'the ways that the data is stored';
+    expect(dropNonSyllabusTerms([seven], 'Explain')).toEqual([]);
+    expect(dropNonSyllabusTerms([seven], 'Explain', seven)).toEqual([seven]);
   });
 
   it('does not cap the list', () => {

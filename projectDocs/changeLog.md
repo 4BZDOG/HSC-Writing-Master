@@ -1,5 +1,16 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-20 (Syllabus terms that are terms)
+
+- **Fixed.** The syllabus-term rule no longer drops real terms. Named Acts, conventions and proper
+  names, and phrases of up to six words, are kept, and so is a phrase of up to eight words that the question or dot
+  point uses. Task-instruction wording ("close reference to the prescribed text") is dropped. The Off-Syllabus Terms
+  filter flags 782 questions under this rule before Tidy Terms, and none after.
+- **Changed (DATA_VERSION 2.59.0).** Tidy Terms applied to the shipped questions: 883 non-terms removed from 782
+  questions. The most removed were data (118), information (50), impact (49), influence (45), model (45), development
+  (33), features (33) and example (33). Nothing else in the questions changed, and no question was left without terms.
+- **Added.** `tests/unit/shippedSyllabusTerms.test.ts` holds the filter at zero on every shipped question.
+
 ## [Unreleased] - 2026-11-20 (Content Studio checks that flag real problems)
 
 - **Fixed.** Three Content Studio filters flagged content that follows the seed's own rules. No shipped data changed.

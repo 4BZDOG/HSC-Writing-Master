@@ -719,7 +719,6 @@
                       "secondary data",
                       "reliability",
                       "peer review",
-                      "methods",
                       "sample size",
                       "publication date"
                     ],
@@ -1074,7 +1073,6 @@
                       "participant",
                       "voluntary",
                       "research",
-                      "ethical",
                       "scientific knowledge"
                     ],
                     "linkedOutcomes": [
@@ -1313,7 +1311,6 @@
                     "scenario": "Hypothetical: A student has a prepared slide of onion epidermis cells and a compound light microscope with objective lenses labelled 4x, 10x and 40x. The student must construct the set-up with the identified materials before recording the observation.",
                     "markingCriteria": "4 marks: Outlines all key steps in a logical order, including the lowest-power start, careful lowering of the lens and focusing with the fine focus\n3 marks: Outlines most of the steps in a logical order, with some detail on focusing\n2 marks: Outlines two or three relevant steps for setting up the microscope\n1 mark: Identifies one relevant step, such as placing the slide on the stage",
                     "keywords": [
-                      "construct",
                       "manipulate",
                       "identified materials",
                       "technologies",
@@ -1369,7 +1366,6 @@
                     "scenario": "Hypothetical: A Year 11 group must make five test tubes of food dye for a colour-comparison investigation, each one a tenfold dilution of the one before. The stock solution is in a 10 mL bottle. The group has a 10 mL graduated measuring cylinder, a 1 mL graduated pipette, five labelled test tubes with stoppers, and distilled water.",
                     "markingCriteria": "5 marks: Constructs a complete, accurate and safe procedure that gives each tube the correct tenfold dilution and prevents carry-over\n4 marks: Constructs a sound procedure with correct volumes and most of the safety or contamination controls\n3 marks: Constructs a procedure with some correct volumes, such as 9 mL of water and 1 mL transfers, but with gaps\n2 marks: Identifies relevant steps for making the dilutions without sequencing them\n1 mark: Makes a basic or minimal statement about diluting the dye",
                     "keywords": [
-                      "construct",
                       "manipulate",
                       "identified materials",
                       "technologies",
@@ -1435,7 +1431,6 @@
                       "systematically",
                       "collect",
                       "record",
-                      "data",
                       "evidence",
                       "findings"
                     ],
@@ -1490,7 +1485,6 @@
                       "systematically",
                       "collect",
                       "record",
-                      "data",
                       "evidence",
                       "findings",
                       "equipment"
@@ -1551,11 +1545,8 @@
                     "markingCriteria": "4 marks: Classifies all four sources correctly, with a reason for each that refers to who collected the data\n3 marks: Classifies three of the four sources correctly, with reasons\n2 marks: Classifies two of the four sources correctly\n1 mark: Classifies one source correctly",
                     "keywords": [
                       "gather",
-                      "data",
-                      "information",
                       "secondary sources",
-                      "primary sources",
-                      "classify"
+                      "primary sources"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-05"
@@ -1606,8 +1597,6 @@
                     "markingCriteria": "6 marks: Makes a reasoned judgement on reliability, supported by sustained reference to the author, the evidence, the wording and any conflict of interest\n5 marks: Assesses reliability with sound reasons, referring to several specific features of the source\n4 marks: Assesses reliability by identifying several relevant features of the source, with some reasons\n3 marks: Identifies relevant features of the source with limited reasoning about reliability\n2 marks: Identifies one relevant feature of the source\n1 mark: Makes a basic or minimal comment about the source",
                     "keywords": [
                       "gather",
-                      "data",
-                      "information",
                       "secondary sources",
                       "reliability",
                       "evidence"
@@ -1675,9 +1664,7 @@
                       "select",
                       "qualitative",
                       "quantitative",
-                      "tables",
-                      "information",
-                      "extract"
+                      "tables"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-04"
@@ -1731,8 +1718,7 @@
                       "qualitative",
                       "quantitative",
                       "tables",
-                      "multimedia",
-                      "information"
+                      "multimedia"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-04"
@@ -1795,10 +1781,8 @@
                     "keywords": [
                       "representations",
                       "organise",
-                      "data",
                       "keys",
-                      "dichotomous key",
-                      "information"
+                      "dichotomous key"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-04"
@@ -1850,8 +1834,6 @@
                     "keywords": [
                       "representations",
                       "organise",
-                      "data",
-                      "information",
                       "graphs",
                       "tables"
                     ],
@@ -1911,7 +1893,6 @@
                     "markingCriteria": "4 marks: Outlines all the elements of a journal reference-list entry in the referencing style, including the volume, issue and page range\n3 marks: Outlines most of the elements of a journal reference-list entry, with some correct formatting\n2 marks: Outlines two or three relevant elements, such as the authors and the year\n1 mark: Identifies one element of a reference, such as the article title",
                     "keywords": [
                       "extract data",
-                      "information",
                       "sources",
                       "acknowledge",
                       "referencing style",
@@ -1966,7 +1947,6 @@
                     "markingCriteria": "5 marks: Applies the APA 7th edition style accurately to the in-text citation and the reference-list entry, and explains how the extracted figure is acknowledged\n4 marks: Applies the referencing style accurately to the in-text citation and most of the reference-list entry\n3 marks: Writes an in-text citation and a reference-list entry with some correct elements, such as the authors and the year\n2 marks: Identifies one correct element of the referencing style, such as the year in brackets\n1 mark: Makes a basic or minimal reference to acknowledging sources",
                     "keywords": [
                       "extract data",
-                      "information",
                       "sources",
                       "acknowledge",
                       "referencing style",
@@ -2085,8 +2065,7 @@
                       "observations",
                       "Aboriginal and Torres Strait Islander Peoples",
                       "scientific knowledge",
-                      "contribute",
-                      "development"
+                      "contribute"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-05",
@@ -2267,7 +2246,6 @@
                       "patterns",
                       "trends",
                       "inconsistencies",
-                      "data",
                       "outlier"
                     ],
                     "linkedOutcomes": [
@@ -2321,7 +2299,6 @@
                       "patterns",
                       "trends",
                       "inconsistencies",
-                      "data",
                       "replicates",
                       "concentration"
                     ],
@@ -2612,7 +2589,6 @@
                       "outlier",
                       "conclusion",
                       "control group",
-                      "data",
                       "mean height"
                     ],
                     "linkedOutcomes": [
@@ -2905,10 +2881,8 @@
                     "markingCriteria": "6 marks: Constructs a linked cause-and-effect model of the falling volume, uses it to predict the volume after 12 weeks with working, and identifies a limitation of the model\n5 marks: Constructs a cause-and-effect model with specific causes and effects, and predicts the volume after 12 weeks with working\n4 marks: Constructs a cause-and-effect chain with some causes and effects, and attempts a prediction\n3 marks: Describes a cause of the falling volume with some reference to the scenario\n2 marks: Identifies one cause of the falling volume with limited explanation\n1 mark: Provides some relevant information about the dam",
                     "keywords": [
                       "cause-and-effect",
-                      "model",
                       "evaporation",
-                      "volume",
-                      "predict"
+                      "volume"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-06",
@@ -3318,7 +3292,6 @@
                       "visual media",
                       "scientific arguments",
                       "audience",
-                      "data",
                       "trend"
                     ],
                     "linkedOutcomes": [
@@ -6142,8 +6115,7 @@
                       "conservative",
                       "dispersive",
                       "daughter molecule",
-                      "original strand",
-                      "model"
+                      "original strand"
                     ],
                     "markingCriteria": "1 mark: Identifies the correct model",
                     "sampleAnswers": [
@@ -6184,7 +6156,6 @@
                     "scenario": "Hypothetical: A Year 11 class is preparing a short written task comparing ways to show how DNA replication occurs. Students may use paper strips, pipe cleaners or a published animation.",
                     "markingCriteria": "3 marks: Defines a model as a simplified representation and gives a suitable physical model of DNA replication with a brief description of what each part represents\n2 marks: Defines a model as a representation, or gives a suitable physical model of DNA replication\n1 mark: Provides some relevant information about models in biology",
                     "keywords": [
-                      "model",
                       "DNA replication",
                       "physical model",
                       "simplified representation",
@@ -6239,7 +6210,6 @@
                     "markingCriteria": "6 marks: Assesses the model thoroughly, judging its value for base pairing, the replication fork and the separation of strands, while evaluating what it cannot show about enzymes, speed and chemical bonds\n5 marks: Assesses the model, identifying at least two things it demonstrates well and at least one important limitation with a reason\n4 marks: Assesses the model, identifying one thing it demonstrates well and one limitation\n3 marks: Identifies features the model demonstrates, with a basic comment on a limitation\n2 marks: Describes a feature of the model without judging its usefulness\n1 mark: Provides some relevant information about models of DNA replication",
                     "keywords": [
                       "DNA replication",
-                      "model",
                       "base pairing",
                       "replication fork",
                       "enzyme",
@@ -7308,7 +7278,6 @@
                     "keywords": [
                       "surface-area-to-volume ratio",
                       "diffusion",
-                      "model",
                       "cell",
                       "materials",
                       "limitation"
@@ -8908,7 +8877,6 @@
                       "structure and function",
                       "arteries",
                       "veins",
-                      "models",
                       "blood pressure",
                       "valves"
                     ],
@@ -9139,7 +9107,6 @@
                       "capillaries",
                       "gas exchange",
                       "lungs",
-                      "model",
                       "surface area",
                       "diffusion distance"
                     ],
@@ -10065,7 +10032,6 @@
                     "scenario": "Hypothetical: A healthy adult drinks a glucose solution after fasting overnight. Blood samples are taken at set times and the results are shown below.\nTime after drink (min): 0, 30, 60, 90, 120\nBlood glucose (mmol/L): 5.0, 8.4, 7.1, 5.6, 4.9\nInsulin (pmol/L): 45, 170, 140, 85, 50",
                     "markingCriteria": "3 marks: Extracts both correct values from the data, with units, and states the time of peak insulin concentration\n2 marks: Extracts two correct values from the data, with or without units\n1 mark: Extracts one relevant value from the data",
                     "keywords": [
-                      "data",
                       "hormone levels",
                       "endocrine hormone",
                       "blood glucose",
@@ -10119,7 +10085,6 @@
                     "scenario": "Hypothetical: A healthy adult drinks a glucose solution after fasting overnight. Blood samples are taken at set times and the results are shown below.\nTime after drink (min): 0, 30, 60, 90, 120\nBlood glucose (mmol/L): 5.0, 8.4, 7.1, 5.6, 4.9\nInsulin (pmol/L): 45, 170, 140, 85, 50",
                     "markingCriteria": "6 marks: Analyses the data thoroughly, linking the rise in insulin to the fall in blood glucose and the return to baseline as evidence of negative feedback, with a note on the limits of the data\n5 marks: Analyses the data to show that insulin concentration rises and falls with blood glucose, with relevant reference to hormone levels and regulation\n4 marks: Analyses some trends for insulin and blood glucose, with some reference to the role of insulin\n3 marks: Describes a trend in insulin or blood glucose from the data, with limited reference to regulation\n2 marks: Identifies a value from the data without describing a trend\n1 mark: Provides some relevant information about insulin or blood glucose",
                     "keywords": [
-                      "data",
                       "hormone levels",
                       "endocrine hormone",
                       "blood glucose",
@@ -11104,7 +11069,6 @@
                     "markingCriteria": "3 marks: Describes one strength and one limitation of Model B, linking each to how accurately it represents inheritance, mutation or selective pressure\n2 marks: Describes a strength or a limitation of Model B with some link to natural selection\n1 mark: Identifies a relevant feature of Model B, such as the inheritance of colour or the predator",
                     "keywords": [
                       "validity",
-                      "models",
                       "natural selection",
                       "inheritance",
                       "mutation",
@@ -11158,7 +11122,6 @@
                     "markingCriteria": "6 marks: Justifies a supported choice of model, weighing the features each includes and omits, and explains how the validity of the chosen model depends on the purpose of the teaching\n5 marks: Justifies a choice of model with reasoning about what each includes and omits, with some reference to validity\n4 marks: Discusses the strengths and limitations of each model, with some reference to natural selection\n3 marks: Identifies a relevant strength or limitation of one model and describes its effect on validity\n2 marks: Identifies a feature of one model, such as the predator or the copying of survivors, without assessing it\n1 mark: Provides some relevant information about one of the models",
                     "keywords": [
                       "validity",
-                      "models",
                       "natural selection",
                       "inheritance",
                       "variation",
@@ -12673,9 +12636,7 @@
                       "practical investigation",
                       "abiotic",
                       "biotic",
-                      "data",
-                      "ecosystem",
-                      "features"
+                      "ecosystem"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -12727,9 +12688,7 @@
                     "keywords": [
                       "abiotic",
                       "biotic",
-                      "data",
                       "ecosystem",
-                      "features",
                       "dissolved oxygen"
                     ],
                     "linkedOutcomes": [
@@ -13478,8 +13437,7 @@
                       "competition",
                       "populations",
                       "species",
-                      "food supply",
-                      "data"
+                      "food supply"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -13538,8 +13496,7 @@
                       "carrying capacity",
                       "biotic",
                       "abiotic",
-                      "ecosystem",
-                      "factors"
+                      "ecosystem"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -14250,7 +14207,6 @@
                       "secondary data",
                       "reliability",
                       "planning",
-                      "information",
                       "investigation",
                       "sample size"
                     ],
@@ -14305,7 +14261,6 @@
                       "secondary data",
                       "reliability",
                       "planning",
-                      "information",
                       "sample size",
                       "bias"
                     ],
@@ -14481,7 +14436,6 @@
                       "appropriate materials",
                       "technologies",
                       "scientific investigation",
-                      "design",
                       "pH meter",
                       "universal indicator"
                     ],
@@ -14535,7 +14489,6 @@
                       "appropriate materials",
                       "technologies",
                       "scientific investigation",
-                      "design",
                       "light intensity",
                       "photosynthesis"
                     ],
@@ -14838,7 +14791,6 @@
                     "markingCriteria": "3 marks: Describes two specific ways to use the balance and record readings, such as zeroing with a weighing boat and recording to the display's resolution, and explains how each makes the data checkable\n2 marks: Describes one way to use the equipment or record the readings, with some reason\n1 mark: Identifies a relevant step in using the balance or recording the data",
                     "keywords": [
                       "equipment",
-                      "data",
                       "evidence",
                       "findings",
                       "record",
@@ -14893,7 +14845,6 @@
                     "markingCriteria": "6 marks: Analyses the records with sustained reasoning, identifying the unexplained outlier, the missing units and the unrecorded reading position as threats to reliability, and explains how each correction would strengthen the findings\n5 marks: Analyses at least two recording errors and explains how each affects the reliability of the findings, with a correction for each\n4 marks: Analyses one recording error and its effect on the findings, with a suggested correction\n3 marks: Identifies the outlier or the missing units and describes why each matters\n2 marks: Identifies a feature of the records that could affect the findings\n1 mark: Provides some relevant information about the readings",
                     "keywords": [
                       "equipment",
-                      "data",
                       "evidence",
                       "findings",
                       "record",
@@ -14954,8 +14905,6 @@
                     "markingCriteria": "3 marks: Extracts both nitrate values for the upstream and downstream sites, with their units, and states the single sampling date\n2 marks: Extracts the nitrate values for two sites, without the units or sampling date\n1 mark: Extracts one relevant piece of information from the report",
                     "keywords": [
                       "secondary sources",
-                      "data",
-                      "information",
                       "nitrate",
                       "units",
                       "sampling"
@@ -15008,8 +14957,6 @@
                     "markingCriteria": "6 marks: Discusses how data from each source can be combined, weighing the strengths and limitations of each with sustained reasoning, and reaches a supported conclusion about what the evidence can and cannot show about nitrate and algal growth\n5 marks: Discusses the usefulness and limitations of at least two sources in relation to the question, and identifies how their data could be combined\n4 marks: Discusses the usefulness of the sources for the question, with some reference to limitations\n3 marks: Describes the data each source provides and identifies one limitation\n2 marks: Identifies the type of information in one of the sources\n1 mark: Provides some relevant information from a source",
                     "keywords": [
                       "secondary sources",
-                      "data",
-                      "information",
                       "nitrate",
                       "algal growth",
                       "limitations"
@@ -15076,7 +15023,6 @@
                     "keywords": [
                       "quantitative",
                       "qualitative",
-                      "information",
                       "table",
                       "notes",
                       "heart rate",
@@ -15132,7 +15078,6 @@
                     "keywords": [
                       "qualitative",
                       "quantitative",
-                      "information",
                       "exercise intensity",
                       "heart rate recovery",
                       "secondary source"
@@ -15315,7 +15260,6 @@
                     "markingCriteria": "3 marks: Outlines the authors, year, article title, journal name, volume, issue and page numbers for the reference, and states a correct in-text citation\n2 marks: Outlines several of the required details for the reference, but omits the in-text citation\n1 mark: Identifies one relevant detail to be recorded from the article",
                     "keywords": [
                       "referencing style",
-                      "information",
                       "journal article",
                       "reference",
                       "authors",
@@ -15370,9 +15314,6 @@
                     "scenario": "Hypothetical: A student's report on heart rate uses four sources: a table of data copied from a classmate's notebook with no name given; a graph copied from a website with no author or date; two sentences paraphrased from a textbook with no reference; and heart rate measurements the student recorded personally. The report has no reference list.",
                     "markingCriteria": "6 marks: Discusses why accurate extraction and acknowledgement matter for credibility, checking and academic integrity, and sets out a specific correction for each source in the report\n5 marks: Discusses why accurate extraction and acknowledgement matter, and sets out corrections for most of the sources\n4 marks: Discusses why sources should be acknowledged, and identifies some of the sources that need correction\n3 marks: Describes the need to reference sources, and identifies at least one source that needs correction\n2 marks: States that sources should be referenced, without linking this to the student's report\n1 mark: Provides some relevant information about referencing",
                     "keywords": [
-                      "extract",
-                      "data",
-                      "information",
                       "acknowledge",
                       "source",
                       "referencing style"
@@ -15674,7 +15615,6 @@
                       "patterns",
                       "trends",
                       "inconsistencies",
-                      "data",
                       "germination",
                       "replicate"
                     ],
@@ -15729,7 +15669,6 @@
                       "inconsistency",
                       "experimental error",
                       "biological variation",
-                      "recount",
                       "dish",
                       "replicate"
                     ],
@@ -16506,7 +16445,6 @@
                       "peer review",
                       "manuscript",
                       "evaluation",
-                      "methods",
                       "conclusions",
                       "publication"
                     ],
@@ -18563,7 +18501,6 @@
                       "codominant",
                       "incomplete dominant",
                       "inheritance",
-                      "example",
                       "heterozygote"
                     ],
                     "markerNotes": [
@@ -22657,7 +22594,6 @@
                       "surveillance",
                       "sentinel surveillance",
                       "passive surveillance",
-                      "management",
                       "underreporting",
                       "notification"
                     ],
@@ -23465,8 +23401,7 @@
                       "measurement bias",
                       "selection bias",
                       "error",
-                      "case counts",
-                      "testing"
+                      "case counts"
                     ],
                     "linkedOutcomes": [
                       "BI-12-02"
@@ -23630,7 +23565,6 @@
                       "epidemiological study",
                       "prevention",
                       "benefits",
-                      "examples",
                       "cluster",
                       "cholera"
                     ],
@@ -25136,7 +25070,6 @@
                     "markingCriteria": "3 marks: Outlines a repeatable method that models random sampling of alleles over several generations and identifies a factor to vary\n2 marks: Outlines a relevant method for modelling allele frequencies without identifying a factor to vary\n1 mark: Identifies a relevant element of the model, such as the beads, without a method",
                     "keywords": [
                       "practical investigation",
-                      "model",
                       "allele frequencies",
                       "successive generations",
                       "population size",
@@ -26153,7 +26086,6 @@
                     "markingCriteria": "3 marks: Outlines ecological sustainability as use of natural resources within regeneration limits, and identifies two components that must be maintained, such as biodiversity and ecosystem processes\n2 marks: Outlines ecological sustainability as the use of natural resources at a rate that allows regeneration\n1 mark: Identifies a general aim of protecting the environment",
                     "keywords": [
                       "ecological sustainability",
-                      "concept",
                       "natural resources",
                       "regeneration",
                       "biodiversity",
@@ -27632,7 +27564,6 @@
                     "scenario": "Hypothetical: A research group uses a computer model of a plant enzyme to predict how a modified version will fold and bind its substrate. The group then measures the rate of product formed by the modified enzyme in the laboratory.",
                     "markingCriteria": "3 marks: Describes how the computer model predicts enzyme behaviour and how laboratory data test and refine those predictions\n2 marks: Identifies a use of the computer model or the laboratory data in developing the enzyme\n1 mark: Provides some relevant information",
                     "keywords": [
-                      "data",
                       "modelling",
                       "biotechnology",
                       "computer model",
@@ -27685,7 +27616,6 @@
                     "scenario": "Hypothetical: A company uses a large database of crop genome sequences and a computer model to design a drought-tolerant crop. The model was built using glasshouse data only. Field trials in three different regions are planned, and the company does not share its underlying data publicly.",
                     "markingCriteria": "6 marks: Assesses thoroughly the roles of data and modelling in developing and using the crop, making a justified judgement on whether the evidence supports release in all regions\n5 marks: Assesses the roles of data and modelling, with a sound judgement on whether the evidence supports release\n4 marks: Discusses the use of data and modelling in developing the crop, with some reference to the scenario\n3 marks: Describes a role of data or modelling in developing the crop, with some limitation or judgement\n2 marks: Identifies a use of data or modelling in the scenario\n1 mark: Provides some relevant information",
                     "keywords": [
-                      "data",
                       "modelling",
                       "biotechnology",
                       "computer model",
@@ -27981,7 +27911,6 @@
                     "keywords": [
                       "personalised information",
                       "risk",
-                      "management",
                       "non-infectious disease",
                       "genetic test",
                       "BRCA1"
@@ -28035,7 +27964,6 @@
                       "personalised information",
                       "risk",
                       "non-infectious disease",
-                      "management",
                       "biotechnologies",
                       "genetic test"
                     ],
@@ -28094,7 +28022,6 @@
                     "markingCriteria": "3 marks: Outlines the method of delivering a working gene with a vector and the outcome of the gene therapy in patients\n2 marks: Identifies the method or the outcome of a gene therapy for a genetic condition\n1 mark: Provides some relevant information",
                     "keywords": [
                       "gene therapy",
-                      "method",
                       "outcome",
                       "vector",
                       "genetic condition",
@@ -28147,7 +28074,6 @@
                     "markingCriteria": "5 marks: Differentiates thoroughly between the two therapies in terms of target tissue, delivery method and outcome, and identifies the shared gene-replacement principle\n4 marks: Differentiates between the two therapies in terms of method and outcome, with relevant detail\n3 marks: Describes the method or outcome of each therapy, with some comparison\n2 marks: Identifies a feature of one of the therapies\n1 mark: Provides some relevant information",
                     "keywords": [
                       "gene therapy",
-                      "method",
                       "outcome",
                       "vector",
                       "adeno-associated virus",
@@ -28330,7 +28256,6 @@
                     "scenario": "Hypothetical: A clinical trial tests a gene therapy for an inherited enzyme deficiency that causes a harmful compound to build up in the body. Forty participants were randomly assigned to a treated group or a control group of 20 each. The table shows the results after 12 months.\n\n| Group | Participants | Symptom-free at 12 months | Raised liver enzymes (adverse effect) |\n| --- | --- | --- | --- |\n| Treated | 20 | 16 | 3 |\n| Control | 20 | 6 | 0 |",
                     "markingCriteria": "3 marks: Describes the difference in symptom-free proportions using both groups' data, with calculated percentages and a statement of the trend\n2 marks: Identifies that more treated participants were symptom-free, using data from the table\n1 mark: Provides some relevant information",
                     "keywords": [
-                      "data",
                       "clinical trial",
                       "symptom-free",
                       "control group",
@@ -28383,7 +28308,6 @@
                     "scenario": "Hypothetical: The same clinical trial reports the results shown in the table, with 20 participants in each group. The trial did not report the age or severity of participants at entry, and the follow-up period was 12 months.",
                     "markingCriteria": "6 marks: Analyses the trial data for both benefit and risk and assesses the strength of the evidence, making a justified judgement about the use of the biotechnology\n5 marks: Analyses the data for benefit and risk, with a sound judgement on the strength of the evidence\n4 marks: Analyses some of the data and comments on a benefit or a risk of the biotechnology\n3 marks: Describes a benefit or risk shown in the data, with some reference to the trial design\n2 marks: Identifies a trend or result from the data\n1 mark: Provides some relevant information",
                     "keywords": [
-                      "data",
                       "biotechnology",
                       "non-infectious disease",
                       "clinical trial",
@@ -28444,7 +28368,6 @@
                     "scenario": "Hypothetical: A student is preparing a case study on type 1 diabetes, a non-infectious disease in which the immune system destroys the insulin-producing beta cells of the pancreas.",
                     "markingCriteria": "3 marks: Outlines a current biotechnology application and explains how it improves outcomes for people with the disease\n2 marks: Identifies a current biotechnology used in managing the disease\n1 mark: Provides some relevant information",
                     "keywords": [
-                      "application",
                       "biotechnology",
                       "outcome",
                       "non-infectious disease",
@@ -28497,7 +28420,6 @@
                     "scenario": "Hypothetical: A research group reports early laboratory work on producing insulin-producing cells from stem cells, with the aim of replacing the beta cells lost in type 1 diabetes. The work is not yet available as a treatment.",
                     "markingCriteria": "5 marks: Discusses several current and future applications of biotechnology for type 1 diabetes, links each to improved outcomes and notes the challenges that remain\n4 marks: Discusses a current and a future application of biotechnology in improving outcomes for the disease\n3 marks: Describes a current application and a future application of biotechnology for the disease\n2 marks: Identifies a current or future application of biotechnology for the disease\n1 mark: Provides some relevant information",
                     "keywords": [
-                      "application",
                       "biotechnology",
                       "outcome",
                       "non-infectious disease",

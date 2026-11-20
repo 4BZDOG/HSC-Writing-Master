@@ -935,6 +935,13 @@ export const isProperNameTerm = (term: string): boolean => {
 };
 
 /**
+ * Task-instruction wording, not subject matter: "close reference to the
+ * prescribed text", "study of the prescribed poems". These name the task, not
+ * the subject, so they are never a syllabus term whatever their length.
+ */
+export const INSTRUCTION_PHRASE = /\bprescribed (?:texts?|poems?)\b|\bclose reference\b/i;
+
+/**
  * Is this a syllabus term, as `keywordInstruction` defines one?
  *
  * Split out of `sanitiseKeywords` because the audit studio needs the same
@@ -943,10 +950,11 @@ export const isProperNameTerm = (term: string): boolean => {
  * a curated list of nineteen. The studio drops what is not a term and keeps
  * everything else.
  *
- * Length is the last test, and it is not a bare cap. Up to four words is a
- * term. Past that, a named Act, convention or other proper name is still a
- * term (`isProperNameTerm`, up to ten words). A phrase of up to six words is
- * a term when the question, its scenario or its dot point uses it verbatim
+ * Length is the last test, and it is not a bare cap. Task-instruction wording
+ * (`INSTRUCTION_PHRASE`) is never a term. Up to six words is a term. Past that,
+ * a named Act, convention or other proper name is still a term
+ * (`isProperNameTerm`, up to ten words), and so is a phrase of up to eight
+ * words that the question, its scenario or its dot point uses verbatim
  * (`context`). Anything else longer is a clause.
  */
 export const isSyllabusTerm = (term: string, verb?: string, context?: string): boolean => {
@@ -962,10 +970,13 @@ export const isSyllabusTerm = (term: string, verb?: string, context?: string): b
   // those as subject matter. Applied here rather than only in the studio's
   // repair, so the app stops writing terms its own audit would strip.
   if (isWeakLoneTerm(trimmed)) return false;
-  const words = trimmed.split(/\s+/).length;
-  if (words <= 4) return true;
+  if (INSTRUCTION_PHRASE.test(trimmed)) return false;
+  // A word has a letter or a digit in it: "S + T + M = I + G + X" is six
+  // words, not eleven, because the operators are not words.
+  const words = trimmed.split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)).length;
+  if (words <= 6) return true;
   if (words <= 10 && isProperNameTerm(trimmed)) return true;
-  if (words <= 6 && context) {
+  if (words <= 8 && context) {
     const key = normalise(trimmed);
     return key !== '' && ` ${normalise(context)} `.includes(` ${key} `);
   }
@@ -978,7 +989,7 @@ export const isSyllabusTerm = (term: string, verb?: string, context?: string): b
  * "Tidy Terms" writes back.
  *
  * `context` is the question, scenario and dot point text, as `isSyllabusTerm`
- * takes it; without it a clause-length phrase the text uses is dropped.
+ * takes it; without it a phrase past six words the text uses is dropped.
  */
 export const dropNonSyllabusTerms = (
   raw: string[] | undefined,

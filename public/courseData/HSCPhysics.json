@@ -1085,7 +1085,6 @@
                     "keywords": [
                       "ethical issues",
                       "scientific knowledge",
-                      "development",
                       "nuclear fission",
                       "weapons",
                       "power stations"
@@ -1141,7 +1140,6 @@
                     "keywords": [
                       "ethical issues",
                       "scientific knowledge",
-                      "development",
                       "surveillance",
                       "dual use",
                       "informed consent"
@@ -1327,7 +1325,6 @@
                     "markingCriteria": "3 marks: Describes how the pendulum is constructed from the identified materials, with a method for changing and measuring its length\n2 marks: Describes how the pendulum is constructed from the identified materials, without explaining how its length is changed or measured\n1 mark: Identifies relevant materials for constructing the pendulum",
                     "keywords": [
                       "identified materials",
-                      "construct",
                       "manipulate",
                       "scientific investigations",
                       "simple pendulum",
@@ -1566,7 +1563,6 @@
                     "keywords": [
                       "secondary sources",
                       "gather data",
-                      "information",
                       "reliable",
                       "journal article",
                       "author",
@@ -1807,7 +1803,6 @@
                     "keywords": [
                       "quantitative processes",
                       "unit conversions",
-                      "data",
                       "measurement",
                       "quantity",
                       "unit"
@@ -1863,7 +1858,6 @@
                     "keywords": [
                       "unit conversions",
                       "quantitative processes",
-                      "data",
                       "common unit",
                       "speed",
                       "comparison"
@@ -2865,7 +2859,6 @@
                       "reliability",
                       "ramp angle",
                       "reaction time",
-                      "data",
                       "relationship"
                     ],
                     "linkedOutcomes": [
@@ -3334,8 +3327,7 @@
                       "gravitational potential energy",
                       "kinetic energy",
                       "conservation of energy",
-                      "release height",
-                      "model"
+                      "release height"
                     ],
                     "linkedOutcomes": [
                       "PY-11WS-06"
@@ -3390,8 +3382,7 @@
                       "braking distance",
                       "kinetic energy",
                       "limitation",
-                      "prediction",
-                      "model"
+                      "prediction"
                     ],
                     "linkedOutcomes": [
                       "PY-11WS-05",
@@ -3453,8 +3444,7 @@
                       "modify",
                       "friction",
                       "controlled variable",
-                      "acceleration",
-                      "method"
+                      "acceleration"
                     ],
                     "linkedOutcomes": [
                       "PY-11WS-02",
@@ -3629,7 +3619,6 @@
                       "contestable",
                       "further inquiry",
                       "scientific knowledge",
-                      "model",
                       "evidence",
                       "particle model"
                     ],
@@ -3698,8 +3687,6 @@
                       "conclusion",
                       "evidence-based argument",
                       "evidence",
-                      "method",
-                      "data",
                       "friction"
                     ],
                     "linkedOutcomes": [
@@ -7515,8 +7502,7 @@
                       "momentum",
                       "conserved",
                       "external force",
-                      "net external force",
-                      "system"
+                      "net external force"
                     ],
                     "linkedOutcomes": [
                       "PY-11-01"
@@ -10919,7 +10905,6 @@
                     "markingCriteria": "3 marks: Describes the principle of superposition as the displacements of waves adding at each point, and describes two pulses on a rope overlapping to model it\n2 marks: Describes the principle of superposition, without a model using pulses on a rope\n1 mark: Identifies that waves can overlap or combine",
                     "keywords": [
                       "principle of superposition",
-                      "model",
                       "pulse",
                       "displacement",
                       "resultant",
@@ -10974,7 +10959,6 @@
                     "markingCriteria": "5 marks: Analyses the model by explaining that the displacements add at each point, so the rope is flat when the pulses meet, and that the pulses emerge unchanged after they pass\n4 marks: Analyses the rope's shape at the overlap, showing that the displacements add and cancel where the pulses are opposite\n3 marks: Explains that the displacement of the rope at the overlap is the sum of the displacements of the two pulses\n2 marks: Identifies that the rope is flat when the two pulses meet\n1 mark: Provides some relevant information about pulses on a rope",
                     "keywords": [
                       "principle of superposition",
-                      "model",
                       "displacement",
                       "destructive interference",
                       "pulse",
@@ -16393,7 +16377,6 @@
                       "secondary data",
                       "reliability",
                       "secondary source",
-                      "method",
                       "pendulum investigation",
                       "peer review"
                     ],
@@ -17106,7 +17089,6 @@
                       "equipment",
                       "systematically",
                       "record",
-                      "data",
                       "reading",
                       "trial"
                     ],
@@ -17160,7 +17142,6 @@
                     "markingCriteria": "5 marks: Analyses how reaction time and inconsistent starts affect the data, and how a light gate and immediate recording make the data more systematic and reliable\n4 marks: Analyses how hand timing affects the data, with a reason, and suggests one improvement in the use of equipment\n3 marks: Analyses the effect of hand timing on the data, without an improvement\n2 marks: Describes the stopwatch and the table, without analysing their effect on the data\n1 mark: Identifies that the student uses a stopwatch",
                     "keywords": [
                       "stopwatch",
-                      "data",
                       "equipment",
                       "systematic",
                       "reaction time",
@@ -17222,8 +17203,6 @@
                     "markingCriteria": "3 marks: Describes three different types of secondary source, each with a feature that makes its data or information useful for the speed of sound\n2 marks: Describes two different types of secondary source, with a feature for each\n1 mark: Identifies a textbook as a secondary source",
                     "keywords": [
                       "secondary source",
-                      "data",
-                      "information",
                       "speed of sound",
                       "textbook",
                       "journal article"
@@ -17278,8 +17257,6 @@
                     "markingCriteria": "6 marks: Examines a wide range of secondary sources, judging how each contributes data or information on amplitude and period, and identifies the most reliable sources for the report with reasons\n5 marks: Examines several secondary sources, with a reason for which are most reliable for the question\n4 marks: Examines two or three secondary sources and their data or information on amplitude, without judging reliability\n3 marks: Describes secondary sources that could give data on the pendulum, without linking them to amplitude\n2 marks: Describes one secondary source for the pendulum investigation\n1 mark: Identifies that a textbook can give information on a pendulum",
                     "keywords": [
                       "secondary source",
-                      "data",
-                      "information",
                       "amplitude",
                       "period",
                       "reliable"
@@ -17466,8 +17443,7 @@
                       "consistent unit",
                       "measurement",
                       "quantity",
-                      "comparison",
-                      "data"
+                      "comparison"
                     ],
                     "linkedOutcomes": [
                       "PY-12WS-04"
@@ -17521,8 +17497,7 @@
                       "conclusion",
                       "imperial",
                       "metric",
-                      "unit conversion",
-                      "data"
+                      "unit conversion"
                     ],
                     "linkedOutcomes": [
                       "PY-12WS-05",
@@ -17698,7 +17673,6 @@
                     "markingCriteria": "3 marks: Outlines the author, year, article title, journal name, volume and page numbers, and links these details to the in-text citation and reference list\n2 marks: Outlines several of the details needed for an accurate reference, with limited explanation\n1 mark: Identifies the author or the title of the article",
                     "keywords": [
                       "extract data",
-                      "information",
                       "sources",
                       "acknowledge",
                       "referencing style",
@@ -17759,8 +17733,7 @@
                       "extract data",
                       "acknowledge",
                       "referencing style",
-                      "sources",
-                      "information"
+                      "sources"
                     ],
                     "linkedOutcomes": [
                       "PY-12WS-04",
@@ -18414,7 +18387,6 @@
                     "scenario": "Hypothetical: A student rolls a ball down a fixed length of ramp from five release heights between 0.40 m and 1.20 m, and times each run. The times fall steadily as the release height rises, except for one run at the second height, which is much longer than the others, probably because of a timing mistake.",
                     "markingCriteria": "3 marks: Predicts that the time is shorter at the greater height, and justifies it from the trend and the physical reason that a steeper ramp gives greater speed\n2 marks: Predicts the direction of change, with a limited justification from the trend\n1 mark: Identifies the trend in the times",
                     "keywords": [
-                      "predict",
                       "trend",
                       "data and information",
                       "outlier",
@@ -18473,10 +18445,8 @@
                       "data and information",
                       "outlier",
                       "trend",
-                      "interpret",
                       "conclusion",
-                      "release height",
-                      "predict"
+                      "release height"
                     ],
                     "linkedOutcomes": [
                       "PY-12WS-05",
@@ -18536,8 +18506,7 @@
                       "data and information",
                       "improvements",
                       "weakness",
-                      "stopwatch",
-                      "method"
+                      "stopwatch"
                     ],
                     "linkedOutcomes": [
                       "PY-12WS-05",
@@ -18592,7 +18561,6 @@
                       "improvements",
                       "further investigations",
                       "uncertainty",
-                      "recommend",
                       "pendulum"
                     ],
                     "linkedOutcomes": [
@@ -18770,8 +18738,7 @@
                       "scale prefix",
                       "powers of 10",
                       "micro",
-                      "mega",
-                      "example"
+                      "mega"
                     ],
                     "linkedOutcomes": [
                       "PY-12WS-04",
@@ -19005,7 +18972,6 @@
                     "scenario": "Hypothetical: A student builds a simple circuit with a fixed 6 V supply and a resistor. She then replaces the resistor with one of twice the resistance, and leaves the supply unchanged.",
                     "markingCriteria": "3 marks: Predicts that the current decreases, and explains that for a fixed voltage the current is inversely related to the resistance\n2 marks: Predicts that the current decreases, with a limited explanation of the cause\n1 mark: Identifies that resistance affects the current",
                     "keywords": [
-                      "predict",
                       "current",
                       "resistance",
                       "cause-and-effect",
@@ -19061,8 +19027,6 @@
                     "markingCriteria": "5 marks: Analyses the cause-and-effect chain in the model, from charge to force to acceleration, and identifies a specific limitation that affects the prediction\n4 marks: Analyses the cause-and-effect relationship in the model, with a correct prediction and a general limitation\n3 marks: Describes the relationship between charge, force and acceleration in the model, with a prediction\n2 marks: Identifies a cause or an effect in the model, with limited prediction\n1 mark: Provides some relevant information about the model",
                     "keywords": [
                       "cause-and-effect",
-                      "model",
-                      "predict",
                       "force",
                       "acceleration",
                       "limitation"
@@ -19124,8 +19088,7 @@
                     "keywords": [
                       "scientific investigation",
                       "new evidence",
-                      "readings",
-                      "method"
+                      "readings"
                     ],
                     "linkedOutcomes": [
                       "PY-12WS-02",
@@ -19178,9 +19141,7 @@
                     "keywords": [
                       "scientific investigation",
                       "new evidence",
-                      "method",
                       "conclusion",
-                      "evaluate",
                       "modify"
                     ],
                     "linkedOutcomes": [
@@ -19419,8 +19380,7 @@
                       "evidence-based arguments",
                       "peer review",
                       "conclusion",
-                      "scientific",
-                      "data"
+                      "scientific"
                     ],
                     "linkedOutcomes": [
                       "PY-12WS-07",
@@ -19652,7 +19612,6 @@
                       "nomenclature",
                       "symbol",
                       "units",
-                      "compare",
                       "results"
                     ],
                     "linkedOutcomes": [
@@ -19713,9 +19672,7 @@
                       "scientific language",
                       "terminology",
                       "audience",
-                      "evidence",
-                      "define",
-                      "example"
+                      "evidence"
                     ],
                     "linkedOutcomes": [
                       "PY-12WS-07"
@@ -25994,7 +25951,6 @@
                     "markingCriteria": "3 marks: Outlines the independent, dependent and controlled variables for a scientific investigation of the factors affecting electromagnetic induction in a solenoid, with a clear reason for each\n2 marks: Outlines the independent and dependent variables for the investigation, with some accurate detail\n1 mark: Identifies a variable that is changed or measured in the investigation",
                     "keywords": [
                       "scientific investigation",
-                      "factors",
                       "electromagnetic induction",
                       "solenoid",
                       "independent variable",
@@ -26049,7 +26005,6 @@
                     "markingCriteria": "6 marks: Assesses with sustained reasoning, the validity of the investigation for the factors affecting electromagnetic induction and its limitations in controlling speed, meter response and sample size\n5 marks: Assesses the method's validity and reliability with sound reasons, identifying at least two limitations\n4 marks: Assesses the method with some reasons, identifying one major limitation and one strength\n3 marks: Describes the method and identifies a limitation with limited reasons\n2 marks: Identifies one strength or limitation of the method\n1 mark: Identifies that the investigation measures the deflection of a meter",
                     "keywords": [
                       "scientific investigation",
-                      "factors",
                       "electromagnetic induction",
                       "solenoid",
                       "independent variable",
@@ -29568,7 +29523,6 @@
                       "black bodies",
                       "perfect absorber",
                       "perfect emitter",
-                      "model",
                       "cavity",
                       "energy",
                       "thermal equilibrium"
@@ -29624,7 +29578,6 @@
                       "black bodies",
                       "perfect absorber",
                       "perfect emitter",
-                      "model",
                       "thermal equilibrium",
                       "energy",
                       "cavity"
@@ -29864,8 +29817,7 @@
                       "classical curve predictions",
                       "experimental observations",
                       "theory",
-                      "short wavelengths",
-                      "model"
+                      "short wavelengths"
                     ],
                     "linkedOutcomes": [
                       "PY-12-03"
@@ -35251,7 +35203,6 @@
                       "radioactive decay",
                       "isotope",
                       "half-life",
-                      "model",
                       "investigation",
                       "random"
                     ],
@@ -35304,7 +35255,6 @@
                     "keywords": [
                       "validity",
                       "limitation",
-                      "model",
                       "radioactive decay",
                       "half-life",
                       "random"
@@ -38143,7 +38093,6 @@
                     "markingCriteria": "3 marks: Describes the axes of the H-R diagram and how a star's position shows its surface temperature, colour and luminosity, and notes that the diagram classifies stars by size as well\n2 marks: Describes the position of a star on the diagram in relation to surface temperature or luminosity, with a link to colour\n1 mark: Identifies that the H-R diagram plots stars by temperature and luminosity",
                     "keywords": [
                       "H-R diagram",
-                      "classify",
                       "surface temperature",
                       "colour",
                       "luminosity",
@@ -38201,8 +38150,7 @@
                       "surface temperature",
                       "colour",
                       "luminosity",
-                      "size",
-                      "classify"
+                      "size"
                     ],
                     "linkedOutcomes": [
                       "PY-12-04"
@@ -38958,8 +38906,7 @@
                       "iron",
                       "binding energy per nucleon",
                       "red supergiant",
-                      "heaviest element",
-                      "synthesised"
+                      "heaviest element"
                     ],
                     "linkedOutcomes": [
                       "PY-12-04"
@@ -39012,7 +38959,6 @@
                       "binding energy",
                       "iron",
                       "red supergiant",
-                      "synthesised",
                       "heaviest element",
                       "fusion"
                     ],
@@ -39070,7 +39016,6 @@
                     "scenario": "Hypothetical: A student is asked to write a short summary of where the elements in the Earth came from, focusing on elements up to iron and those larger than iron.",
                     "markingCriteria": "3 marks: Outlines fusion in stars building elements up to and including iron, and identifies neutron capture as the process that synthesises atoms larger than iron\n2 marks: Outlines nuclear fusion in stars as the process that builds elements up to and including iron\n1 mark: Identifies fusion as a process by which stars synthesise elements",
                     "keywords": [
-                      "synthesised",
                       "nuclear fusion",
                       "iron",
                       "atoms larger than iron",
@@ -39126,7 +39071,6 @@
                     "markingCriteria": "5 marks: Discusses why fusion cannot build atoms larger than iron, using the binding energy per nucleon of the products, and explains neutron capture as the process that synthesises them\n4 marks: Discusses why fusion of nuclei heavier than iron absorbs energy, with a reference to binding energy\n3 marks: Describes neutron capture as a process that builds heavier nuclei, with limited reference to binding energy\n2 marks: Identifies that neutron capture or fusion builds different elements in stars\n1 mark: Provides some relevant information about nucleosynthesis",
                     "keywords": [
                       "atoms larger than iron",
-                      "synthesised",
                       "nuclear fusion",
                       "binding energy",
                       "neutron capture",

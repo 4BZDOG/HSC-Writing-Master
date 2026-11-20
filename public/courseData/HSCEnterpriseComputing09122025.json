@@ -1467,9 +1467,7 @@
                     "scenario": "Hypothetical: A Year 11 team is building a web-based interactive map of a local heritage walk for a council project. The map needs a navigation menu that opens each stop, and an information panel that appears when a visitor clicks a location marker.",
                     "markingCriteria": "3 marks: Describes how the navigation menu and pop-up panel are each built and triggered in the software, and how each responds to the user\n2 marks: Describes both elements in general terms, with a brief mention of how the software makes them work\n1 mark: Identifies one element or software feature used in the project",
                     "keywords": [
-                      "software",
                       "interactive media",
-                      "project",
                       "authoring software",
                       "navigation menu",
                       "event",
@@ -1525,9 +1523,7 @@
                     "markingCriteria": "5 marks: Explains how testing each element separately isolates a fault's source, and how early fixing stops faults spreading in the combined project\n4 marks: Explains how separate testing isolates faults in individual elements, with a clear link to the combined project\n3 marks: Explains one benefit of testing elements separately, with a general link to the project\n2 marks: Describes testing in general terms, with a brief mention of faults in the project\n1 mark: Identifies testing or faults in the project",
                     "keywords": [
                       "interactive media",
-                      "project",
                       "elements",
-                      "testing",
                       "faults",
                       "navigation menu"
                     ],
@@ -1825,7 +1821,6 @@
                     "markingCriteria": "4 marks: Applies contrast and alignment to named parts of the home screen, and explains how each choice makes the UI engaging and easy to scan\n3 marks: Applies both principles to the home screen with a clear example of one of them, and links the layout to an engaging or easy-to-use UI\n2 marks: Describes the two principles in general terms, OR applies one principle to the screen\n1 mark: Names a design principle or a screen element",
                     "keywords": [
                       "design principles",
-                      "contrast",
                       "alignment",
                       "home screen",
                       "engaging UI",
@@ -1952,7 +1947,6 @@
                       "web-based",
                       "interactive media system",
                       "empathise",
-                      "define",
                       "user research",
                       "persona"
                     ],
@@ -2498,7 +2492,6 @@
                       "trust",
                       "freedom of information",
                       "personal information",
-                      "data",
                       "consent"
                     ],
                     "linkedOutcomes": [
@@ -2917,8 +2910,7 @@
                       "integrity",
                       "availability",
                       "privacy",
-                      "breach",
-                      "information"
+                      "breach"
                     ],
                     "linkedOutcomes": [
                       "EC-11-03",
@@ -3035,9 +3027,7 @@
                     "keywords": [
                       "vulnerabilities",
                       "threat actor",
-                      "data",
                       "people",
-                      "processes",
                       "technology",
                       "malware"
                     ],
@@ -3093,8 +3083,6 @@
                       "threat actor",
                       "vulnerabilities",
                       "phishing",
-                      "data",
-                      "processes",
                       "technology"
                     ],
                     "linkedOutcomes": [
@@ -3277,7 +3265,6 @@
                     "markingCriteria": "4 marks: Describes TWO hardware and TWO software strategies, each explained in relation to protecting the patient records\n3 marks: Describes THREE relevant strategies, with explanations linked to the patient records\n2 marks: Describes TWO relevant strategies with a basic explanation OR Identifies TWO strategies to protect the records\n1 mark: Identifies ONE strategy, with a basic link to protecting the records",
                     "keywords": [
                       "hardware",
-                      "software",
                       "physical security",
                       "biometrics",
                       "encryption",
@@ -3333,7 +3320,6 @@
                     "markingCriteria": "6 marks: Justifies a well-reasoned combination of hardware and software strategies, weighing cost and risk against the practice's budget and needs\n5 marks: Justifies a sound combination of strategies, with clear reasons linked to the practice's records and budget\n4 marks: Justifies some strategies with relevant reasons, and refers to the budget\n3 marks: Describes several relevant strategies with a basic reason for each choice\n2 marks: Identifies a protection strategy with a basic link to the practice's records\n1 mark: Provides some relevant information about protecting client records",
                     "keywords": [
                       "hardware",
-                      "software",
                       "multi-factor authentication",
                       "antivirus",
                       "backup",
@@ -3453,7 +3439,6 @@
                     "keywords": [
                       "cyber risk management",
                       "breach",
-                      "impact",
                       "vulnerabilities",
                       "damage",
                       "loss",
@@ -4060,7 +4045,6 @@
                       "innovations",
                       "infrastructure",
                       "hardware",
-                      "software",
                       "trends",
                       "everyday computing"
                     ],
@@ -4121,7 +4105,6 @@
                     "keywords": [
                       "graph and network theory",
                       "social network",
-                      "design",
                       "degree",
                       "shortest path",
                       "node",
@@ -4178,7 +4161,6 @@
                     "keywords": [
                       "graph and network theory",
                       "social network",
-                      "design",
                       "friend suggestions",
                       "mutual friends",
                       "shortest path"
@@ -4242,7 +4224,6 @@
                       "dedicated app",
                       "mobile device",
                       "social networking",
-                      "success",
                       "push notification"
                     ],
                     "linkedOutcomes": [
@@ -4298,7 +4279,6 @@
                       "dedicated app",
                       "mobile device",
                       "social networking",
-                      "success",
                       "engagement"
                     ],
                     "linkedOutcomes": [
@@ -4476,7 +4456,6 @@
                       "business characteristic",
                       "individual cultural characteristic",
                       "start-up",
-                      "success",
                       "business model",
                       "collaboration"
                     ],
@@ -4533,8 +4512,7 @@
                       "individual cultural characteristics",
                       "resilience",
                       "openness",
-                      "start-up",
-                      "success"
+                      "start-up"
                     ],
                     "linkedOutcomes": [
                       "EC-11-01",
@@ -4894,7 +4872,6 @@
                       "capacity",
                       "accessibility",
                       "location",
-                      "security",
                       "enterprise"
                     ],
                     "linkedOutcomes": [
@@ -5013,7 +4990,6 @@
                       "Software as a Service",
                       "SaaS",
                       "timetabling",
-                      "data",
                       "provider"
                     ],
                     "linkedOutcomes": [
@@ -5131,8 +5107,7 @@
                       "non-cloud on premises",
                       "access",
                       "services",
-                      "data storage",
-                      "security"
+                      "data storage"
                     ],
                     "linkedOutcomes": [
                       "EC-11-01",
@@ -6208,7 +6183,6 @@
                       "password systems",
                       "biometric measures",
                       "access to networks",
-                      "security",
                       "convenience",
                       "fingerprint readers"
                     ],
@@ -6513,8 +6487,7 @@
                       "work breakdown structure",
                       "wired and wireless network",
                       "sub-tasks",
-                      "milestones",
-                      "testing"
+                      "milestones"
                     ],
                     "linkedOutcomes": [
                       "EC-11-09",
@@ -9213,7 +9186,6 @@
                       "organise",
                       "store",
                       "data visualisation",
-                      "security",
                       "privacy"
                     ],
                     "linkedOutcomes": [
@@ -10173,10 +10145,8 @@
                     "keywords": [
                       "informatics",
                       "deeper understanding",
-                      "data",
                       "raw records",
-                      "data cleaning",
-                      "summarising"
+                      "data cleaning"
                     ],
                     "linkedOutcomes": [
                       "EC-12-02",
@@ -10230,7 +10200,6 @@
                     "keywords": [
                       "informatics",
                       "deeper understanding",
-                      "data",
                       "descriptive",
                       "predictive",
                       "demand",
@@ -10291,11 +10260,9 @@
                     "scenario": "Hypothetical: a supermarket chain has weekly sales figures for 40 stores across five regions, the postcode of each store, and records of which stores share the same supplier. The regional managers are not data specialists and need to interpret the results quickly.",
                     "markingCriteria": "4 marks: Describes a map and a network diagram, explaining what each helps managers interpret that the other cannot\n3 marks: Describes both formats accurately, with a link to the scenario for each\n2 marks: Describes one format in detail, or both formats briefly\n1 mark: Names a format or a feature of it",
                     "keywords": [
-                      "interpret",
                       "present data",
                       "map",
                       "network diagram",
-                      "data",
                       "postcode",
                       "supplier"
                     ],
@@ -10470,8 +10437,6 @@
                       "structured data",
                       "unstructured data",
                       "dataset",
-                      "analyse",
-                      "tools",
                       "text mining",
                       "query"
                     ],
@@ -10719,8 +10684,7 @@
                       "processed data",
                       "error",
                       "outlier",
-                      "sensor",
-                      "data"
+                      "sensor"
                     ],
                     "linkedOutcomes": [
                       "EC-12-02"
@@ -10950,12 +10914,10 @@
                     "markingCriteria": "4 marks: Describes both features and how each affects the privacy and security of the student's data, with a protective measure\n3 marks: Describes both features and their effect on privacy or security\n2 marks: Describes ONE feature and its effect on privacy or security OR Identifies both features and a privacy or security risk\n1 mark: Identifies ONE software feature or privacy or security risk",
                     "keywords": [
                       "privacy",
-                      "security",
                       "autofill",
                       "public",
                       "private",
-                      "encryption",
-                      "data"
+                      "encryption"
                     ],
                     "linkedOutcomes": [
                       "EC-12-03"
@@ -11008,7 +10970,6 @@
                       "terms of agreement",
                       "privacy",
                       "consent",
-                      "data",
                       "informed",
                       "third party"
                     ],
@@ -11426,7 +11387,6 @@
                       "streaming",
                       "behaviour",
                       "digital footprint",
-                      "ethical",
                       "data scale",
                       "fraud"
                     ],
@@ -12998,7 +12958,6 @@
                       "decision support system",
                       "DSS",
                       "enterprise",
-                      "application",
                       "inventory management",
                       "financial planning"
                     ],
@@ -16163,7 +16122,6 @@
                     "markingCriteria": "4 marks: Demonstrates a correct, sequenced pseudocode routine that loops through every row, tests quantity against reorder level and flags each product, and explains automatic running\n3 marks: Demonstrates a correct routine with a loop, a test and a flag, with automatic running briefly stated\n2 marks: Describes an IF test that flags low stock, with a general reference to software\n1 mark: Names software or a spreadsheet function",
                     "keywords": [
                       "automated processing",
-                      "software",
                       "pseudocode",
                       "reorder level",
                       "stock",
@@ -16219,7 +16177,6 @@
                     "markingCriteria": "5 marks: Recommends a reasoned choice between a macro and a package, weighing the owner's skills, cost and maintenance, with specific reasons\n4 marks: Recommends one option with reasons that address the owner's skills or cost, with maintenance briefly considered\n3 marks: Compares the two options on one relevant factor, and stops short of a recommendation\n2 marks: Describes one option in general terms, with a simple advantage or disadvantage\n1 mark: Makes a relevant statement about automation",
                     "keywords": [
                       "automated processing",
-                      "software",
                       "reorder level",
                       "stock",
                       "spreadsheet",
@@ -17125,7 +17082,6 @@
                     "keywords": [
                       "participants",
                       "enterprise project",
-                      "data",
                       "components",
                       "client",
                       "end users"
@@ -17484,7 +17440,6 @@
                       "implementation plan",
                       "training",
                       "hardware",
-                      "software",
                       "pilot test"
                     ],
                     "linkedOutcomes": [
@@ -17621,7 +17576,6 @@
                       "validation",
                       "specifications",
                       "user needs",
-                      "testing",
                       "quality assurance",
                       "right product"
                     ],
@@ -17782,8 +17736,7 @@
                       "adaptive maintenance",
                       "corrective maintenance",
                       "long-term success",
-                      "enterprise computing system",
-                      "security"
+                      "enterprise computing system"
                     ],
                     "markingCriteria": "4 marks: Explains clearly why ongoing evaluation and maintenance are both essential, linking evaluation to changing goals and maintenance to adaptive and corrective changes for the retailer\n3 marks: Explains both with clear reasons, with one developed and one general\n2 marks: Explains either evaluation or maintenance in reasonable detail, OR describes both in general terms\n1 mark: Names evaluation or maintenance with a general statement about its importance",
                     "sampleAnswers": [

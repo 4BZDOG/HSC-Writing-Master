@@ -157,7 +157,9 @@ import {
 // 2.55.0: 1,407 sample answers that were too short for their mark moved down to a mark their length supports.
 // 2.56.0: Health and Movement Science ticked by default, and re-offered to browsers that left it unticked.
 // 2.58.0: 100 shipped questions linked only to the other year's outcomes now link their own year's (Geography, Ancient History, English Standard).
-export const DATA_VERSION = '2.58.0';
+// 2.59.0: Tidy Terms applied to the shipped questions under the new syllabus-term rule (883 non-terms removed from 782 questions;
+// task-instruction wording such as "close reference to the prescribed text" dropped, real phrases of up to six words kept).
+export const DATA_VERSION = '2.59.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

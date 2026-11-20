@@ -1113,7 +1113,6 @@
                     "keywords": [
                       "ethical issue",
                       "scientific knowledge",
-                      "data",
                       "council",
                       "public",
                       "fairness",
@@ -1418,7 +1417,6 @@
                       "equipment",
                       "systematically",
                       "record",
-                      "data",
                       "thermometer"
                     ],
                     "linkedOutcomes": [
@@ -1472,7 +1470,6 @@
                     "keywords": [
                       "equipment",
                       "reliability",
-                      "data",
                       "record",
                       "systematically"
                     ],
@@ -1532,8 +1529,6 @@
                     "markingCriteria": "3 marks: Describes three distinct types of secondary source, each with a specific example of the data it could provide\n2 marks: Describes two types of secondary source, or names three without describing the data they provide\n1 mark: Provides some relevant information about secondary sources",
                     "keywords": [
                       "secondary sources",
-                      "data",
-                      "information",
                       "newspaper archives",
                       "government reports"
                     ],
@@ -1655,7 +1650,6 @@
                     "keywords": [
                       "qualitative",
                       "quantitative",
-                      "information",
                       "flow charts",
                       "table",
                       "diagram"
@@ -1712,7 +1706,6 @@
                       "select",
                       "qualitative",
                       "quantitative",
-                      "information",
                       "erosion",
                       "pH"
                     ],
@@ -1772,7 +1765,6 @@
                     "markingCriteria": "4 marks: Describes a sequenced method for converting the values to one common unit, including a check that the converted values are sensible, and explains why this is needed before analysis\n3 marks: Describes the main steps for converting the values to a common unit, with limited checking\n2 marks: Identifies that the units must be made the same, with one step of the method\n1 mark: Provides some relevant information about units in data",
                     "keywords": [
                       "quantitative",
-                      "data",
                       "unit conversions",
                       "units",
                       "conversion factor",
@@ -1829,7 +1821,6 @@
                       "quantitative",
                       "unit conversions",
                       "units",
-                      "data",
                       "graph",
                       "conclusion"
                     ],
@@ -1890,7 +1881,6 @@
                     "keywords": [
                       "representations",
                       "organise",
-                      "data",
                       "dichotomous key",
                       "table"
                     ],
@@ -1946,7 +1936,6 @@
                       "representations",
                       "spreadsheet",
                       "table",
-                      "data",
                       "analysis"
                     ],
                     "linkedOutcomes": [
@@ -2004,8 +1993,6 @@
                     "scenario": "Hypothetical: A student has found a report from a state agency about water quality in a creek. The report states that the pH at the upstream site was 7.2, that dissolved oxygen fell after a storm, and that a sewage outfall lies 300 metres upstream of the lower site. The pH result is on page 3, the storm result on page 5 and the outfall on page 6.",
                     "markingCriteria": "3 marks: Extracts three relevant pieces of data or information, each acknowledged with its page number and the agency in an accepted referencing style\n2 marks: Extracts two relevant pieces of data or information, or three with incomplete acknowledgement\n1 mark: Provides some relevant information from the report",
                     "keywords": [
-                      "data",
-                      "information",
                       "sources",
                       "referencing style",
                       "acknowledge",
@@ -2366,7 +2353,6 @@
                       "pattern",
                       "turbidity",
                       "sediment",
-                      "data",
                       "inconsistencies",
                       "runoff"
                     ],
@@ -2421,7 +2407,6 @@
                       "inconsistencies",
                       "trend",
                       "pattern",
-                      "data",
                       "turbidity",
                       "outlier",
                       "sediment"
@@ -2719,7 +2704,6 @@
                       "trend",
                       "runoff",
                       "slope",
-                      "data",
                       "result"
                     ],
                     "linkedOutcomes": [
@@ -2773,7 +2757,6 @@
                       "conclusion",
                       "outlier",
                       "result",
-                      "data",
                       "trend",
                       "species"
                     ],
@@ -2832,8 +2815,6 @@
                     "markingCriteria": "3 marks: Outlines one specific improvement to the method and explains how it makes the turbidity data more reliable\n2 marks: Outlines an improvement to the method, with limited explanation of its effect on the data\n1 mark: Provides some relevant information",
                     "keywords": [
                       "improvement",
-                      "data",
-                      "method",
                       "reliable",
                       "turbidity",
                       "sampling",
@@ -3016,8 +2997,7 @@
                       "runoff",
                       "soil",
                       "permeable",
-                      "clay",
-                      "design"
+                      "clay"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-06",
@@ -3075,7 +3055,6 @@
                     "keywords": [
                       "cause-and-effect",
                       "prediction",
-                      "model",
                       "salinity",
                       "catchment",
                       "water table",
@@ -3130,7 +3109,6 @@
                     "markingCriteria": "5 marks: Examines how the model links cause and effect to solve the problem, with sound reference to its limitations\n4 marks: Examines how the model could be used to predict or target action, with some reference to its limitations\n3 marks: Describes how the model links cause and effect, with a link to the problem\n2 marks: Identifies a feature of the model with limited relevance to the problem\n1 mark: Provides some relevant information",
                     "keywords": [
                       "cause-and-effect",
-                      "model",
                       "salinity",
                       "problem",
                       "prediction",
@@ -3192,7 +3170,6 @@
                     "keywords": [
                       "evidence",
                       "investigation",
-                      "method",
                       "modify",
                       "moisture",
                       "sample"
@@ -3431,7 +3408,6 @@
                       "peer review",
                       "evidence-based arguments",
                       "scientific conclusions",
-                      "data",
                       "wetland",
                       "council"
                     ],
@@ -3485,7 +3461,6 @@
                       "evidence-based arguments",
                       "peer review",
                       "claim",
-                      "data",
                       "wetland",
                       "council"
                     ],
@@ -4133,7 +4108,6 @@
                       "laboratory experiment",
                       "density separation",
                       "planetary differentiation",
-                      "model",
                       "iron",
                       "core",
                       "mantle"
@@ -4188,7 +4162,6 @@
                       "laboratory experiment",
                       "density separation",
                       "planetary differentiation",
-                      "model",
                       "validity",
                       "early Earth",
                       "limitations"
@@ -4249,7 +4222,6 @@
                       "geosphere",
                       "atmosphere",
                       "hydrosphere",
-                      "processes",
                       "cooling",
                       "outgassing",
                       "condensation"
@@ -4479,7 +4451,6 @@
                     "markingCriteria": "4 marks: Explains refraction and reflection at the boundary in the model, linking the change in speed to what happens inside the Earth\n3 marks: Explains refraction or reflection at the boundary, with some link to the layers of the Earth\n2 marks: Describes what the ripples do at the boundary with limited explanation\n1 mark: Identifies a relevant observation from the model",
                     "keywords": [
                       "practical investigation",
-                      "model",
                       "seismic wave reflection",
                       "refraction",
                       "inside the Earth",
@@ -4534,7 +4505,6 @@
                     "markingCriteria": "6 marks: Assesses the validity of the model with sustained reasoning, weighing its strengths and at least two specific limitations\n5 marks: Assesses the model's validity with clear reasoning and at least one specific limitation\n4 marks: Assesses the model with some reasoning, identifying a strength and a limitation\n3 marks: Describes what the model shows about refraction or reflection, with a limited judgement of its validity\n2 marks: Identifies a relevant feature of the model or of seismic waves with little judgement\n1 mark: Provides some relevant information about seismic waves or the practical model",
                     "keywords": [
                       "practical investigation",
-                      "model",
                       "seismic wave reflection",
                       "refraction",
                       "inside the Earth",
@@ -5116,8 +5086,7 @@
                       "heat",
                       "convection",
                       "mantle",
-                      "density",
-                      "model"
+                      "density"
                     ],
                     "linkedOutcomes": [
                       "EES-11-01"
@@ -5228,7 +5197,6 @@
                       "convection currents",
                       "fluid",
                       "mantle",
-                      "model",
                       "heat source"
                     ],
                     "linkedOutcomes": [
@@ -5786,7 +5754,6 @@
                     "keywords": [
                       "geological evidence",
                       "plate tectonics",
-                      "models",
                       "theory",
                       "magnetic stripes",
                       "fossil evidence"
@@ -6522,7 +6489,6 @@
                     "markingCriteria": "3 marks: Outlines how the pulled-apart sand layers and the paper represent a normal fault, and what the downward movement of the upper block shows\n2 marks: Outlines the pulling apart of the model and links it to a normal fault\n1 mark: Provides some relevant information about the model",
                     "keywords": [
                       "normal fault",
-                      "model",
                       "sand",
                       "paper",
                       "upper block",
@@ -6576,7 +6542,6 @@
                     "keywords": [
                       "reverse fault",
                       "strike-slip fault",
-                      "model",
                       "sand",
                       "scale",
                       "brittle"
@@ -8225,8 +8190,7 @@
                       "magnetic ore",
                       "laboratory experiment",
                       "magnetometer",
-                      "magnetic anomaly",
-                      "model"
+                      "magnetic anomaly"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -8276,7 +8240,6 @@
                     "keywords": [
                       "geomagnetic survey",
                       "magnetic ore",
-                      "model",
                       "validity",
                       "limitations",
                       "magnetometer"
@@ -8447,7 +8410,6 @@
                     "scenario": "Hypothetical: A company plans a new open pit mine beside a creek. Residents are concerned about dust blown from the haul roads and stockpiles, and about rainwater running off the disturbed ground into the creek.",
                     "markingCriteria": "3 marks: Describes two specific practices, each linked to the environmental impact it reduces, such as sealed haul roads for dust or sediment ponds for runoff\n2 marks: Describes one relevant practice, or names two practices without explaining the impact each one reduces\n1 mark: Provides some relevant information about reducing the impact of mining",
                     "keywords": [
-                      "practices",
                       "mining companies",
                       "environmental impact",
                       "minimise",
@@ -8500,7 +8462,6 @@
                     "scenario": "Hypothetical: A mining company operates a coal mine on a catchment that feeds a creek. Its plan rehabilitates each section of the mine as soon as digging is finished, and routes runoff through sediment ponds before it reaches the creek. Some residents argue that the ponds miss the finest clay particles and that rehabilitation takes decades to become fully effective.",
                     "markingCriteria": "6 marks: Justifies a judgement on which practice is more effective, weighing how each addresses the impact at source or in runoff, its limitations and its timescale, with reasons clearly linked to the creek\n5 marks: Justifies a judgement with relevant reasons for both practices, comparing their effectiveness and linking at least one reason to the creek\n4 marks: Justifies a choice with some relevant reasons, with limited comparison of the two practices\n3 marks: Describes the two practices and some features of each, with a basic link to the creek\n2 marks: Identifies one practice or one feature of the impact, without a justified choice\n1 mark: Provides some relevant information about mine practices",
                     "keywords": [
-                      "practices",
                       "mining companies",
                       "environmental impact",
                       "minimise",
@@ -8615,7 +8576,6 @@
                       "Aboriginal cultural sites",
                       "Country",
                       "Pilbara",
-                      "impact",
                       "mining",
                       "Traditional Owners"
                     ],
@@ -10470,7 +10430,6 @@
                       "salt concentration",
                       "density",
                       "egg",
-                      "solution",
                       "float"
                     ],
                     "linkedOutcomes": [
@@ -12528,8 +12487,7 @@
                       "secondary soil salinity",
                       "water table",
                       "land clearing",
-                      "salt-tolerant plants",
-                      "management"
+                      "salt-tolerant plants"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -14988,7 +14946,6 @@
                       "independent variable",
                       "dependent variable",
                       "controlled variable",
-                      "method",
                       "valid",
                       "repeat trials",
                       "data collection",
@@ -15219,7 +15176,6 @@
                     "markingCriteria": "4 marks: Outlines a sequenced construction of the apparatus from the named materials and technologies, showing how the ramp height is manipulated to test the chosen variable\n3 marks: Outlines the set-up in order, naming most of the materials and technologies and how the ramp height is changed\n2 marks: Identifies some of the materials and technologies for the set-up, without a clear sequence\n1 mark: Provides some relevant information about the apparatus",
                     "keywords": [
                       "materials and technologies",
-                      "construct",
                       "manipulate",
                       "scientific investigations",
                       "apparatus",
@@ -15276,7 +15232,6 @@
                       "scientific investigation",
                       "measuring tape",
                       "precision",
-                      "data",
                       "repeatability"
                     ],
                     "linkedOutcomes": [
@@ -15389,8 +15344,7 @@
                       "equipment",
                       "consistent method",
                       "reliability",
-                      "comparison",
-                      "data"
+                      "comparison"
                     ],
                     "linkedOutcomes": [
                       "EES-12WS-02",
@@ -15446,8 +15400,6 @@
                     "markingCriteria": "3 marks: Outlines two secondary sources of water quality data, with a reason each source is useful\n2 marks: Outlines one secondary source and its usefulness, or describes two sources\n1 mark: Identifies a secondary source of data",
                     "keywords": [
                       "secondary source",
-                      "data",
-                      "information",
                       "water quality",
                       "peer-reviewed",
                       "monitoring database"
@@ -15500,8 +15452,6 @@
                     "keywords": [
                       "secondary sources",
                       "reliability",
-                      "data",
-                      "information",
                       "bias",
                       "peer-reviewed"
                     ],
@@ -16249,7 +16199,6 @@
                       "inconsistency",
                       "nutrient levels",
                       "downstream",
-                      "data",
                       "possible explanation"
                     ],
                     "linkedOutcomes": [
@@ -16300,7 +16249,6 @@
                     "keywords": [
                       "inconsistency",
                       "trend",
-                      "data",
                       "outlier",
                       "reliability",
                       "repeat measurement"
@@ -16652,7 +16600,6 @@
                     "markingCriteria": "3 marks: Outlines a further investigation that tests the cause of the difference and explains what its data would show\n2 marks: Outlines a further investigation without linking it to the cause of the difference\n1 mark: Provides some relevant information",
                     "keywords": [
                       "further investigation",
-                      "data",
                       "variable",
                       "control",
                       "sampling"
@@ -16703,7 +16650,6 @@
                     "scenario": "Hypothetical: A school tested dissolved oxygen in a creek once a week for one month, using a single sensor placed near a stormwater outlet. The lowest readings were taken on days after heavy rain.",
                     "markingCriteria": "6 marks: Thoroughly evaluates the data and recommends improvements and further investigations that target named limitations, each justified by the data\n5 marks: Evaluates the data and recommends improvements or further investigations, with some justification\n4 marks: Recommends an improvement or investigation and refers to a limitation of the data\n3 marks: Identifies a limitation of the data and suggests a change with a basic reason\n2 marks: Identifies one limitation of the data without suggesting a change\n1 mark: Provides some relevant information",
                     "keywords": [
-                      "data",
                       "improvement",
                       "further investigation",
                       "limitations",
@@ -17685,7 +17631,6 @@
                       "cast",
                       "sediment",
                       "fossil formation",
-                      "model",
                       "laboratory experiment"
                     ],
                     "linkedOutcomes": [
@@ -17735,7 +17680,6 @@
                     "markingCriteria": "6 marks: Assesses the validity of the model in detail by matching its steps to real fossil formation and weighing several limitations, with a supported judgement\n5 marks: Assesses the model with relevant comparisons to real fossil formation, identifying at least two limitations and linking them to what the model can show\n4 marks: Assesses the model by identifying some similarities with real fossil formation and at least one limitation, with a limited judgement\n3 marks: Identifies some similarities or differences between the model and real fossils, with a basic link to fossil formation\n2 marks: Identifies one feature of the model or of real fossils, without an assessment of its validity\n1 mark: Provides some relevant information about the model or fossil formation",
                     "keywords": [
                       "laboratory experiment",
-                      "model",
                       "validity",
                       "mould",
                       "cast",
@@ -17907,8 +17851,7 @@
                       "relative length",
                       "eons",
                       "eras",
-                      "periods",
-                      "features"
+                      "periods"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -17959,7 +17902,6 @@
                       "relative length",
                       "epochs",
                       "periods",
-                      "features",
                       "developments",
                       "Pleistocene"
                     ],
@@ -18019,7 +17961,6 @@
                       "widespread",
                       "short-lived",
                       "geological timescale",
-                      "significance",
                       "rock layers"
                     ],
                     "linkedOutcomes": [
@@ -18070,7 +18011,6 @@
                     "keywords": [
                       "index fossils",
                       "geological timescale",
-                      "significance",
                       "rock layers",
                       "correlation",
                       "widespread"
@@ -18183,8 +18123,7 @@
                       "extreme events",
                       "event conjunctions",
                       "principle",
-                      "uniform rates",
-                      "processes"
+                      "uniform rates"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -18415,7 +18354,6 @@
                     "markingCriteria": "4 marks: Outlines a complete set-up, stating what each coin represents, how the random decay is modelled, how the coins are counted and how the trials are repeated\n3 marks: Outlines most of the set-up in order, naming what the coins represent and how they are removed\n2 marks: Identifies some steps or what one element represents, without the full set-up\n1 mark: Provides some relevant information about the model",
                     "keywords": [
                       "scientific investigation",
-                      "model",
                       "radioactive decay",
                       "geological materials",
                       "random",
@@ -18468,7 +18406,6 @@
                     "markingCriteria": "6 marks: Assesses the model in detail by matching its features to real radioactive decay, weighing several limitations and reaching a supported judgement on what the model can show\n5 marks: Assesses the model with relevant comparisons to real decay, identifying at least two limitations and linking them to the results\n4 marks: Assesses the model by identifying a similarity with real decay and at least one limitation, with a limited judgement\n3 marks: Identifies some similarities or differences between the model and real decay, with a basic link to the geological material\n2 marks: Identifies one feature of the model, without assessing its limitations\n1 mark: Provides some relevant information about the model or radioactive decay",
                     "keywords": [
                       "scientific investigation",
-                      "model",
                       "radioactive decay",
                       "geological materials",
                       "random",
@@ -18870,7 +18807,6 @@
                       "chemical evolution experiments",
                       "organic molecules",
                       "origin",
-                      "model",
                       "conditions",
                       "Earth",
                       "atmosphere"
@@ -18924,7 +18860,6 @@
                       "chemical evolution experiments",
                       "organic molecules",
                       "origin",
-                      "model",
                       "conditions",
                       "Earth",
                       "limitations"
@@ -19272,8 +19207,7 @@
                       "photosynthetic life",
                       "ozone layer",
                       "oxygen",
-                      "ultraviolet",
-                      "development"
+                      "ultraviolet"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -19325,7 +19259,6 @@
                       "ozone layer",
                       "oxygen",
                       "ultraviolet",
-                      "development",
                       "atmosphere"
                     ],
                     "linkedOutcomes": [
@@ -19389,7 +19322,6 @@
                       "Ediacaran fossils",
                       "physical characteristics",
                       "ecosystems",
-                      "features",
                       "secondary-source investigation"
                     ],
                     "linkedOutcomes": [
@@ -19441,8 +19373,7 @@
                       "Ediacaran fossils",
                       "physical characteristics",
                       "ecosystems",
-                      "secondary-source investigation",
-                      "features"
+                      "secondary-source investigation"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -21008,7 +20939,6 @@
                     "keywords": [
                       "plate boundaries",
                       "past eruptions",
-                      "predict",
                       "zones",
                       "hazard map"
                     ],
@@ -21447,7 +21377,6 @@
                       "prediction technologies",
                       "warning systems",
                       "volcanic eruptions",
-                      "impacts",
                       "evacuation"
                     ],
                     "linkedOutcomes": [
@@ -22240,7 +22169,6 @@
                     "keywords": [
                       "earthquake waves",
                       "built structures",
-                      "model",
                       "independent variable",
                       "controlled variables"
                     ],
@@ -22294,7 +22222,6 @@
                       "limitations",
                       "earthquake waves",
                       "built structures",
-                      "model",
                       "scale"
                     ],
                     "linkedOutcomes": [
@@ -22534,7 +22461,6 @@
                       "prediction technologies",
                       "warning systems",
                       "tsunamis",
-                      "impacts",
                       "deep-ocean pressure sensors",
                       "seismic",
                       "evacuation"
@@ -22588,7 +22514,6 @@
                       "prediction technologies",
                       "warning systems",
                       "tsunamis",
-                      "impacts",
                       "tide gauge",
                       "phone alerts",
                       "evacuation"
@@ -23755,7 +23680,6 @@
                       "continents",
                       "greenhouse",
                       "icehouse",
-                      "impact",
                       "global climate"
                     ],
                     "linkedOutcomes": [
@@ -23808,7 +23732,6 @@
                       "continents",
                       "greenhouse",
                       "icehouse",
-                      "impact",
                       "global climate"
                     ],
                     "linkedOutcomes": [
@@ -24608,8 +24531,7 @@
                       "sea ice",
                       "ice sheet",
                       "sea level",
-                      "climate",
-                      "impact"
+                      "climate"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -24662,8 +24584,7 @@
                       "sea ice",
                       "ice sheet",
                       "sea level",
-                      "climate",
-                      "impact"
+                      "climate"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -26076,7 +25997,6 @@
                       "laboratory experiment",
                       "carbon dioxide",
                       "atmospheric temperature",
-                      "model",
                       "thermometer"
                     ],
                     "linkedOutcomes": [
@@ -26125,7 +26045,6 @@
                     "scenario": "Hypothetical: After the experiment, the carbon dioxide cylinder reaches a higher temperature than the air cylinder by the end of the afternoon. Her teacher asks whether a glass cylinder in sunlight is a good model of the atmosphere, which is far larger, contains many gases and has oceans and land.",
                     "markingCriteria": "6 marks: Assesses how the cylinder model represents the greenhouse effect, linking its results to the atmosphere, and identifies a specific limitation of the model\n5 marks: Assesses the model's representation of the greenhouse effect and identifies a limitation\n4 marks: Explains how the cylinder results match the greenhouse effect, with some limitation identified\n3 marks: Describes the results of the model and their link to carbon dioxide\n2 marks: Identifies a result or feature of the model\n1 mark: Provides some relevant information",
                     "keywords": [
-                      "model",
                       "greenhouse effect",
                       "carbon dioxide",
                       "atmosphere",
@@ -26632,7 +26551,6 @@
                       "ocean acidification",
                       "shells",
                       "laboratory experiment",
-                      "model",
                       "control",
                       "eggshell"
                     ],
@@ -26684,7 +26602,6 @@
                     "keywords": [
                       "ocean acidification",
                       "shells",
-                      "model",
                       "validity",
                       "limitation",
                       "eggshell"
@@ -26749,8 +26666,7 @@
                     "keywords": [
                       "mitigation",
                       "adaptation",
-                      "anthropogenic climate change",
-                      "example"
+                      "anthropogenic climate change"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -27867,8 +27783,7 @@
                       "circular economy",
                       "linear economy",
                       "sustainable consumption",
-                      "production",
-                      "example"
+                      "production"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"
@@ -29243,7 +29158,6 @@
                       "energy resource",
                       "transport",
                       "dependence",
-                      "impact",
                       "Australia"
                     ],
                     "linkedOutcomes": [
@@ -29297,7 +29211,6 @@
                       "crude oil",
                       "energy resource",
                       "transport",
-                      "impact",
                       "dependence",
                       "fuel security"
                     ],

@@ -174,7 +174,6 @@
                       "social science",
                       "economy",
                       "evidence",
-                      "models",
                       "scarce resources"
                     ],
                     "linkedOutcomes": [
@@ -804,7 +803,6 @@
                     "scenario": "Hypothetical: A council's data show that the number of local businesses rose from 240 in one year to 276 the next, and the council introduced a small-business grant during that period.",
                     "markingCriteria": "3 marks: Calculates the 15 per cent increase correctly and comments accurately that the data show an association but cannot establish cause on their own\n2 marks: Calculates the 15 per cent increase correctly with limited comment on what the data show\n1 mark: Identifies that the number of businesses has increased without a correct calculation",
                     "keywords": [
-                      "data",
                       "percentage change",
                       "council policy",
                       "correlation",
@@ -858,7 +856,6 @@
                     "scenario": "Hypothetical: A state government is reviewing its spending plans after a period of slower economic growth. Its advisers have collected data on employment, prices and business investment.",
                     "markingCriteria": "5 marks: Discusses clearly how economic data inform policy, monitor performance and support forecasting, and explains a specific limitation of relying on the data\n4 marks: Discusses at least two uses of economic data accurately, with some reference to a limitation\n3 marks: Explains one or two uses of economic data with some accuracy\n2 marks: Identifies a use of economic data with limited explanation\n1 mark: Makes a general statement about data",
                     "keywords": [
-                      "data",
                       "public policy",
                       "economic performance",
                       "forecasting",
@@ -918,7 +915,6 @@
                     "scenario": "Hypothetical: A Year 11 class is comparing a simple model of a two-good economy with real-world data on production in a factory and a farm.",
                     "markingCriteria": "3 marks: Outlines how a model simplifies reality to explain and predict economic behaviour and gives an accurate key assumption of the production possibilities model\n2 marks: Describes the role of a model or gives an accurate key assumption, with limited detail\n1 mark: Makes a general statement about economic models",
                     "keywords": [
-                      "models",
                       "key assumptions",
                       "economic decision-making",
                       "simplified",
@@ -973,7 +969,6 @@
                     "markingCriteria": "6 marks: Analyses in detail how the key assumptions limit the model's usefulness for tax decisions, with sustained reference to the scenario and to the value of the model's direction and its limits\n5 marks: Analyses how the key assumptions affect the model's predictions with accurate reference to the scenario\n4 marks: Analyses at least one key assumption and its effect on the model with some reference to the scenario\n3 marks: Describes the model and one assumption with some link to decisions about taxes\n2 marks: Identifies an assumption with limited relevance to the scenario\n1 mark: Makes a general statement about models",
                     "keywords": [
                       "key assumptions",
-                      "models",
                       "ceteris paribus",
                       "economic decision-making",
                       "substitutes"
@@ -4278,8 +4273,7 @@
                       "collective values",
                       "social norms",
                       "consumers",
-                      "culture",
-                      "influence"
+                      "culture"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -4847,7 +4841,6 @@
                       "inferior goods",
                       "demand",
                       "income",
-                      "example",
                       "quantity demanded"
                     ],
                     "linkedOutcomes": [
@@ -7407,7 +7400,6 @@
                       "income",
                       "wealth",
                       "consumption",
-                      "features",
                       "revenue"
                     ],
                     "linkedOutcomes": [
@@ -11161,8 +11153,6 @@
                     "scenario": "Hypothetical: A mango grower's weekly supply schedule shows the following quantities supplied: at $2 per kilogram, 1,000 kg; at $3 per kilogram, 1,600 kg; at $4 per kilogram, 2,200 kg; and at $5 per kilogram, 2,600 kg. Her costs and the number of growers are unchanged.",
                     "markingCriteria": "6 marks: Constructs a labelled supply curve from all four schedule points and interprets both its upward slope as the law of supply and its steepening as rising costs of output\n5 marks: Constructs the supply curve from the schedule with labelled axes and interprets its upward slope with reference to the law of supply\n4 marks: Constructs the supply curve with labelled axes and interprets its upward slope in general terms\n3 marks: Constructs part of the supply curve or interprets the slope without reference to the schedule\n2 marks: Identifies that the supply curve slopes upwards\n1 mark: Makes a general statement about supply graphs",
                     "keywords": [
-                      "construct",
-                      "interpret",
                       "supply schedule",
                       "supply graph",
                       "supply curve",
@@ -12732,8 +12722,7 @@
                       "monopolistic competition",
                       "oligopoly",
                       "monopoly",
-                      "barriers to entry",
-                      "differentiated"
+                      "barriers to entry"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-03",
@@ -14890,8 +14879,7 @@
                       "historical international trade routes",
                       "major exports",
                       "trepang",
-                      "Makassan traders",
-                      "significance"
+                      "Makassan traders"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-05",
@@ -15417,7 +15405,6 @@
                       "bilateral exchange rate",
                       "Australian dollar",
                       "percentage change",
-                      "appreciated",
                       "depreciated"
                     ],
                     "linkedOutcomes": [
@@ -20069,7 +20056,6 @@
                     "markingCriteria": "3 marks: Predicts the direction and approximate size of change in underlying inflation from the quarterly figures and names a specific factor that would change the prediction\n2 marks: Predicts the direction of underlying inflation from the trend without naming a factor that could change it\n1 mark: Makes a general statement about inflation",
                     "keywords": [
                       "underlying inflation",
-                      "predict",
                       "target band",
                       "cash rate",
                       "trend",
@@ -20991,8 +20977,7 @@
                       "Aboriginal and Torres Strait Islander Peoples",
                       "employment rate",
                       "home ownership",
-                      "disadvantage",
-                      "data"
+                      "disadvantage"
                     ],
                     "linkedOutcomes": [
                       "ECO-12-04",
@@ -24813,7 +24798,6 @@
                     "keywords": [
                       "Monetary Policy Board",
                       "target cash rate",
-                      "factors",
                       "inflation outlook",
                       "employment",
                       "global conditions"
@@ -27053,8 +27037,7 @@
                       "labour market policies",
                       "policy lags",
                       "political considerations",
-                      "effectiveness",
-                      "examples"
+                      "effectiveness"
                     ],
                     "markingCriteria": "6 marks: Explains clearly the limitations to the effectiveness of labour market policies, including policy lags and political considerations, with precise examples of how each reduces effectiveness\n5 marks: Explains both limitations with accurate examples and at least one further constraint, linking each to the reduced effect of the program on the affected workers\n4 marks: Explains one limitation with accurate detail and a relevant example, showing how it reduces the effectiveness of the policy in practice\n3 marks: Describes limitations of labour market policy with some accuracy, but gives limited explanation of how either policy lags or political considerations reduce effectiveness\n2 marks: Identifies a limitation of labour market policy, such as policy lags or political considerations, without explaining how it reduces effectiveness\n1 mark: Makes a general statement about policy limits",
                     "sampleAnswers": [
@@ -30236,8 +30219,7 @@
                       "foreign direct investment",
                       "portfolio investment",
                       "control",
-                      "financial assets",
-                      "examples"
+                      "financial assets"
                     ],
                     "markingCriteria": "4 marks: Describes international investment flows accurately, distinguishing foreign direct investment, which involves control of a business, from portfolio investment, which involves financial assets, with examples\n3 marks: Describes both types with accurate detail\n2 marks: Identifies types of investment flow with some accuracy\n1 mark: Makes a general statement about investment",
                     "sampleAnswers": [
@@ -30691,7 +30673,6 @@
                       "floating exchange rate",
                       "appreciation",
                       "depreciation",
-                      "features",
                       "market determined",
                       "Australian dollar"
                     ],
@@ -31562,8 +31543,7 @@
                       "economic structure",
                       "education",
                       "health",
-                      "sustainability",
-                      "features"
+                      "sustainability"
                     ],
                     "markingCriteria": "6 marks: Explains clearly the features of economic development, including economic structure, education, health and sustainability, showing how each contributes to development, with examples from different countries\n5 marks: Explains at least three features with accurate examples\n4 marks: Explains two features with accurate detail\n3 marks: Describes features of economic development with some accuracy\n2 marks: Identifies a feature of economic development\n1 mark: Makes a general statement about development",
                     "sampleAnswers": [
