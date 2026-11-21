@@ -1,0 +1,542 @@
+{
+  "year": 2015,
+  "course": "Business Studies",
+  "papers": [
+    "2015-hsc-business-studies.pdf"
+  ],
+  "skipped": [
+    {
+      "part": "Section I (Questions 1–20)",
+      "reason": "Multiple choice"
+    },
+    {
+      "part": "Sample booklet (Stage 3–4, 2015-sample-booklet-s3-4.pdf)",
+      "reason": "Not an HSC paper; blank answer booklet"
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Why might the producer have chosen selective distribution for her products?",
+      "stimulus": "A producer of gourmet ice-creams chooses selective distribution for her products.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "States a reason for the producer’s decision to use selective distribution"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The producer does not have the resources to produce large quantities of ice-cream to distribute more intensively.",
+      "answersCouldInclude": [
+        "more customers/sales than exclusive distribution hence higher profits",
+        "not large enough scale producer / lack production capacity for intensive distribution",
+        "smaller output than intensive, maintain control for high quality",
+        "smaller than intensive, maintain more exclusive image."
+      ]
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Outline ONE physical distribution issue that will need to be considered.",
+      "stimulus": "A producer of gourmet ice-creams chooses selective distribution for her products.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms one physical distribution issue"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies one physical distribution issue"
+        }
+      ],
+      "sampleAnswer": "Transport is an important issue for the producer, as the ice-creams need to stay frozen in transit. She will need to use refrigerated vehicles to transport her products to her selected distribution outlets to make sure her products arrive in a good condition.",
+      "answersCouldInclude": [
+        "Transport, warehousing, inventory"
+      ]
+    },
+    {
+      "number": "21(c)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Recommend ways that packaging could be used to maximise sales of the products.",
+      "stimulus": "A producer of gourmet ice-creams chooses selective distribution for her products.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides reasons in favour of ways the producer can use packaging to maximise sales of her products"
+        },
+        {
+          "marks": "3",
+          "text": "Provides characteristics and features of how the producer can use packaging to maximise sales"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms packaging that the producer can use"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information about packaging"
+        }
+      ],
+      "sampleAnswer": "The producer should ensure that her packaging is bright and differently coloured from similar products so that her ice-creams are easily recognisable and stand out from competitors when on display to boost sales. She could make sure that her packaging is made of environmentally friendly material. This would improve her sales by ensuring that she has a good reputation among consumers.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe ONE common law obligation of an employee.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides characteristics and features of one common law obligation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "One common law obligation is to obey lawful and reasonable commands made by the employer. Reasonable orders are those that do not expose employees to physical danger or contravene awards or existing laws.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How does the government influence employment contracts?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides how government influences employment contracts in detail"
+        },
+        {
+          "marks": "3",
+          "text": "Provides how government influences employment contracts"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms the current legal framework"
+        },
+        {
+          "marks": "1",
+          "text": "Provides one relevant fact about the current legal framework"
+        }
+      ],
+      "sampleAnswer": "The government influences employment contracts through legislation on minimum employment standards, awards, minimum wage rates and enterprise agreements. The National Employment Standards have been developed as part of the Fair Work Act. They include maximum weekly hours of work, requests for flexible working arrangements, parental leave entitlements, annual leave and other leave entitlements. These provisions must be embedded into all employment contracts. Failure to do so would be breaking the law hence workers’ rights are protected.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "How could technology influence the transformation process at North Coast Manufacturing?",
+      "stimulus": "North Coast Manufacturing makes customised furniture for its clients.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides how technology influences the transformation process at North Coast Manufacturing"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information about the transformation process or technology"
+        }
+      ],
+      "sampleAnswer": "New technology could be introduced at North Coast Manufacturing to improve production efficiency and quality. This could lead to improved profits.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "North Coast Manufacturing is currently planning a new factory. Explain TWO factors that it should consider when designing the process layout.",
+      "stimulus": "North Coast Manufacturing makes customised furniture for its clients.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides how and/or why two factors may influence the process layout"
+        },
+        {
+          "marks": "3",
+          "text": "Provides how and/or why one factor may influence the process layout and identifies a second factor"
+        },
+        {
+          "marks": "2",
+          "text": "Provides how and/or why one factor may influence the process layout OR Identifies two factors which may influence process layout"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a relevant statement about operations process"
+        }
+      ],
+      "sampleAnswer": "North Coast Manufacturing should consider the distribution of the finished product and ensure that it is located close to the transport dock for shipping to customers. This could reduce the opportunity for damage to finished products and improve distribution efficiency. North Coast Manufacturing should design their layout to minimise the movement of components or semi-finished products during manufacture. This could reduce production time and minimise damage and waste of components.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Recommend a method of monitoring the effectiveness of the process layout.",
+      "stimulus": "North Coast Manufacturing makes customised furniture for its clients.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides a method of monitoring with a reason in favour of that method"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a relevant statement"
+        }
+      ],
+      "sampleAnswer": "One method of monitoring the effectiveness of the new layout would be to compare the output of the old layout over a given time period, with the output of the new layout, over a similar time period. This would clearly provide managers with comparative information regarding the volume of products produced in a given period.",
+      "answersCouldInclude": [
+        "better quality of output",
+        "waste minimisation",
+        "shorter lead times",
+        "greater productivity"
+      ]
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain ONE possible limitation of this financial report.",
+      "stimulus": "The following is an extract from financial reports for Andrew’s Discount Tyres as at 30 May 2015.\nCurrent assets | Current liabilities\nAccounts receivable 1 000 | Overdraft 2 000\nInventory 2 000 | Accounts payable 1 000\nCash 2 000\nNon-current assets | Non-current liabilities\nBuilding 13 000 | Mortgage 5 000\nFittings 1 000\nResearch and development 5 000\nOwner’s Equity 16 000\nOther information:\nNet profit for Andrew’s Discount Tyres: $1000\nIndustry average gearing ratio (total liabilities ÷ total equity): 80%\n[Figure: Financial report extract for Andrew’s Discount Tyres as at 30 May 2015, with current and non-current assets, liabilities and owner’s equity.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Identifies a limitation of this financial report and provides a reason why it is a limitation"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms a limitation of this financial report"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a relevant statement"
+        }
+      ],
+      "sampleAnswer": "A limitation of this financial report may be capitalising expenses. Research and development has been included as an asset rather than an expense thus making the balance sheet seem to have greater assets.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bs-2015-24.png",
+        "page": 13,
+        "alt": "Financial report extract for Andrew’s Discount Tyres as at 30 May 2015, with current and non-current assets, liabilities and owner’s equity."
+      }
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 5,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Discuss the gearing of Andrew’s Discount Tyres.",
+      "stimulus": "The following is an extract from financial reports for Andrew’s Discount Tyres as at 30 May 2015.\nCurrent assets | Current liabilities\nAccounts receivable 1 000 | Overdraft 2 000\nInventory 2 000 | Accounts payable 1 000\nCash 2 000\nNon-current assets | Non-current liabilities\nBuilding 13 000 | Mortgage 5 000\nFittings 1 000\nResearch and development 5 000\nOwner’s Equity 16 000\nOther information:\nNet profit for Andrew’s Discount Tyres: $1000\nIndustry average gearing ratio (total liabilities ÷ total equity): 80%\n[Figure: Financial report extract for Andrew’s Discount Tyres as at 30 May 2015, with current and non-current assets, liabilities and owner’s equity.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Clearly provides points for and/or against the gearing level of Andrew’s Discount Tyres"
+        },
+        {
+          "marks": "4",
+          "text": "Provides points for and/or against the gearing level of Andrew’s Discount Tyres"
+        },
+        {
+          "marks": "3",
+          "text": "Provides characteristics and features of gearing; may refer to the gearing level of Andrew’s Discount Tyres"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms gearing"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Gearing measures the relationship between debt and equity. The gearing of Andrew’s Discount Tyres is 50%. This can be compared to the industry average of 80%. Andrew’s Discount Tyres gearing of 50% indicates that this business is in a sound and safe financial position. Some advantages of this is that Andrew’s Discount Tyres business would be low risk and hence would have low debt repayments. This would lead to lower risk of business failure. A disadvantage of Andrew’s Discount Tyres having a low gearing ratio could be that the business may be missing out on using more debt than equity which would lead to greater potential for profit.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bs-2015-24.png",
+        "page": 13,
+        "alt": "Financial report extract for Andrew’s Discount Tyres as at 30 May 2015, with current and non-current assets, liabilities and owner’s equity."
+      }
+    },
+    {
+      "number": "25(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "To what extent is human resources management effective in this business? Support your answer with examples from the data.",
+      "stimulus": "The table contains data about a business in 2014 and 2015. Use the information in the table to answer parts (a)−(b).\n2014 2015\nAbsenteeism per employee 10 days 18 days\nAccidents per 1000 employees 20 25\nNumber of strike days 20 10\nTraining expenditure per employee $2000 $500\nStaff turnover 10% 5%\nFixed costs $1 000 000 $800 000\nExpense ratio (expenses ÷ sales) 20% 10%\n[Figure: Table of 2014 and 2015 data for a business: absenteeism, accidents, strike days, training expenditure, staff turnover, fixed costs and expense ratio.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Makes a judgement that human resources management is partially effective and clearly supports this judgement with the data"
+        },
+        {
+          "marks": "3",
+          "text": "Makes a judgement that human resources management is effective AND/OR ineffective and supports this judgement with examples from the data"
+        },
+        {
+          "marks": "2",
+          "text": "Makes a limited judgement about human resources management with reference to the data"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a relevant statement about human resources management with some reference to the data"
+        }
+      ],
+      "sampleAnswer": "Human resources is shown to be effective to a certain extent, however, there are still areas of concern for the business. The absenteeism which has increased by 8 days in 2015 may indicate the dissatisfaction of employees with their job. This may also be supported by the decreased expenditure on training per employee in 2015, showing a lack of opportunity to enhance their skills. Effective human resources management is demonstrated by decreases in strike days and staff turnover, this may be due to successful human resources strategies, including intrinsic and extrinsic rewards.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bs-2015-25.png",
+        "page": 14,
+        "alt": "Table of 2014 and 2015 data for a business: absenteeism, accidents, strike days, training expenditure, staff turnover, fixed costs and expense ratio."
+      }
+    },
+    {
+      "number": "25(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 6,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Using the data, analyse the interdependence between human resources management and profitability management in this business.",
+      "stimulus": "The table contains data about a business in 2014 and 2015. Use the information in the table to answer parts (a)−(b).\n2014 2015\nAbsenteeism per employee 10 days 18 days\nAccidents per 1000 employees 20 25\nNumber of strike days 20 10\nTraining expenditure per employee $2000 $500\nStaff turnover 10% 5%\nFixed costs $1 000 000 $800 000\nExpense ratio (expenses ÷ sales) 20% 10%\n[Figure: Table of 2014 and 2015 data for a business: absenteeism, accidents, strike days, training expenditure, staff turnover, fixed costs and expense ratio.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Draws out and relates the implications of the interdependence between human resources management and profitability management in this business, using the data"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides how human resources management can impact profitability management AND how profitability management can impact human resources management, using the data"
+        },
+        {
+          "marks": "3",
+          "text": "Gives an example of how human resources management and profitability management are linked, using the data"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches a link between human resources management and profitability management; may make reference to the data"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "A business can attempt to improve its profitability by reducing human resources management costs such as staff training, wages, bonuses etc. One way this business has improved its profitability is by reducing its training costs per employee – so more effective profitability management has impacted on human resources management.",
+        "In the longer term however, attempts to cut some human resources management costs may worsen profitability, not improve it. For example, lower wages can lead to costly staff turnover and absenteeism. In this business, less training expenditure may have contributed to more accidents occurring. These may contribute to higher costs and lower profits in the long run as insurance premiums rise, staff are on sick leave and morale and productivity decline."
+      ],
+      "figure": {
+        "file": "bs-2015-25.png",
+        "page": 14,
+        "alt": "Table of 2014 and 2015 data for a business: absenteeism, accidents, strike days, training expenditure, staff turnover, fixed costs and expense ratio."
+      }
+    },
+    {
+      "number": "26",
+      "section": "III",
+      "sectionHeading": "Section III (20 marks). Attempt Question 26. Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Sally has just bought Fit Fast Bikes, a business which sells exercise bicycles. Its advertising states that a customer who uses the bike for 10 minutes per day is guaranteed to lose 20 kg in one month. The sales staff are paid on a commission only basis. In order to maximise their sales, the sales staff promise a full refund to customers if they are not 100% satisfied. However, the business does not provide refunds or repairs under any circumstances. The quality of the bikes is poor. There are many customer complaints. Sally wishes to improve the performance of the business and she has asked you to write a business report. In your report: • describe the consumer laws that Fit Fast Bikes may be breaking • propose human resource strategies to manage the current sales staff more effectively • explain how marketing and human resource management are interdependent at Fit Fast Bikes.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply the hypothetical business situation",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response in the form of a business report"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Provides detailed characteristics and features of the consumer laws that Fit Fast Bikes may be breaking ; Puts forward for consideration appropriate human resources strategies to manage the sales staff more effectively ; Provides how and/or why marketing and human resources management are interdependent ; Makes effective use of the information provided, demonstrating extensive knowledge and understanding relevant to the question ; Presents a sustained, logical and cohesive business report integrating relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Provides characteristics and features of the consumer laws that Fit Fast Bikes may be breaking ; Provides reasons in favour of possible human resources strategies for sales staff ; Provides characteristics and features of connections between human resources management and marketing ; Makes some use of the information provided, demonstrating some knowledge and understanding relevant to the question ; Presents a logical and cohesive business report using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Sketches in general terms the consumer laws that Fit Fast Bikes may be breaking ; Provides characteristics and features of human resources strategies ; Sketches in general terms how marketing and human resources management are linked ; Includes features of a business report and uses some business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Sketches consumer laws in general terms ; Sketches human resources strategies in general terms ; Sketches in general terms the human resources and/or marketing functions ; May include some features of a business report and uses basic business terminology"
+        },
+        {
+          "marks": "1–4",
+          "text": "Refers to consumer laws and/or human resources and/or the marketing function ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Consumer laws",
+        "deceptive and misleading advertising",
+        "implied conditions",
+        "warranties",
+        "Human resources strategies",
+        "training and developing",
+        "performance management",
+        "rewards",
+        "Interdependence between Human Resources and Marketing."
+      ]
+    },
+    {
+      "number": "27",
+      "section": "IV",
+      "sectionHeading": "Section IV (20 marks). Attempt either Question 27 or Question 28. Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate the importance of operations strategies in achieving competitive advantage.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant business case study/‌studies and contemporary business issues",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Makes a well-reasoned judgement, based on criteria, regarding the importance of operations strategies in achieving competitive advantage ; Applies relevant case study/studies and contemporary business issues ; Presents a sustained, logical and cohesive response and communicates clearly using relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Makes some judgement regarding the importance of operations strategies ; Uses relevant case study/studies and contemporary business issues ; Presents a logical and cohesive response using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides characteristics and features of operations strategies ; May refer to case study/studies and contemporary business issues ; Communicates using business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Sketches in general terms operations strategies/strategy ; May refer to case study/studies and contemporary business issues ; Communicates using some business terminology and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Makes limited reference to operations ; May identify case study/studies ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Operations strategies",
+        "performance objectives – quality, speed, dependability, flexibility, customisation, cost",
+        "new product or service design and development",
+        "supply chain management – logistics, e-commerce, global sourcing",
+        "outsourcing – advantages and disadvantages",
+        "technology – leading edge, established",
+        "inventory management – advantages and disadvantages of holding stock, LIFO (last-in-first-out), FIFO (first-in-first-out), JIT (just-in-time)",
+        "quality management – control – assurance – improvement",
+        "overcoming resistance to change – financial costs, purchasing new equipment, redundancy payments, retraining, reorganising plant layout, inertia",
+        "global factors – global sourcing, economies of scale, scanning and learning, research and development"
+      ]
+    },
+    {
+      "number": "28",
+      "section": "IV",
+      "sectionHeading": "Section IV (20 marks). Attempt either Question 27 or Question 28. Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate the importance of financial management strategies in improving business performance.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant business case study/‌studies and contemporary business issues",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Makes a well-reasoned judgement, based on criteria, regarding the importance of financial management strategies in improving business performance ; Applies relevant case study/studies and contemporary business issues ; Presents a sustained, logical and cohesive response and communicates clearly using relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Makes some judgement regarding the importance of financial management strategies ; Uses relevant case study/studies and contemporary business issues ; Presents a logical and cohesive response using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides characteristics and features of financial management strategies ; May refer to case study/studies and contemporary business issues ; Communicates using business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Sketches in general terms financial management strategies/strategy ; May refer to case study/studies and contemporary business issues ; Communicates using some business terminology and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Makes limited reference to finance ; May identify case study/studies ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Financial management strategies",
+        "cash-flow management – cash-flow statements – distribution of payments, discounts for early payment, factoring",
+        "working capital management – control of current assets – cash, receivable, inventories – control of current liabilities – payables, loans, overdrafts – strategies – leasing, sale and lease back",
+        "profitability management – cost controls – fixed and variable, cost centres, expense minimisation – revenue controls – marketing objectives",
+        "global financial management – exchange rates – interest rates – methods of international payment – payment in advance, letter of credit, clean payment, bill of exchange – hedging – derivatives"
+      ]
+    }
+  ],
+  "edits": [
+    "24(a) and 24(b), 25(a) and 25(b): the printed caption kept and a [Figure: …] line added to the stimulus; one figure file each, shared by its parts.",
+    "sectionHeading: the cover wording (marks, questions, time) in place of \"Section II\" etc.",
+    "25(b): the three ladder rows that opened with \"Using\" reworded to open with the verb, with \"using the data\" moved to the end; NESA prints \"Using\", so the checker reports these rows."
+  ]
+}

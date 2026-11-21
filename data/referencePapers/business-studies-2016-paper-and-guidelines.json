@@ -1,0 +1,509 @@
+{
+  "year": 2016,
+  "course": "Business Studies",
+  "papers": [
+    "2016-hsc-business-studies.pdf"
+  ],
+  "skipped": [
+    {
+      "part": "Section I (Questions 1–20)",
+      "reason": "Multiple choice"
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Explain a potential conflict between a short-term and a long-term financial objective for Sue.",
+      "stimulus": "Sue is a sole trader whose business is growing rapidly as sales are increasing. As a result of the growth, she needs to purchase stock worth $10 000.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Shows how and/or why a short-term and long-term financial objective may conflict"
+        },
+        {
+          "marks": "2",
+          "text": "Names a short-term and a long-term financial objective OR outlines why a conflict might occur"
+        },
+        {
+          "marks": "1",
+          "text": "Names a financial objective"
+        }
+      ],
+      "sampleAnswer": "Sue may aim for long-run higher profit through more sales. In the short run, this requires her to purchase stock, which may reduce her liquidity. Hence, her long-term goal of higher profit conflicts in the short run with liquidity.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Discuss ONE internal and ONE external source of finance for Sue’s purchase of stock.",
+      "stimulus": "Sue is a sole trader whose business is growing rapidly as sales are increasing. As a result of the growth, she needs to purchase stock worth $10 000.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides points for and/or against one internal and one external source of finance for this purchase"
+        },
+        {
+          "marks": "5",
+          "text": "Provides points for and/or against one internal source and provides a point for or against an external source OR Provides points for and/or against one external source and provides a point for or against an internal source"
+        },
+        {
+          "marks": "4",
+          "text": "Provides points for and/or against one internal source of finance and sketches in general terms one external source of finance OR Provides points for and/or against one external source of finance and sketches in general terms one internal source of finance"
+        },
+        {
+          "marks": "3",
+          "text": "Provides points for and/or against one source of finance OR Sketches both internal and external sources of finance"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a point for or against one source of finance OR names one external and one internal source of finance"
+        },
+        {
+          "marks": "1",
+          "text": "Names one source of finance"
+        }
+      ],
+      "sampleAnswer": "Sue could consider using retained profits for this purchase. This would be a lower risk option as it does not add to her gearing. It could however significantly reduce her cash flow. She could also use a mortgage. This would be a lower interest rate than many other types of loan but she would be using a long-term loan for a short-term purpose. Sue would still be paying back the mortgage years after the stock has been sold.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Why is this information an important part of the marketing process?",
+      "stimulus": "A business develops video games. It had three different games for sale last year. The table shows forecast and actual sales for each game.\nUse the information in the table to answer parts (a), (b) and (c).\nForecast sales ($) Actual sales ($)\nGame A 500 000 495 000\nGame B 200 000 100 000\nGame C 300 000 800 000\n[Figure: Table of forecast and actual sales in dollars for Game A, Game B and Game C.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Clearly provides the reason why the information is important in the monitoring and controlling aspect of the marketing process"
+        },
+        {
+          "marks": "1",
+          "text": "Sketches the importance of the information for marketing"
+        }
+      ],
+      "sampleAnswer": "This information is important as it allows the firm to compare actual and planned results and to see how their marketing plan worked. Therefore the firm can see what if any changes need to be made.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bs-2016-22.png",
+        "page": 11,
+        "alt": "Table of forecast and actual sales in dollars for Game A, Game B and Game C."
+      }
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "With reference to the information, recommend a strategy for promoting game B.",
+      "stimulus": "A business develops video games. It had three different games for sale last year. The table shows forecast and actual sales for each game.\nUse the information in the table to answer parts (a), (b) and (c).\nForecast sales ($) Actual sales ($)\nGame A 500 000 495 000\nGame B 200 000 100 000\nGame C 300 000 800 000\n[Figure: Table of forecast and actual sales in dollars for Game A, Game B and Game C.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Identifies an appropriate promotion strategy and provides a reason in favour of this strategy with reference to the data"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a reason in favour of a promotion strategy OR provides characteristics and features of a promotion strategy"
+        },
+        {
+          "marks": "1",
+          "text": "Sketches in general terms a promotion strategy"
+        }
+      ],
+      "sampleAnswer": "Sales for game B are less than planned, therefore a new promotion strategy needs to be adopted. Personal selling involves the process of taking the business and the product directly to the consumer. Personal selling would be a good strategy as you are able to demonstrate the game in action to customers and highlight its positive features. You would also be able to direct customers to other products in the range. This would improve sales.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bs-2016-22.png",
+        "page": 11,
+        "alt": "Table of forecast and actual sales in dollars for Game A, Game B and Game C."
+      }
+    },
+    {
+      "number": "22(c)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "With reference to the information, recommend a strategy for distributing game C.",
+      "stimulus": "A business develops video games. It had three different games for sale last year. The table shows forecast and actual sales for each game.\nUse the information in the table to answer parts (a), (b) and (c).\nForecast sales ($) Actual sales ($)\nGame A 500 000 495 000\nGame B 200 000 100 000\nGame C 300 000 800 000\n[Figure: Table of forecast and actual sales in dollars for Game A, Game B and Game C.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Identifies an appropriate distribution strategy and provides a reason in favour of it with reference to the data"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a reason in favor of a distribution strategy OR provides characteristics and features of a distribution strategy"
+        },
+        {
+          "marks": "1",
+          "text": "Sketches in general terms a distribution strategy"
+        }
+      ],
+      "sampleAnswer": "Sales are higher than predicted. The business may therefore be finding it difficult to distribute the product quickly enough (physical distribution issue). They may have to increase the resources devoted to transport and warehousing to distribute their product to customers efficiently.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "bs-2016-22.png",
+        "page": 11,
+        "alt": "Table of forecast and actual sales in dollars for Game A, Game B and Game C."
+      }
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Explain ONE advantage of this strategy.",
+      "stimulus": "Heather owns a financial planning business with offices in four countries, including Australia.\nHeather outsources the cleaning of her Sydney office.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies one relevant advantage of outsourcing ; Provides how/why it is an advantage for the business"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a relevant statement"
+        }
+      ],
+      "sampleAnswer": "Costs could be lower, she only needs to employ someone possibly for a few hours per week and she will have no on-costs.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Explain TWO disadvantages of this strategy.",
+      "stimulus": "Heather owns a financial planning business with offices in four countries, including Australia.\nHeather also outsources all her financial record keeping.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Identifies two relevant disadvantages of outsourcing and why they are a disadvantage for the business"
+        },
+        {
+          "marks": "3",
+          "text": "Identifies one relevant disadvantage of outsourcing and why it is a disadvantage AND sketches in general terms another disadvantage of outsourcing"
+        },
+        {
+          "marks": "2",
+          "text": "Provides one relevant disadvantage of outsourcing and provides why it is a disadvantage OR sketches in general terms two disadvantages of outsourcing"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a relevant statement about outsourcing"
+        }
+      ],
+      "sampleAnswer": "• She may lose control over the record keeping business, as she does not have day-to-day oversight. This could include loss of quality control and security issues. • She may have problems with communication, for example, cultural misunderstanding and language difficulties.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "What are the advantages of this for Heather’s business?",
+      "stimulus": "Heather owns a financial planning business with offices in four countries, including Australia.\nHeather’s workforce is diverse and culturally competent.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Gives two reasons how and/or why Heather’s business will benefit from a diverse culturally competent workforce"
+        },
+        {
+          "marks": "3",
+          "text": "Gives one reason how and/or why Heather’s business will benefit from a diverse culturally competent workforce and sketches in general terms another benefit"
+        },
+        {
+          "marks": "2",
+          "text": "Gives one reason how and/or why Heather’s business will benefit from a diverse culturally competent workforce OR sketches in general terms two benefits"
+        },
+        {
+          "marks": "1",
+          "text": "Sketches in general terms one benefit"
+        }
+      ],
+      "sampleAnswer": "• Employees will know different languages and have knowledge of different cultures, which could be used constructively to open up markets in other parts of the world. They may also have contacts in other countries that could be used as sources of supplies, finance or to set up branches of the company. • The business can get ideas and input from employees of different backgrounds. They will bring different training and approaches that could be beneficial to the firm.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Discuss ONE possible method of inventory management for this business.",
+      "stimulus": "A fruit shop has experienced strong growth in its sales of fresh organic fruit since it started to sell online.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Clearly identifies the issues for and/or against one inventory management system for this business"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines one advantage OR one disadvantage of one inventory management system for this business"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms one method of inventory management"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a relevant statement about inventory"
+        }
+      ],
+      "sampleAnswer": "One method of inventory management is Just-In-Time. The advantage of this for the business is that the business does not need to hold large amounts of stock which could be damaged or perish costing the business money. A disadvantage is that the business may find it difficult to respond to a sudden increase in demand for a product, as they may not have enough supply to meet the order.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Explain why corporate social responsibility should be a key concern in operations management for this business.",
+      "stimulus": "A fruit shop has experienced strong growth in its sales of fresh organic fruit since it started to sell online.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides how or why corporate social responsibility should be a key consideration in operations management for this business"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms how corporate social responsibility may affect operations"
+        },
+        {
+          "marks": "1",
+          "text": "Sketches in general terms corporate social responsibility"
+        }
+      ],
+      "sampleAnswer": "Corporate social responsibility is about businesses doing more than just complying with the law and may be expensive for the business. The business should avoid pollution, and degrading the air, water and farmland in its operations management. The business, by supplying goods in an ecologically sustainable manner, will be fulfilling customer expectations about them being a responsible business.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–25. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "With reference to a business you have studied, analyse the relationship between cost and quality in the operations of the business.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Draws out and relates the implications of the relationship between cost and quality with reference to a business"
+        },
+        {
+          "marks": "5",
+          "text": "Provides links between cost and quality with reference to a specific business"
+        },
+        {
+          "marks": "4",
+          "text": "Provides characteristics and features of cost and quality with reference to a business OR Provides links between cost and quality in operations"
+        },
+        {
+          "marks": "3",
+          "text": "Provides characteristics and features of cost and/or quality"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms cost and/or quality"
+        },
+        {
+          "marks": "1",
+          "text": "Makes reference to cost/quality"
+        }
+      ],
+      "sampleAnswer": "Cost and quality usually have a close, positive relationship in the operations of a business. As the quality of a product increases, usually the cost of producing it also increases, as it requires more expensive inputs and/or more time to produce. An implication of this is that these products tend to have higher prices as businesses pass higher costs onto consumers. For example flights on low cost budget airlines such as Jetstar are cheaper to produce than flights on full-service flights such as those sold by QANTAS. Jetstar is less flexible and has fewer ‘extras’ such as food, entertainment and therefore provides a lower quality product, which is usually sold at a lower price.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "26",
+      "section": "III",
+      "sectionHeading": "Section III (20 marks). Attempt Question 26. Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "The table shows data for Lee’s Catering, a small business. It has a high profile chef and the food is of excellent quality. It has many bookings for future events. A potential new partner is concerned about the accuracy of the financial reports and the effectiveness of current management. The potential new partner has asked you to write a business report in which you: • explain possible limitations of the financial reports • recommend appropriate working capital management strategies for the business • evaluate a pricing strategy the business could use.",
+      "stimulus": "Extract from financial reports for Lee’s Catering\nCash ($) 1000\nAccounts receivable ($) 10 000\nInventory ($) 50\nAccounts payable ($) 11 050\nGoodwill ($) 200 000\nCurrent ratio 100% (industry average 150%) (current assets ÷ current liabilities)\nGross profit ratio 30% (industry average 50%) (gross profit ÷ sales)\nExpense ratio 60% (industry average 30%) (total expenses ÷ sales )\n[Figure: Extract from the financial reports for Lee’s Catering: cash, receivables, inventory, payables, goodwill, current ratio, gross profit ratio and expense ratio, with industry averages.]",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply the hypothetical business situation",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response in the form of a business report"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Provides how/why the information in the financial reports for Lee’s Catering may be limited ; Provides reasons in favour of appropriate working capital strategies ; Makes a judgement based on criteria regarding a pricing strategy which could be used ; Makes effective use of the information provided, demonstrating extensive knowledge and understanding relevant to the question ; Presents a sustained, logical and cohesive business report integrating relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Provides characteristics and features of some possible limitations to financial reports ; Provides reasons in favour of working capital strategies ; Provides reasons for and/or against a particular pricing strategy ; Makes some use of the information provided, demonstrating some knowledge and understanding relevant to the question ; Presents a logical and cohesive business report using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Sketches in general terms some limitations of financial reports ; Provides characteristics and features of a working capital management strategy/strategies ; Provides characteristics and features of a pricing strategy ; Includes features of a business report and uses some business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Sketches in general terms features of financial reports ; Sketches in general terms working capital management ; Sketches in general terms a pricing strategy ; May include some features of a business report and uses basic business terminology"
+        },
+        {
+          "marks": "1–4",
+          "text": "Refers to financial reports and/or working capital and/or pricing ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Limitations of financial reports",
+        "Normalised earnings, capitalising, expenses, valuing assets, timing issues, debt repayments, notes to the financial reports",
+        "Working capital strategies",
+        "Control of current assets – cash, receivables, inventories",
+        "Control of current liabilities – payables, loans, overdrafts",
+        "Strategies – leasing, sale and lease back",
+        "Pricing strategies",
+        "Skimming, penetration, loss leaders, price points",
+        "Price and quality interaction"
+      ],
+      "figure": {
+        "file": "bs-2016-26.png",
+        "page": 18,
+        "alt": "Extract from the financial reports for Lee’s Catering: cash, receivables, inventory, payables, goodwill, current ratio, gross profit ratio and expense ratio, with industry averages."
+      }
+    },
+    {
+      "number": "27",
+      "section": "IV",
+      "sectionHeading": "Section IV (20 marks). Attempt either Question 27 or Question 28. Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate the response of operations management to external influences.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant business case study/studies and contemporary business issues",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Makes a well-reasoned judgement based on criteria regarding how operations management has responded to external influences in the business environment ; Applies relevant case study/studies and contemporary business issues ; Presents a sustained, logical and cohesive response and communicates clearly using relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Makes some judgement regarding how operations management has responded to external influences in the business environment ; Uses relevant case study/studies and contemporary business issues ; Presents a logical and cohesive response using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides characteristics and features of operations management and the business environment ; May make reference to case study/studies and contemporary business issues ; Communicates using business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Sketches in general terms operations management and/or influences in the business environment ; May make reference to case study/studies and/or contemporary business issues ; Communicates using some business terminology and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Makes limited reference to operations management ; May identify case study/studies ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Influences:",
+        "Globalisation, technology, quality expectations, cost based competition, government policies, legal regulation, environmental sustainability",
+        "Corporate social responsibility",
+        "Difference between legal compliance and ethical responsibility",
+        "Environmental sustainability and social responsibility"
+      ]
+    },
+    {
+      "number": "28",
+      "section": "IV",
+      "sectionHeading": "Section IV (20 marks). Attempt either Question 27 or Question 28. Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate the response of human resource management to legal and ethical influences.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant business case study/studies and contemporary business issues",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Makes a well-reasoned judgement based on criteria regarding how human resource management has responded to legal and ethical influences in the business environment ; Applies relevant case study/studies and contemporary business issues ; Presents a sustained, logical and cohesive response and communicates clearly using relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Makes some judgement regarding how human resource management has responded to legal and ethical influences in the business environment ; Uses relevant case study/studies and contemporary business issues ; Presents a logical and cohesive response using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides characteristics and features of human resource management and legal and/or ethical influences in the business environment ; May make reference to case study/studies and contemporary business issues ; Communicates using business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Sketches in general terms human resource management and/or influences in the business environment ; May make reference to case study/studies and/or contemporary business issues ; Communicates using some business terminology and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Makes limited reference to human resource management and/or influences in the business environment ; May identify case study/studies ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Key influences:",
+        "Legal",
+        "Current legal framework",
+        "The employment contract",
+        "Work, health and safety, workers compensation",
+        "Anti-discrimination and equal employment opportunity",
+        "Ethics and corporate social responsibility"
+      ]
+    }
+  ],
+  "edits": [
+    "22(a)–(c) and 26: the printed caption kept and a [Figure: …] line added to the stimulus; 22(a)–(c) share one figure file.",
+    "sectionHeading: the cover wording (marks, questions, time) in place of \"Section II\" etc.",
+    "21(b) bands 3–5 and 25 band 4: an OR left between bullets that NESA prints on separate lines, joined as one bullet (the extract had split it)."
+  ]
+}

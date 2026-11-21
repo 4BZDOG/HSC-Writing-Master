@@ -1,0 +1,496 @@
+{
+  "year": 2018,
+  "course": "Business Studies",
+  "papers": [
+    "2018-hsc-business-studies.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "section": "I",
+      "reason": "Section I is multiple choice (Questions 1–20); not extracted."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Describe TWO transformation processes that the business should implement.",
+      "stimulus": "A large business repairs trucks that transport heavy loads. The business struggles to complete many different types of repairs in an efficient manner. It has had difficulty meeting legal regulations and customer expectations.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides characteristics and features of TWO transformation processes that should take place at the business"
+        },
+        {
+          "marks": "3",
+          "text": "Provides characteristics and features of ONE transformation process that should take place at the business and sketches in general terms ONE other process"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms ONE transformation process OR Identifies TWO transformation processes"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a transformation process"
+        }
+      ],
+      "sampleAnswer": "Critical path analysis is a sequencing and scheduling tool that the business could use. For instance, the repairs could be analysed so that it was known which parts of the processes could be completed at the same time, thus reducing the overall repair time. Process layout is placing the processes in a logical order of repair. This would help speed up the process by setting out equipment and materials in the most efficient way, therefore reducing costs.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Recommend TWO quality management strategies that the business can use to overcome its problems.",
+      "stimulus": "A large business repairs trucks that transport heavy loads. The business struggles to complete many different types of repairs in an efficient manner. It has had difficulty meeting legal regulations and customer expectations.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Clearly identifies and provides reasons in favour of TWO quality management strategies the business can use to overcome problems"
+        },
+        {
+          "marks": "5",
+          "text": "Identifies and provides reasons in favour of TWO quality management strategies the business can use to overcome problems"
+        },
+        {
+          "marks": "4",
+          "text": "Provides characteristics and features of ONE quality management strategy the business can use to overcome problems and sketches in general terms ONE strategy the business could use"
+        },
+        {
+          "marks": "3",
+          "text": "Sketches in general terms TWO quality management strategies that can be used to overcome problems"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms ONE quality management strategy"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a feature of quality management"
+        }
+      ],
+      "sampleAnswer": "Quality control involves checking quality at various points during a process. The business could introduce checklists where the quality of repairs could be checked at different points during the repair process eg standard of welding, painting, checking oil and tyres. An advantage is that the repairs will meet customer expectations of quality for all repairs. Quality assurance involves ensuring that quality meets a certain set of standards. For instance, the business could ensure its repairs meet Australian quality assurance standards for the repair of large trucks. The business must ensure that national standards are met. This would help differentiate it from other repairers, potentially increasing its market share.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Outline the strategic role of human resources in this business.",
+      "stimulus": "The annual staff survey at a large retail store has revealed that employees are unmotivated and management does not listen to their suggestions and is unwilling to change. Management is concerned that many employees may leave the company and has brought in a consultant to manage change.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms the strategic role of human resources in this business"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about the role of human resources management"
+        }
+      ],
+      "sampleAnswer": "The strategic role of human resources in this retail store is to meet the goals of the business and customer expectations. The retail store should acquire, develop and maintain staff to create a positive business culture.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Demonstrate how the leadership style of this business has affected employee performance.",
+      "stimulus": "The annual staff survey at a large retail store has revealed that employees are unmotivated and management does not listen to their suggestions and is unwilling to change. Management is concerned that many employees may leave the company and has brought in a consultant to manage change.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Clearly shows how leadership style affects employee performance in this business ; Provides a relevant example"
+        },
+        {
+          "marks": "3",
+          "text": "Shows how leadership style affects employee performance in this business"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms a leadership style"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a leadership style"
+        }
+      ],
+      "sampleAnswer": "Leadership style affects employee performance as it influences corporate culture, productivity and motivation of employees. For example, the autocratic management style in this business, with perhaps young employees, may intimidate employees leading to high levels of stress. As a result, employees may be less productive and effective in their role.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(c)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Justify the use of ONE human resource management process to improve the culture of this workplace.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a clear argument for the use of one human resource process to improve the culture of the workplace"
+        },
+        {
+          "marks": "3",
+          "text": "Provides characteristics and features of a human resource process that could improve the culture of the workplace"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms a human resource process"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about human resources management"
+        }
+      ],
+      "sampleAnswer": "Development as a human resources process can improve the culture of this workplace. The retail store can use the survey results to identify areas of improvement in order to develop their staff. For example, they may offer further professional development in areas of team building, communication skills or management to motivate their staff. As a result, the staff morale may improve and could reduce potential staff turnover. Therefore, the positive culture will improve and the business will maintain its employees in the long term.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 1,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Identify ONE threat to this business.",
+      "stimulus": "A manufacturing business has conducted a situational analysis and determined the following:\n• It has loyal customers who make repeat purchases.\n• The size of the Australian market is shrinking.\n• Some staff need further training to use the factory machinery.\n• The owner has been invited to invest in similar factories in Europe.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies ONE relevant threat to the business"
+        }
+      ],
+      "sampleAnswer": "The size of the Australian market is shrinking.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Why could monitoring and controlling be an important part of the marketing process for this business?",
+      "stimulus": "A manufacturing business has conducted a situational analysis and determined the following:\n• It has loyal customers who make repeat purchases.\n• The size of the Australian market is shrinking.\n• Some staff need further training to use the factory machinery.\n• The owner has been invited to invest in similar factories in Europe.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Clearly shows why monitoring and controlling are an important part of the marketing process for this business"
+        },
+        {
+          "marks": "2",
+          "text": "Shows why monitoring and controlling are used by this business"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to monitoring and controlling"
+        }
+      ],
+      "sampleAnswer": "The business should use results and observations to compare actual with planned results to revise their marketing strategies. They can then make the necessary changes to their strategies in order to achieve their marketing objectives and improve the performance of their business. An example would be changing marketing strategies as a result of monitoring their loyal customers’ purchasing and opinions.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "How would the situational analysis change if the business decides to expand into Europe?",
+      "stimulus": "A manufacturing business has conducted a situational analysis and determined the following:\n• It has loyal customers who make repeat purchases.\n• The size of the Australian market is shrinking.\n• Some staff need further training to use the factory machinery.\n• The owner has been invited to invest in similar factories in Europe.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Clearly shows how the situational analysis will change if the business expands into Europe"
+        },
+        {
+          "marks": "5",
+          "text": "Shows how the situational analysis will change if the business expands into Europe"
+        },
+        {
+          "marks": "3–4",
+          "text": "Provides characteristics and features of a changed situational analysis if the business expands into Europe"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms feature/s of a changed situational analysis"
+        },
+        {
+          "marks": "1",
+          "text": "Recognises and names a feature of a situational analysis"
+        }
+      ],
+      "sampleAnswer": "A strength will no longer be that the business has loyal customers as it is unknown in the European market. Instead, a strength could be experience in the manufacturing business in the Australian market. The weakness will change from ‘some staff need further training to use factory machinery’ to ‘all European employees involved in manufacturing will need training in the use of factory machinery’. Additionally, there is a lack of knowledge of the European market. The opportunity will change from ‘the owner has been invited to invest in similar factories in Europe’ to ‘possible expansion or consolidation to more areas in Europe’. The threat of the shrinking Australian market may change to a new threat from established businesses operating in Europe.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Why is liquidity an objective of financial management?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Shows why liquidity is an objective of financial management"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about liquidity or financial management"
+        }
+      ],
+      "sampleAnswer": "Liquidity is an objective of financial management because it shows the business how able it is to pay its current debts as they fall due. This allows the business to maintain a good credit rating, and avoid late fees and additional interest payments.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How could a business improve management of its accounts receivable turnover?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Shows how a business could improve the management of its accounts receivable turnover"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms how a business’s accounts receivable turnover could be improved"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about accounts receivable turnover or working capital management"
+        }
+      ],
+      "sampleAnswer": "The accounts receivable turnover measures how long it takes the business to collect money from its debtors. The business wants to improve its cash flow by decreasing the length of time it takes to collect its debts thus reducing financial costs. This could be done by using debt collection agencies or factoring. These however are a cost to the business. The business offering a shorter interest-free period will also improve its accounts receivable turnover.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(c)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Discuss the use of leasing and the use of mortgages as a source of long-term finance for this business.",
+      "stimulus": "A business has decided to expand into a larger factory and is now considering its financial options.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides detailed points for and/or against the use of leasing and mortgages as a source of long-term finance"
+        },
+        {
+          "marks": "4",
+          "text": "Provides points for and/or against the use of leasing and mortgages as a source of long-term finance"
+        },
+        {
+          "marks": "3",
+          "text": "Provides characteristics and features of leasing and/or mortgages as a source of long-term finance"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms leasing and/or mortgages"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to leasing and/or mortgages"
+        }
+      ],
+      "sampleAnswer": "A mortgage could be used to purchase a factory. The business can use the new factory site as security and it has the advantage that it owns the property once the mortgage is fully repaid. It has the disadvantage that bank charges and interest have to be paid. The business may lease which is similar to renting the property. It does not pay for maintenance and the lease payments are tax deductible. It does not own the property at the end of the lease period.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "section": "III",
+      "sectionHeading": "Section III (20 marks). Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Write a report for the directors of Fast Burgers Ltd in which you:\n• describe the role of operations management for this business\n• demonstrate why corporate social responsibility should remain a key concern in the operation of this business\n• recommend THREE human resource strategies that Fast Burgers Ltd could use to maintain its record as an excellent employer.",
+      "stimulus": "Fast Burgers Ltd is a large fast food business that has been operating for 15 years in a market with high levels of competition.\n\nRecently Fast Burgers Ltd has offered its employees an extra day of annual leave in order to participate in charity work. This has been popular among staff, and the business publishes a short summary of these activities on its social media sites. Additionally Fast Burgers Ltd received an award for its services to its staff and to society.\n\nSimilar businesses are now adopting this approach, so Fast Burgers Ltd is considering what else can be done to maintain its record as an excellent employer.",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply the hypothetical business situation",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response in the form of a business report"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Provides detailed characteristics and features of the role of operations management in this business ; Clearly shows by example why corporate social responsibility should remain a key concern in the operation of this business ; Provides detailed reasons in favour of THREE human resource management strategies that Fast Burgers Ltd could use to maintain its record as an excellent employer ; Makes effective use of the information provided, demonstrating extensive knowledge and understanding relevant to the question ; Presents a sustained, logical and cohesive business report integrating relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Provides characteristics and features of the role of operations management in this business ; Shows by example why corporate social responsibility should remain a key concern in the operation of this business ; Provides reasons in favour of THREE human resource management strategies that Fast Burgers Ltd could use to maintain its record as an excellent employer ; Makes some use of the information provided, demonstrating some knowledge and understanding relevant to the question ; Presents a logical and cohesive business report using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Sketches in general terms operations management in this business ; Sketches in general terms why corporate social responsibility should remain a key concern in the operation of this business ; Provides characteristics and features of some alternative human resource management strategies that Fast Burgers Ltd could use to maintain its record as an excellent employer ; Includes features of a business report and uses some business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Identifies operations management ; Sketches in general terms corporate social responsibility ; Sketches in general terms strategies in human resource management ; May include some features of a business report and uses basic business terminology"
+        },
+        {
+          "marks": "1–4",
+          "text": "Refers to operations and/or human resource management ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Role of operations management",
+        "Strategic role of operations management",
+        "Goods and/or services in different industries",
+        "Interdependence with other key business functions.",
+        "Corporate social responsibility",
+        "The difference between legal compliance and ethical responsibility",
+        "Environmental sustainability and ethical responsibility.",
+        "Strategies in human resource management",
+        "Leadership style",
+        "Job design – general or specific tasks",
+        "Recruitment – internal or external, general or specific skills",
+        "Training and development – current or future skills",
+        "Performance management – developmental or administrative",
+        "Rewards – monetary and non-monetary, individual or group, performance pay",
+        "Global – costs, skills, supply",
+        "Workplace disputes – resolution – negotiation, mediation, grievance procedures, involvement of courts and tribunals."
+      ]
+    },
+    {
+      "number": "26",
+      "section": "IV",
+      "sectionHeading": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the influence of global markets on financial management of businesses.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant business case study/studies and contemporary business issues",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Makes clearly evident the relationship between the influence of global markets and financial management ; Applies relevant case study/studies and contemporary business issues ; Presents a sustained, logical and cohesive response and communicates clearly using relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Makes evident the relationship between the influence of global markets and financial management ; Uses relevant case study/studies and contemporary business issues ; Presents a logical and cohesive response using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Gives characteristics and features of global markets and financial management ; May make reference to case study/studies and contemporary business issues ; Communicates using business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Sketches in general terms global market influences and/or financial management ; May make reference to case study/studies and/or contemporary business issues ; Communicates using some business terminology and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Makes limited reference to financial management ; May identify case study/studies ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "External sources of finance",
+        "Global market influences – economic outlook, availability of funds, interest rates",
+        "Planning and implementing",
+        "Monitoring and controlling",
+        "Ethical issues related to financial reports",
+        "Cash flow management",
+        "Working capital management",
+        "Profitability management",
+        "Global financial management."
+      ]
+    },
+    {
+      "number": "27",
+      "section": "IV",
+      "sectionHeading": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the influence of globalisation on the interaction of price and quality.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant business case study/studies and contemporary business issues",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Makes clearly evident the relationship between the influence of globalisation and the interaction of price and quality ; Applies relevant case study/studies and contemporary business issues ; Presents a sustained, logical and cohesive response and communicates clearly using relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Makes evident the relationship between the influence of globalisation and the interaction of price and quality ; Uses relevant case study/studies and contemporary business issues ; Presents a logical and cohesive response using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Gives characteristics and features of globalisation and its interaction with price and/or quality ; May make reference to case study/studies and contemporary business issues ; Communicates using business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Sketches in general terms globalisation and/or price and/or quality ; May make reference to case study/studies and/or contemporary business issues ; Communicates using some business terminology and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Makes limited reference to price and/or quality ; May identify case study/studies ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Global marketing",
+        "Global branding",
+        "Standardisation",
+        "Customisation",
+        "Global pricing",
+        "Competitive positioning.",
+        "Global factors – global sourcing, economies of scale."
+      ]
+    }
+  ],
+  "edits": [
+    "21(a): an OR left between bullets that NESA prints on separate lines, joined as one bullet.",
+    "26 and 27: \"Makes limited reference to …\" moved from the 5–8 band to the 1–4 band, where NESA prints it."
+  ]
+}

@@ -1,0 +1,525 @@
+{
+  "year": 2017,
+  "course": "Business Studies",
+  "papers": [
+    "2017-hsc-business-studies.pdf"
+  ],
+  "skipped": [
+    {
+      "part": "Section I (Questions 1–20)",
+      "reason": "Multiple choice"
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–24. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Outline the role of operations management in this business.",
+      "stimulus": "A recently established bank has branches in Australian capital cities and online customers across Australia. The management of this bank wants to focus on improving operations processes.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms the role of operations management in this business"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a statement about operations"
+        }
+      ],
+      "sampleAnswer": "Operations management involves the bank being a cost leader and differentiating the business from competitors.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–24. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Explain how improving operations processes may lead to better customer service.",
+      "stimulus": "A recently established bank has branches in Australian capital cities and online customers across Australia. The management of this bank wants to focus on improving operations processes.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Clearly provides why and/or how improving operations processes may lead to better customer service"
+        },
+        {
+          "marks": "3",
+          "text": "Provides why and/or how improving operations processes may lead to better customer service"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms operations processes and/or customer service"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a statement about operations processes and/or customer service"
+        }
+      ],
+      "sampleAnswer": "Improved transforming resources, such as bank staff and facilities like branches, along with changes to the transformation process, such as more effective use of technology and improved role descriptions for staff, will lead to improvements in customer service. Bank branches are laid out more efficiently and internet banking and other online banking services are aimed at providing better customer service.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21(c)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–24. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Assess ONE operations strategy this business could use to improve its long-term success.",
+      "stimulus": "A recently established bank has branches in Australian capital cities and online customers across Australia. The management of this bank wants to focus on improving operations processes.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Makes a clear judgement of ONE operations strategy that may improve the long-term success of the business"
+        },
+        {
+          "marks": "5",
+          "text": "Makes a judgement of ONE operations strategy that may improve the long-term success of the business"
+        },
+        {
+          "marks": "4",
+          "text": "Provides the relationship between ONE operational strategy and long-term improved success of the business"
+        },
+        {
+          "marks": "3",
+          "text": "Provides characteristics and features of an operations strategy that could improve the long-term success of the business"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms an operations strategy"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a statement about an operations strategy"
+        }
+      ],
+      "sampleAnswer": "The bank may use outsourcing as a cost-effective strategy to improve the long-term sustainability of the business. Outsourcing allows the bank to focus on the quality of service to customers, grow market share and improve profitability. Outsourcing the customer inquiry centre improves flexibility in regards to operating in different time zones to accommodate Australian customers. Establishing an overseas customer inquiry centre will reduce costs because the business will have access to less expensive labour.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–24. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Why is ethical behaviour important in the marketing of this business?",
+      "stimulus": "An Australian company sells educational toys for pre-school aged children.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Gives detailed reason/s why ethical behaviour is important in the marketing of this business"
+        },
+        {
+          "marks": "3",
+          "text": "Gives reason/s why ethical behaviour is important in the marketing of this business"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies why ethical behaviour is important OR Gives an example of ethical behaviour"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to ethical behaviour"
+        }
+      ],
+      "sampleAnswer": "Ethical behaviour is important in the marketing of this business because their target market is the parents/carers of young children who need to be protected from products that may damage their health. Ethical behaviour exceeds legal requirements and improves the business’s reputation leading to improved sales and therefore increased profitability.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–24. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Explain the influence of consumer laws on this company’s promotion strategies.",
+      "stimulus": "An Australian company sells educational toys for pre-school aged children.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Clearly provides why and/or how one area of consumer law influences the company’s promotion strategies"
+        },
+        {
+          "marks": "4",
+          "text": "Provides why and/or how one aspect of consumer law influences the company’s promotion strategies"
+        },
+        {
+          "marks": "3",
+          "text": "Provides characteristics and features of consumer laws and/or promotion strategies"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms promotion strategies and/or consumer laws"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to promotion strategies or consumer laws"
+        }
+      ],
+      "sampleAnswer": "The company may use advertising such as brochures, TV and parenting magazines to promote their toys. They must follow consumer laws. These laws prohibit deceptive and misleading advertising such as fine print that is difficult to read and unsubstantiated data of the educational benefits of their products. The company should comply with consumer laws or risk financial penalties such as fines or even prosecution through the courts.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(a)(i)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–24. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Describe ONE monetary reward that could be offered during the recruitment process.",
+      "stimulus": "A business has been rapidly expanding and requires additional staff.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides characteristics and features of ONE monetary reward offered during the recruitment process"
+        },
+        {
+          "marks": "1",
+          "text": "Shows an understanding of ONE monetary reward"
+        }
+      ],
+      "sampleAnswer": "A salary is paid to the receptionist for the work they perform. It includes sick leave, long service leave and superannuation.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(a)(ii)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–24. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Describe ONE non-monetary reward that could be offered during the recruitment process.",
+      "stimulus": "A business has been rapidly expanding and requires additional staff.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides characteristics and features of ONE non-monetary reward offered during the recruitment process"
+        },
+        {
+          "marks": "1",
+          "text": "Shows an understanding of ONE non-monetary reward"
+        }
+      ],
+      "sampleAnswer": "Non-monetary rewards do not have financial value. An employee of the month award is recognition either publicly or within the business of the contribution the employee has made.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–24. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Outline an issue that could arise during the acquisition process.",
+      "stimulus": "A business has been rapidly expanding and requires additional staff.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms an issue that could arise during the acquisition process"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a statement about acquisition"
+        }
+      ],
+      "sampleAnswer": "One issue that may arise is the lack of suitable applicants for the position. This may result in the business not being able to fill the position with an applicant who has the appropriate skills.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–24. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "The expansion of the business has led to conflict and uncertainty in the workplace. Recommend TWO indicators that could be used by the business to measure the effectiveness of human resource management.",
+      "stimulus": "A business has been rapidly expanding and requires additional staff.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides detailed reasons in favour of TWO indicators that could be used to measure the effectiveness of human resource management"
+        },
+        {
+          "marks": "5",
+          "text": "Provides reasons in favour of TWO indicators that could be used to measure the effectiveness of human resource management"
+        },
+        {
+          "marks": "4",
+          "text": "Provides reasons in favour of ONE indicator that could be used to measure the effectiveness of human resource management AND Provides characteristics and features of ONE indicator that could be used to measure the effectiveness of human resource management"
+        },
+        {
+          "marks": "3",
+          "text": "Provides reasons in favour of effective human resource management OR Provides characteristics and features of TWO indicators"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms an indicator"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a statement about the effectiveness of human resource management"
+        }
+      ],
+      "sampleAnswer": "• Level of disputation – as there have been workplace disputes, this could indicate workers have not adjusted to the rapid expansion of the company. The company may have failed to put into place adequate training and development to cope with the expansion. Human resource management has not been effective and must prepare the staff for changes within the workplace or further disputation may occur. • Changes in staff turnover – high levels of staff turnover may indicate staff dissatisfaction with work. Human resource management needs to address the reasons why staff are leaving the business. To do this, management may conduct interviews with staff before they leave.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–24. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "How will an appreciation of the Australian dollar affect the competitive position of this business?",
+      "stimulus": "A business imports computers from China and sells them to customers in Australia.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Makes clear that the appreciation of the Australian dollar reduces costs AND affects the business’s competitive position"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about the effects of an appreciation of the Australian dollar"
+        }
+      ],
+      "sampleAnswer": "The appreciation of the Australian dollar means that the imports will be cheaper for the importing business. This enables the business to improve its competitive position.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Attempt Questions 21–24. Allow about 1 hour and 15 minutes for this section.",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Justify the method of payment that would be most effective in reducing the business’s financial risk.",
+      "stimulus": "A business imports computers from China and sells them to customers in Australia.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Supports in detail a method of payment that reduces the business’s financial risk with clear argument or conclusion"
+        },
+        {
+          "marks": "4",
+          "text": "Provides why and/or how a method of payment reduces the business’s financial risk"
+        },
+        {
+          "marks": "3",
+          "text": "Provides characteristics and features of a method of payment that reduces financial risk"
+        },
+        {
+          "marks": "2",
+          "text": "Indicates the features of a method of payment or reducing financial risk"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about a method of payment or reducing financial risk"
+        }
+      ],
+      "sampleAnswer": "The method of payment with the lowest risk for the importer is clean payment. With this method the goods will be shipped and received before the importer pays for them, which reduces risk. The risk to the importer is minimised as it allows them to inspect the goods for quality and quantity prior to payment. While this method requires the exporter to trust the importer it is an effective method to reduce the business’s risk.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "section": "III",
+      "sectionHeading": "Section III (20 marks). Attempt Question 25. Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Sportyz Goodz Ltd is a retailer that has been operating for the past 20 years in Australia. The directors have provided the following information: • In 2013 the business issued new shares on the Australian Securities Exchange and expanded its retail activities internationally. • The business is facing increasing competition. • The directors are concerned about the positioning of their product in the market. • The directors want the business to operate for the benefit of shareholders in the long term. Financial data for Sportyz Goodz are shown on the graph. The directors have asked you to write a business report in which you: • outline ONE strategic role of financial management • recommend TWO strategies to improve financial performance • explain the importance of monitoring and controlling the business’s marketing strategy.",
+      "stimulus": "[Figure: Line graph of sales and profit in millions of dollars for Sportyz Goodz from 2012 to 2017.]",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply the hypothetical business situation",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response in the form of a business report"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Sketches in general terms one strategic role of financial management ; Provides detailed reasons in favour of two appropriate strategies to improve financial performance ; Provides detailed reasons showing why and/or how monitoring and controlling the business’s marketing strategy is important ; Makes effective use of the information provided, demonstrating extensive knowledge and understanding relevant to the question ; Presents a sustained, logical and cohesive business report integrating relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Sketches in general terms one strategic role of financial management ; Provides reasons in favour of two strategies to improve financial performance ; Provides reasons showing why and/or how monitoring and controlling the business’s marketing strategy is important ; Makes some use of the information provided, demonstrating some knowledge and understanding relevant to the question ; Presents a logical and cohesive business report using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Sketches in general terms one strategic role of financial management ; Provides characteristics and features of strategy/ies to improve financial performance ; Provides characteristics and features of the importance of monitoring and controlling the business’s marketing strategy ; Includes features of a business report and uses some business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Identifies one strategic role of financial management ; Sketches in general terms financial strategy/ies ; Sketches in general terms the business’s marketing strategy ; May include some features of a business report and uses basic business terminology"
+        },
+        {
+          "marks": "1–4",
+          "text": "Refers to finance and/or marketing strategy/ies ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "strategic role of financial management",
+        "benefit shareholders in long term",
+        "new structure post float",
+        "navigate declining sales and profitability",
+        "maintain competitiveness",
+        "cash flow management",
+        "cash flow statements",
+        "distribution of payments, discounts for early payment, factoring",
+        "working capital management",
+        "control of current assets – cash, receivables, inventories",
+        "control of current liabilities – payables, loans, overdrafts",
+        "strategies – leasing, sale and lease back",
+        "profitability management",
+        "cost controls – fixed and variable, cost centres, expense minimisation",
+        "revenue controls – marketing objectives",
+        "global financial management",
+        "exchange rates",
+        "interest rates",
+        "methods of international payment – payment in advance, letter of credit, clean payment, bill of exchange",
+        "hedging",
+        "derivatives",
+        "implementation, monitoring and controlling",
+        "developing a financial forecast",
+        "comparing actual and planned results",
+        "revising the marketing strategy if necessary."
+      ],
+      "figure": {
+        "file": "bs-2017-25.png",
+        "page": 18,
+        "alt": "Line graph of sales and profit in millions of dollars for Sportyz Goodz from 2012 to 2017."
+      }
+    },
+    {
+      "number": "26",
+      "section": "IV",
+      "sectionHeading": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the response of human resource management to economic, technological and social influences.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant business case study/studies and contemporary business issues",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Draws out and clearly relates the response of human resource management to economic, technological and social influences ; Applies relevant case study/studies and contemporary business issues ; Presents a sustained, logical and cohesive response and communicates clearly using relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Makes evident the response of human resource management to economic, technological and social influences ; Uses relevant case study/studies and contemporary business issues ; Presents a logical and cohesive response using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides characteristics and features of economic, technological and social influences on human resource management ; May make reference to case study/studies and contemporary business issues ; Communicates using business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Sketches in general terms economic and/or technological and/or social influences ; May make reference to case study/studies and/or contemporary business issues ; Communicates using some business terminology and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Makes limited reference to human resource management ; May identify case study/studies ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "economic",
+        "economic cycle",
+        "structural change",
+        "globalisation",
+        "technological",
+        "telecommuting, new communications technologies",
+        "virtual teams",
+        "disruptive technologies",
+        "social – changing work patterns, living standards",
+        "career flexibility",
+        "job mobility",
+        "changing female participation rates",
+        "aging workforce",
+        "changing retirement age",
+        "living standards",
+        "work/life balance."
+      ]
+    },
+    {
+      "number": "27",
+      "section": "IV",
+      "sectionHeading": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the effect of globalisation on operations management.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant business case study/studies and contemporary business issues",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Draws out and clearly relates the effect of globalisation to operations management ; Applies relevant case study/studies and contemporary business issues ; Presents a sustained, logical and cohesive response and communicates clearly using relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Makes evident the relationship between the effect of globalisation and operations management ; Uses relevant case study/studies and contemporary business issues ; Presents a logical and cohesive response using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides characteristics and features of the effect of globalisation on operations management ; May make reference to case study/studies and contemporary business issues ; Communicates using business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Sketches in general terms globalisation and/or operations management ; May make reference to case study/studies and/or contemporary business issues ; Communicates using some business terminology and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Makes limited reference to operations management or globalisation ; May identify case study/studies ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "role of operations management",
+        "strategic role of operations management",
+        "cost leadership",
+        "goods/services differentiation",
+        "goods and/or services in different industries",
+        "interdependence with other key business functions",
+        "global factors",
+        "global sourcing",
+        "economies of scale",
+        "scanning and learning",
+        "research and development."
+      ]
+    }
+  ],
+  "edits": [
+    "25: a [Figure: …] line added to the stimulus, which was empty in the extract.",
+    "sectionHeading: the cover wording (marks, questions, time) in place of \"Section II\" etc.",
+    "21(a) and 22(a) and 23(c): an OR/AND left between bullets that NESA prints on separate lines, joined as one bullet."
+  ]
+}
