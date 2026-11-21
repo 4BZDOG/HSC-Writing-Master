@@ -15,6 +15,7 @@ import StrategyBrief from './StrategyBrief';
 import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
 import MeshOverlay from './MeshOverlay';
 import { PANEL_ROW_MIN_H } from '../utils/panelStyles';
+import { cardHeaderWash } from '../utils/cardChrome';
 import {
   RIBBON_DRAWER,
   RIBBON_PAGER,
@@ -59,8 +60,8 @@ import {
   RIBBON_HEADER_CHEVRON_SHUT,
   RIBBON_HEADER_SUBLABEL,
   RIBBON_HEADER_TILE,
-  RIBBON_HEADER_TILE_NEUTRAL,
   RIBBON_HEADER_TITLE,
+  RIBBON_MINI_BAR_LIT,
   RIBBON_MINI_BAR_UNLIT,
   RIBBON_MINI_STAIR,
   RIBBON_PANEL,
@@ -182,6 +183,12 @@ const NEUTRAL_RGB = '100 116 139';
 /** The same neutral as TEXT on the light stage: slate-600, where the slate-500
  *  above is 4.5 on white and no more. */
 const NEUTRAL_INK_RGB = '71 85 105';
+
+/** The header's fill when no verb is chosen: `cardHeaderWash`'s shape (flat at the
+ *  left, a shade towards the right) over the neutral slate-600, so white ink clears
+ *  4.5:1 on it as it does on the six tier washes. Kept in step with `cardHeaderWash`
+ *  by hand, because that helper takes a band. */
+const NEUTRAL_HEADER_WASH = `linear-gradient(90deg, rgb(0 0 0 / 0) 40%, rgb(0 0 0 / 0.2) 100%), rgb(${NEUTRAL_INK_RGB})`;
 
 /**
  * The stage's light, as two pools: one top left behind the verb, one low on the
@@ -661,16 +668,6 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
     ? sortedVerbsByGroup.find((group) => group.tier === activeTermInfo.tier)
     : undefined;
 
-  // The tier is carried by the 32px tile while the ribbon is shut, and by the
-  // lit stage once it is open. `solidText` rather than `text-white` because
-  // tier 3's fill is yellow — that is the pairing `getBandConfig` returns a
-  // `solidText` field for, and white on it is 1.9:1. The `border-white/20` sits
-  // on a solid tier fill, so it reads the same in both themes; the neutral
-  // branch is a white-alpha well on the stage's own ground.
-  const headerTileClass = activeConfig
-    ? `${activeConfig.solidBg} ${activeConfig.solidText} border-white/45`
-    : RIBBON_HEADER_TILE_NEUTRAL;
-
   return (
     // The hero. A stage with a palette per theme — spotlit near-black in the dark
     // theme, a soft light sheet in the light one — with a tier-lit edge and a glow
@@ -756,9 +753,17 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
           aria-controls={panelId}
           aria-label={`${isOpen ? 'Collapse' : 'Expand'} the HSC command verb hierarchy reference`}
           className={`${RIBBON_HEADER_BAR} ${PANEL_ROW_MIN_H}`}
+          // The same filled band as the workspace card headers, in both themes:
+          // the tier's wash when a verb is chosen, the neutral one when not. Inline
+          // because it is a gradient of a per-tier colour, which no class can hold.
+          style={{ background: activeTier ? cardHeaderWash(activeTier) : NEUTRAL_HEADER_WASH }}
         >
-          <div className="flex items-center gap-4 min-w-0">
-            <div className={`${RIBBON_HEADER_TILE} ${headerTileClass}`}>
+          {/* The card headers' mesh, as they wear it. `plain` rather than the default:
+            the default blends, and this bar sits in a stage that fades and rises
+            beside it, where a blend mode is what drops frames (see MeshOverlay). */}
+          <MeshOverlay plain opacity="opacity-10" />
+          <div className="relative z-10 flex items-center gap-4 min-w-0">
+            <div className={RIBBON_HEADER_TILE}>
               <Layers className="w-4 h-4" />
             </div>
             <div className="text-left min-w-0">
@@ -776,7 +781,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-4 shrink-0">
+          <div className="relative z-10 flex items-center gap-4 shrink-0">
             {activeTermInfo && (
               <>
                 {/* Said in words only while the ribbon is shut. Open, the verb is
@@ -796,16 +801,10 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                   {TIER_STEPS.map((step) => (
                     <span
                       key={step}
-                      // The lit bars are the tier's own colour in both themes;
-                      // the unlit ones are a class, because white alpha reads
-                      // on the dark bar and is invisible on the white one.
-                      className={`w-1 rounded-full ${step <= (capTier ?? 0) ? '' : RIBBON_MINI_BAR_UNLIT}`}
-                      style={{
-                        height: `${5 + (step - 1) * 2.2}px`,
-                        ...(step <= (capTier ?? 0)
-                          ? { backgroundColor: `rgb(${getBandRgb(step)})` }
-                          : {}),
-                      }}
+                      // Lit bars are white and unlit ones white at a third: on a
+                      // filled bar the tier's own colour would sit on its own fill.
+                      className={`w-1 rounded-full ${step <= (capTier ?? 0) ? RIBBON_MINI_BAR_LIT : RIBBON_MINI_BAR_UNLIT}`}
+                      style={{ height: `${5 + (step - 1) * 2.2}px` }}
                     />
                   ))}
                 </span>

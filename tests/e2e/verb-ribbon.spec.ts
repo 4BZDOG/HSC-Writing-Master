@@ -115,14 +115,13 @@ test.describe('the verb ribbon’s tier cards', () => {
     }
   });
 
-  // The ribbon was dark in both themes: a dark banner, then a near-black stage,
-  // between a white page and a white drawer. The banner was fixed first; the stage
-  // was a 440px slab of the page's darkest colour and read as abrasive in the light
-  // theme. It now has a soft light palette there — and the dark theme is exactly
-  // what it was. Contrast alone cannot say either: `light-theme.spec.ts` warns that
-  // "a header that reads as a dark slab beside its light twin has fine contrast and
-  // is still wrong", so this reads the computed colours.
-  test('is light in the light theme, banner and stage both, and dark in the dark', async ({
+  // The banner is a filled band in BOTH themes: the tier's wash, the one the workspace
+  // card headers wear, with white ink on it. The stage under it keeps its own palette:
+  // a soft light sheet in the light theme (it was a near-black slab, which read as
+  // abrasive beside the white panels) and the near-black spotlight in the dark. Contrast
+  // alone cannot say whether a surface reads as the right kind of thing, so this reads
+  // the computed colours as well.
+  test('is a filled band in both themes, white ink on it, and the stage light in the light and dark in the dark', async ({
     page,
   }) => {
     await openWorkspace(page);
@@ -185,6 +184,7 @@ test.describe('the verb ribbon’s tier cards', () => {
         ) as HTMLElement;
         return {
           banner: luminance(getComputedStyle(toggle).backgroundColor),
+          bannerImage: getComputedStyle(toggle).backgroundImage,
           title: luminance(getComputedStyle(title).color),
           sublabel: luminance(getComputedStyle(sublabel).color),
           stage: luminance(getComputedStyle(root).backgroundColor),
@@ -207,15 +207,30 @@ test.describe('the verb ribbon’s tier cards', () => {
       return read();
     };
 
+    // The same fill in both themes: a gradient over the band's dark ink step, so the
+    // flat colour under it is what white must clear. White clears 4.5:1 on a ground at
+    // or below relative luminance 0.183, so that is the line the banner is held to.
+    for (const theme of ['light', 'dark'] as const) {
+      await setTheme(theme);
+      const reading = await readSettled();
+      expect(reading.bannerImage, `${theme}: the banner is not the band wash`).toContain(
+        'linear-gradient'
+      );
+      expect(reading.banner!.alpha, `${theme}: the banner is see-through`).toBe(1);
+      expect(
+        reading.banner!.l,
+        `${theme}: the banner's fill is too light for white ink (${reading.banner!.l.toFixed(3)})`
+      ).toBeLessThanOrEqual(0.183);
+      expect(reading.title!.l, `${theme}: the title is not white on the banner`).toBeGreaterThan(
+        0.9
+      );
+      expect(reading.sublabel!.l, `${theme}: the sub-label is not white`).toBeGreaterThan(0.9);
+    }
+
     await setTheme('light');
     const light = await readSettled();
-    // A light bar: opaque and near white, with dark ink on it.
-    expect(light.banner!.alpha, 'the light banner is see-through').toBe(1);
-    expect(light.banner!.l, 'the light banner is not light').toBeGreaterThan(0.8);
-    expect(light.title!.l, 'the title is not dark ink on it').toBeLessThan(0.1);
-    expect(light.sublabel!.l, 'the sub-label is not dark ink on it').toBeLessThan(0.25);
-    // The stage under it is a soft light ground, no longer the near-black slab —
-    // and not pure white, or it would have no edge against the banner and the drawer.
+    // The stage under the banner is a soft light ground, not the near-black slab, and
+    // not pure white, or it would have no edge against the banner and the drawer.
     expect(light.stage!.l, 'the light stage is still dark').toBeGreaterThan(0.9);
     expect(light.stage!.l, 'the light stage is indistinguishable from white').toBeLessThan(1);
     // Dark ink on it, and a tier-coloured figure darker than the dark stage's.
@@ -226,10 +241,6 @@ test.describe('the verb ribbon’s tier cards', () => {
 
     await setTheme('dark');
     const dark = await readSettled();
-    // The dark banner is the stage itself, seen through: transparent, white ink.
-    expect(dark.banner!.alpha, 'the dark banner is a fill, not the stage').toBeLessThan(0.05);
-    expect(dark.title!.l, 'the title is not white on the dark banner').toBeGreaterThan(0.9);
-    expect(dark.sublabel!.l).toBeGreaterThan(0.5);
     // The dark stage is the near-black it always was, with white ink.
     expect(dark.stage!.l, 'the dark stage moved').toBeLessThan(0.02);
     expect(dark.verb!.l, 'the verb is not white on the dark stage').toBeGreaterThan(0.9);

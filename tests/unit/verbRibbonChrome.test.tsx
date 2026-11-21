@@ -27,7 +27,6 @@ import {
   RIBBON_HEADER_CHEVRON_SHUT,
   RIBBON_HEADER_SUBLABEL,
   RIBBON_HEADER_TILE,
-  RIBBON_HEADER_TILE_NEUTRAL,
   RIBBON_HEADER_TITLE,
   RIBBON_INK_AURA,
   RIBBON_INK_AURA_LEAVING,
@@ -52,6 +51,7 @@ import {
   RIBBON_INK_VERB_GLOW,
   RIBBON_INK_VERB_RULE,
   RIBBON_INK_VERB_STAGE,
+  RIBBON_MINI_BAR_LIT,
   RIBBON_MINI_BAR_UNLIT,
   RIBBON_MINI_STAIR,
   RIBBON_PANEL,
@@ -276,9 +276,9 @@ describe('the stage draws every colour from one palette, for both themes', () =>
     const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
 
     const drawer = container.querySelector(`[class="${RIBBON_DRAWER}"]`) as HTMLElement;
-    // The banner is NOT the stage: it is a themed bar (see RIBBON_HEADER_BAR),
-    // held to the opposite rule by the block below. So it is skipped here, as the
-    // drawer is — the stage is what is between them.
+    // The banner is NOT the stage: it is a filled band of its own (see
+    // RIBBON_HEADER_BAR), held to the opposite rule by the block below. So it is
+    // skipped here, as the drawer is — the stage is what is between them.
     const banner = getToggle();
     const themed = /(^|\s)[^\s]*(light|dark):|--color-/;
     const offenders = Array.from(container.querySelectorAll('*'))
@@ -454,16 +454,20 @@ describe('the header carries the tier while the ribbon is shut', () => {
     expect(title.className).toContain('truncate');
   });
 
-  it('carries the tier on the icon tile, paired the way getBandConfig intends', () => {
+  it('carries the tier in the bar’s own fill, with the glass tile over it', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
     const tile = container.querySelector(`[class*="${RIBBON_HEADER_TILE}"]`) as HTMLElement;
 
-    // Tier 3's solid fill is yellow; `text-white` on it is 1.92:1, which is why
-    // the tile wears the config's own `solidText`. `-950`, not `-900`: see the
-    // note on `getBandConfig`'s band 3 and the pin in `bandColors.test.ts`.
-    expect(tile.className).toContain('bg-yellow-500');
-    expect(tile.className).toContain('text-yellow-950');
-    expect(tile.className).not.toContain('text-white');
+    // The tile no longer repeats the tier in its own fill: it is white glass, which
+    // reads on every tier, and the tier is the header's wash (tier 3 here).
+    expect(tile.className).toContain('text-white');
+    expect(tile.className).not.toContain('bg-yellow-500');
+    expect(tile.className).not.toContain('text-yellow-950');
+    // The fill is the tier's wash: its flat stop is the tier's ink step (jsdom keeps
+    // only the flat colour of a gradient; the gradient itself is read in a browser).
+    expect(getToggle().style.background).toContain(
+      `rgb(${getBandInkRgb(3).split(' ').join(', ')})`
+    );
   });
 
   // Open, the verb is set at poster scale a few inches below, and a chip
@@ -494,15 +498,13 @@ describe('the header carries the tier while the ribbon is shut', () => {
     // CLASS, because the colour that reads on the dark bar (white alpha) is
     // invisible on the white one.
     bars.forEach((bar, index) => {
+      // White on the fill, lit or not: the tier is the fill, so a bar in the tier's
+      // own colour would sit on it and vanish.
+      expect(bar.style.backgroundColor).toBe('');
       if (index < 3) {
-        expect(bar.style.backgroundColor).toBe(
-          `rgb(${getBandRgb(index + 1)
-            .split(' ')
-            .join(', ')})`
-        );
+        expect(bar.className).toContain(RIBBON_MINI_BAR_LIT);
         expect(bar.className).not.toContain(RIBBON_MINI_BAR_UNLIT);
       } else {
-        expect(bar.style.backgroundColor).toBe('');
         expect(bar.className).toContain(RIBBON_MINI_BAR_UNLIT);
       }
     });
@@ -1138,6 +1140,19 @@ describe('the drawer carries both themes', () => {
     return isColour ? property : null;
   };
 
+  const BANNER_SAME_IN_BOTH_THEMES = new Set([
+    'RIBBON_HEADER_BAR',
+    'RIBBON_HEADER_TILE',
+    'RIBBON_HEADER_TITLE',
+    'RIBBON_HEADER_SUBLABEL',
+    'RIBBON_HEADER_CHEVRON_OPEN',
+    'RIBBON_HEADER_CHEVRON_SHUT',
+    'RIBBON_SELECTED_LABEL',
+    'RIBBON_SELECTED_CHIP',
+    'RIBBON_MINI_BAR_LIT',
+    'RIBBON_MINI_BAR_UNLIT',
+  ]);
+
   it('gives every colour on a theme surface a light value and a dark partner', () => {
     for (const [name, value] of Object.entries(verbRibbonChrome)) {
       if (typeof value !== 'string') continue;
@@ -1155,6 +1170,10 @@ describe('the drawer carries both themes', () => {
       // saturated header, so they are the same colour in both themes as well. They
       // are pinned for contrast in the legibility block below.
       if (name === 'RIBBON_TIER_ICON_SELECTED' || name === 'RIBBON_TIER_BAND_SELECTED') continue;
+      // The banner is one filled band in both themes: its white ink, glass tile and
+      // white mini-stair have no second ground to partner them for. Pinned as one
+      // fill in the banner blocks above.
+      if (BANNER_SAME_IN_BOTH_THEMES.has(name)) continue;
 
       const tokens = value.split(/\s+/).filter(Boolean);
       const themed = new Set(
@@ -1690,21 +1709,21 @@ describe('the ribbon asks nothing of a phone that it cannot afford', () => {
     expect(RIBBON_VERB_CHIP).toContain('max-sm:min-h-11');
     expect(RIBBON_INK_STAIR_STEP).toContain('active:scale-[0.96]');
     expect(RIBBON_INK_STAIR_STEP).toContain('transition-transform');
-    expect(RIBBON_HEADER_BAR).toContain('active:bg-slate-200');
-    expect(RIBBON_HEADER_BAR).toContain('dark:active:bg-white/[0.07]');
+    // The press darkens the fill, on any tier, rather than painting over it.
+    expect(RIBBON_HEADER_BAR).toContain('active:brightness-95');
+    expect(RIBBON_HEADER_BAR).toContain('can-hover:hover:brightness-110');
   });
 
-  it('tints the header bar with the tier in the light theme only', () => {
+  it('takes its fill from the band wash, not from a class or a CSS rule', () => {
     expect(RIBBON_HEADER_BAR).toContain('ribbon-bar');
+    // The fill is an inline gradient of the tier's colour, so no background class
+    // can be on the bar: one would sit under the inline style and never show.
+    expect(RIBBON_HEADER_BAR).not.toMatch(/(^|\s)(dark:)?bg-/);
+    // And the light-only gradient that used to tint it is gone from the stylesheet,
+    // with no theme-less rule to take over the dark bar.
     const css = readFileSync('index.css', 'utf8');
-    const light = ruleBody(css, "[data-theme='light'] .ribbon-bar");
-    expect(light, 'the light bar has no rule').toBeTruthy();
-    // Drawn from the stage's hue at an alpha that leaves slate text far above 4.5:1
-    // (the strongest stop is 30% of the tier over white), with a tier-coloured foot.
-    expect(light).toMatch(/linear-gradient\([^)]*rgb\(var\(--band-rgb\) \/ 0\.3\) 0%/);
-    expect(light).toMatch(/box-shadow:\s*inset 0 -2px 0 rgb\(var\(--band-rgb\) \/ 1\)/);
-    // No theme-less rule, so the dark bar keeps being the stage.
-    expect(css).not.toMatch(/^\.ribbon-bar\s*\{/m);
+    expect(css).not.toMatch(/\[data-theme='light'\]\s*\.ribbon-bar/);
+    expect(css).not.toMatch(/\.ribbon-bar\s*\{/);
   });
 
   it('transitions only the properties it names, on curves that do not overshoot', () => {
@@ -1825,7 +1844,7 @@ describe('the ribbon asks nothing of a phone that it cannot afford', () => {
 });
 
 /**
- * The banner is light in the light theme.
+ * The banner is a filled band in both themes.
  *
  * The ribbon's header was part of the dark stage in BOTH themes, which in the
  * light theme made it a dark slab above a page of white panels whose headers are
@@ -1833,25 +1852,28 @@ describe('the ribbon asks nothing of a phone that it cannot afford', () => {
  * perfectly legible, so no contrast check could say so: `light-theme.spec.ts`
  * says as much itself, "a header that reads as a dark slab beside its light twin
  * has fine contrast and is still wrong". Only the stage below it is dark in both
- * themes now, because that is the hero; the banner is an ordinary themed bar.
+ * themes now, because that is the hero. The banner is a filled band in both themes,
+ * the card headers' own wash, so it is no longer the slab the comment above warns of.
  *
  * jsdom has no stylesheet, so what is pinned here is the class vocabulary and its
  * pairing; `tests/e2e/verb-ribbon.spec.ts` reads the computed colours in a real
  * browser in both themes.
  */
-describe('the banner is a themed bar, light in the light theme', () => {
-  it('is opaque and white in the light theme, and lets the stage’s light through in the dark', () => {
-    // Opaque in the light theme, which also hides the part of the aura and mesh
-    // that would otherwise tint it; see-through in the dark one, where the aura
-    // falling through the bar is the look.
-    expect(RIBBON_HEADER_BAR).toMatch(/(^|\s)bg-white(\s|$)/);
-    expect(RIBBON_HEADER_BAR).toContain('dark:bg-white/0');
-    // A hover and a press that exist in both themes, on a device that can hover.
-    expect(RIBBON_HEADER_BAR).toContain('can-hover:hover:bg-slate-100');
-    expect(RIBBON_HEADER_BAR).toContain('dark:can-hover:hover:bg-white/[0.04]');
-    // A focus ring that exists in both themes: slate on white, white on dark.
-    expect(RIBBON_HEADER_BAR).toContain('focus-visible:ring-slate-900/40');
-    expect(RIBBON_HEADER_BAR).toContain('dark:focus-visible:ring-white/70');
+describe('the banner is a filled band, the same in both themes', () => {
+  it('is opaque in both themes, and the fill is the same in both', () => {
+    // Filled in both themes: the bar no longer goes transparent in the dark, so
+    // the stage's light does not fall through it, and no `dark:` variant names a
+    // different ground.
+    expect(RIBBON_HEADER_BAR).not.toMatch(/(^|\s)dark:(bg|shadow|ring)/);
+    // A hover and a press that read on a solid fill, on a device that can hover.
+    expect(RIBBON_HEADER_BAR).toContain('can-hover:hover:brightness-110');
+    expect(RIBBON_HEADER_BAR).toContain('active:brightness-95');
+    // A focus ring that is white in both themes, on the fill.
+    expect(RIBBON_HEADER_BAR).toContain('focus-visible:ring-white/80');
+    expect(RIBBON_HEADER_BAR).not.toContain('ring-slate');
+    // The mesh the card headers wear sits behind the content, and the bar is the
+    // containing block for it.
+    expect(RIBBON_HEADER_BAR).toMatch(/(^|\s)relative(\s|$)/);
   });
 
   it('is not a stage constant, and so is not held to the stage’s one ground', () => {
@@ -1860,21 +1882,26 @@ describe('the banner is a themed bar, light in the light theme', () => {
     // forbids themes — so the names are pinned, in both directions.
     for (const name of [
       'RIBBON_HEADER_BAR',
+      'RIBBON_HEADER_TILE',
       'RIBBON_HEADER_TITLE',
       'RIBBON_HEADER_SUBLABEL',
       'RIBBON_SELECTED_LABEL',
       'RIBBON_SELECTED_CHIP',
+      'RIBBON_MINI_BAR_LIT',
       'RIBBON_MINI_BAR_UNLIT',
+      'RIBBON_HEADER_CHEVRON_OPEN',
+      'RIBBON_HEADER_CHEVRON_SHUT',
     ]) {
       expect(name.startsWith('RIBBON_INK_')).toBe(false);
       expect(
         (verbRibbonChrome as Record<string, unknown>)[name],
         `${name} is not exported`
       ).toBeTypeOf('string');
+      // One fill in both themes, so nothing on the banner switches with the theme.
       expect(
         (verbRibbonChrome as unknown as Record<string, string>)[name],
-        `${name} has no dark: partner`
-      ).toMatch(/(^|\s)dark:/);
+        `${name} has a dark: variant, and the banner is the same in both themes`
+      ).not.toMatch(/(^|\s)dark:/);
     }
     for (const stale of [
       'RIBBON_INK_HEADER_BAR',
@@ -1893,21 +1920,20 @@ describe('the banner is a themed bar, light in the light theme', () => {
     // The root is `text-white` for the stage below, so any banner text that names
     // no colour inherits white — which on the white banner is invisible. Every one
     // of them says dark ink for the light theme and white or slate-300 for the dark.
-    expect(RIBBON_HEADER_TITLE).toContain('text-slate-900');
-    expect(RIBBON_HEADER_TITLE).toContain('dark:text-white');
+    // Solid white, not `white/60`: a translucent white composites towards the
+    // band's ink and fails on the yellow tier (see CARD_HEADER_META).
+    expect(RIBBON_HEADER_TITLE).toMatch(/(^|\s)text-white(\s|$)/);
     for (const value of [RIBBON_HEADER_SUBLABEL, RIBBON_SELECTED_LABEL]) {
-      expect(value).toContain('text-slate-600');
-      expect(value).toContain('dark:text-slate-300');
+      expect(value).toMatch(/(^|\s)text-white(\s|$)/);
+      expect(value).not.toMatch(/text-white\//);
     }
-    expect(RIBBON_SELECTED_CHIP).toContain('text-slate-900');
-    expect(RIBBON_SELECTED_CHIP).toContain('dark:text-white');
-    // The chip's wash is a lighter one of the tier's hue on white and the deeper
-    // one on the dark bar, each from the same `--band-rgb`.
-    expect(RIBBON_SELECTED_CHIP).toContain('bg-[rgb(var(--band-rgb)/0.3)]');
-    expect(RIBBON_SELECTED_CHIP).toContain('dark:bg-[rgb(var(--band-rgb)/0.32)]');
+    expect(RIBBON_SELECTED_CHIP).toMatch(/(^|\s)text-white(\s|$)/);
+    // The chip is a dark glass pill on the fill, with a white edge: a dark wash keeps
+    // the white ink's ground dark on every tier (a white one lifts it).
+    expect(RIBBON_SELECTED_CHIP).toContain('bg-black/20');
+    expect(RIBBON_SELECTED_CHIP).toContain('border-white/40');
     for (const value of [RIBBON_HEADER_CHEVRON_OPEN, RIBBON_HEADER_CHEVRON_SHUT]) {
-      expect(value).toMatch(/(^|\s)text-slate-\d00(\s|$)/);
-      expect(value).toMatch(/(^|\s)dark:text-/);
+      expect(value).toMatch(/(^|\s)text-white(\s|$)/);
     }
 
     render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
@@ -1920,36 +1946,32 @@ describe('the banner is a themed bar, light in the light theme', () => {
     ];
     for (const word of words) {
       expect(banner.contains(word)).toBe(true);
-      expect(word.className, `"${word.textContent}" names no colour`).toMatch(
-        /(^|\s)text-(slate|white)/
+      expect(word.className, `"${word.textContent}" is not solid white`).toMatch(
+        /(^|\s)text-white(\s|$)/
       );
-      expect(word.className).toMatch(/(^|\s)dark:text-/);
     }
   });
 
-  it('draws the unlit bars and the neutral tile from a themed pair', () => {
-    // White alpha reads on the dark bar and is invisible on the white one, so the
-    // two things that used it are classes with a partner now.
-    expect(RIBBON_MINI_BAR_UNLIT).toContain('bg-slate-300');
-    expect(RIBBON_MINI_BAR_UNLIT).toContain('dark:bg-white/20');
-    for (const token of ['bg-slate-100', 'text-slate-600', 'border-slate-300']) {
-      expect(RIBBON_HEADER_TILE_NEUTRAL).toContain(token);
-    }
-    for (const token of ['dark:bg-white/10', 'dark:text-slate-300', 'dark:border-white/15']) {
-      expect(RIBBON_HEADER_TILE_NEUTRAL).toContain(token);
+  it('draws the mini staircase in white on the fill, and the tile as the glass one', () => {
+    // White on the tier's fill: lit at full, unlit at a third.
+    expect(RIBBON_MINI_BAR_LIT).toBe('bg-white');
+    expect(RIBBON_MINI_BAR_UNLIT).toBe('bg-white/30');
+    // The glass tile the card headers wear, in both states.
+    for (const token of ['bg-white/20', 'border-white/30', 'text-white']) {
+      expect(RIBBON_HEADER_TILE).toContain(token);
     }
 
-    // With no verb chosen the tile is neutral; with one it is the tier's solid
-    // pair — which reads the same on either bar — and the neutral is gone.
+    // With no verb chosen the tile is the same glass tile; with one it is too, and
+    // the tier's solid pair is gone, because the tier colour lives on the bar.
     const { container, unmount } = render(<CommandVerbHierarchy />);
     const neutral = container.querySelector(`[class*="${RIBBON_HEADER_TILE}"]`) as HTMLElement;
-    expect(neutral.className).toContain(RIBBON_HEADER_TILE_NEUTRAL);
+    expect(neutral.className).toContain(RIBBON_HEADER_TILE);
     unmount();
 
     const lit = render(<CommandVerbHierarchy currentVerb={'IDENTIFY' as PromptVerb} />);
     const tile = lit.container.querySelector(`[class*="${RIBBON_HEADER_TILE}"]`) as HTMLElement;
-    expect(tile.className).not.toContain(RIBBON_HEADER_TILE_NEUTRAL);
-    expect(tile.className).toContain(getTierScaleConfig(1).solidBg);
+    expect(tile.className).toContain('bg-white/20');
+    expect(tile.className).not.toContain(getTierScaleConfig(1).solidBg);
   });
 
   it('turns the chevron over, and re-inks it, with the state', () => {
@@ -2417,3 +2439,35 @@ const textHex = (theme: 'dark' | 'light', tier: number): string => {
 };
 
 const escapeRe = (text: string): string => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+/**
+ * The banner's fill and the ink on it. The band wash is the card headers' own
+ * (`cardHeaderWash`), so the bar clears 4.5:1 for white in the same way they do;
+ * the neutral fill is slate-600, which the header paints when no verb is chosen.
+ */
+describe('the banner’s white ink clears 4.5:1 on its fill', () => {
+  it.each([1, 2, 3, 4, 5, 6])('tier %i: white on the band wash, at its flat left stop', (tier) => {
+    // The wash darkens towards the right, so the flat left stop is the worst case.
+    expect(contrast('255 255 255', getBandInkRgb(tier))).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it('the neutral fill is slate-600, and white clears 4.5:1 on it', () => {
+    const hex = colors.slate[600];
+    const triplet = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(' ');
+    expect(triplet).toBe('71 85 105');
+    expect(contrast('255 255 255', triplet)).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it('paints the tier’s wash when a verb is chosen, and the neutral one when not', () => {
+    const { unmount } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+    // jsdom keeps the flat colour of a gradient and drops the rest, so this reads
+    // the colour; the gradient's shape is in `cardHeaderWash` and in the browser.
+    expect(getToggle().style.background).toContain(
+      `rgb(${getBandInkRgb(3).split(' ').join(', ')})`
+    );
+    unmount();
+
+    render(<CommandVerbHierarchy />);
+    expect(getToggle().style.background).toContain('rgb(71, 85, 105)');
+  });
+});
