@@ -20,7 +20,7 @@
 
 /**
  * The writing card's own chrome, measured in Chromium at 1600×1000 with the
- * strategy row folded: an 82px header, a 35px strategy row and a 73px metrics
+ * strategy row folded: a 94px header, a 35px strategy row and a 73px metrics
  * footer.
  *
  * Worth keeping as a measurement rather than a feeling, because it has moved
@@ -28,7 +28,7 @@
  * 96px reserved beneath it, and the two headers ran to ~130px before they were
  * rebuilt from one shared vocabulary.
  */
-const WRITING_CARD_CHROME = 190;
+const WRITING_CARD_CHROME = 202;
 
 /**
  * The smallest writing surface worth offering — roughly six lines of 18px
@@ -43,7 +43,7 @@ const MIN_WRITING_SURFACE = 240;
  *
  * That number was derived when the writing card's chrome ran to ~375px and the
  * floating Evaluate button needed 96px of clearance under it. Both are gone —
- * the chrome is now 190px — so the floor was holding a one-line question in a
+ * the chrome is now 202px — so the floor was holding a one-line question in a
  * card two hundred pixels taller than anything in it, with the empty space
  * mirrored on the writing side. It is derived from the parts now, so trimming
  * the chrome again trims the floor with it.
