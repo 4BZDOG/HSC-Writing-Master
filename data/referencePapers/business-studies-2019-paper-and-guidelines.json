@@ -1,0 +1,531 @@
+{
+  "year": 2019,
+  "course": "Business Studies",
+  "papers": [
+    "2019-hsc-business-studies.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "section": "I",
+      "reason": "Section I is multiple choice (Questions 1–20); not extracted."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Describe ONE factor influencing customer choice for this business.",
+      "stimulus": "A business sells luxury cars. The cars are stylish, high performance and include advanced safety features integrating leading edge technology.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides characteristics and features of ONE factor influencing customer choice for this business"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms ONE factor influencing customer choice for this business"
+        },
+        {
+          "marks": "1",
+          "text": "Recognises a factor influencing customer choice for this business"
+        }
+      ],
+      "sampleAnswer": "Sociocultural features include the influences exerted by peers, family and the social class of the customer. For this business, customers of a high social class would likely purchase an expensive car that has improved safety and performance aspects of the vehicle. Peers and family would also influence the choice as the customer would want to ‘fit in’ with their expectations. High-income earners may also be influenced by peers to purchase a high-end vehicle that is a status symbol.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Explain the interdependence between marketing and finance for this business.",
+      "stimulus": "A business sells luxury cars. The cars are stylish, high performance and include advanced safety features integrating leading edge technology.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Clearly provides why and how marketing and finance are interdependent for this business"
+        },
+        {
+          "marks": "3",
+          "text": "Provides why and/or how marketing and finance are interdependent for this business"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms how marketing and finance are interdependent for this business"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information about marketing and/or finance"
+        }
+      ],
+      "sampleAnswer": "Interdependence is the mutual reliance of one function on another in order to meet the goals of the business. For this business, finance will provide marketing with funds to undertake market research and develop a marketing plan to ensure strategies are put in place to attract customers and persuade them to buy the prestigious car. This will generate sales and therefore revenue for finance, who will be responsible for budgeting for the whole business including providing funds to marketing for the research. Together marketing and finance will ensure the business goals are achieved.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21(c)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Why is it important for this business to conduct market research?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Clearly shows why market research is important for this business"
+        },
+        {
+          "marks": "3",
+          "text": "Shows why market research is important for this business"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches market research in general terms"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information about market research"
+        }
+      ],
+      "sampleAnswer": "Market research is the process of collecting, recording and analysing information. It is important as it allows the business to be well informed about the target market’s needs and wants and allows this business to implement effective marketing strategies. High end luxury cars would attract a high price. Market research will ensure the marketing strategies are targeted at a high socioeconomic group, in an affluent area. Without accurate research it may be impossible for this business to achieve its marketing objectives of a strong position in the market and increase sales.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline ONE ethical issue related to the preparation of financial reports.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms ONE ethical issue related to the preparation of financial reports"
+        },
+        {
+          "marks": "1",
+          "text": "Recognises ONE ethical issue related to the preparation of financial reports"
+        }
+      ],
+      "sampleAnswer": "An ethical issue related to the preparation of financial reports may be that businesses overestimate their revenue and understate their expenditure to give a false impression of their profitability. This false impression gives an inaccurate picture and may encourage investors to invest in a business which appears to be in a stronger financial position than it actually is.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain ONE advantage of debt financing.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides why and/or how debt finance is an advantage"
+        },
+        {
+          "marks": "2",
+          "text": "Provides characteristics and features of ONE advantage of debt financing"
+        },
+        {
+          "marks": "1",
+          "text": "Recognises ONE advantage of debt financing"
+        }
+      ],
+      "sampleAnswer": "Debt financing can provide advantages to a business. An advantage is that interest, fees and charges are tax deductible as they are expenses of the business. By using debt financing, the business pays less in tax, which may lead to greater profits.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(c)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain ONE disadvantage of equity financing.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides why and/or how equity finance is an disadvantage"
+        },
+        {
+          "marks": "2",
+          "text": "Provides characteristics and features of ONE disadvantage of equity financing"
+        },
+        {
+          "marks": "1",
+          "text": "Recognises ONE disadvantage of equity financing"
+        }
+      ],
+      "sampleAnswer": "A disadvantage associated with using equity financing is that a business uses owner’s equity or retained profits to finance its key business functions. Due to this they are unable to claim a tax deduction as no funds are borrowed. As retained profits are re-invested into the business, the investor is unable to invest in other opportunities, which may provide better returns.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline ONE employer obligation in an employment contract.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms ONE employer obligation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information about employer obligations"
+        }
+      ],
+      "sampleAnswer": "An employer obligation includes providing work for employees. Employers must adhere to minimum employment standards including paying staff the correct wages, superannuation and leave according to their employment contract.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Distinguish between awards and enterprise agreements.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a clear understanding of the differences between awards and enterprise agreements"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates an understanding of the differences between awards and enterprise agreements"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of a difference between awards and enterprise agreements OR Sketches in general terms awards and enterprise agreements"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information about awards or enterprise agreements"
+        }
+      ],
+      "sampleAnswer": "An award sets out the legally enforceable minimum terms and conditions that apply to a business or industry. Awards are handed down by Fair Work Australia. Conditions in a modern award are in addition to the minimum conditions in the National Employment Standards.\n\nAn enterprise agreement (EA) is made at the workplace level between an employer and a group of employees about terms and conditions of employment. These may be negotiated with the input of a union. An EA must pass the Better Off Overall Test (BOOT) and expires within four years.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the impact of ONE social influence on human resource management.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Makes a clear judgement on the impact of ONE social influence on human resource management"
+        },
+        {
+          "marks": "4",
+          "text": "Makes a judgement on the impact of ONE social influence on human resource management"
+        },
+        {
+          "marks": "3",
+          "text": "Provides characteristics and features of the impact of ONE social influence on human resource management"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms the impact of ONE social influence on human resource management"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The management of human resources has been significantly affected by changing work patterns such as the growth in women participating in the workforce. The trend of women re-entering the workforce, has led human resource managers to provide workplaces that offer flexible working hours to ensure work-life balance.\n\nDue to the increased number of women and casualisation in the workforce, businesses have been significantly affected through legislation and expectations. Businesses are required to provide parental, carers and family leave as well as the possibility of rewards such as affordable childcare arrangements at the workplace.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Identify TWO transforming resources used in this business.",
+      "stimulus": "A juice bar is operating in a shopping centre. The juice is served to customers in plastic cups with plastic straws. The high sales volume and quick turnover demand an efficient operations process.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies TWO transforming resources"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies ONE transforming resource"
+        }
+      ],
+      "sampleAnswer": "Human Resources, Facilities",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "How does variety impact the transformation process of this business?",
+      "stimulus": "A juice bar is operating in a shopping centre. The juice is served to customers in plastic cups with plastic straws. The high sales volume and quick turnover demand an efficient operations process.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Shows in detail how variety impacts the transformation process for this business"
+        },
+        {
+          "marks": "3",
+          "text": "Shows how variety impacts the transformation process for this business"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms the transformation process"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some information about the transformation process"
+        }
+      ],
+      "sampleAnswer": "Variety refers to the range of products made by the business. With a wide variety of juice being served the business is able to offer greater choice to customers. The variation in the transformation process may include new juice machinery, systems and procedures. This will cost the business money in terms of training and resources, therefore impacting profitability. However, this will enable the business to have a wider target market, leading to more customers, greater sales and improved profitability.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(c)",
+      "section": "II",
+      "sectionHeading": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Why might this business be reluctant to become more socially responsible?",
+      "stimulus": "A juice bar is operating in a shopping centre. The juice is served to customers in plastic cups with plastic straws. The high sales volume and quick turnover demand an efficient operations process.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides detailed reasons why this business might be reluctant to become more socially responsible"
+        },
+        {
+          "marks": "3",
+          "text": "Provides reasons why this business might be reluctant to become more socially responsible"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms how social responsibility may affect this business"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some information about social responsibility"
+        }
+      ],
+      "sampleAnswer": "This business may be reluctant in meeting its social responsibility due to the increased cost in purchasing environmentally friendly products and packaging such as biodegradable straws and cups.\n\nAdditionally, the business will need to find a new supplier for the environmentally friendly straws and cups. The cost of the new packaging may lead to an increase in the price of juice for the customers, possibly resulting in a decrease in sales.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "section": "III",
+      "sectionHeading": "Section III (20 marks). Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "You have been hired as a consultant to write a report for the owners. In your report:\n• discuss methods this business could use in the acquisition and development of staff\n• recommend TWO appropriate working capital management strategies for this business.",
+      "stimulus": "A business, Roo’s Outback Eatery Pty Ltd, is opening an additional restaurant in NSW. They plan to position the restaurant as an exclusive restaurant specialising in modern Australian food with quality customer service. The owners require assistance with the following:\n• the acquisition and development of suitable staff\n• additional funds for the day-to-day running of the business\n• the close monitoring of working capital.",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply the hypothetical business situation",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response in the form of a business report"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Provides detailed points for and/or against methods this business could use in the acquisition and development of staff ; Provides detailed reasons in favour of TWO appropriate working capital management strategies ; Makes effective use of the information provided, demonstrating extensive knowledge and understanding relevant to the question ; Presents a sustained, logical and cohesive business report integrating relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Provides points for and/or against methods this business could use in the acquisition and development of staff ; Provides reasons in favour of TWO appropriate working capital management strategies ; Makes some use of the information provided, demonstrating some knowledge and understanding relevant to the question ; Presents a logical and cohesive business report using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides characteristics and features of the methods this business could use in acquisition and/or development of staff ; Provides characteristics and features of working capital management OR reasons for ONE working capital management strategy ; Includes features of a business report and uses some business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Sketches in general terms Human Resource Management ; Sketches in general terms a financial strategy/strategies ; May include some features of a business report and uses basic business terminology"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides some relevant information about Finance and/or Human Resources Management ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Acquisition",
+        "Development",
+        "Job design – general or specific tasks",
+        "Recruitment – internal or external, general or specific skills",
+        "Training and Development – current or future skills",
+        "Performance management – development or administration",
+        "Cash-flow statements",
+        "Distribution of payments, discounts for early payments, factoring",
+        "Working capital management",
+        "Control of current assets – cash, receivables, inventories",
+        "Control of current liabilities – payables, loans, overdrafts",
+        "Strategies – leasing, sale and lease back."
+      ]
+    },
+    {
+      "number": "26",
+      "section": "IV",
+      "sectionHeading": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the relationship between market segmentation and marketing strategies.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant business case study/studies and contemporary business issues",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Draws out and clearly relates the implication of the relationship between market segmentation and marketing strategies ; Applies relevant case study/studies and contemporary business issues ; Presents a sustained, logical and cohesive response and communicates clearly using relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Makes evident the relationship between market segmentation and marketing strategies ; Uses relevant case study/studies and contemporary business issues ; Presents a logical and cohesive response using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides characteristics and features of market segmentation or marketing strategies AND sketches marketing strategies or market segmentation ; Makes reference to case study/studies and/or contemporary business issues ; Communicates using relevant business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Sketches market segmentation and/or marketing strategies in general terms ; May make reference to case study/studies and/or contemporary business issues ; Communicates using some business terminology and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Makes limited reference to Marketing ; May identify case study/studies ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Market segmentation",
+        "Product/service differentiation and positioning",
+        "Products – goods and/or services",
+        "Branding",
+        "Packaging",
+        "Price including pricing methods – cost, market, competition based",
+        "Pricing strategies – skimming, penetration, loss leaders, price points",
+        "Price and quality interaction",
+        "Promotion",
+        "Elements of the promotion mix – advertising, personal selling and relationship marketing, sales promotions, publicity and public relations",
+        "The communication process – opinion leaders, word of mouth",
+        "Place/distribution",
+        "Distribution channels",
+        "Channel choice – intensive, selective, exclusive",
+        "Physical distribution issues – transport, warehousing, inventory",
+        "People, processes and physical evidence",
+        "E-marketing",
+        "Global marketing",
+        "Global branding",
+        "Standardisation",
+        "Customisation",
+        "Global pricing",
+        "Competitive positioning."
+      ]
+    },
+    {
+      "number": "27",
+      "section": "IV",
+      "sectionHeading": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section.",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the relationship between performance objectives and operations strategies.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant business case study/studies and contemporary business issues",
+        "communicate using relevant business terminology and concepts",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Draws out and clearly relates the implications of the relationship between performance objectives and operations strategies ; Applies relevant case study/studies and contemporary business issues ; Presents a sustained, logical and cohesive response and communicates clearly using relevant business terminology and concepts"
+        },
+        {
+          "marks": "13–16",
+          "text": "Makes evident the relationship between performance objectives and operations strategies ; Uses relevant case study/studies and contemporary business issues ; Presents a logical and cohesive response using relevant business terminology and concepts"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides characteristics and features of performance objectives or operations strategies AND sketches operations strategies or performance objectives ; Makes reference to case study/studies and/or contemporary business issues ; Communicates using relevant business terminology and concepts"
+        },
+        {
+          "marks": "5–8",
+          "text": "Sketches performance objective(s) and/or operations strategies in general terms ; May make reference to case study/studies and/or contemporary business issues ; Communicates using some business terminology and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Makes limited reference to Operations ; May identify case study/studies ; Uses basic business terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Performance objectives",
+        "quality, speed, dependability, flexibility, customisation, cost",
+        "New product or service design and development",
+        "Supply chain management – logistics, e-commerce, global sourcing",
+        "Outsourcing – advantages and disadvantages",
+        "Technology – leading edge, established",
+        "Inventory management – advantages and disadvantages of holding stock, LIFO, FIFO, JIT",
+        "Quality management",
+        "Control",
+        "Assurance",
+        "Improvement",
+        "Overcoming resistance to change – financial costs, purchasing new equipment, redundancy payments, retraining, reorganising plant layout, inertia",
+        "Global factors – global sourcing, economies of scale, scanning and learning, research and development."
+      ]
+    }
+  ],
+  "edits": [
+    "23(b): an OR left between bullets that NESA prints on separate lines, joined as one bullet.",
+    "26 and 27: \"Makes limited reference to …\" moved from the 5–8 band to the 1–4 band, where NESA prints it."
+  ]
+}
