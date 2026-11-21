@@ -105,7 +105,10 @@ describe('Business Studies, Geography and Biology past questions', () => {
   it('puts the Business Studies choice questions in Section IV, and only them', () => {
     for (const p of pastQuestions(course('HSCBusinessStudies.json'))) {
       const number = parseInt(p.hscQuestionNumber ?? '', 10);
-      expect(p.hscSection!.startsWith('Section IV'), p.id).toBe(number >= 26);
+      // 2015 and 2016 had five Section II questions and the report at 26,
+      // so their essay choices are 27 and 28; from 2017 they are 26 and 27.
+      const firstChoice = (p.hscYear ?? 0) <= 2016 ? 27 : 26;
+      expect(p.hscSection!.startsWith('Section IV'), p.id).toBe(number >= firstChoice);
     }
   });
 });

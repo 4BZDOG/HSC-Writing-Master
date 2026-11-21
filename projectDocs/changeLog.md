@@ -1,5 +1,17 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-21 (Business Studies: five more years of HSC papers)
+
+- **Added (DATA_VERSION 2.66.0).** 72 past HSC questions from the 2015–2019 Business Studies papers (the current
+  syllabus), placed as the 2020–2025 questions are. 9 parts carry a printed graph or table as `scenarioImage`
+  (5 figure files, shared by parts of the same question).
+  - NESA's sample answers are the full-mark exemplars, verbatim, for all 56 short-answer parts that have one. The
+    16 business reports and essays, and 2015 25(b), get a complete written answer.
+  - Ladders re-copied where the text layer split them: OR/AND restored between bullets, and two 2018–2019 lines
+    moved to the band NESA prints them in. 2015 25(b)'s rows reworded to open with the verb; `edits` records each.
+  - The Section IV test now knows that 2015 and 2016 had the report at Question 26 and the essays at 27 and 28.
+  - Extracts are in `data/referencePapers/business-studies-2015…2019-paper-and-guidelines.json`.
+
 ## [Unreleased] - 2026-11-20 (Physics: six more years of HSC papers)
 
 - **Added (DATA_VERSION 2.65.0).** 89 past HSC questions from the 2019–2024 Physics papers (2017 syllabus), each mapped
