@@ -167,13 +167,13 @@ test.describe('past HSC navigator filter', () => {
   });
 
   test('names a saved year this course does not have, and applies the rest', async ({ page }) => {
-    // 2018 is not in the bundled Business Studies past papers; 2024 is.
-    await seedNavigator(page, [2018, 2024]);
+    // 2014 is not in the bundled Business Studies past papers; 2024 is.
+    await seedNavigator(page, [2014, 2024]);
     await openBusinessStudies(page);
 
     await expect(pastHscSwitch(page)).toHaveAttribute('aria-pressed', 'true', { timeout: 30_000 });
     await expect(
-      page.getByText("2018 isn't in this course's past papers, so it isn't applied.", {
+      page.getByText("2014 isn't in this course's past papers, so it isn't applied.", {
         exact: true,
       })
     ).toBeVisible({ timeout: 30_000 });
@@ -188,12 +188,12 @@ test.describe('past HSC navigator filter', () => {
   });
 
   test('says all years are shown when no saved year is in this course', async ({ page }) => {
-    await seedNavigator(page, [2018]);
+    await seedNavigator(page, [2014]);
     await openBusinessStudies(page);
 
     await expect(pastHscSwitch(page)).toHaveAttribute('aria-pressed', 'true', { timeout: 30_000 });
     await expect(
-      page.getByText("2018 isn't in this course's past papers, so all years are shown.", {
+      page.getByText("2014 isn't in this course's past papers, so all years are shown.", {
         exact: true,
       })
     ).toBeVisible({ timeout: 30_000 });
