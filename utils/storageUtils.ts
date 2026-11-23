@@ -166,7 +166,8 @@ import {
 // 2.64.0: Chemistry past HSC questions from the 2019–2024 papers (68, with 35 printed figures).
 // 2.65.0: Physics past HSC questions from the 2019–2024 papers (89, with 54 printed figures).
 // 2.66.0: Business Studies past HSC questions from the 2015–2019 papers (72, with 9 printed figures).
-export const DATA_VERSION = '2.66.0';
+// 2.67.0: Society and Culture (30) and Community and Family Studies (57, with 4 printed figures) past HSC questions from the 2019–2021 papers.
+export const DATA_VERSION = '2.67.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
