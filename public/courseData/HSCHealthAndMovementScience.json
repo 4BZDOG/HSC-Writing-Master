@@ -1584,7 +1584,8 @@
                       "community groups",
                       "self-determination",
                       "culturally safe care",
-                      "Community Controlled Health Organisation"
+                      "Community Controlled Health Organisation",
+                      "Aboriginal and Torres Strait Islander Peoples"
                     ],
                     "linkedOutcomes": [
                       "HM-11-02",
@@ -1760,7 +1761,8 @@
                       "Goal 3",
                       "mental health",
                       "target",
-                      "non-communicable diseases"
+                      "non-communicable diseases",
+                      "United Nations"
                     ],
                     "linkedOutcomes": [
                       "HM-11-01",
@@ -3125,7 +3127,8 @@
                       "frequency",
                       "intensity",
                       "time",
-                      "type"
+                      "type",
+                      "aerobic training"
                     ],
                     "linkedOutcomes": [
                       "HM-11-03",
@@ -3357,7 +3360,8 @@
                       "methods chosen",
                       "data collection",
                       "informed consent",
-                      "confidentiality"
+                      "confidentiality",
+                      "aerobic training"
                     ],
                     "linkedOutcomes": [
                       "HM-11-10",
@@ -6500,7 +6504,8 @@
                       "anaerobic training",
                       "flexibility training",
                       "fartlek",
-                      "drills"
+                      "drills",
+                      "Sprint Interval Training"
                     ],
                     "linkedOutcomes": [
                       "HM-12-04"
@@ -6671,7 +6676,8 @@
                       "specificity",
                       "reversibility",
                       "warm-up",
-                      "strength training"
+                      "strength training",
+                      "aerobic training"
                     ],
                     "linkedOutcomes": [
                       "HM-12-05",

@@ -168,7 +168,8 @@ import {
 // 2.66.0: Business Studies past HSC questions from the 2015–2019 papers (72, with 9 printed figures).
 // 2.67.0: Society and Culture (30) and Community and Family Studies (57, with 4 printed figures) past HSC questions from the 2019–2021 papers.
 // 2.68.0: Nine "Evaluate" past questions tagged EVALUATE (were ASSESS); task-instruction wording such as "to what extent" and "the extract provided" dropped from 37 term lists.
-export const DATA_VERSION = '2.68.0';
+// 2.69.0: 176 reviewed syllabus terms added to 156 questions (Missing Terms); 34 history and science exemplars lengthened.
+export const DATA_VERSION = '2.69.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

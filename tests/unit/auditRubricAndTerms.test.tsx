@@ -268,7 +268,9 @@ describe('missingSyllabusTerms — the terms a question is built on', () => {
       scenario: 'A system has been in operation for a year and its maintenance is under review.',
       keywords: [],
     });
-    expect(terms).toEqual(['maintenance']);
+    // Neither "Explain", "important" nor "process" is offered. Nor, since
+    // November 2026, is "maintenance": single words are no longer proposed.
+    expect(terms).toEqual([]);
   });
 
   it('offers a phrase the question uses even with no scenario at all', () => {
@@ -298,9 +300,11 @@ describe('missingSyllabusTerms — the terms a question is built on', () => {
     expect(terms).not.toContain('maintenance');
   });
 
-  it('offers a lone word all three DO agree on, when it is not the course’s wallpaper', () => {
-    // The counterpart to the test above, and the case that prompted the check:
-    // "maintenance" named in the dot point, the question AND the scenario.
+  it('no longer offers a lone word, even one all three agree on', () => {
+    // "maintenance" is named in the dot point, the question AND the scenario,
+    // which once made it a proposal. Reviewers in November 2026 kept 36 of the
+    // 261 lone words offered this way, most only inside a longer term, so the
+    // check proposes phrases only. The phrase beside it still comes through.
     const terms = missingSyllabusTerms(
       'Explain the maintenance required to keep an enterprise system running.',
       {
@@ -309,7 +313,8 @@ describe('missingSyllabusTerms — the terms a question is built on', () => {
         keywords: ['deployment'],
       }
     );
-    expect(terms).toContain('maintenance');
+    expect(terms).not.toContain('maintenance');
+    expect(terms).toContain('enterprise system');
   });
 
   it('will not offer a bare word the whole course is written in', () => {
@@ -463,6 +468,73 @@ describe('the studio offers the missing terms as an edit', () => {
  * proposed, and the one the rules exist for.
  */
 describe('missingSyllabusTerms — fragments and non-command verbs are not terms', () => {
+  it('does not offer the half of a phrase the question writes whole', () => {
+    // The question says "long-term financial objectives", so "long-term
+    // financial" is the dot point's longer phrase cut short, not a term.
+    const terms = missingSyllabusTerms(
+      'Explain potential conflicts between short-term and long-term financial objectives',
+      {
+        question:
+          'Explain potential conflicts between short-term and long-term financial objectives.',
+        keywords: ['financial objectives'],
+      }
+    );
+    expect(terms).not.toContain('long-term financial');
+  });
+
+  it('does not offer the tail of a phrase the question writes whole', () => {
+    const terms = missingSyllabusTerms(
+      'Interpret data through tables and time series line graphs',
+      {
+        question: 'Describe what time series line graphs show about growth.',
+        keywords: ['tables'],
+      }
+    );
+    // "time" never starts a phrase here, so the whole name is a curator's to add;
+    // what matters is that its tail is not offered as a term in its place.
+    expect(terms).not.toContain('series line graphs');
+    expect(terms).not.toContain('line graphs');
+  });
+
+  it('counts a listed singular as covering the plural, and the reverse', () => {
+    const dp = 'Interpret data through time series line graphs and microeconomic policies';
+    const prompt = {
+      question: 'How do time series line graphs show the effect of microeconomic policies?',
+      keywords: ['time series line graph', 'microeconomic policy'],
+    };
+    expect(missingSyllabusTerms(dp, prompt)).toEqual([]);
+  });
+
+  it('drops an adjective-ended half that the dot point carries on past', () => {
+    const terms = missingSyllabusTerms(
+      'Use evidence and correct scientific language and terminology for a purpose',
+      {
+        question: 'Rewrite the warning so it uses correct scientific terminology.',
+        keywords: ['evidence'],
+      }
+    );
+    expect(terms).not.toContain('correct scientific');
+  });
+
+  it('never offers a year or a date on its own', () => {
+    const terms = missingSyllabusTerms('Events in Germany in 1933 and September 1939', {
+      question: 'Why did Hitler gain power in 1933, and what happened in September 1939?',
+      scenario: 'Source A was written in 1933.',
+      keywords: [],
+    });
+    expect(terms).not.toContain('1933');
+    expect(terms).not.toContain('September 1939');
+  });
+
+  it('treats a course-wide word as too generic to stand alone', () => {
+    const terms = missingSyllabusTerms('The ways a text can be valued for its themes', {
+      question: 'Describe one theme of a text you have studied.',
+      scenario: 'Choose a text from your study.',
+      keywords: ['themes'],
+    });
+    expect(terms).not.toContain('text');
+  });
+
   const echoed = (dotPoint: string, fragment: string) => ({
     question: `Explain the ${fragment} in this case.`,
     scenario: `In the case, the ${fragment} is set out.`,

@@ -1,5 +1,29 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-23 (Content Studio: Missing Terms that are terms, and full-length exemplars)
+
+- **Fixed.** Missing Terms proposed fragments and wallpaper. It flagged 850 questions; it now flags 247, and what is
+  left are phrases a reviewer read and left off.
+  - **Whole phrases only.** A phrase counts only where the question or scenario uses it as a term of its own, not as
+    part of the dot point's longer phrase: "long-term financial" is no longer offered when the question says
+    "long-term financial objectives", nor "series line graphs" beside "time series line graphs".
+  - **Adjective-ended halves** are dropped where the dot point carries on ("correct scientific language", "high
+    personal and ethical standards").
+  - **Plural-insensitive.** A listed singular covers the plural, and the reverse ("policy" and "policies").
+  - **Never a year** or a date on its own.
+  - **No single words.** Reviewers kept 36 of the 261 single words the check offered, most only inside a longer term,
+    so it proposes phrases only. A single word already on a list is still a term.
+- **Added (DATA_VERSION 2.69.0).** 176 reviewed terms on 156 questions, among them "situational analysis", "collision
+  theory", "transform boundaries", "integral proteins", "human rights" and "Reserve Bank of Australia".
+- **Changed.** 34 exemplars lengthened to the length their band implies:
+  - 15 Modern and Ancient History 2025 full-mark essays, from 390–497 words to 784–838, and their 15-mark samples to
+    334–386;
+  - two Biology 7-mark answers, to about 200 words;
+  - two 1-mark samples, to 17–18 words.
+
+  One fact was corrected along the way: equal pay for equal work came in 1969; the 1950 decision set the female basic
+  wage at 75 per cent. Exemplar Mismatch shows no under-length warnings.
+
 ## [Unreleased] - 2026-11-23 (Content Studio: verb tags and exemplar-audit noise)
 
 - **Changed (DATA_VERSION 2.68.0).** Nine past questions that open with "Evaluate" were tagged ASSESS. They are now

@@ -4262,7 +4262,8 @@
                       "woven baskets",
                       "filtration",
                       "plant fibres",
-                      "solubility"
+                      "solubility",
+                      "separating mixtures"
                     ],
                     "linkedOutcomes": [
                       "CH-11-01"
@@ -9596,7 +9597,8 @@
                       "matter",
                       "energy",
                       "boundary",
-                      "steam"
+                      "steam",
+                      "enclosed pit ovens"
                     ],
                     "linkedOutcomes": [
                       "CH-11-02"
@@ -9650,7 +9652,8 @@
                       "energy",
                       "matter",
                       "surroundings",
-                      "steam"
+                      "steam",
+                      "enclosed pit ovens"
                     ],
                     "linkedOutcomes": [
                       "CH-11-02"
@@ -14414,7 +14417,8 @@
                       "hypothesis",
                       "testable question",
                       "surface area",
-                      "independent variable"
+                      "independent variable",
+                      "secondary source"
                     ],
                     "linkedOutcomes": [
                       "CH-12WS-01"
@@ -15420,8 +15424,8 @@
                         "id": "sa-chem-hsc-2025-30a-2",
                         "source": "AI",
                         "mark": 1,
-                        "answer": "Wear protective equipment when handling phosgene.",
-                        "feedback": "Meets the 1-mark row by naming a relevant precaution, but gives no reason for it. Linking it to phosgene’s toxicity would meet the 2-mark row.",
+                        "answer": "Wear protective equipment when handling phosgene, and keep all containers sealed and clearly labelled in the work area.",
+                        "feedback": "Meets the 1-mark row by naming relevant precautions, but gives no reason for it. Linking it to phosgene’s toxicity would meet the 2-mark row.",
                         "band": 4
                       }
                     ],
@@ -18464,7 +18468,8 @@
                       "successful collisions",
                       "reaction rate",
                       "forward reaction",
-                      "collision frequency"
+                      "collision frequency",
+                      "collision theory"
                     ],
                     "markingCriteria": "3 marks: Provides an explanation of the rate of reaction with clear link to [I₂] and collision theory\n2 marks: Provides some description of the rate of reaction with link to [I₂] and/or collision theory\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -19161,7 +19166,8 @@
                       "chromate ions",
                       "exothermic",
                       "yellow",
-                      "forward reaction"
+                      "forward reaction",
+                      "equilibrium"
                     ],
                     "markingCriteria": "3 marks: Justifies TWO relevant ways\n2 marks: Justifies ONE relevant way OR Identifies TWO relevant ways\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -22723,7 +22729,8 @@
                       "hydrogen carbonate",
                       "proton",
                       "balanced equations",
-                      "conjugate base"
+                      "conjugate base",
+                      "acid"
                     ],
                     "linkedOutcomes": [
                       "CH-12-02"
@@ -25270,7 +25277,8 @@
                       "concentration",
                       "stoichiometric ratio",
                       "systematic error",
-                      "titre"
+                      "titre",
+                      "titration"
                     ],
                     "linkedOutcomes": [
                       "CH-12-02"
@@ -25396,7 +25404,8 @@
                       "OH⁻ ions",
                       "H⁺ ions",
                       "Ba²⁺",
-                      "Cl⁻"
+                      "Cl⁻",
+                      "titration curve"
                     ],
                     "markingCriteria": "3 marks: Explains the shape of the titration curve, in terms of ions present, as it falls, at equivalence point and as it rises\n2 marks: Describes the trend in the titration curve and makes an explanation\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -28883,7 +28892,8 @@
                       "heat loss",
                       "calorimeter",
                       "incomplete combustion",
-                      "standard conditions"
+                      "standard conditions",
+                      "enthalpy of combustion"
                     ],
                     "markingCriteria": "2 marks: Provides a justification\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -30104,7 +30114,8 @@
                       "unbranched carboxylic acid",
                       "carboxyl group",
                       "hydrocarbon chain",
-                      "validity"
+                      "validity",
+                      "secondary-source data"
                     ],
                     "linkedOutcomes": [
                       "CH-12-03"
@@ -32245,7 +32256,8 @@
                       "absorption",
                       "wavenumber",
                       "carbonyl group",
-                      "hydroxyl group"
+                      "hydroxyl group",
+                      "organic compounds"
                     ],
                     "linkedOutcomes": [
                       "CH-12-04"
@@ -33547,7 +33559,8 @@
                       "quartet",
                       "neighbouring",
                       "hydrogen",
-                      "chemical shift"
+                      "chemical shift",
+                      "proton NMR"
                     ],
                     "linkedOutcomes": [
                       "CH-12-04"
