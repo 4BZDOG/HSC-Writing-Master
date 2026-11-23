@@ -154,7 +154,7 @@ describe('HowToAnswer', () => {
       expect(heading.querySelector('svg')).not.toBeNull();
 
       const caveat = within(card()!).getByText(
-        "Don't list facts on their own: the links between them are the explanation."
+        "Don't list facts on their own. The links between them are the explanation."
       );
       expect(caveat.closest('ol')).toBeNull();
       expect(caveat.closest('ul')).not.toBeNull();

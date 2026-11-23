@@ -109,4 +109,25 @@ describe('the verb brief', () => {
       expect(container.querySelector('.h-px')).toBeNull();
     });
   });
+
+  describe('measure', () => {
+    it('keeps the 52ch reading measure on the surface at every width', () => {
+      const { container } = render(<StrategyBrief verb={'DESCRIBE' as PromptVerb} />);
+
+      const root = container.firstElementChild as HTMLElement;
+      expect(root.className).toContain('max-w-[52ch]');
+      expect(root.className).not.toContain('xl:max-w');
+    });
+
+    it('widens the measure on the stage from xl, and only there', () => {
+      const { container } = render(
+        <StrategyBrief verb={'DESCRIBE' as PromptVerb} tone="ink" className="mt-4" />
+      );
+
+      const root = container.firstElementChild as HTMLElement;
+      expect(root.className).toContain('max-w-[52ch]');
+      expect(root.className).toContain('xl:max-w-[68ch]');
+      expect(root.className).toContain('mt-4');
+    });
+  });
 });
