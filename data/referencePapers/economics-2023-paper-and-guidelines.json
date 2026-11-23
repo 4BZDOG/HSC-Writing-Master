@@ -607,5 +607,11 @@
         "Philip’s curve."
       ]
     }
+  ],
+  "edits": [
+    "22(c): rows 5 and 4 re-split as printed (the text layer merged them).",
+    "25, 26: ladder rows restored to NESA's printed order (the text layer scrambled the band order).",
+    "24(c): \"Make some judgement\" reworded \"Makes some judgement\" so the row opens with a third-person verb, as the app requires; the checker reports this row.",
+    "Figure parts: the stimulus keeps one bracketed description of each graph or table beside the printed caption."
   ]
 }

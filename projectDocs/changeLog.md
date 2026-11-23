@@ -1,5 +1,18 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-23 (Economics: six more years of HSC papers)
+
+- **Added (DATA_VERSION 2.71.0).** 92 past HSC questions from the 2019–2024 Economics papers (2009 syllabus), each
+  mapped to the 2025 dot point that covers it (5 to Year 11), as the 2025 paper was. 15 printed graphs and tables
+  ship as `scenarioImage`.
+  - NESA's sample answers are the full-mark exemplars, verbatim, for the 68 Section II parts that have one. The 24
+    Section III and IV responses get a complete written answer, quoting the stimulus figures as printed.
+  - Marker notes flag one slip in a NESA sample: 2024 21(b) gives RCEP 14 members; it has 15.
+  - Left out: multiple choice, drawing parts, calculation-only parts and a 1-mark graph reading, and 2021 21(a) on
+    the G20, which no 2025 dot point covers (as the OECD part of 2025 was).
+  - Extracts are in `data/referencePapers/economics-2019…2024-paper-and-guidelines.json`, with `edits` recording the
+    re-copied ladders.
+
 ## [Unreleased] - 2026-11-23 (Content Studio: exemplars that use the question's terms, and fuller term lists)
 
 - **Changed (DATA_VERSION 2.70.0).** 66 full-mark exemplars, almost all English, now use the terms their question
