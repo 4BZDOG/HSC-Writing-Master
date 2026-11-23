@@ -893,7 +893,7 @@ describe('the spectrum says its level in words', () => {
   it('moves the tier’s prose subtitle off the footer without losing it', () => {
     render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
 
-    const copies = screen.getAllByText(/Break things apart and use knowledge/);
+    const copies = screen.getAllByText(/Break ideas apart, then put what you know/);
     expect(copies).toHaveLength(1);
 
     const survivor = copies[0];
