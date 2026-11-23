@@ -936,10 +936,14 @@ export const isProperNameTerm = (term: string): boolean => {
 
 /**
  * Task-instruction wording, not subject matter: "close reference to the
- * prescribed text", "study of the prescribed poems". These name the task, not
- * the subject, so they are never a syllabus term whatever their length.
+ * prescribed text", "study of the prescribed poems", "to what extent", "the
+ * extract provided", "detailed reference", "ideas expressed in the text". These
+ * name the task, not the subject, so they are never a syllabus term whatever
+ * their length. A Band 6 answer does not repeat them, and as terms they made the
+ * exemplar audit report 30 English exemplars as skipping the question's terms.
  */
-export const INSTRUCTION_PHRASE = /\bprescribed (?:texts?|poems?)\b|\bclose reference\b/i;
+export const INSTRUCTION_PHRASE =
+  /\bprescribed (?:texts?|poems?)\b|\b(?:close|detailed) reference\b|\bto what extent\b|\b(?:extracts?|excerpts?) provided\b|^this (?:extract|excerpt)$|\bideas expressed in the text\b/i;
 
 /**
  * Is this a syllabus term, as `keywordInstruction` defines one?

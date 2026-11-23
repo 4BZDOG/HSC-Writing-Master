@@ -15522,7 +15522,7 @@
                     "id": "prompt-bs-hsc-2015-27",
                     "question": "Evaluate the importance of operations strategies in achieving competitive advantage.",
                     "totalMarks": 20,
-                    "verb": "ASSESS",
+                    "verb": "EVALUATE",
                     "linkedOutcomes": [
                       "H2",
                       "H5"
@@ -15575,8 +15575,7 @@
                     "isPastHSC": true,
                     "hscYear": 2015,
                     "hscQuestionNumber": "27",
-                    "hscSection": "Section IV (20 marks). Attempt either Question 27 or Question 28. Allow about 35 minutes for this section.",
-                    "bandCeiling": 6
+                    "hscSection": "Section IV (20 marks). Attempt either Question 27 or Question 28. Allow about 35 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2017-21c",
@@ -16636,7 +16635,7 @@
                     "id": "prompt-bs-hsc-2016-27",
                     "question": "Evaluate the response of operations management to external influences.",
                     "totalMarks": 20,
-                    "verb": "ASSESS",
+                    "verb": "EVALUATE",
                     "linkedOutcomes": [
                       "H1",
                       "H2"
@@ -16692,8 +16691,7 @@
                     "isPastHSC": true,
                     "hscYear": 2016,
                     "hscQuestionNumber": "27",
-                    "hscSection": "Section IV (20 marks). Attempt either Question 27 or Question 28. Allow about 35 minutes for this section.",
-                    "bandCeiling": 6
+                    "hscSection": "Section IV (20 marks). Attempt either Question 27 or Question 28. Allow about 35 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2017-27",
@@ -35853,7 +35851,7 @@
                     "id": "prompt-bs-hsc-2020-26",
                     "question": "Evaluate the effectiveness of financial management strategies used to achieve profit and growth objectives.",
                     "totalMarks": 20,
-                    "verb": "ASSESS",
+                    "verb": "EVALUATE",
                     "linkedOutcomes": [
                       "H5",
                       "H2"
@@ -35909,14 +35907,13 @@
                     "isPastHSC": true,
                     "hscYear": 2020,
                     "hscQuestionNumber": "26",
-                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section.",
-                    "bandCeiling": 6
+                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2015-28",
                     "question": "Evaluate the importance of financial management strategies in improving business performance.",
                     "totalMarks": 20,
-                    "verb": "ASSESS",
+                    "verb": "EVALUATE",
                     "linkedOutcomes": [
                       "H5",
                       "H2"
@@ -35969,8 +35966,7 @@
                     "isPastHSC": true,
                     "hscYear": 2015,
                     "hscQuestionNumber": "28",
-                    "hscSection": "Section IV (20 marks). Attempt either Question 27 or Question 28. Allow about 35 minutes for this section.",
-                    "bandCeiling": 6
+                    "hscSection": "Section IV (20 marks). Attempt either Question 27 or Question 28. Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -39287,7 +39283,7 @@
                     "id": "prompt-bs-hsc-2016-28",
                     "question": "Evaluate the response of human resource management to legal and ethical influences.",
                     "totalMarks": 20,
-                    "verb": "ASSESS",
+                    "verb": "EVALUATE",
                     "linkedOutcomes": [
                       "H3",
                       "H1"
@@ -39342,8 +39338,7 @@
                     "isPastHSC": true,
                     "hscYear": 2016,
                     "hscQuestionNumber": "28",
-                    "hscSection": "Section IV (20 marks). Attempt either Question 27 or Question 28. Allow about 35 minutes for this section.",
-                    "bandCeiling": 6
+                    "hscSection": "Section IV (20 marks). Attempt either Question 27 or Question 28. Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -43296,7 +43291,7 @@
                     "id": "prompt-bs-hsc-2020-27",
                     "question": "Evaluate human resource strategies used to achieve THREE indicators of effective human resource management.",
                     "totalMarks": 20,
-                    "verb": "ASSESS",
+                    "verb": "EVALUATE",
                     "linkedOutcomes": [
                       "H6",
                       "H8"
@@ -43351,8 +43346,7 @@
                     "isPastHSC": true,
                     "hscYear": 2020,
                     "hscQuestionNumber": "27",
-                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section.",
-                    "bandCeiling": 6
+                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2015-25a",

@@ -68,12 +68,21 @@ describe('isSyllabusTerm — the length rule', () => {
       'close reference to both prescribed texts',
       'study of the prescribed text',
       'at least two prescribed poems',
+      'to what extent',
+      'the extract provided',
+      'extracts provided',
+      'this excerpt',
+      'detailed reference',
+      'ideas expressed in the text',
     ]) {
       expect(isSyllabusTerm(term), term).toBe(false);
       expect(isSyllabusTerm(term, undefined, term), term).toBe(false);
     }
     expect(INSTRUCTION_PHRASE.test('Close Reference to the text')).toBe(true);
     expect(INSTRUCTION_PHRASE.test('prescribed content')).toBe(false);
+    // The subject's own words stay terms: an extract is not the instruction to read one.
+    expect(INSTRUCTION_PHRASE.test('extract from the Hansard debate')).toBe(false);
+    expect(INSTRUCTION_PHRASE.test('stimulus')).toBe(false);
   });
 
   it('keeps a seven- or eight-word phrase only when the context uses it', () => {
@@ -95,9 +104,11 @@ describe('isSyllabusTerm — the length rule', () => {
   });
 
   it('keeps a five-word clause with no context (the trade-off of the six-word cap)', () => {
-    // "ideas expressed in the text" is five words, so it is a term outright now.
+    // "ways the poet shapes meaning" is five words, so it is a term outright now.
     // A clause of this length that no question uses is kept, and that is accepted.
-    const five = 'ideas expressed in the text';
+    // (The example was "ideas expressed in the text" until that became
+    // task-instruction wording, which no length keeps.)
+    const five = 'ways the poet shapes meaning';
     expect(five.split(' ')).toHaveLength(5);
     expect(isSyllabusTerm(five)).toBe(true);
     expect(isSyllabusTerm(five, undefined, 'Compare the arguments presented.')).toBe(true);
