@@ -1,5 +1,19 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-23 (Content Studio: verb tags and exemplar-audit noise)
+
+- **Changed (DATA_VERSION 2.68.0).** Nine past questions that open with "Evaluate" were tagged ASSESS. They are now
+  EVALUATE, like the 89 other "Evaluate" past questions. Those of 15 marks or more already reached Band 6 through the
+  course rule, so for them only the verb shown and its advice change. Geography 2025 22(c), at 12 marks, was capped
+  at Band 5 and now reaches Band 6, like the other 12-mark Evaluate questions. Verb Not In Question now shows none.
+- **Fixed.** Task-instruction wording is never a syllabus term (`INSTRUCTION_PHRASE`): "to what extent", "the
+  extract(s) provided", "this extract/excerpt", "detailed reference" and "ideas expressed in the text" join "close
+  reference" and "prescribed text". The 37 English term lists that carried one lose it. A Band 6 answer does not
+  repeat these, and as terms they made the exemplar audit report English exemplars as skipping the question's terms.
+- **Fixed.** A term with a possessive matches both spellings, so "Keats’ poetry" finds "Keats's poetry" (and the
+  reverse). Exemplar Mismatch falls from 86 questions to 75. What remains is real: short 25-mark history exemplars
+  and English exemplars that do not use the question's own terms.
+
 ## [Unreleased] - 2026-11-23 (Society and Culture and CAFS: three more years of HSC papers)
 
 - **Added (DATA_VERSION 2.67.0).** 87 past HSC questions from the 2019–2021 papers, placed as the 2022–2025 questions

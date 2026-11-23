@@ -185,6 +185,14 @@ describe('textContainsKeyword (shared matcher for coverage meters)', () => {
     });
   });
 
+  it('matches both possessive spellings of a name ending in s', () => {
+    expect(textContainsKeyword('In Keats’s poetry the urn endures.', 'Keats’ poetry')).toBe(true);
+    expect(textContainsKeyword("In Keats' poetry the urn endures.", 'Keats’s poetry')).toBe(true);
+    expect(textContainsKeyword('Malouf’s poetry shows', "Malouf's poetry")).toBe(true);
+    // Only the possessive: a plain plural is still not the possessive phrase.
+    expect(textContainsKeyword('Keats poetry', 'Keats’ poetry')).toBe(false);
+  });
+
   it('does not report a keyword the highlighter would not mark', () => {
     expect(textContainsKeyword('The cellar door.', 'cell')).toBe(false);
     expect(textContainsKeyword('', 'cell')).toBe(false);

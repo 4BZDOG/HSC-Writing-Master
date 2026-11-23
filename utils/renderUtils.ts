@@ -879,7 +879,13 @@ const KEY_SEPARATOR = '\u0000';
  * curl them as a student types and the model writes either, so "Newton's" in the
  * syllabus has to find "Newton’s" in an answer, and the other way round.
  */
-const apostropheInsensitive = (escaped: string): string => escaped.replace(/['’]/g, "['’]");
+// A possessive of a name ending in s is written two ways, both correct: "Keats’
+// poetry" and "Keats's poetry". A term in one spelling has to find an answer in
+// the other, or a Band 6 English exemplar reads as never naming the poet the
+// question names. Only a word-final s with an apostrophe is touched, so "it's"
+// and "Pauls" are untouched.
+const apostropheInsensitive = (escaped: string): string =>
+  escaped.replace(/['’]/g, "['’]").replace(/s\['’\]s?(?=\s|$)/g, "s['’]s?");
 
 const keywordRegexSource = memoise(500, (key: string): string | null => {
   const words = key.split(KEY_SEPARATOR).filter(Boolean);

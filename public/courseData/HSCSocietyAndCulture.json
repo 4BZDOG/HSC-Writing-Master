@@ -18149,7 +18149,7 @@
                     "id": "prompt-sac-hsc-2019-13b",
                     "question": "Evaluate the effectiveness of social inclusion programs in ONE country.",
                     "totalMarks": 15,
-                    "verb": "ASSESS",
+                    "verb": "EVALUATE",
                     "linkedOutcomes": [
                       "H2",
                       "H3"
@@ -18205,8 +18205,7 @@
                     "isPastHSC": true,
                     "hscYear": 2019,
                     "hscQuestionNumber": "13(b)",
-                    "hscSection": "Section II — Depth Studies",
-                    "bandCeiling": 6
+                    "hscSection": "Section II — Depth Studies"
                   }
                 ]
               },
