@@ -2057,7 +2057,7 @@ a:focus-visible,
   /* The current step's name sits on the stage tint, not on a white cell, so it takes the
      deeper `-800` shade: that is what lets the tint be a colour. */
   --band-label: var(--band-ink-deep);
-  /* The edge between the banner and the stage: the tier's own colour, so the white
+  /* The edge between the banner and the stage: the tier's own colour, so the filled
      banner above a soft sheet is joined by the one thing that says whose tier it
      is. A property of the hue and not of the palette, because it reads
      `--band-rgb`. Nothing in the dark theme, where the banner is the stage. */
@@ -2065,22 +2065,6 @@ a:focus-visible,
   /* The stage's own edge, in the tier's hue and not slate, so the panel is tier-coloured
      where it meets the page and not only in its glow. */
   border-color: rgb(var(--band-rgb) / 0.7);
-}
-
-/* The ribbon's header bar, in the light theme: the tier's hue across it, strongest at the
-   left where the tile is, and a tier-coloured foot rule in place of the slate one. The
-   bar is inside the stage, so `--band-rgb` is there to read; with no verb chosen it is the
-   neutral hue and the bar is a quiet grey. Its text is slate on a tint of at most 18%, which
-   is far from the 4.5:1 floor (the strongest stop is 30% of the tier over white, and
-   `tests/unit/verbRibbonChrome.test.tsx` holds the slate ink on it). Nothing in the dark
-   theme, where the bar is the stage. */
-[data-theme='light'] .ribbon-bar {
-  background-image: linear-gradient(
-    90deg,
-    rgb(var(--band-rgb) / 0.3) 0%,
-    rgb(var(--band-rgb) / 0.08) 70%
-  );
-  box-shadow: inset 0 -2px 0 rgb(var(--band-rgb) / 1);
 }
 
 /*

@@ -130,8 +130,8 @@ describe('cappedCardHeight', () => {
    * the writing side.
    */
   it('clears the writing card chrome with a usable surface left over', () => {
-    // Measured chrome: 82px header + 35px strategy row + 73px metrics footer.
-    const CHROME = 190;
+    // Measured chrome: 94px header + 35px strategy row + 73px metrics footer.
+    const CHROME = 202;
     expect(MIN_CARD_HEIGHT - CHROME).toBeGreaterThanOrEqual(240);
   });
 

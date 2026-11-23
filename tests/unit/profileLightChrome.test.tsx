@@ -112,7 +112,11 @@ describe('the idle verb ribbon has an edge the page can see', () => {
     expect(classes(RIBBON_ROOT)).not.toContain('border-slate-300');
   });
 
-  it('keeps the bar opaque white in the light theme, so the rim is what separates it', () => {
-    expect(classes(RIBBON_HEADER_BAR)).toContain('bg-white');
+  it('draws the bar as a filled band in both themes, not a white slab in the light one', () => {
+    // The fill is the inline band wash, so the bar names no background class; the
+    // rim is the root's, and the bar's own foot rule sits on the fill.
+    expect(classes(RIBBON_HEADER_BAR)).not.toContain('bg-white');
+    expect(classes(RIBBON_HEADER_BAR)).not.toContain('dark:bg-white/0');
+    expect(classes(RIBBON_HEADER_BAR)).toContain('text-white');
   });
 });

@@ -12,8 +12,11 @@ import { getBandInkRgb } from './renderUtils';
  * toolbar beside the heading on one card and a pill bar under the corner on
  * the other. One vocabulary, imported by both, is what stops that.
  *
- * The heights are deliberately tight. The old header ran to ~95px on a laptop
- * for a title, a six-word meta line and a row of pills, most of it air.
+ * The padding is a deliberate step, not an accident of the layout. The header
+ * was once tightened hard, and then read as cramped — the title, its meta line
+ * and the pills packed against one another — so the vertical spacing was opened
+ * up again: 14px of padding and a 6px gap under the title. It stays a title, a
+ * meta line and one row of pills per card, and both cards take every value here.
  */
 
 /**
@@ -63,7 +66,7 @@ export const cardHeaderWash = (band: number): string =>
  *  gained a reading size above its bar, the rows differed, and the bars were 4px
  *  apart. The headings stay top-aligned either way (see `CARD_HEADER_ROW`). */
 export const CARD_HEADER_BOX =
-  'px-4 sm:px-6 py-3 sm:py-2 text-white flex justify-between items-stretch relative overflow-hidden flex-shrink-0 rounded-t-surface-inner';
+  'px-4 sm:px-6 py-3.5 sm:py-3.5 text-white flex justify-between items-stretch relative overflow-hidden flex-shrink-0 rounded-t-surface-inner';
 
 /**
  * The row inside it. TOP-aligned, and it must stay that way: the two headers
@@ -121,11 +124,12 @@ export const CARD_HEADER_TITLE_BLOCK = 'min-w-0 max-sm:contents';
  * 1280.
  *
  * The size has since stepped up again (28px from 1440; 24px from 1360 as before, and 20px in the two narrowest two-column widths), so the name
- * stands nearly as tall as the 40px tile beside it, and the header around it
- * was tightened to pay for that: 8px of padding instead of 12, a 2px gap to the
- * meta line, and a 24px reading size in the corner over the bar, which keeps its
- * 36px and its 32px tools. The header
- * is 78px where it was 92.
+ * stands nearly as tall as the 40px tile beside it. The header was tightened to
+ * pay for that (8px of padding and a 2px gap to the meta line), and then read as
+ * cramped, so the spacing was opened up again: 14px of padding and a 6px gap
+ * (`mt-1.5`) under the title. At 1280 and 1440 the header is 94px, where it was
+ * 78px in the tight version and 92px before that. The corner keeps its 36px bar
+ * and its 32px tools.
  *
  * 28px is the ceiling, and it was measured against the widest toolbar there is:
  * a free account's, which carries the Plus chip on Exam. At 30px that toolbar
@@ -148,7 +152,7 @@ export const CARD_HEADER_TITLE =
  *  it drops its top margin and centres on the row it lands in; the card says
  *  which row that is. */
 export const CARD_HEADER_META_ROW =
-  'flex flex-wrap items-center gap-2 min-h-6 mt-0.5 max-sm:mt-0 max-sm:self-center';
+  'flex flex-wrap items-center gap-2 min-h-6 mt-1.5 max-sm:mt-0 max-sm:self-center';
 
 /**
  * The meta line under a title ("No assistance", a band chip). Solid white, not
@@ -188,9 +192,9 @@ export const CARD_HEADER_TRAY =
  * thing in it, so it keeps the tray's job (top-aligned row, bar level with the
  * writing card's across the gap) and its shrink rules.
  *
- * Two rows cost a header 24px + 2px + the bar's 36px = 62px, about the same as the
- * heading block beside it, so the header is 78px and well
- * under the ceiling `workspace-chrome.spec.ts` holds.
+ * Two rows cost 24px + 6px + the bar's 36px = 66px, about the same as the heading
+ * block beside it. With 14px of padding either side, the header is 94px, under the
+ * ceiling `workspace-chrome.spec.ts` holds at 98px.
  *
  * On a phone the corner is `display: contents`, so its reading size and its bar
  * become items of the header row. The reading size goes on the heading's line
@@ -250,7 +254,10 @@ export const FOCUS_SHORT = '[@media(min-width:1280px)_and_(max-height:819px)]';
  * these; the strategy strip and the footer have their own.
  */
 export const FOCUS_SHORT_CLASSES = {
-  /** A header is one row: 40px icon tile plus 8px above and below = 56px. */
+  /** A header is one row: 40px icon tile plus 8px above and below = 56px. This
+   *  overrides the base `py-3.5` / `sm:py-3.5` at the short-window breakpoint. It
+   *  wins because Tailwind emits arbitrary variants after the responsive ones, and
+   *  both rules are single-class selectors. */
   header: '[@media(min-width:1280px)_and_(max-height:819px)]:py-2',
   /** The title and what sits beside it share the row rather than stacking. */
   titleBlock:

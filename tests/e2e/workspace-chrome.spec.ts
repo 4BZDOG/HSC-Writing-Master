@@ -122,8 +122,12 @@ const settledChrome = async (page: Page): Promise<Chrome> => {
   return latest;
 };
 
-/** How tall a header may be before it is carrying empty space again. */
-const HEADER_CEILING = 84;
+/**
+ * How tall a header may be before it is carrying empty space again. The headers
+ * measure 94px at 1280-1440 (the spacing was opened up from 78px because they read
+ * as cramped); the ceiling leaves 4px for fractional layout above that.
+ */
+const HEADER_CEILING = 98;
 
 test.describe('workspace card chrome', () => {
   test.describe.configure({ timeout: 120_000 });
@@ -179,7 +183,7 @@ test.describe('workspace card chrome', () => {
 
       // Same height as each other, and neither carrying a slab of empty
       // colour. 129px was the state user testing reported as "lots of empty
-      // space"; the rebuilt headers measure 82.
+      // space"; the rebuilt headers measure 94.
       expect(
         Math.abs(prompt.headerHeight - response.headerHeight),
         `headers same height ${at}`
