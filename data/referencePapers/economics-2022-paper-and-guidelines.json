@@ -1,0 +1,577 @@
+{
+  "year": 2022,
+  "course": "Economics",
+  "papers": [
+    "2022-hsc-economics.pdf",
+    "2022-hsc-economics-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Define the term fiscal policy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Defines the term fiscal policy"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Fiscal policy is the use of government spending and taxation to influence the level of economic activity in an economy.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain a possible consequence of ONE method of financing a budget deficit.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of a possible consequence of a method of financing a budget deficit"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a possible consequence of a method of financing a budget deficit"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "One method of financing a deficit is through the sale of Government bonds. If bonds are purchased locally this increases the demand for funds. Higher demand may lead to increased interest rates. This may cause private investment to be crowded out.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the economic factors that have contributed to the Australian Government’s current fiscal policy stance.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a comprehensive explanation of the economic factors that have contributed to the Australian Government’s fiscal policy stance"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound explanation of the economic factors that have contributed to the Australian Government’s current fiscal policy stance"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some explanation of factors contributing to the Australian Government’s current fiscal policy stance"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some general information regarding the Australian Government's fiscal policy stance"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The budget outcome for 2021−22 was a forecast deficit of $106.6bn. Though this is an extremely large deficit, the stance of fiscal policy is technically contractionary since this deficit is smaller than 2020’s record deficit of $134.2bn. Since the end of lockdowns, the economy has been recovering and unemployment has fallen to pre-pandemic levels. As a result, government spending on temporary measures such as wage subsidies and welfare increases has been wound back, reducing the size of the deficit. The rapid recovery has also seen the action of automatic stabilisers such as higher tax receipts reducing the deficit.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Using examples, distinguish between a public good and a private good.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides differences between public goods and private goods, using examples"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A street light is an example of a public good because it is both non-rival and non-excludable (ie one person using it does not make it less available to others, and, it is not possible to exclude non-payers from using it so a price cannot be imposed). On the other hand, a private good is rival and excludable, eg a pen (which is not available to others while it is being used and a price can be imposed for using it).",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how the use of solar panels by households can create a positive externality.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Demonstrates a clear understanding of how the use of solar panels by households can create a positive externality"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of how the use of solar panels by households can create a positive externality"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The use of solar panels can create a positive externality as their benefits to society are not captured in the market price because buyers only consider the private benefits. Solar panels have social benefits and can lead to reduction in environmental costs such as pollution.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how a government’s objective of environmental sustainability may conflict with its other economic objectives.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a comprehensive understanding of how environmental sustainability may conflict with other economic objectives"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of how environmental sustainability may conflict with other economic objectives"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of how environmental sustainability may conflict with other economic objective(s)"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of environmental sustainability and/or other economic objective(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The government’s pursuit of environmental sustainability may conflict with the economic objective of economic growth. Environmental policies may sometimes result in a decrease in economic growth, through the price mechanism which may lead to higher prices or a reduction in supply. The environmental impact of economic growth includes an increase in consumption of non-renewable resources, higher levels of pollution and the potential loss of environmental habitats. An objective of environmental sustainability may conflict with employment as it may shut down specific industries that rely on the production of non-renewable resources, leading to job losses.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline how the value of a currency is determined under a floating exchange rate system.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms how currency value is determined under a floating exchange rate system"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Under a floating exchange rate, the value of a currency is set by the interaction of supply and demand for the currency in the foreign exchange market.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the impact of an increase in a country’s cash rate on its exchange rate.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Demonstrates a clear understanding of the impact of an increase in a country’s cash rate on its exchange rate"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines the impact of an increase in a country’s cash rate on its exchange rate"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "If domestic cash rates were to rise, overall interest rates would rise, thus attracting foreign investors who wish to place their savings in domestic banks. To do so, foreign investors would need to exchange their foreign currency into the domestic currency on the foreign exchange market, therefore increasing demand for domestic currency and appreciating that currency.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain likely changes to the structure of industry in Australia as a result of current trends in the global economy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a comprehensive explanation of how current trends in the global economy may change the structure of industry in Australia"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound explanation of how current trends in the global economy may change the structure of industry in Australia"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some explanation of how current trend(s) in the global economy may change the structure of industry in Australia"
+        },
+        {
+          "marks": "2",
+          "text": "Provides relevant statements about industry change(s) and/or current trend(s) in the global economy"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Service exports from Australia declined significantly during the pandemic and are likely to remain at lower levels than previously in the short term. It will take time to rebuild foreign markets in the service sector particularly in education and tourism, even as restrictions are being lifted and transport links restored. In the longer term, Australia’s mining sector may decline in importance. This could possibly occur as countries around the world increasingly seek to mitigate the impacts of climate change and reduce their carbon emissions. This may result in decreased global demand for our fossil fuel exports such as coal and gas as countries switch to renewable energy sources.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(a)(i)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain ONE positive impact that trade has had on this economy.",
+      "stimulus": "Consider an economy other than Australia.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides how and/or why trade has resulted in a positive outcome in an economy other than Australia"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a link between trade and a positive outcome"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "From the late 1980s Brazil started to open up to trade and competition in agricultural markets such as sugar, citrus, coffee, beef and soybeans. This export focus has led to greater productivity and international competitiveness. It helped Brazil transform from a net food importer to a net food exporter, raising incomes and living standards for farmers and other agricultural producers.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(a)(ii)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain ONE negative impact that trade has had on this economy.",
+      "stimulus": "Consider an economy other than Australia.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides how and/or why trade has resulted in a negative outcome with reference to an economy other than Australia"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a link between trade and a negative outcome"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "In Brazil there has been much land clearing to increase its beef and soybean production to be sold on foreign markets. Approximately 32% of the Amazon rainforest has been destroyed in the past 15 years, contributing to global warming and reducing biodiversity.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "A country has decided to increase its quota of imported beef. Discuss the likely impact of this increase on this country’s economy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a comprehensive understanding of the impact of an increased quota on the country’s economy"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of the impact of an increased quota on the country’s economy"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines the impact of an increased quota"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "An increase in the quota is a move towards freer trade and would lead to a greater volume of beef imported. This would affect consumers as they would be able to access more beef at lower prices. This may see the cost of other goods using beef as an input also fall (eg restaurants). Domestic farmers would face greater competition and potentially harm employment in the industry. This may strengthen international trade relations because of the reduction in protection.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "section": "III",
+      "sectionHeading": "Section III\n20 marks\nAttempt either Question 25 or Question 26\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Analyse the impact of changes in the components of the balance of payments on the value of the Australian dollar. In your answer, refer to the information provided.",
+      "stimulus": "The current account surplus reached another record high in the March quarter 2021, driven by a record $5.2 billion increase in the balance on goods and services surplus. Exports of goods and services rose $7.8 billion (7 per cent), while imports of goods and services rose $2.6 billion (3 per cent). The net primary income deficit rose by $3.1 billion to $6.0 billion in the March quarter 2021. Australian Bureau of Statistics, 2021 ©Australian Bureau of Statistics [Graph: Australian dollar/US dollar exchange rate 2012–2022, value of the AUD against the USD, 2012 to 2022.] Australian Bureau of Statistics, 2022 © Statista Pte Ltd [Graph: Current account as a % of GDP, 2012 to 2020, y-axis from –6 to 4.] Reserve Bank of Australia ©RBA",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "use the information provided",
+        "apply relevant economic terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Synthesises own knowledge and understanding with the information provided to develop a sustained, logical and cohesive response ; Integrates relevant economic terms, concepts, relationships and theory ; Demonstrates a comprehensive understanding of the relationship between changes in the components of the balance of payments and the value of the Australia dollar"
+        },
+        {
+          "marks": "13–16",
+          "text": "Synthesises own knowledge and understanding with the information provided to develop a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theories ; Demonstrates a sound understanding of the relationship between changes in the components of the balance of payments and the value of the Australia dollar"
+        },
+        {
+          "marks": "9–12",
+          "text": "Uses own knowledge and understanding with the information provided to develop a coherent response ; Uses relevant economic terms, concepts, relationships and theories ; Demonstrates some understanding of the relationship between changes in the components of the balance of payments and the value of the Australia dollar"
+        },
+        {
+          "marks": "5–8",
+          "text": "Presents a generalised response using some economic terms and concepts ; Outlines some aspects of the balance of payments and/or the value of the Australian dollar"
+        },
+        {
+          "marks": "1–4",
+          "text": "Presents a limited response with some relevant information ; Uses some economic terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Definition of balance of payments",
+        "Value of the Australian dollar is determined by the demand and supply for the Australian dollar",
+        "Factors include trade, investment, income and speculation. These economic transactions are recorded in the balance of payments, hence factors which influence the various components of the balance of payments will also impact the Australian dollar",
+        "Balance of payments components – current account, capital and financial account – breakdown of each account",
+        "Current account measures non-reversible transactions – trade and income",
+        "Trade is recorded in the BoGS. Changes to trade balance influence the Australian dollar",
+        "Factors influencing trade balance – shift to surplus – trends",
+        "Terms of trade – recent increase means that relative to import prices, export prices have risen. Reasons for this include strong demand from China for iron ore, supply issues in Brazil, higher export prices means that foreigners pay higher prices for exports and require greater quantity",
+        "Pandemic – fewer imports leading to less supply of the Australia dollar",
+        "Factors influencing income",
+        "Changing world interest rates leading to changes in servicing costs and the supply/demand of the Australian dollar",
+        "Factors influencing investment",
+        "Greater household saving via superannuation, leading to growth in foreign investment holdings by Australians."
+      ],
+      "figure": {
+        "file": "eco-2022-25.png",
+        "page": 22,
+        "alt": "Two charts: Australian dollar/US dollar exchange rate 2012–2022 (line) and current account as a % of GDP 2012–2020 (column), with printed sources."
+      }
+    },
+    {
+      "number": "26",
+      "section": "III",
+      "sectionHeading": "Section III\n20 marks\nAttempt either Question 25 or Question 26\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Analyse the impact of labour market policies on economic growth and the distribution of income and wealth in Australia. In your answer, refer to the information provided.",
+      "stimulus": "While aggregate wages growth has picked up recently, it has only returned to the low rates prevailing before the pandemic . . . This partly reflects elements of Australia’s wage-setting processes, which create inertia [lack of change] in aggregate wage outcomes. These processes include enterprise agreements that tend to only get renegotiated once every two to three years, the annual review of award wages by the Fair Work Commission and public sector wages policies. Speech delivered by Phillip Lowe, Governor, RBA, December 2021 © Australian Bureau of Statistics [Table: Productivity | 2016–17 | 2017–18 | 2018–19 | 2019–20 | 2020–21. GDP per hour worked | 0.8 | 0.2 | –0.1 | 1.5 | 1.2. Gross value added per hour worked market sector | 1.4 | 0.3 | 0.0 | 1.8 | 1.2. Real unit labour costs | –4.0 | 0.1 | –0.7 | –1.7 | –2.9.] Australian Bureau of Statistics, 2021 ©Australian Bureau of Statistics [Graph: Wages and GDP growth rates, 2012–2022, percentage, y-axis from –8 to 4. Key: Wages growth; GDP growth.] Adapted from Australian Bureau of Statistics, 2021 ©Australian Bureau of Statistics",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "use the information provided",
+        "apply relevant economic terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Synthesises own knowledge and understanding with the information provided to develop a sustained, logical and cohesive response ; Integrates relevant economic terms, concepts, relationships and theory ; Demonstrates a comprehensive understanding of the relationship between labour market policies and economic growth and the distribution of income and wealth in Australia"
+        },
+        {
+          "marks": "13–16",
+          "text": "Synthesises own knowledge and understanding with the information provided to develop a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theories ; Demonstrates a sound understanding of the relationship between labour market policies and economic growth and the distribution of income and wealth in Australia"
+        },
+        {
+          "marks": "9–12",
+          "text": "Uses own knowledge and understanding with the information provided to develop a coherent response ; Uses relevant economic terms, concepts, relationships and theories ; Demonstrates some understanding of the relationship between labour market policies and economic growth and/or the distribution of income and wealth in Australia"
+        },
+        {
+          "marks": "5–8",
+          "text": "Presents a generalised response using some economic terms and concepts ; Outlines some aspects of labour market policies"
+        },
+        {
+          "marks": "1–4",
+          "text": "Presents a limited response with some relevant information ; Uses some economic terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "Definition of the labour market Overview of historical and contemporary labour market policies Explanation of how labour market polices have affected income and wealth Theoretical labour market policies – decentralisation, enterprise bargaining Long-term impacts on productivity and its impacts on sustainable economic growth – use of data on consecutive run of economic growth as evidence Impact of industrial relations policies in the ’90s and 2000s on incomes and wage growth",
+        "link to subsequent weakness in consumer confidence prior to COVID recessions where the economy was weak Gini coefficient – some argue that low wage growth has widened the gap and lower income earners have not been able to gain greater levels of wealth, whereas high income earners have JobTrainer and other initiatives past and present – potential impact on growth and incomes Changes in HECS – HELP to move people into STEM – improve efficiency hence economic growth JobKeeper."
+      ],
+      "figure": {
+        "file": "eco-2022-26.png",
+        "page": 23,
+        "alt": "Productivity table for 2016–17 to 2020–21, and a line chart of wages and GDP growth rates, 2012–2022, with a key and ABS sources."
+      }
+    },
+    {
+      "number": "27",
+      "section": "IV",
+      "sectionHeading": "Section IV\n20 marks\nAttempt either Question 27 or Question 28\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Compare how inflation affects individuals, firms and government in Australia.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant economic information, terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Provides a sustained, logical and cohesive response that integrates relevant economic terms, concepts, relationships and theory ; Demonstrates a comprehensive understanding of how inflation affects individuals, firms and government ; Develops a well-informed comparison"
+        },
+        {
+          "marks": "13–16",
+          "text": "Provides a logical and cohesive response that applies relevant economic terms, concepts, relationships and theory ; Demonstrates a sound understanding of how inflation affects individuals, firms and government ; Develops a sound comparison"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides a coherent response that uses relevant economic terms, concepts, relationships and theory ; Demonstrates some understanding of how inflation affects TWO of individuals/firms/government"
+        },
+        {
+          "marks": "5–8",
+          "text": "Provides a generalised response that uses some economic terms and/or concepts ; Provides some features of the effects of inflation on individuals and/or firms and/or government"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides a limited response that uses some economic terms or concepts ; Makes relevant statements(s) about inflation"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "purchasing power",
+        "real income",
+        "savers vs borrowers",
+        "inequality and poverty. Firms",
+        "cost of inputs",
+        "possible wage-price spiral",
+        "demand for products",
+        "international competitiveness. Government",
+        "indexing of payments",
+        "bracket creep",
+        "contractionary monetary/fiscal policy",
+        "cutting fuel excise tax."
+      ]
+    },
+    {
+      "number": "28",
+      "section": "IV",
+      "sectionHeading": "Section IV\n20 marks\nAttempt either Question 27 or Question 28\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse reasons for the differences that exist between nations in terms of economic growth and development.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant economic information, terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Provides a sustained, logical and cohesive response that integrates relevant economic terms, concepts, relationships and theory ; Demonstrates a comprehensive understanding of differences that exist between nations in terms of economic growth and development ; Develops an informed analysis of reasons for these differences"
+        },
+        {
+          "marks": "13–16",
+          "text": "Provides a logical and cohesive response that applies relevant economic terms, concepts, relationships and theory ; Demonstrates a sound understanding of differences that exist between nations in terms of economic growth and development ; Develops some analysis of reasons for these differences"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides a coherent response that uses relevant economic terms, concepts, relationships and theory ; Demonstrates some understanding of differences that exist between nations in terms of economic growth and development ; Demonstrates some understanding of reasons for these differences"
+        },
+        {
+          "marks": "5–8",
+          "text": "Provides a generalised response that uses some economic terms and/or concepts ; Demonstrates some understanding of differences that exist between nations in terms of economic growth and/or development"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides a limited response that uses some economic terms or concepts ; Makes relevant statements(s) about the differences between nations"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Poverty cycle",
+        "Economic dualism",
+        "Institutional problems – political instability, corruption, women’s rights etc",
+        "Levels of foreign investment",
+        "Levels of indebtedness",
+        "Level of human capital (education, health, labour productivity)",
+        "Level of infrastructure including technology",
+        "Access to foreign trade/markets",
+        "Trade protection levels eg wealthy countries’ protection of agriculture, intellectual property",
+        "Access to natural resources",
+        "Levels of foreign aid and successful/unsuccessful development programs",
+        "Successful/unsuccessful government policies",
+        "Examples of inequalities in income and wealth/quality of life indicators (HDI, etc)."
+      ]
+    }
+  ]
+}

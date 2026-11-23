@@ -1,0 +1,786 @@
+{
+  "year": 2020,
+  "course": "Economics",
+  "papers": [
+    "2020-hsc-economics.pdf",
+    "2020-hsc-economics-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "23(b)",
+      "reason": "Part is answered by drawing a new supply curve on the printed diagram; not transcribed (brief)."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "With reference to the given data, outline ONE possible reason for the change in the distribution of income from Year 1 to Year 2 for this economy.",
+      "stimulus": "The table shows economic information for a hypothetical economy. [Table: Year | Gini coefficient | Human development index. 1 | 0.87 | 0.35. 2 | 0.74 | 0.36.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms a possible reason for the change in the distribution of income from Year 1 to Year 2"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The Gini coefficient has improved from Year 1 to Year 2 possibly due to decreases in personal income taxation aimed at lower income earners.",
+      "answersCouldInclude": [
+        "Changes in income taxation policies",
+        "Transfer payment policies",
+        "Superannuation policies",
+        "Investment in education and training."
+      ],
+      "figure": {
+        "file": "eco-2020-21a.png",
+        "page": 14,
+        "alt": "Table of Gini coefficient and human development index for Years 1 and 2 of a hypothetical economy."
+      }
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "A developing economy has entered into a multilateral free trade agreement with advanced economies. Outline ONE disadvantage to the developing economy of entering into this trade agreement.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms ONE disadvantage to the developing economy of entering into a free trade agreement with advanced economies"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The developing economy could be disadvantaged as its infant industries are exposed to greater foreign competition. This competition is caused by the economy entering into a free trade agreement with advanced economies. As a result, these infant industries could experience a slowdown in domestic production and demand.",
+      "answersCouldInclude": [
+        "Dumping",
+        "Negative externalities",
+        "Structural unemployment/job displacement",
+        "Worsening of trade accounts",
+        "Weaker bargaining power leading to poorer trade outcomes."
+      ]
+    },
+    {
+      "number": "21(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe ONE way in which the World Bank helps promote economic development in developing economies.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides characteristics and features of one way in which the World Bank helps promote economic development in developing economies"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms one way in which the World Bank helps promote economic development in developing economies"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The World Bank promotes economic development in developing economies by providing technical and financial support to develop infrastructure which allows these economies to grow, eg building schools, health centres, roads and rail for transport, giving them access to moving goods for trade. This will provide greater employment opportunities and in so doing improve the quality of life for people of developing economies.",
+      "answersCouldInclude": [
+        "Soft and low interest loans",
+        "Technical assistance",
+        "Promotion of foreign aid and grants",
+        "Implementation of structural economic reforms",
+        "Attracting private sector investment into developing economies",
+        "Providing risk insurance for private sector investment into developing economies",
+        "Supporting investment in education, health, effective public administration, agriculture and sustainable environmental management",
+        "Improved quality of life."
+      ]
+    },
+    {
+      "number": "21(d)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Economic growth does not always lead to an improvement in economic development. Explain TWO factors that could cause this.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a thorough understanding of factors which can prevent economic growth from leading to an improvement in economic development ; Makes evident the relationship between economic growth and improvement in economic development"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of factors which can prevent economic growth from leading to an improvement in economic development ; Provides some link between economic growth and improvement in economic development"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of factor(s) which can prevent economic growth leading to an improvement in economic development"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Economic growth may not lead to an improvement in economic development if/when the income generated in an economy is not distributed amongst the population equally. This could be due to corruption or to the actions of transnational corporations. Corruption prevents economic development as funds that could be allocated to health and education are diverted to personal interests of political leaders. Transnational corporations often send profits back to their home economy, and as a result the domestic government may forego taxation revenue that could have been spent on development strategies. Transnational corporations could also make use of their own labour instead of domestic sources of labour, further preventing opportunities for economic development.",
+      "answersCouldInclude": [
+        "Political instability",
+        "Trickle-down effect",
+        "Income inequality",
+        "Regressive taxation system",
+        "Tax havens",
+        "Dual economies (urban vs rural areas)",
+        "Environmental issues",
+        "Foreign and domestic ownership of resources",
+        "Narrow export base and Terms of Trade volatility."
+      ]
+    },
+    {
+      "number": "22(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Distinguish between structural unemployment and cyclical unemployment.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Notes the difference between structural and cyclical unemployment"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Structural unemployment describes those persons unemployed due to a mismatch between their skills and those skills demanded by employers whereas cyclical unemployment refers to those persons that have become unemployed due to a downturn in the business cycle.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe how ONE government policy has been used to address a skills shortage in the Australian labour market.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes how ONE government policy has addressed a skills shortage in the Australian labour market"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms a skills shortage in the Australian labour market AND/OR a government policy that has addressed a skills shortage"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The Federal Government introduced the Temporary Skills Shortage visa. This permitted skilled migrants to work in Australia in specific industries and occupations where there was a shortage of labour. A requirement of this visa was that employers pay a levy which contributed to the Skilling Australia Fund. It was expected that this policy would reduce the skills shortage in the Australian labour market in the medium to long term.",
+      "answersCouldInclude": [
+        "Skills for the future package",
+        "Skills for sustainable growth program",
+        "Building Australia’s future workforce package",
+        "Parent next program",
+        "Training supplement scheme",
+        "NSW Government Free Training Courses – TAFE – vocational education."
+      ]
+    },
+    {
+      "number": "22(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how a decrease in aggregate demand can lead to underemployment of labour in an economy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a sound explanation of how a decrease in aggregate demand can lead to underemployment of labour in an economy"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some explanation of how a decrease in aggregate demand can lead to underemployment of labour in an economy"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms the relationship between aggregate demand and underemployment"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A decrease in aggregate demand leads to lower levels of consumption resulting in underemployment of labour in an economy. Lower levels of consumption may lead to businesses reducing their levels of production, which will result in a lower demand for labour. Rather than laying off workers, businesses may decide to cut working hours for staff, contributing to underemployment of labour in the economy, even though workers want to work more hours.",
+      "answersCouldInclude": [
+        "Lower levels of investment/government spending leading to decreasing aggregate demand",
+        "Subdued consumer confidence",
+        "Low wage growth",
+        "Lower purchasing power",
+        "Lower derived demand for labour",
+        "External shocks – COVID-19."
+      ]
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline ONE reason for the protection of domestic industries.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms ONE reason for the protection of domestic industries"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "One reason for protection includes the goal of ensuring infant (sunrise) industries are shielded from foreign competitors. By doing so infant industries have the ability to grow and establish themselves in a competitive market.",
+      "answersCouldInclude": [
+        "Protection of domestic employment",
+        "Protection against dumping",
+        "Balance of Payment outcomes",
+        "Environmental and social factors",
+        "Defence."
+      ]
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Discuss Australia’s involvement in ONE bilateral trade agreement.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides detailed points for and/or against Australia’s involvement in one bilateral trade agreement"
+        },
+        {
+          "marks": "5",
+          "text": "Provides points for and/or against Australia’s involvement in one bilateral trade agreement"
+        },
+        {
+          "marks": "4",
+          "text": "Provides characteristics and features of Australia’s involvement in one bilateral trade agreement"
+        },
+        {
+          "marks": "2–3",
+          "text": "Demonstrates some understanding of a bilateral trade agreement(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The China−Australia Free Trade Agreement (ChAFTA), in operation since 2015, was completed to promote further trade with China. This agreement should increase the number of tariff-free goods exported to China. This should directly improve the competitiveness of Australia’s key agricultural industries such as beef, dairy, wine, fruit and seafood, creating further employment opportunities and lowering costs in these industries. However, this agreement includes an investment facilitation that may allow Chinese companies to bring in Chinese migrant workers to Australia to work on major projects. As a result of this, Australian workers could be offered fewer employment opportunities arising from Chinese investment into the Australian economy.",
+      "answersCouldInclude": [
+        "ANZCERTA",
+        "SAFTA",
+        "TAFTA",
+        "ACI–FTA",
+        "IA–CEPA",
+        "A–HRFTA",
+        "MAFTA",
+        "PAFTA",
+        "JAEPA",
+        "AUSFTA",
+        "KAFTA."
+      ]
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe the relationship between microeconomic reform and aggregate supply.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Clearly demonstrates the relationship between microeconomic reform and aggregate supply"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms the relationship between microeconomic reform and aggregate supply"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Microeconomic reform can cause an increase in aggregate supply by allowing domestic businesses to produce more output at each price level. This can be achieved through more efficient use of resources in the factor markets and by adopting greater efficiencies in the product market. Linking wage outcomes to productivity may allow a business to lower their average costs of production.",
+      "answersCouldInclude": [
+        "Improvement in factor market productivity",
+        "Allocative efficiency",
+        "Dynamic and technical efficiencies",
+        "Less government regulation/deregulation",
+        "Competition policy."
+      ]
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "With reference to a specific product market, explain how ONE microeconomic reform has led to increased efficiencies.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a thorough understanding of how ONE microeconomic reform has led to increased efficiencies in a specific product market"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of how ONE microeconomic reform has led to increased efficiencies in a specific product market"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of microeconomic reform and/or increased efficiencies"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Telecommunications is an industry that has achieved improved efficiencies through the implementation of microeconomic reform. These efficiencies have been achieved through the implementation of government deregulation policies. Foreign-owned telecommunication companies have been allowed to invest in the Australian market. This has ensured the existing domestic suppliers have been exposed to greater competitive practices. As a result there has been an improvement in allocative efficiencies. In 2009−2010 the Federal Government established the National Broadband Network to improve the speed and efficiency with which all sectors of the Australia economy are able to communicate and transfer information. Some consumers may have also benefited from lower prices and greater choice of service providers and it has allowed the Australian economy to benefit from improved technical efficiencies.",
+      "answersCouldInclude": [
+        "Deregulation of the finance sector",
+        "The national competition policy",
+        "Privatisation of public trading enterprises",
+        "Improvements in the tax system, through the broadening of the tax base",
+        "Deregulation of the aviation/airline industry",
+        "Trade and industry policy/trade liberalisation",
+        "Corporatisation and commercialisation of public trading enterprises",
+        "Health and community services through the National Disability Insurance scheme and implementation of the Medical Research Future fund."
+      ]
+    },
+    {
+      "number": "24(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how microeconomic reform in the labour market can lead to a lowering of cost inflation in Australia.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a thorough understanding of how microeconomic reform in the labour market can lead to a lowering of cost inflation in Australia"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of how microeconomic reform in the labour market can lead to a lowering of cost inflation in Australia"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms how microeconomic reform in the labour market can lead to a lowering of cost inflation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Labour market microeconomic reform has been an important microeconomic policy in recent years. It has been designed to improve the productivity of labour along with developing improvements in the quality of labour through a focus on education and training. A key feature of this reform has been the move towards wage rises linked to productivity and greater flexibility in the negotiation of employment contracts. As labour has become more efficient businesses have been able to produce more at a lower average cost, hence reducing pressure on the cost of production. This has the direct effect of lowering cost–push inflation.",
+      "answersCouldInclude": [
+        "Technical efficiency",
+        "Reform of workplace relations",
+        "Awards modernisation",
+        "Labour market flexibility",
+        "Unfair dismissal laws",
+        "Introduction of National Employment Standards",
+        "Enterprise agreements and good-faith bargaining",
+        "Reform of penalty rates",
+        "Casualisation of labour",
+        "Rise of underemployment."
+      ]
+    },
+    {
+      "number": "25",
+      "section": "III",
+      "sectionHeading": "Section III\n20 marks\nAttempt either Question 25 or Question 26\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Assess the impact of exchange rate fluctuations on the external stability of the Australian economy. In your response, refer to the information provided.",
+      "stimulus": "The fall in the value of the Australian dollar, taking it down to levels that counteract Australia’s relatively high cost levels, is very positive for sectors that compete internationally, including manufacturing, tourism, higher education, agriculture and mining. [Graph: Balance of payments – current account balance, September 2015 to September 2019, $ billion. Lines: current account balance, net goods and services and net primary income.] UN Climate Change Summit 2019 Source: https://www.un.org/en/climatechange/2019-climate-action-summit With courtesy of Dr. Shane Oliver",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "use the information provided",
+        "apply relevant economic terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Synthesises own knowledge and understanding with the information provided, to develop a sustained, logical and cohesive response ; Integrates relevant economic terms, concepts, relationships and theories ; Makes a well-informed judgement about the impact of exchange rate fluctuations on the external stability of the Australian economy"
+        },
+        {
+          "marks": "13–16",
+          "text": "Synthesises own knowledge and understanding with the information provided, to develop a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theories ; Makes some judgement about the impact of exchange rate fluctuations on the external stability of the Australian economy"
+        },
+        {
+          "marks": "9–12",
+          "text": "Uses own knowledge and understanding with the information provided, to develop a coherent response ; Uses relevant economic terms, concepts, relationships and theories ; Demonstrates some understanding of the impact of exchange rate fluctuations on components of external stability"
+        },
+        {
+          "marks": "5–8",
+          "text": "Presents a generalised response ; Uses some economic terms ; Sketches in general terms some aspects of the impacts of exchange rate fluctuations on the Australian economy"
+        },
+        {
+          "marks": "1–4",
+          "text": "Presents a limited response ; Uses some economic terms ; Lists some aspects of exchange rate fluctuations"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Definition of exchange rate, external stability",
+        "Components of external stability:",
+        "balance of payments",
+        "net foreign debt/liabilities.",
+        "Balance of Payments",
+        "Net goods",
+        "exchange rate elasticity, mining vs non-mining sectors, Terms of Trade, structural adjustment",
+        "Net services",
+        "exchange rate elasticity, two speed/multi-speed economy during mining boom, Terms of Trade volatility",
+        "Primary income",
+        "returns/income from foreign direct investment, returns/income from foreign speculative investment, interest rate differentials, mining boom, savings investment gap, serviceability on foreign debt, valuation effect",
+        "Capital and Financial Account: Foreign Direct Investment",
+        "exchange rate sensitivity, mining vs non-mining sectors.",
+        "Portfolio Investment:",
+        "interest rate differential",
+        "global economic uncertainty.",
+        "Foreign Reserves:",
+        "domestic and global exchange rate fluctuations.",
+        "Pitchford Thesis:",
+        "growth of public sector debt.",
+        "Valuation effect",
+        "Net Foreign Liabilities",
+        "Savings/investment gap",
+        "Serviceability of foreign debt",
+        "Foreign investment in Australian housing market",
+        "Foreign investment in mining sector",
+        "Growth of public sector debt",
+        "Growth of net foreign debt as a percentage of GDP",
+        "Increase in foreign ownership in Australia",
+        "Changes to government debt ceiling",
+        "International Competiveness",
+        "Trade Weighted Index",
+        "Fluctuation of exchange rates impacts the overall balance on the current account. Depreciating exchange rates lead to worsening CAD as the primary income account mostly contributes to the CAD",
+        "International business cycle",
+        "Fluctuations impact international competitiveness",
+        "link to goods and services",
+        "Commodity price volatility leads to narrow export base",
+        "External shocks",
+        "global events",
+        "Changes in the international business cycle due to external shocks and global events."
+      ],
+      "figure": {
+        "file": "eco-2020-25.png",
+        "page": 26,
+        "alt": "Line graph of balance of payments current account balance, net goods and services and net primary income, September 2015 to September 2019."
+      }
+    },
+    {
+      "number": "26",
+      "section": "III",
+      "sectionHeading": "Section III\n20 marks\nAttempt either Question 25 or Question 26\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Assess the effectiveness of government economic policies and international agreements in the management of the environment in Australia. In your response, refer to the information provided.",
+      "stimulus": "With global emissions reaching record levels and showing no sign of peaking, the UN . . . called upon all leaders to come to . . . the Climate Action Summit with concrete, realistic plans to enhance their nationally determined contributions by 2020, in line with reducing greenhouse gas emissions by 45 per cent over the next decade . . . [At the Summit] . . . there was also widespread concern that the world is presently way off course to meet the global target, as emissions continue to increase, and global temperatures rise. UN Climate Action Summit, 2019 https://www.un.org/en/climatechange/2019-climate-action-summit [Graph: Primary Energy Consumption, 2017, 100% stacked columns for Australia, World, USA, China and the European Union, showing oil, coal, gas, renewables, hydro and nuclear shares, with a fossil fuel line. Courtesy of AMP Capital]",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "use the information provided",
+        "apply relevant economic terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Synthesises own knowledge and understanding with the information provided, to develop a sustained, logical, cohesive and comprehensive response ; Integrates relevant economic terms, concepts, relationships and theories ; Makes a well-informed judgement about the effectiveness of government economic policies and international agreements in environmental management in Australia"
+        },
+        {
+          "marks": "13–16",
+          "text": "Synthesises own knowledge and understanding with the information provided, to develop a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theories ; Makes some judgement about the effectiveness of government economic policies and international agreements in environmental management in Australia"
+        },
+        {
+          "marks": "9–12",
+          "text": "Uses own knowledge and understanding with the information provided, to develop a coherent response ; Uses relevant economic terms, concepts, relationships and theories ; Demonstrates some understanding of the effectiveness of government economic policies and/or international agreements in environmental management in Australia"
+        },
+        {
+          "marks": "5–8",
+          "text": "Presents a generalised response ; Uses some economic terms ; Sketches in general terms some aspects of government economic policies and/or international agreements used in environmental management"
+        },
+        {
+          "marks": "1–4",
+          "text": "Presents a limited response ; Uses some economic terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "National policies (local, state, federal policies)",
+        "Regulations",
+        "National heritage trust establishment/bush care and clean seas programs eg preservation of Uluru, Kakadu and Great Barrier Reef",
+        "National water initiative",
+        "Murray–Darling Basin Commission",
+        "Water for future program",
+        "Desalination plant initiatives",
+        "Clean energy initiative",
+        "Solar flagship programs",
+        "Renewables Australia to support renewable research",
+        "Local council water restrictions",
+        "Market-based policies",
+        "Carbon pricing scheme",
+        "Emissions reduction fund/direct action fund",
+        "National energy guarantee",
+        "Taxation policies for use of green technology",
+        "Permit-based system for use of natural resources",
+        "Incentives to manage eco-tourism",
+        "Technology investment roadmap discussion paper",
+        "Reliability of renewable energy",
+        "Balance towards renewable energy sources",
+        "Targets",
+        "International agreements",
+        "Vienna Convention 1987",
+        "Montreal Protocol 1989",
+        "Convention on Biological diversity 1993",
+        "Convention to combat diversification, to address land desertification 2000",
+        "Stockholm Convention 2004",
+        "Kyoto Protocol 2008",
+        "Paris Agreement on Climate change 2016",
+        "2019 United Nations Climate Change Conference",
+        "COP25 Chile",
+        "Madrid, Spain",
+        "2018 United Nations Climate Change Conference",
+        "COP24 Katowice, Poland",
+        "UN Fish Stocks Agreement",
+        "2020 United Nations Climate Change Conference COP24 Glasgow, Scotland",
+        "Climate Solutions Fund",
+        "Emission Reduction Fund",
+        "Snowy 2.0",
+        "Snowy Hydro",
+        "The national electricity market",
+        "National electric vehicle strategy",
+        "Limitations",
+        "political constraints",
+        "time lags",
+        "global response."
+      ],
+      "figure": {
+        "file": "eco-2020-26.png",
+        "page": 27,
+        "alt": "Stacked column chart of primary energy consumption in 2017 for Australia, the world, the USA, China and the European Union, with a fossil fuel line."
+      }
+    },
+    {
+      "number": "27",
+      "section": "IV",
+      "sectionHeading": "Section IV\n20 marks\nAttempt either Question 27 or Question 28\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the effectiveness of macroeconomic policies in achieving economic growth and full employment in the Australian economy.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant economic information, terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Provides a sustained, logical and cohesive response that integrates relevant economic terms, concepts, relationships and theories ; Demonstrates a clear and comprehensive understanding of the relationship between macroeconomic policies and both economic growth and full employment in the Australian economy ; Makes a well-informed judgement about the effectiveness of macroeconomic policies in achieving economic growth and full employment in the Australian economy"
+        },
+        {
+          "marks": "13–16",
+          "text": "Provides a logical and cohesive response that applies relevant economic terms, concepts, relationships and theories ; Demonstrates a sound understanding of the relationship between macroeconomic policies and both economic growth and full employment in the Australian economy ; Makes some informed judgement about the effectiveness of macroeconomic policies in achieving economic growth and full employment in the Australian economy"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides a coherent response that uses economic terms, concepts, relationships and theories ; Demonstrates some understanding of the effectiveness and/or effects of macroeconomic policies in achieving economic growth and/or full employment in the Australian economy"
+        },
+        {
+          "marks": "5–8",
+          "text": "Provides a generalised response that uses some economic terms ; Demonstrates some understanding of macroeconomic policies and how they achieve economic growth and/or full employment"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides a limited response that uses some economic terms ; Identifies some aspects of macroeconomic policies or economic growth or full employment"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Definition of macroeconomic policies",
+        "Definition of economic growth at full employment",
+        "NAIRU",
+        "Fiscal policy:",
+        "taxation and government spending",
+        "fiscal stances (expansionary, contractionary)",
+        "budget outcomes (surplus, deficit, balanced)",
+        "automatic stabilisers.",
+        "Taxation measures",
+        "Income tax",
+        "Low to Middle Tax Income Offset",
+        "Personal Income Tax Plan",
+        "Company tax",
+        "Reductions in company tax rate",
+        "Small Business Instant Asset Write-Off",
+        "Expenditure",
+        "National Disability Insurance Scheme",
+        "Infrastructure Development",
+        "Infrastructure Investment program",
+        "Western Sydney Airport",
+        "Suburban Building Program",
+        "Brisbane–Melbourne Inland Rail",
+        "Medical Research Future Fund",
+        "National Innovation and Science Agenda",
+        "Jobs",
+        "Small Business Package and Youth Employment Package",
+        "Youth Jobs Path Program",
+        "Newstart Allowance",
+        "More Choices for a Longer Life",
+        "Retraining Older Australians",
+        "Limitations",
+        "Political considerations",
+        "Time lags",
+        "Global influences/international business cycles/health epidemics",
+        "Impact of drought",
+        "Bush Fire Recovery Package",
+        "External shocks and policy responses",
+        "JobKeeper",
+        "Childcare subsidies",
+        "JobSeeker",
+        "JobMaker",
+        "HomeBuilder",
+        "Monetary Policy",
+        "Definition",
+        "Implementation (Commonwealth Government Securities Exchange Settlement Accounts and RBA interest rate corridor)",
+        "Contractionary versus expansionary stance",
+        "Transmission mechanism",
+        "Price stability versus full employment",
+        "NAIRU (Non-Accelerating Inflation Rate of Unemployment)",
+        "Current cash rate changes and impact on consumption, investment and trade (aggregate demand)",
+        "Subdued growth",
+        "Impact of drought/farm production",
+        "Consolidation of labour and the rise of the gig economy",
+        "Unemployment",
+        "Underemployment",
+        "Low wage growth",
+        "Limitations: high household debt/wealth effect",
+        "subdued consumer confidence",
+        "global political and economic uncertainty",
+        "banks restricted lending practices and inconsistencies between RBA and bank rates",
+        "time lags",
+        "housing boom/housing decline",
+        "construction boom.",
+        "Use of both policies interdependently."
+      ]
+    },
+    {
+      "number": "28",
+      "section": "IV",
+      "sectionHeading": "Section IV\n20 marks\nAttempt either Question 27 or Question 28\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "To what extent do limitations of economic policies affect the achievement of economic growth and a more equal distribution of income in the Australian economy?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant economic information, terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Provides a sustained, logical and cohesive response that integrates relevant economic terms, concepts, relationships and theories ; Demonstrates a clear and comprehensive understanding of the limitations of economic policies in achieving economic growth and a more equal distribution of income in Australia ; Makes a well-informed judgement about the extent to which limitations of economic policies affect the achievement of economic growth and a more equal distribution of income in the Australian economy"
+        },
+        {
+          "marks": "13–16",
+          "text": "Provides a logical and cohesive response that applies relevant economic terms, concepts, relationships and theories ; Demonstrates a sound understanding of the limitations of economic growth in achieving economic growth and a more equal distribution of income in Australia ; Makes some judgement about the extent to which limitations of economic policies affect the achievement of economic growth and a more equal distribution of income in the Australian economy"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides a coherent response that uses relevant economic terms, concepts, relationships and theories ; Demonstrates some understanding of the limitations of economic policies and their effect on economic growth and/or a more equal distribution of income in the Australian economy"
+        },
+        {
+          "marks": "5–8",
+          "text": "Provides a generalised response that uses some economic terms ; Outlines economic policies in relation to achieving economic growth and/or distribution of income"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides a limited response that uses some economic terms ; Provides some relevant information about economic policies and/or economic growth and/or distribution of income"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Limitations of economic policies",
+        "Time lags",
+        "Global influences",
+        "Political constraints",
+        "Fiscal policy",
+        "Time lags in implementing budgetary measures to stimulate economic growth",
+        "Time lags in developing and passing legislation related to income tax return",
+        "Possibility of crowding-out effect",
+        "Political constraints in policy objectives",
+        "budget surplus versus economic growth, reform of transfer payment structures",
+        "2020, and electoral cycle",
+        "Global influences and fiscal policy responses",
+        "government stimulus packages to support growth and income distribution (JobKeeper and JobSeeker)",
+        "Monetary policy",
+        "Time lags",
+        "implementation and impact of the transmission mechanism",
+        "Blunt instrument",
+        "Diminishing effectiveness of reducing the cash rate as it approaches zero"
+      ]
+    }
+  ]
+}

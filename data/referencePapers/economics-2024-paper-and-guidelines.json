@@ -1,0 +1,641 @@
+{
+  "year": 2024,
+  "course": "Economics",
+  "papers": [
+    "2024-hsc-economics.pdf",
+    "2024-hsc-economics-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)(i)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 1,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "What is the quantity of imports at the world price of $10?",
+      "stimulus": "The diagram shows the domestic demand and supply for a particular good within an economy. The world price is $10. [Graph: domestic demand (D) and supply (S) for a particular good; price $10 to $60 against quantity 50 to 350; the curves meet at about $40 and 200.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Correctly states the quantity of imports at the world price of $10"
+        }
+      ],
+      "sampleAnswer": "300",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "eco-2024-21a.png",
+        "page": 10,
+        "alt": "Supply and demand diagram for a particular good, price from $10 to $60 against quantity, with a world price of $10."
+      }
+    },
+    {
+      "number": "21(a)(ii)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 1,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Calculate the government tariff revenue if a tariff of $20 is added to the world price.",
+      "stimulus": "The diagram shows the domestic demand and supply for a particular good within an economy. The world price is $10. [Graph: domestic demand (D) and supply (S) for a particular good; price $10 to $60 against quantity 50 to 350; the curves meet at about $40 and 200.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Correctly calculates the government tariff revenue when a tariff of $20 is applied"
+        }
+      ],
+      "sampleAnswer": "$20 ´ 100 = $2000",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "eco-2024-21a.png",
+        "page": 10,
+        "alt": "Supply and demand diagram for a particular good, price from $10 to $60 against quantity, with a world price of $10."
+      },
+      "calculationOnly": true
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe an implication of Australia’s participation in ONE multilateral trade agreement.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes an implication of Australia’s participation in ONE multilateral trade agreement"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines an implication of participation in a multilateral trade agreement"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The Regional Comprehensive Economic Partnership (RCEP), made up of 14 members, builds upon Australia’s existing free trade agreements particularly with AANZFTA members, but also includes China and the Republic of Korea. One implication of the RCEP that benefits Australia is increased market access for service suppliers across all RCEP economies.",
+      "answersCouldInclude": [
+        "ASEAN-Australia-New Zealand (AANZFTA)",
+        "Comprehensive and Progressive Agreement for Trans-Pacific Partnership (CPTPP) OR Trans-Pacific Partnership (TPP)",
+        "Pacific Agreement on Closer Economic Relations (PACER) Plus Regional Comprehensive Economic Partnership Agreement (RCEP)",
+        "WTO",
+        "APEC."
+      ]
+    },
+    {
+      "number": "21(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the impact of protectionist policies of other countries on components of Australia’s current account.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a clear and comprehensive understanding of how the protectionist policies of other countries impact on components of Australia’s current account"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of how the protectionist policies of other countries impact on components of Australia’s current account"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of the impact of trade policies on at least one component of Australia’s current account"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of the impact of trade policies OR Australia’s current account"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A reduction in global protection levels is likely to increase demand for Australian exports like agricultural items and services. Lower global protection levels can also promote global growth leading to higher demand for Australian mining resources. These changes would increase the value of credit entries in the BOGS, resulting in a smaller BOGS deficit or larger BOGS surplus. However, these changes would likely result in higher company profits and therefore also an increase in profits returned to foreign owners of companies in Australia, particularly from the mining sector. This will result in an increase in the value of debit entries recorded in the Net Primary Income section of the current account.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline ONE cause of inflation in Australia.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines a cause of inflation in Australia"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Cost inflation may cause an increase in the Australian inflation rate as the cost of raw materials and labour increase. Businesses may need to increase the price of goods and services to maintain profits.",
+      "answersCouldInclude": [
+        "Demand inflation",
+        "Cost inflation",
+        "Import inflation",
+        "Inflationary expectations."
+      ]
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how domestic inflation can affect Australia’s international competitiveness.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains the impact domestic inflation can have on Australia’s international competitiveness"
+        },
+        {
+          "marks": "2",
+          "text": "Describes some impacts of inflation on international competitiveness"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Higher prices of Australian goods and services relative to the rest of the world will reduce Australia’s international competitiveness. This is because the cost of inputs sourced in Australia will be relatively higher making Australian-made products more expensive. As a result, this will reduce demand for Australian exports and increase import expenditure by Australia.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the impact of labour market policies on inflation in the Australian economy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a comprehensive understanding of the impact of labour market policies on Inflation in the Australian economy"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of the impact of labour market policies on inflation in the Australian economy ; OR ; Demonstrates a comprehensive understanding of the impact of a labour market policy on inflation in the Australian economy"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of the impact of labour market policies on inflation in the Australian economy ; OR ; Demonstrates sound understanding of the impact of a labour market policy on inflation in the Australian economy"
+        },
+        {
+          "marks": "2",
+          "text": "Describes some aspects of labour market policies and/or inflation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "An increase in the minimum wage may lead to an increase in demand pull inflation as people have higher incomes and will be able to demand more goods and services, putting upward pressure on prices. Labour market policies such as training and education that increase the skills of workers should help increase productivity, leading to possible decreased pressure on inflation in Australia. For example, in 2021 the delivering of the Foundation Skills Training Package provided $24M to upskill reading and writing in job seekers, resulting in increased labour supply and lowering the labour cost impact on inflation.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline an environmental issue that is affecting the Australian economy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines an environmental issue affecting the Australian economy"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Preservation of natural environments is a current environmental issue. It refers to the active steps taken by government to limit human activities, such as mining, that threaten the biodiversity of the environment.",
+      "answersCouldInclude": [
+        "Pollution",
+        "Climate change",
+        "Depletion of renewable and non-renewable resources."
+      ]
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "A local government plans to install an electric-vehicle charging station near a shopping centre. Explain ONE private and ONE social benefit of this plan.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Demonstrates a clear understanding of ONE private and ONE social benefit of this plan"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of ONE private and ONE social benefit of this plan ; OR ; Demonstrates a clear understanding of ONE private OR social benefit of this plan"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The installation of an electric vehicle charging station may create a private benefit of enabling people from various income levels to refuel their electric vehicles affordably. This is because the charging station would remove the need for individuals to have charging infrastructure in their homes. One social benefit of the charging station is that more public chargers may lead to greater uptake of electric vehicles and then lower emissions from fewer petrol vehicles leading to better air quality.",
+      "answersCouldInclude": [
+        "Convenience for electric vehicle users",
+        "Less noise pollution for local community resulting from more electric vehicle usage",
+        "Job creation in the local community eg maintenance services linked to public charging stations",
+        "Environmental benefits of the shift from petrol vehicles to electric vehicles",
+        "Reduced costs associated with running vehicles for individuals."
+      ]
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the effectiveness of ONE market-based policy in managing environmental issues in the Australian economy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Makes a comprehensive assessment of the effectiveness of ONE market-based policy to manage environmental issues in Australia"
+        },
+        {
+          "marks": "4",
+          "text": "Makes a thorough assessment of the effectiveness of ONE market-based policy to manage environmental issues in Australian"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of ONE market-based policy to manage environmental issues in Australia"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a policy and/or environmental issues"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant economic information"
+        }
+      ],
+      "sampleAnswer": "The use of the NSW government Return and Earn scheme (RES), which is a subsidy, has been successful in managing the issue of preserving the natural environment. The scheme involves the NSW government paying a 10-cent cash payment per approved container at return points. Each container recycled no longer pollutes parks or waterways. The 2021–22 RES annual report confirms the scheme returned over 7 billion containers. The scheme has also contributed to a 25% reduction in plastic litter waste in NSW since 2019. On the other hand, not all containers used by individuals qualify for the RES subsidy. Consequently, some bottles do end up in landfill or in waterways despite the various access points offered by the RES.",
+      "answersCouldInclude": [
+        "Subsidies",
+        "Tariffs",
+        "Government provision of a good or service",
+        "The National Water Initiative",
+        "Carbon Tax."
+      ]
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Distinguish between international and regional business cycles.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Demonstrates a clear understanding of the difference between international and regional business cycles"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The international business cycle refers to changes in world output or GDP over time. In contrast, regional business cycles refer to changes in output, trade and financial flows in particular geographic areas, for example the EU, where economies are closely integrated.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain ONE reason for the difference between advanced and emerging economies.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides a clear explanation of a reason for the difference between advanced and emerging economies"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of a reason for the difference between advanced and emerging economies"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Advanced economies are characterised by high real per capita incomes which enables high levels of consumption, savings and investment in capital formation. This provides an important source of economic growth not historically available to emerging economies.",
+      "answersCouldInclude": [
+        "Global factors: trade systems, financial architecture, aid and assistance and technology.",
+        "Domestic factors: natural resources, labour supply and quality, access to capital and indebtedness, entrepreneurial culture, economic and political issues, economic policies."
+      ]
+    },
+    {
+      "number": "24(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "For an economy other than Australia, analyse the effects of globalisation on economic development.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a comprehensive understanding of the effects of globalisation on economic development in an economy other than Australia"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of the effects of globalisation on economic development in an economy other than Australia"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of the effects of globalisation on economic development in an economy other than Australia"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines an effect of globalisation and/or economic development in an economy"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Globalisation can have contrasting impacts on economic development in China. For example, the rapid increase in China’s export trade and GDP as it integrated into the global economy during 2000s, averaging 10.5% between 2001–2010, enabled greater domestic investment into social infrastructure. This led to significant reductions in poverty and increases in the life expectancy to 76.7 years. Adult literacy also climbed to 96.5%. In contrast, the global restrictions on trade and travel introduced to contain the covid pandemic caused a 9.8% contraction in China’s GDP in 2020. The resultant interruptions to trade and investment opportunities caused China’s economic growth and consequently development to slow.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "section": "III",
+      "sectionHeading": "Section III\n20 marks\nAttempt either Question 25 or Question 26\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Discuss the macroeconomic and microeconomic policies available to achieve sustainable economic growth in Australia. In your answer, refer to the information provided.",
+      "stimulus": "Australia’s economic performance has been very good since flexible inflation targeting was introduced in the early 1990s. Inflation has averaged around the midpoint of the RBA’s target of 2 to 3 per cent. The variability of output and unemployment has been lower than in earlier decades. Australia’s economic performance has been at least on par with other comparable economies. Reserve Bank of Australia, 2023 © Commonwealth of Australia – https://rbareview.gov.au/final-report [Graph: Australia’s productivity 2007—2022, labour productivity % by financial year ending, 2007 to 2022.] Treasury, Australian Government Adapted from Australian Bureau of Statistics – Australian System of National Accounts 2021–22 (released in 2023) – https://treasury.gov.au/sites/default/files/2023-07/measuring-what-matters-statement020230721_0.pdf, accessed 11 November",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "use the information provided",
+        "apply relevant economic terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Demonstrates a clear and comprehensive understanding of the macroeconomic and microeconomic policies used to achieve sustainable economic growth in Australia ; Synthesises own knowledge and understanding with the information provided, to develop a sustained, logical and cohesive response ; Integrates relevant economic terms, concepts, relationships, and theory"
+        },
+        {
+          "marks": "13–16",
+          "text": "Demonstrates a sound understanding of the macroeconomic and microeconomic policies used to achieve sustainable economic growth in Australia ; Synthesises own knowledge and understanding with the information provided, to develop a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theory"
+        },
+        {
+          "marks": "9–12",
+          "text": "Demonstrates a sound understanding of the macroeconomic or microeconomic policies used to influence economic growth ; OR ; Demonstrates some understanding of the effects of the macroeconomic and microeconomic policies used to influence economic growth ; Uses own knowledge and understanding with the information provided, to develop a coherent response ; Uses relevant economic terms, concepts, relationships and theory"
+        },
+        {
+          "marks": "5–8",
+          "text": "Outlines some aspects of macroeconomic or microeconomic policy and/or economic growth ; Presents a generalised response ; Uses some economic terms and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Identifies some aspects of macroeconomic or microeconomic policy or economic growth ; Presents a limited response ; Uses some economic terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "An increase in aggregate demand may cause a proportionally larger increase in gross domestic product or national income, known as the multiplier effect",
+        "Economic growth can be measured through changes in real gross domestic product",
+        "Components of aggregate demand include consumption, business investment, government expenditure and net exports",
+        "Phases of the business cycle include boom/peak, expansion, contraction and recession/trough",
+        "RBA stimulus comments on variability of output being lower, implies monetary policy supports sustainable economic growth",
+        "Limitations of economic policy such as time lags, global influences and political constraints.",
+        "The rationale for macroeconomic policies includes stabilising economic growth and achieving inflation of 2–3%",
+        "Fiscal and monetary policy are known as counter cyclical tools which help shift the economy out of recession or boom phases of the business cycle",
+        "Macroeconomic policies aim to shift aggregate demand curve to the right leading to higher output/production.",
+        "Federal Government budgets include the use of government spending and taxation",
+        "Budget outcomes include surplus, deficit and balanced",
+        "Changes to budgetary stances can have an impact on resource use, income distribution and economic activity.",
+        "The purpose of monetary policy is to influence the cost and supply of credit in the economy and adopt flexible inflation targeting 2–3% shown in stimulus",
+        "Monetary policy aims to ensure sustainable economic growth, price stability and full employment (see stimulus)",
+        "The implementation of monetary policy by the Reserve Bank of Australia involves the setting of the target cash rate.",
+        "The rationale for microeconomic policy includes shifting aggregate supply to the right by targeting individual/industries sectors or components of the economy supporting productivity growth",
+        "Microeconomic policy aims to achieve greater levels of technical, dynamic and allocative efficiency within an economy",
+        "Microeconomic policies can have positive and negative impacts on individual product and factor markets, individual industries and the economy",
+        "Microeconomic policies include regulation and deregulation of product and factor markets",
+        "Stimulus on productivity graph shows changes potentially generated by microeconomic policy",
+        "Stimulus graph shows that microeconomic policy such as labour market policy has not supported productivity growth since 2022."
+      ],
+      "figure": {
+        "file": "eco-2024-25.png",
+        "page": 22,
+        "alt": "Line graph of Australia's labour productivity (%) by financial year ending, 2007 to 2022."
+      }
+    },
+    {
+      "number": "26",
+      "section": "III",
+      "sectionHeading": "Section III\n20 marks\nAttempt either Question 25 or Question 26\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Discuss the macroeconomic and microeconomic policies available to achieve full employment in Australia. In your answer, refer to the information provided.",
+      "stimulus": "Microeconomics is, … about really delving into markets and redesigning them to work more efficiently. Doing so allows us to produce more output from a given set of inputs – and that is the ultimate driver of rising living standards. The Sydney Morning Herald, October 2019 © Sydney Morning Herald [Graph: Australia’s unemployment rate, 2014 to 2024, unemployment rate %.] Australian Bureau of Statistics Adapted from Australian Bureau of Statistics – Labour Force, Australia (released in 2024) – https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/sep-2024, accessed 12 November 2024",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "use the information provided",
+        "apply relevant economic terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Demonstrates a clear and comprehensive understanding of the macroeconomic and microeconomic policies used to achieve full employment in Australia ; Synthesises own knowledge and understanding with the information provided, to develop a sustained, logical and cohesive response ; Integrates relevant economic terms, concepts, relationships and theory"
+        },
+        {
+          "marks": "13–16",
+          "text": "Demonstrates a sound understanding of the macroeconomic and microeconomic policies used to achieve full employment in Australia ; Synthesises own knowledge and understanding with the information provided, to develop a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theory"
+        },
+        {
+          "marks": "9–12",
+          "text": "Demonstrates a sound understanding of the macroeconomic or microeconomic policies used to influence full employment ; OR ; Demonstrates an understanding of some effects of the macroeconomic or microeconomic policies used to influence employment ; Uses own knowledge and understanding with the information provided, to develop a coherent response ; Uses relevant economic terms, concepts, relationships and theory"
+        },
+        {
+          "marks": "5–8",
+          "text": "Outlines some aspects of macroeconomic or microeconomic policy and/or employment ; Presents a generalised response ; Uses some economic terms and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Identifies some aspects of macroeconomic or microeconomic policy or employment ; Presents a limited response ; Uses some economic terms and concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Full employment definition",
+        "The measurement of full employment/unemployment and importance of the labour force and labour force participation rate",
+        "The relevance of underemployment and hidden unemployment eg Australia’s unemployment has fallen from 7.5% in 2020 to around 3.5% in 2022",
+        "Current rates and trends in employment and unemployment",
+        "Types of unemployment including cyclical, structural, frictional, seasonal",
+        "The main groups affected by unemployment",
+        "Policy responses include macroeconomic fiscal initiatives and monetary policy to stabilise aggregate demand and address cyclical unemployment",
+        "Impact of fiscal spending on government revenue-raising, resources allocation and income distribution",
+        "Trade-off between increased government spending to stimulate employment growth and inflation NAIRU",
+        "The impact of changes in interest rates on levels of unemployment through changes in economic activity",
+        "The role of microeconomic policy in managing structural unemployment and frictional unemployment and resulting impacts on achieving full employment. Examples from Australian microeconomic policies in factor and product markets",
+        "The impact of labour market policies on labour costs and employment types and levels",
+        "Importance of training, education and employment programs",
+        "Limitations of economic policies including time lags, global influences and political constraints impacting the effectiveness of macro and micro policies",
+        "Microeconomic policies can improve efficiency of human capital driving employment growth, as shown in the stimulus."
+      ],
+      "figure": {
+        "file": "eco-2024-26.png",
+        "page": 23,
+        "alt": "Line graph of Australia's unemployment rate (%), roughly 2014 to 2024, peaking near 7.5% in 2020."
+      }
+    },
+    {
+      "number": "27",
+      "section": "IV",
+      "sectionHeading": "Section IV\n20 marks\nAttempt either Question 27 or Question 28\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain factors contributing to international economic integration.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant economic information, terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Demonstrates a clear and comprehensive understanding of factors contributing to international economic integration ; Clearly and comprehensively relates why and/or how factors contribute to international economic integration ; Provides a sustained logical and cohesive response that integrates relevant economic information, terms, concepts, relationships and theory"
+        },
+        {
+          "marks": "13–16",
+          "text": "Demonstrates a sound understanding of factors contributing to international economic integration ; Clearly relates why and/or how factors contribute to international economic integration ; Provides a logical and cohesive response that applies relevant economic information, terms, concepts, relationships and theory"
+        },
+        {
+          "marks": "9–12",
+          "text": "Demonstrates some understanding of factors contributing to international economic integration ; Provides a coherent response that uses economic terms, concepts, relationships and theory"
+        },
+        {
+          "marks": "5–8",
+          "text": "Demonstrates some understanding of factors and/or international economic integration ; Provides a generalised response that uses some economic terms and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Makes relevant statements about international economic integration ; Provides a limited response that uses some economic terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "The global economy measured using gross world product, define and measure, to show changes to international economic integration",
+        "Recent trends in globalisation",
+        "Features and trends in global trade in goods and service",
+        "Features and trends in global financial flows",
+        "Features and global investment through transnational corporations",
+        "The role of transport and communication technology of increasing economic integration",
+        "The role of and recent trends in International division of labour and migration flows",
+        "Synchronisation of global and regional business cycles",
+        "Free trade agreement, trading blocs and monetary unions impacts on promoting economic integration",
+        "Protectionist policies and their impacts at reducing economic integration",
+        "The role of international organisations and government economic forums eg WTO, IMF, World Bank, United Nations, OECD, G20, G7/8 and promoting economic integration."
+      ]
+    },
+    {
+      "number": "28",
+      "section": "IV",
+      "sectionHeading": "Section IV\n20 marks\nAttempt either Question 27 or Question 28\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the impacts of an appreciation of the Australian dollar on individuals, firms and government in Australia.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant economic information, terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Demonstrates a clear and comprehensive understanding of the impacts of an appreciation in the Australian dollar on individuals, firms and government ; Provides a sustained logical and cohesive response that integrates relevant economic information, terms, concepts, relationships and theory"
+        },
+        {
+          "marks": "13–16",
+          "text": "Demonstrates a sound understanding of the impacts of an appreciation in the Australian dollar on individuals, firms and government ; Provides a logical and cohesive response that applies relevant economic information, terms, concepts, relationships and theory"
+        },
+        {
+          "marks": "9–12",
+          "text": "Demonstrates some understanding of the impacts of an appreciation on two of individuals, and/or firms and/or government ; Provides a coherent response that uses economic terms, concepts, relationships and theory"
+        },
+        {
+          "marks": "5–8",
+          "text": "Demonstrates some understanding of the impact of an exchange rate movement on individuals or firms or government ; Provides a generalised response that uses some economic terms and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Makes relevant statements about exchange rates ; Provides a limited response that uses some economic terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Australian exchange rates are the price of the Australian dollar in terms of another currency",
+        "Description of Trade Weighted Index and its calculation and recent movements",
+        "Imports cheaper for consumers and businesses due to increased purchasing power",
+        "Import competing industries",
+        "Reduced international competitiveness",
+        "Reduced inflationary pressures",
+        "Reduced demand for exports causing flow on effects for output, employment and government revenue in the economy",
+        "Worsening of BOGS component in the current account",
+        "Australia’s interest payments on its foreign debt in Australian dollar terms will now be less reducing financial stress on firms and government debt",
+        "Reduced inflationary pressures, combined with weaker economic growth may result in the Australian government implementing macroeconomic policies that are more expansionary in nature."
+      ]
+    }
+  ]
+}

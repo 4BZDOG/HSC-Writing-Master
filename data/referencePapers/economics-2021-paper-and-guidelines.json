@@ -1,0 +1,607 @@
+{
+  "year": 2021,
+  "course": "Economics",
+  "papers": [
+    "2021-hsc-economics.pdf",
+    "2021-hsc-economics-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "22(a)",
+      "reason": "Drawing part: the student draws a curve on the printed private cost and benefit diagram. Not extracted (drawing/graphing parts are skipped)."
+    },
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline ONE influence of the G20 on the global economy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms the influence of the G20 on the global economy"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "An influence of the G20 was their encouragement of a coordinated fiscal and monetary response to the GFC.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Distinguish between trading blocs and monetary unions.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Indicates the difference between trading blocs and monetary unions"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A trading bloc refers to a number of countries joining together in a formal preferential trading agreement to the exclusion of other countries whereas in a monetary union two or more economies share a common currency.",
+      "answersCouldInclude": [
+        "Definitions of trading blocs",
+        "EU, NAFTA",
+        "Definitions of Monetary union",
+        "EU Monetary union."
+      ]
+    },
+    {
+      "number": "21(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate strategies used to promote economic development in an economy other than Australia.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Demonstrates a comprehensive understanding of strategies used to promote economic development in an economy other than Australia, including clear judgement"
+        },
+        {
+          "marks": "5",
+          "text": "Demonstrates a sound understanding of strategies used to promote economic development in an economy other than Australia, including clear judgement"
+        },
+        {
+          "marks": "3–4",
+          "text": "Demonstrates some understanding of a strategy(ies) used to promote economic development in an economy other than Australia, including a judgement"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a strategy used to promote economic development in an economy other than Australia"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Sample answer is for Brazil: President da Silva aimed to redistribute wealth in Brazil. The major policy was the Bolsa Familia (Family Fund) program. In 2004 it aimed to provide poor households with small cash transfers for keeping their children in school and attending preventative health care visits. The percentage of Brazilians living on less than $2US fell from 23.2% in 2002 to 3.7% in 2016. Therefore, the program was successful as educational and health outcomes as well as household income levels rose. Brazilian President da Silva implemented an infrastructure programme named PAC1. The government spent US$349 billion between 2007–2010 to increase economic development in the way of social and urban infrastructure as well as reliable energy for the citizens of Brazil. Many of the public works were severely delayed and the program was severely affected by waste and mismanagement. Nevertheless, PAC 1 was moderately effective as a development strategy with the HDI rising from 0.7 in 2005 to 0.755 in 2015 but it is clear that there could have been greater economic development if it was not for the mismanagement of the program.",
+      "answersCouldInclude": [
+        "PAC 2 – budget of $872b on annual investment. Policies included: Better Cities, Bringing Citizenship to the Community, My house, My Life. Difficulties arose in poor record of public sector building",
+        "Social Development Fund had some success although delays with getting the funding to those most needy."
+      ]
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how ONE market-based policy can affect environmental sustainability in Australia. Support your answer with an example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a clear understanding of how ONE market-based policy can affect environmental sustainability in Australia with a relevant detailed example"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of how ONE market-based policy can affect environmental sustainability in Australia with a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of how ONE market-based policy can affect environmental sustainability in Australia"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A market-based policy tends to act as a financial incentive or discouragement to influence the behaviour of consumers and/or businesses. For example, carbon tax would increase the cost of production and hence the price of processes that are not environmentally friendly. This would reduce the quantity and production of greenhouse gases to a more socially acceptable level. Therefore, lower production would improve environment sustainability in Australia.",
+      "answersCouldInclude": [
+        "Subsidies involving solar panels",
+        "Fishing licences and quotas",
+        "Pollution/climate change",
+        "Trading schemes."
+      ]
+    },
+    {
+      "number": "22(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the limitations of economic policies in relation to Australia’s ability to achieve environmental sustainability.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a comprehensive explanation of the limitations of economic policies in relation to Australia’s ability to achieve environmental sustainability"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound explanation of the limitations of economic policies in relation to Australia’s ability to achieve environmental sustainability"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of the limitations of Australian economic policies and/or environmental sustainability"
+        },
+        {
+          "marks": "2",
+          "text": "Describes some aspects or factors that limit economic policies"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Limitations of economic policies in relation to achieving environmental sustainability can include political constraints, time lags and global influences. Political constraints include the current government changing the policies of previous governments. Election cycles mean it takes a while to get policies voted in and then have time to put into practice before another party might be elected who changes it, for example Gillard's carbon tax was thrown out by the Abbott government. Mining Resources Rent Tax was ineffective due to it being watered down and repealed. Time lags can result in more damage to the environment as bureaucracy takes time to get the law into place to be effective. USA pulling out of the Paris Agreement means our environment can be negatively affected by global carbon emissions. All of these limitations affect Australia’s ability to achieve environmental sustainability.",
+      "answersCouldInclude": [
+        "Global influences – Rudd, Copenhagen"
+      ]
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline the impact of an increase in the minimum wage on cost inflation.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms the impact of an increase in the minimum wage on cost inflation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "An increase in the minimum wage would increase the cost of producing goods and services. This would likely be transmitted to consumers in the form of increased prices for these goods and services, increasing cost inflation.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the effects of low inflation on the Australian economy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a comprehensive understanding of the effects of low inflation on the Australian economy"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of the effects of low inflation on the Australian economy"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of the effect(s) of low inflation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "One effect of low levels of inflation is decreased purchasing power for consumers and decreased real income levels of wages. This in turn has the impact of decreasing the quality of life of consumers. Another effect is on the international competitiveness of the Australian economy, with low levels of inflation resulting in the price of Australia’s exports increasing at a slowing rate incentivising the purchase of goods and services from Australia. This may mean increases in the demand for Australian export industries like mining and tourism, which would improve BOGS and the Current Account.",
+      "answersCouldInclude": [
+        "Cost-push inflation falls",
+        "Savers see increases in the value of savings (this increases savings, improves structural reason for the CAD)",
+        "Government is less likely to have to deal with inflation through expansionary macroeconomic policy",
+        "Less tax and bracket creep."
+      ]
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How can microeconomic policies reduce the non-accelerating inflation rate of unemployment (NAIRU)? Support your answer with an Australian example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a comprehensive understanding of how microeconomic policies can reduce the non-accelerating inflation rate of unemployment (NAIRU), with an Australian example"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of how microeconomic policies can reduce the non-accelerating inflation rate of unemployment (NAIRU)"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of microeconomic policies and/or the non-accelerating inflation rate of unemployment (NAIRU)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Microeconomic policies can reduce NAIRU by using labour market reforms to reduce the number of people who are structurally unemployed. The decrease in structural unemployment lowers the natural rate of unemployment leading to more workers capable of contributing to the labour force and less upward pressure on wages and inflation. For example, the 2020–21 Budget introduced the Skills for Education and Employment (SEE) program which invested $49.5 m to improve basic language, literacy and numeracy skills, getting workers into the labour market who would otherwise be structurally unemployed. The 2020–21 budget also funded 100 000 new apprenticeships allowing workers to obtain skills and reduce the level of structural unemployment and the upward pressure on wages and inflation.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline how an increase in protectionist policies in the global economy could affect the demand for the Australian dollar.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides a link between an increase in protectionist policies and the demand for the AUD"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "An increase in global protectionist policies will lead to a reduction in demand for Australian exports. This will lead to a subsequent reduction in demand for the Australian dollar.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how the Australian dollar can both appreciate against the US dollar and depreciate against the trade weighted index at the same time.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Demonstrates a clear understanding of how the Australian dollar can depreciate against the TWI even as it appreciates against the USD"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of how the Australian dollar can depreciate against the TWI even as it appreciates against the USD"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The TWI is the value of the AUD against a weighted basket of the currencies of major trading partners. The USA is one of the many partners hence movement in the value of the USD relative to the AUD may not reflect the general value of the AUD against other trading partners. AUD may appreciate against USD but because of less demand for AUD by China or other economies it may depreciate against the TWI.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the effects of an appreciation of the Australian dollar on the Australian economy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a comprehensive understanding of the effects of an appreciation of the Australian dollar drawing out and relating the implications of the effects for the Australian economy"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of the relationship between the effects of an appreciation of the Australian dollar and their implications for the Australian economy"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of an appreciation of the Australian dollar with some implications for the Australian economy"
+        },
+        {
+          "marks": "2",
+          "text": "Provides general information regarding an appreciation of the Australian dollar with limited reference to its effect(s) on the Australian economy"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "An appreciation of AUD will have both positive and negative effects on different parts of the Australian economy. Exporting industries such as tourism and education will suffer as their cost will increase relative to other competing nations. Workers in these industries may suffer as a result with labour being a derived demand. Conversely, industries that rely upon imports will see the cost of goods coming from overseas become cheaper, leading to reduced inflationary pressure. The greater purchasing power will extend to consumers looking to purchase goods internationally or travel abroad. With sustained lower inflation the RBA would have a greater scope to cut interest rates. The implication of these effects could include higher unemployment and deflation.",
+      "answersCouldInclude": [
+        "Effect on households, workers, consumers, business and government",
+        "Effect on different types of businesses eg exporting",
+        "Valuation effect on foreign debt in foreign currency",
+        "Interest paid in foreign currency."
+      ]
+    },
+    {
+      "number": "25",
+      "section": "III",
+      "sectionHeading": "Section III\n20 marks\nAttempt either Question 25 or Question 26\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Evaluate the effectiveness of Australia’s fiscal policy in managing unemployment, income distribution and external stability. In your answer, refer to the information provided.",
+      "stimulus": "[Graph: Australian Government Budget Balance, percent of nominal GDP (%), 07/08 to 23/24 (estimate), y-axis from 2.5 to –12.5.] Reserve Bank of Australia 2021 Reproduced by permission of the Reserve Bank of Australia The Government’s economic response was designed to support Australian households and businesses through an exceptionally difficult period. It has helped keep businesses in business and Australians in jobs through the JobKeeper Payment and Boosting Cash Flow for Employers, and supported Australians in need with the Coronavirus Supplement and Early Release of Superannuation. The Government’s response is now transitioning to ensure the Australian economy recovers strongly by targeting additional temporary support measures to boost household incomes, bring forward business and infrastructure investment activity, and drive the unemployment rate back down. Australian Federal Budget 2020–21 © The Commonwealth of Australia",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "use the information provided",
+        "apply relevant economic terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Synthesises own knowledge and understanding with the information provided to develop a sustained, logical and cohesive response ; Integrates relevant economic terms, concepts, relationships and theory ; Makes a well-informed judgement about the effectiveness of fiscal policy in managing unemployment, income distribution and external stability"
+        },
+        {
+          "marks": "13–16",
+          "text": "Synthesises own knowledge and understanding with the information provided to develop a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theory ; Makes some judgement about the effectiveness of fiscal policy in managing unemployment, income distribution and/or external stability"
+        },
+        {
+          "marks": "9–12",
+          "text": "Uses own knowledge and understanding with the information provided to develop a coherent response ; Uses relevant economic terms, concepts, relationships and theory ; Demonstrates some understanding of the effectiveness of fiscal policy in managing unemployment, income distribution and/or external stability"
+        },
+        {
+          "marks": "5–8",
+          "text": "Presents a generalised response ; Uses some economic terms ; Sketches in general terms some aspects of fiscal policy as well as unemployment and/or income distribution and/or external stability"
+        },
+        {
+          "marks": "1–4",
+          "text": "Presents a limited response with some relevant information ; Uses some economic terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Definition of economic issues:",
+        "Unemployment",
+        "Income distribution",
+        "External stability",
+        "Fiscal Policy and Unemployment",
+        "Expansionary fiscal policy to increase AD and decrease cyclical unemployment",
+        "Enhanced by the multiplier",
+        "The JobKeeper package and response to COVID-19",
+        "Policies to improve the skills of the labour force and reduce structural unemployment",
+        "Fiscal Policy and Income Distribution",
+        "Spending on social security (eg JobSeeker, Pensions)",
+        "Tax-free threshold",
+        "Policies to make the tax system more progressive/regressive",
+        "A lack of changes to the tax system worsens income inequality due to bracket creep",
+        "Fiscal Policy and External Stability",
+        "Budget surplus and the impact on national savings",
+        "The impact of budget deficits/surpluses on the NPI and Current Account",
+        "Other policies to increase saving",
+        "Time lags, global influences, political constraints",
+        "Criteria to judge effectiveness of fiscal policy."
+      ],
+      "figure": {
+        "file": "eco-2021-25.png",
+        "page": 22,
+        "alt": "Australian Government Budget Balance column chart, percent of nominal GDP, 07/08 to 23/24 (estimate), with the Reserve Bank of Australia source line."
+      }
+    },
+    {
+      "number": "26",
+      "section": "III",
+      "sectionHeading": "Section III\n20 marks\nAttempt either Question 25 or Question 26\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Evaluate the effectiveness of Australia’s monetary policy in managing economic growth, income distribution and external stability. In your answer, refer to the information provided.",
+      "stimulus": "[Graph: Australian Cash Rate Target, cash rate (%), 2005 to 2020, y-axis from 0 to 8.] Reserve Bank of Australia 2020 Reproduced by permission of the Reserve Bank of Australia The Reserve Bank Board reduced the cash rate twice in March 2020, to 0.25 per cent, and to 0.1 per cent on 3 November 2020. This is boosting the cash flow of businesses and the household sector as a whole. It is also helping Australia’s trade-exposed industries through the exchange rate. At the same time, low interest rates do have negative consequences for some people, especially those relying on interest income. The Reserve Bank Board has discussed these consequences, but the evidence is that lower interest rates do benefit the community as a whole. Reserve Bank of Australia 2020 Reproduced by permission of the Reserve Bank of Australia",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "use the information provided",
+        "apply relevant economic terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Synthesises own knowledge and understanding with the information provided to develop a sustained, logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theory ; Makes a well-informed judgement about the effectiveness of monetary policy in managing economic growth, income distribution and external stability"
+        },
+        {
+          "marks": "13–16",
+          "text": "Synthesises own knowledge and understanding with the information provided to develop a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theory ; Makes some judgement about the effectiveness of monetary policy in managing economic growth, income distribution and/or external stability"
+        },
+        {
+          "marks": "9–12",
+          "text": "Uses own knowledge and understanding with the information provided, to develop a coherent response ; Uses relevant economic terms, concepts, relationships and theory ; Demonstrates some understanding of the effectiveness of monetary policy in managing economic growth, income distribution and/or external stability"
+        },
+        {
+          "marks": "5–8",
+          "text": "Presents a generalised response ; Uses some economic terms ; Sketches in general terms some aspects of monetary policy as well as economic growth and/or income distribution and/or external stability"
+        },
+        {
+          "marks": "1–4",
+          "text": "Presents a limited response with some relevant information ; Uses some economic terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Definition of economic issues:",
+        "Economic growth",
+        "Income distribution",
+        "External stability",
+        "Monetary policy and economic growth",
+        "Low interest rates aim to stimulate the economy by increasing consumption, investment",
+        "Ineffective as cash rate so low doing little to stimulate the economy",
+        "Monetary policy and income distribution",
+        "Low interest rates negative for people on fixed incomes, self-funded retirees relying on interest",
+        "Positive for first home buyers, property owners and those with mortgages",
+        "High interest rates positive for those with savings",
+        "Monetary policy and external stability",
+        "Low interest rates lead to lower exchange rates therefore increase in debt as per the valuation effect",
+        "High interest rates encourage greater investment but negative effect on net primary income",
+        "Time lags, global influences, political constraints",
+        "Criteria to judge effectiveness of monetary policy."
+      ],
+      "figure": {
+        "file": "eco-2021-26.png",
+        "page": 23,
+        "alt": "Australian Cash Rate Target line chart, cash rate (%), 2005 to 2020, with the Reserve Bank of Australia source lines."
+      }
+    },
+    {
+      "number": "27",
+      "section": "IV",
+      "sectionHeading": "Section IV\n20 marks\nAttempt either Question 27 or Question 28\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the effects, over the last ten years, of free trade agreements and protectionist policies on the global economy.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant economic information, terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Provides a sustained, logical and cohesive response that integrates relevant economic terms, concepts, relationships and theory ; Demonstrates a clear and comprehensive understanding of the relationship between the global economy and free trade agreements and protectionist policies ; Makes a well-informed judgement about the effects over the last 10 years of free trade agreements and protectionist policies on the global economy"
+        },
+        {
+          "marks": "13–16",
+          "text": "Provides a logical and cohesive response that applies relevant economic terms, concepts, relationships and theory ; Demonstrates a sound understanding of the relationship between the global economy and free trade agreements and protectionist policies ; Makes some judgement about the effects over the last 10 years of free trade agreements and protectionist policies on the global economy"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides a coherent response that uses economic terms, concepts, relationships and theory ; Demonstrates some understanding of the effects of free trade agreements and/or protectionist policies"
+        },
+        {
+          "marks": "5–8",
+          "text": "Provides a generalised response that uses some economic terms ; Demonstrates some understanding of free trade agreements and/or protectionist policies"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides a limited response that uses some economic terms ; Identifies some aspects of free trade agreements and/or protectionist policies and/or the global economy"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Makes a judgement as to the size and nature of the effects of free trade agreements on the global economy",
+        "Makes a judgement as to the size and nature of the effects of protectionist policies on the global economy",
+        "Effects on GWP",
+        "Effects on global trade and financial flows",
+        "Free trade may lead to comparative advantage to be worked towards in global economy and therefore more efficient allocation of global resources",
+        "Allows countries to specialise in the production of goods and services",
+        "Domestic businesses forced to compete with international businesses therefore creates international competitiveness",
+        "Free trade generally leads to higher living standards as a result of decreased prices, increased production and consumer choice",
+        "Opening up of global markets",
+        "Increase in structural unemployment",
+        "Harder for economies to establish new industries",
+        "Goods could be dumped",
+        "May encourage environmental recklessness in production",
+        "Free trade may lead to increased income and wealth inequality: wages decline in uncompetitive industries",
+        "Impacts on external stability – eg current and KAFA account imbalances around the world",
+        "Global economic integration",
+        "Examples of recent trend towards increased protection: USA/China, China/Australia",
+        "Trade diversion with free trade agreements",
+        "Preferential trade agreements – exclusion",
+        "Income inequality that exists for those not in the preferential free trade agreement."
+      ]
+    },
+    {
+      "number": "28",
+      "section": "IV",
+      "sectionHeading": "Section IV\n20 marks\nAttempt either Question 27 or Question 28\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the effects, over the last ten years, of changes in the global economy on Australia’s trade and financial flows.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant economic information, terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Provides a sustained, logical and cohesive response that integrates relevant economic terms, concepts, relationships and theory ; Demonstrates a clear and comprehensive understanding of the relationship between changes in the global economy and Australia’s trade and financial flows ; Makes a well-informed judgement about the effects over the last 10 years of changes in the global economy on Australia’s trade and financial flows"
+        },
+        {
+          "marks": "13–16",
+          "text": "Provides a logical and cohesive response that applies relevant economic terms, concepts, relationships and theory ; Demonstrates a sound understanding of the relationship between recent changes in the global economy and Australia’s trade and financial flows ; Makes some judgement about the effects over the last 10 years of changes in the global economy on Australia’s trade and financial flows"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides a coherent response that uses relevant economic terms, concepts, relationships and theory ; Demonstrates some understanding of the effects of changes in the global economy on Australia’s trade and/or financial flows"
+        },
+        {
+          "marks": "5–8",
+          "text": "Provides a generalised response that uses some economic terms ; Demonstrates some understanding of changes in the global economy and/or Australia’s trade and/or financial flows"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides a limited response that uses some economic terms ; Provides some aspects of the changes in the global economy and/or Australia’s trade and/or financial flows"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Exogenous shocks (COVID-19)",
+        "Global / Regional business cycles",
+        "Trade agreements",
+        "Protectionist policies",
+        "Interest rate differentials",
+        "Border closures, movement of people Impact upon",
+        "Trade",
+        "Exports base",
+        "Rural/Manufacturing/Mining/Services",
+        "Import categories",
+        "Consumption/Capital/Intermediate/Services",
+        "Financial flows",
+        "Direct investment",
+        "Portfolio investment",
+        "Other investment",
+        "Debt and Equity borrowing",
+        "Foreign exchange Changes in the trading relationship between Australia and China Current account changes."
+      ]
+    }
+  ]
+}
