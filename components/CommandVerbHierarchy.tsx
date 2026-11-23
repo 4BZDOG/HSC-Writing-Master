@@ -840,7 +840,8 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
         >
           <div className="overflow-hidden">
             <div className={RIBBON_INK_HERO}>
-              {/* The verb. */}
+              {/* The verb. From `xl` it centres on the staircase beside it, which is the
+                  taller column, so the hero is not a short block over a dead field. */}
               <div className="min-w-0">
                 {activeTermInfo ? (
                   // Keyed on the verb, so choosing another replays the one
@@ -891,8 +892,8 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                       Choose a verb
                     </h4>
                     <p className={`${RIBBON_INK_DEFINITION} ${PROSE_BLOCK}`}>
-                      Every command verb sets a ceiling on how far a response can go. Pick one below
-                      to see what it asks for.
+                      Each command verb sets how far a response can go. Pick one below to see what
+                      it asks for.
                     </p>
                   </div>
                 )}
@@ -913,7 +914,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                   <p className={`${RIBBON_INK_CAPTION} ${PROSE_FLOW}`}>
                     {courseCeiling
                       ? `In this course, this ${activeTermInfo.term} question caps a response at Band ${getTierTargetBand(courseCeiling)}.`
-                      : `${activeTermInfo.term} questions cap a response at Band ${getTierTargetBand(activeTermInfo.tier)}${getTierTargetBand(activeTermInfo.tier) === 6 ? ' (Band 5 on 6 marks or fewer)' : ''}.`}
+                      : `${activeTermInfo.term} questions cap a response at Band ${getTierTargetBand(activeTermInfo.tier)}${getTierTargetBand(activeTermInfo.tier) === 6 ? ', or Band 5 on 6 marks or fewer' : ''}.`}
                   </p>
                 )}
 
