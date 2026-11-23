@@ -1,0 +1,731 @@
+{
+  "year": 2019,
+  "course": "Economics",
+  "papers": [
+    "2019-hsc-economics.pdf",
+    "2019-hsc-economics-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Outline a reason for the change in supply of the Australian dollar as shown in the diagram.",
+      "stimulus": "The diagram shows movements in the Australian dollar against the US dollar. [Diagram: Supply and demand for the Australian dollar, $A in terms of $US against Quantity of $A. Supply curve shifts from S0 to S1 to the right; demand curve D unchanged; price falls from 0.70 to 0.60 and quantity rises from Q0 to Q1.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches a reason why the supply of Australian dollar may increase"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Increase in outbound tourists from Australia to USA. This means more Australian dollars will be supplied to the market.",
+      "answersCouldInclude": [
+        "More imports",
+        "Less capital inflows",
+        "More capital outflows",
+        "Speculation"
+      ],
+      "figure": {
+        "file": "eco-2019-21a.png",
+        "page": 10,
+        "alt": "Diagram of the Australian dollar supply and demand, with supply shifting from S0 to S1 and the exchange rate falling from 0.70 to 0.60."
+      }
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain why Australia’s exchange rate against the US dollar might NOT move in the same direction as Australia’s Trade Weighted Index.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Demonstrates a clear understanding of why Australia’s TWI may not move in the same direction as its value relative to the USD"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches why Australia’s TWI may not move in the same direction as its value relative to the USD"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a correct statement about Australia’s TWI or bilateral exchange rates"
+        }
+      ],
+      "sampleAnswer": "The TWI is the value of the AUD against a weighted basket of the currencies of major trading partners. The USA is only one of many partners and hence movements in the value of the USD relative to AUD may not reflect the general value of the AUD against other trading partners. AUD may depreciate (appreciate) against the USD but because of the amount of demand for AUD by China and/or other economies, the TWI will continue to appreciate (depreciate).",
+      "answersCouldInclude": [
+        "The USD has a weighting less than 10% within the TWI. The USA may be only a relatively small trading partner.",
+        "The AUD may have appreciated (depreciated) in general but the USD could have appreciated (depreciated) even more."
+      ]
+    },
+    {
+      "number": "21(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the effects of a depreciating Australian dollar on accounts within the Balance of Payments.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a comprehensive understanding of how a depreciation affects Balance of Payments accounts (KAFA and CA)"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of how a depreciation affects the Balance of Payments categories"
+        },
+        {
+          "marks": "3",
+          "text": "Sketches how a depreciation affects the Balance of Payments categories OR Demonstrates a comprehensive understanding of how a depreciation affects a Balance of Payments category"
+        },
+        {
+          "marks": "2",
+          "text": "Makes a relevant statement about how a depreciation affects the Balance of Payments"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a relevant statement about the Balance of Payments OR an effect(s) of a depreciation"
+        }
+      ],
+      "sampleAnswer": "Depreciation of the Australian dollar will initially make imports more expensive worsening the BOGS. In the long run however this will improve the international competitiveness of our exports as it will require less of foreign currencies to purchase the same amount. Domestic consumers will also switch to domestic goods and services due to the cost factor. Depreciation will make Australian assets cheaper to purchase and hence increase capital inflow (financial account of the BOP), although this may not be the case if further depreciation is expected. Depreciation will also make servicing our debts that are denominated in other currencies more expensive causing a larger debit in the primary income.",
+      "answersCouldInclude": [
+        "Definition of Balance of Payments and/or its categories (components)",
+        "Valuation effect",
+        "Primary income",
+        "Secondary income",
+        "Foreign direct",
+        "Portfolio Investment",
+        "J-curve",
+        "Greater returns on overseas investments."
+      ]
+    },
+    {
+      "number": "22(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline the relationship between economic growth and economic development.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches the relationship between economic growth and economic development"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a relevant statement about economic growth and/or economic development"
+        }
+      ],
+      "sampleAnswer": "Economic growth refers to increase in real GDP over a period of time while economic development refers to an improvement in living standards. Economic development generally requires economic growth to take place.",
+      "answersCouldInclude": [
+        "Infrastructure, human and physical capital",
+        "HDI",
+        "Income per capita."
+      ]
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Examine TWO reasons for the difference in living standards between nations.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Enquires into TWO reasons that account for the difference in living standards between nations"
+        },
+        {
+          "marks": "3",
+          "text": "Enquires into ONE reason that accounts for the difference in living standards between nations AND Sketches ONE other reason that accounts for the difference in living standards between nations"
+        },
+        {
+          "marks": "2",
+          "text": "Enquires into ONE reason that accounts for the difference in living standards between nations OR Sketches TWO reasons that account for the difference in living standards between nations"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a relevant statement about a reason for the difference in living standards"
+        }
+      ],
+      "sampleAnswer": "Countries may have access to different natural resources (eg coal, oil, water, metals) within their economies leading to differences in incomes and living standards. The less developed economies lack funding and capital required for investments and to generate growth and this will impact living standards.",
+      "answersCouldInclude": [
+        "Natural resource allocation",
+        "Low levels of human and financial capital",
+        "Infrastructure",
+        "Stability of government",
+        "Institutional factors",
+        "Economic policies",
+        "Trade and financial flows",
+        "Foreign debt",
+        "Access to technology",
+        "Global aid and assistance."
+      ]
+    },
+    {
+      "number": "22(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the effectiveness of ONE strategy used to promote economic development in a country other than Australia.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a comprehensive understanding regarding the effectiveness of a strategy used to promote economic development in a country other than Australia"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates an understanding regarding the effectiveness of a strategy used to promote economic development in a country other than Australia"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches a strategy which could promote economic development in a country other than Australia"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a relevant statement of a strategy which could promote economic development in a country other than Australia"
+        }
+      ],
+      "sampleAnswer": "Sample answer is for China. One strategy employed in China has been the development of Special Economic Zones (SEZs). This strategy has focused on the southern and eastern coastlines of the country, including cities such as Shanghai and Guangdong. This has attracted increased level of foreign direct investment due to favourable economic incentives such as tax concessions and eased restrictions. This has resulted in higher employment levels in these coastal areas which have led to increased living standards, but has created increased urban / rural inequality where those in regional areas tend to have lower incomes, rely on subsistence farming, and therefore have poorer educational and health outcomes.",
+      "answersCouldInclude": [
+        "Reference could be made to broader based strategies as opposed to specific ones, as well as any other economy."
+      ]
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline a cost that may be associated with achieving ecologically sustainable development.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms a cost associated with achieving ecologically sustainable development"
+        },
+        {
+          "marks": "1",
+          "text": "Correctly identifies a cost associated with achieving ecologically sustainable development"
+        }
+      ],
+      "sampleAnswer": "A cost associated with achieving ESD may be a loss or decline of productive capacity for the economy as methods that are more sustainable tend to cost more and less output may be produced.",
+      "answersCouldInclude": [
+        "Private costs",
+        "Social costs",
+        "Taxation/subsidies",
+        "Increased price for consumers",
+        "Increased government expenditure."
+      ]
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Why may a public beach NOT be considered a public good?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides a reason why a public beach may not be considered a public good"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a statement about public goods relevant to public beaches"
+        }
+      ],
+      "sampleAnswer": "A public beach may not be ‘non-rival’ as others using it may reduce a person’s utility or satisfaction from using this resource.",
+      "answersCouldInclude": [
+        "Congestion",
+        "Accessibility."
+      ]
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How does market failure create negative externalities?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Demonstrates an understanding of how negative externalities may arise due to market failure"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a correct statement about negative externalities and/or market failure"
+        }
+      ],
+      "sampleAnswer": "In general, negative externalities arise as the price mechanism only takes into account the private costs and benefits of the individuals involved in the exchange. It does not tend to take into account the social costs that may result, whether they be intended or unintended, eg waste or pollution.",
+      "answersCouldInclude": [
+        "Free riders",
+        "Problem of the commons",
+        "Marginal social cost, marginal private cost/benefit."
+      ]
+    },
+    {
+      "number": "23(d)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how market-based policies can be used to preserve the natural environment.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a clear understanding of how market-based policies can be used to preserve the natural environment"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates an understanding of how market-based policies can be used to preserve the natural environment"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches how market-based policies can be used to preserve the natural environment"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a relevant statement about market-based policies OR the preservation of the natural environment"
+        }
+      ],
+      "sampleAnswer": "Market-based policies tend to act as financial incentives and discouragements to influence the behaviour of consumers and businesses with a goal of preserving the natural environment. Taxes will increase the cost of production and hence price of procedures that are not environmentally friendly. This will reduce the quantity and production to a more socially optimum level. Subsidies increase production by rewarding certain types of consumption or production hence increasing these types of procedures. Therefore, the production for the consumer/business to better reflect the social cost – ‘internalising the externality’.",
+      "answersCouldInclude": [
+        "Subsidies involving solar panels",
+        "Fishing licences and quotas",
+        "Social costs/benefits",
+        "Market failure",
+        "Pollution/climate change",
+        "Depletion of non-renewable resources",
+        "Trading schemes."
+      ]
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 1,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Calculate the inflation rate in Year 3.",
+      "stimulus": "Use the table to answer parts (a) and (b).\n\nThe following information refers to a hypothetical economy.\n\n[Table: Year | Real GDP ($ billion) | Consumer price index (CPI) | Unemployment rate (% workforce) | Current account balance (as a % of real GDP). 1 | 1000 | 100 | 8.9 | –4. 2 | 1100 | 110 | 6.2 | –4.5. 3 | 1220 | 132 | 3.5 | –5.5.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Correctly calculates the rate of inflation to be 20%"
+        }
+      ],
+      "sampleAnswer": "132 − 110 100% × 110 1 = 20%",
+      "answersCouldInclude": [],
+      "calculationOnly": true,
+      "figure": {
+        "file": "eco-2019-24a.png",
+        "page": 16,
+        "alt": "Table of real GDP, CPI, unemployment rate and current account balance for Years 1 to 3 of a hypothetical economy."
+      }
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Justify an appropriate monetary policy stance for this economy. Support your answer with reference to the economic indicators provided.",
+      "stimulus": "Use the table to answer parts (a) and (b).\n\nThe following information refers to a hypothetical economy.\n\n[Table: Year | Real GDP ($ billion) | Consumer price index (CPI) | Unemployment rate (% workforce) | Current account balance (as a % of real GDP). 1 | 1000 | 100 | 8.9 | –4. 2 | 1100 | 110 | 6.2 | –4.5. 3 | 1220 | 132 | 3.5 | –5.5.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Clearly supports an argument for an appropriate monetary policy stance, and the relationship between the provided indicators and the stance"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some understanding of an appropriate monetary policy stance, and the relationship between the indicators and the stance"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches the relationship between the chosen stance and the indicators"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a relevant statements about the monetary policy in relation to the indicators"
+        }
+      ],
+      "sampleAnswer": "Stance: Tighten Monetary Policy The economy is experiencing growth above the ideal rate, as indicated by increasing high inflation, rapidly falling unemployment and increase in CAD (as a % of GDP). The increased cash rate will reduce aggregate demand, decreasing output hence slowing employment growth. This will also decrease inflationary pressures. The slower growth will also reduce demand for imports and stabilise the cyclical part of the CAD.",
+      "answersCouldInclude": [
+        "Contractionary stance",
+        "Change in the cash rate and interest rates",
+        "Economic growth, price stability, full employment, external stability",
+        "Phillips curve/NAIRU and other relationships between indicators",
+        "Transmission channels of monetary policy."
+      ],
+      "figure": {
+        "file": "eco-2019-24a.png",
+        "page": 16,
+        "alt": "Table of real GDP, CPI, unemployment rate and current account balance for Years 1 to 3 of a hypothetical economy."
+      }
+    },
+    {
+      "number": "24(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the limitations of using monetary policy for economic management of the Australian economy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a clear understanding of the limitations of using monetary policy for Australia’s economic management"
+        },
+        {
+          "marks": "4",
+          "text": "Provides some understanding of limitations of using monetary policy for Australia’s economic management"
+        },
+        {
+          "marks": "3",
+          "text": "Provides characteristics and features of limitations of using monetary policy for economic management"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches limitations of using monetary policy for economic management"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a relevant statement(s) about a limitation(s) of using monetary policy for economic management"
+        }
+      ],
+      "sampleAnswer": "There are time lag issues. While implementation time lag in using monetary policy is short (changes can be made at 11 possible times within the year) there is a medium term effectiveness (impact) lag with proposed changes taking approximately 9–18 months to progress through the various transmission channels of the Australian economy. Another limitation of monetary policy as a macro tool is that it can’t address objectives simultaneously (trade-off in objectives). For instance, maintaining price stability may come at the cost of full employment. RBA will also need to consider global interest rate differentials in order to minimise negative effects of the current/proposed rate.",
+      "answersCouldInclude": [
+        "Policy formation lag, autonomous and induced expenditure lag, price adjustment lag",
+        "Relative interest rates overseas",
+        "Contagion effect",
+        "World business cycle",
+        "Tightening of financial lending restrictions",
+        "Macroeconomic policy mix",
+        "Links to investor confidence, current account",
+        "Blunt instrument."
+      ]
+    },
+    {
+      "number": "25",
+      "section": "III",
+      "sectionHeading": "Section III\n20 marks\nAttempt either Question 25 or Question 26\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Discuss the effects of sustained budget deficits on economic growth and external stability in the Australian economy. In your response, refer to the economic information provided.",
+      "stimulus": "Since 2008, the policies implemented in response to the GFC have encouraged greater economic activity. This has resulted in public and private sector borrowing to fund investment, consumption and imports which have contributed to Australia’s uninterrupted economic growth. Over the same period, Australia has experienced record high asset prices and household debt, net foreign debt in excess of $1 trillion and the lowest rates of household savings since December 2007. [Graph: Australian Government budget balance (% of GDP), 2001 to 2017, bars from about +2 to −4.2. Source: Australian Treasury] [Graph: General Government net debt (% of GDP), 2001 to 2017, line from about 6 down to about −7, then rising to about 19. Source: Australian Treasury]",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "use the information provided",
+        "apply relevant economic terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Synthesises own knowledge and understanding with the information provided, to develop a sustained, logical and cohesive response ; Integrates relevant economic terms, concepts, relationships and theory ; Demonstrates a clear and comprehensive understanding of the effects of the sustained budget deficits on economic growth and external stability in the Australian economy"
+        },
+        {
+          "marks": "13–16",
+          "text": "Synthesises own knowledge and understanding with the information provided, to develop a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theory ; Demonstrates a sound understanding of the effects of the budget deficits on economic growth and external stability in the Australian economy"
+        },
+        {
+          "marks": "9–12",
+          "text": "Uses own knowledge and understanding with the information provided, to develop a coherent response ; Uses relevant economic terms, concepts, relationships and theory ; Sketches the effects of the budget deficits on economic growth and external stability in the Australian economy OR ; Demonstrates a sound understanding of the effects of the budget deficits on either economic growth OR external stability in the Australian economy"
+        },
+        {
+          "marks": "5–8",
+          "text": "Presents a generalised response ; Uses some economic terms and concepts ; Sketches some aspects of the effects of budget deficits on economic growth and/or external stability"
+        },
+        {
+          "marks": "1–4",
+          "text": "Presents a limited response ; Uses some economic terms and concepts ; Lists some aspects of budget deficits or economic growth or external stability"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Discuss: Identify issues and provide points for and/or against, the impacts of the deficits on economic growth and external stability",
+        "Fiscal policy definition",
+        "Budget deficit definition",
+        "Rationale for deficit ie, GFC 2008",
+        "Economic growth",
+        "Continuous economic growth since early 90s",
+        "Fiscal Stimulus (Keynesian)",
+        "AD = C + I + G + X – M,",
+        "Direct impact on the G",
+        "Indirect impact on C",
+        "Servicing costs/credit rating impact on I",
+        "Multiplier",
+        "Cost of deficits on future growth, long-term speed hump on growth",
+        "External stability",
+        "Increased gross and net debt",
+        "Increased servicing cost",
+        "Borrowing from overseas to finance deficits",
+        "Crowding out effect",
+        "Assessment of current debt and fiscal situation relative to other countries to previous situation."
+      ],
+      "figure": {
+        "file": "eco-2019-25.png",
+        "page": 22,
+        "alt": "Two graphs: Australian Government budget balance as a percentage of GDP, and General Government net debt as a percentage of GDP, 2001 to 2017."
+      }
+    },
+    {
+      "number": "26",
+      "section": "III",
+      "sectionHeading": "Section III\n20 marks\nAttempt either Question 25 or Question 26\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Discuss the effects of microeconomic policies on employment and inflation in the Australian economy. In your response, refer to the economic information provided.",
+      "stimulus": "The economic reforms undertaken in Australia have opened markets to increased competition and have transformed a relatively closed and regulated economy into one that is more efficient, flexible and open. This has reduced the size and number of industries supported by large ongoing subsidies and high tariffs, notably in manufacturing. [Graph: Labour productivity (%), 1980 to 2017, with decade averages. Source: The Treasury] [Graph: CPI inflation (%), 1980 to 2017, with RBA’s target range shaded. Source: The Treasury]",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "use the information provided",
+        "apply relevant economic terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Synthesises own knowledge and understanding with the information provided, to develop a sustained, logical and cohesive response ; Integrates relevant economic terms, concepts, relationships and theory ; Demonstrates a clear and comprehensive understanding of the effects of microeconomic policies on employment and inflation in the Australian economy"
+        },
+        {
+          "marks": "13–16",
+          "text": "Synthesises own knowledge and understanding with the information provided, to develop a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theory ; Demonstrates a sound understanding of the effects of microeconomic policies on employment and inflation in the Australian economy"
+        },
+        {
+          "marks": "9–12",
+          "text": "Uses own knowledge and understanding with the information provided, to develop a coherent response ; Uses relevant economic terms, concepts, relationships and theory ; Sketches the effects of microeconomic policies on employment and inflation in the Australian economy OR ; Demonstrates a sound understanding of the effects of microeconomic policies on either employment OR inflation in the Australian economy"
+        },
+        {
+          "marks": "5–8",
+          "text": "Presents a generalised response ; Uses some economic terms and concepts ; Sketches some aspects of the effects of microeconomic policies on employment and/or inflation"
+        },
+        {
+          "marks": "1–4",
+          "text": "Presents a limited response ; Uses some economic terms and concepts ; Lists some aspects of microeconomic policies or employment or inflation"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Discuss: Identify issues and provide points for and/or against, the effects of microeconomic policies on employment and inflation in the Australian economy",
+        "Fiscal policy definition",
+        "Microeconomic policy definition",
+        "Rationale for microeconomic policy",
+        "Aggregate supply",
+        "including diagram",
+        "Philips curve",
+        "no trade off when using supply side policies opposed to macroeconomic policies",
+        "Employment",
+        "NAIRU",
+        "Labour market policies, enterprise",
+        "Reducing rigidities",
+        "Increasing participation rate",
+        "Labour productivity, Okun’s Law",
+        "Inflation",
+        "Financial deregulation",
+        "Competition policy",
+        "Product and factor market",
+        "Reduction of tariffs",
+        "Privatisation, corporatisation",
+        "Infrastructure to reduce costs (NBN, roads)",
+        "Complementary policy mix (macroeconomic and microeconomic) to address these issues."
+      ],
+      "figure": {
+        "file": "eco-2019-26.png",
+        "page": 23,
+        "alt": "Two graphs: labour productivity with decade averages, and CPI inflation with the RBA’s target range, 1980 to 2017."
+      }
+    },
+    {
+      "number": "27",
+      "section": "IV",
+      "sectionHeading": "Section IV\n20 marks\nAttempt either Question 27 or Question 28\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the causes and effects of unequal distribution of income and wealth in Australia.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant economic information, terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Provides a sustained, logical and cohesive response ; Integrates relevant economic terms, concepts, relationships and theory ; Demonstrates a clear and comprehensive understanding of the causes and effects of unequal distribution of income and wealth in Australia"
+        },
+        {
+          "marks": "13–16",
+          "text": "Provides a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theory ; Demonstrates a sound understanding of the causes and effects of unequal distribution of income and wealth in Australia ; OR ; Demonstrates a clear and comprehensive understanding of causes or effects and sketches the other"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides a coherent response ; Uses relevant economic terms, concepts, relationships and theory ; Sketches the causes and effects of unequal distribution of income and wealth in Australia ; OR ; Demonstrates a sound understanding of causes or effects and sketches some aspects of the other"
+        },
+        {
+          "marks": "5–8",
+          "text": "Presents a generalised response ; Uses some economic terms and concepts ; Sketches some aspects of the causes and/or effects of unequal distribution of income wealth in Australia"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides a limited response ; Uses some economic terms and concepts ; Lists some aspects of distribution of income/wealth in Australia"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Definition of distribution of income and wealth",
+        "Measuring of income and wealth",
+        "Causes of inequality (eg gender, age, policies)",
+        "Sources of income and wealth (and variation within them)",
+        "Gender",
+        "Age",
+        "Education",
+        "Occupation",
+        "Family/household structure",
+        "Fiscal policy",
+        "GST, marginal rates of tax, social welfare",
+        "Monetary policy",
+        "redistribution effect",
+        "Microeconomic/labour market",
+        "enterprise bargaining, superannuation",
+        "Effect of income on wealth",
+        "Benefits of Inequality",
+        "Incentive effects",
+        "working harder/longer, acquiring skills, risk-taking",
+        "Geographic and occupational mobility",
+        "Accumulates savings (could boost investment leading to economic growth)",
+        "Costs of Inequality",
+        "Lower utility in lower income groups (and on average)",
+        "Higher government spending due to welfare spending",
+        "Increased tax burden",
+        "Social division",
+        "Relative poverty",
+        "Working poor",
+        "Poverty traps (marginalisation of labour)",
+        "Inequality of opportunity",
+        "Possible lower APC as rich tend to spend less (could reduce economic growth)."
+      ]
+    },
+    {
+      "number": "28",
+      "section": "IV",
+      "sectionHeading": "Section IV\n20 marks\nAttempt either Question 27 or Question 28\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the effects of protectionist policies on both the Australian and the global economy.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant economic information, terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Provides a sustained, logical and cohesive response ; Integrates relevant economic terms, concepts, relationships and theory ; Demonstrates a clear and comprehensive understanding of the effects of protectionist policies on the Australian and global economy"
+        },
+        {
+          "marks": "13–16",
+          "text": "Provides a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theory ; Demonstrates a sound understanding of the effects of protectionist policies on the Australian and global economy"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides a coherent response ; Uses relevant economic terms, concepts, relationships and theory ; Sketches the effects of protectionist policies on the Australian and global economy ; OR ; Demonstrates a sound understanding of the effects of protectionist policies on the Australian or global economy"
+        },
+        {
+          "marks": "5–8",
+          "text": "Presents a generalised response ; Uses some economic terms and concepts ; Sketches some aspects of the effects of protectionist policies on either the Australian and/or global economy"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides a limited response ; Uses some economic terms and concepts ; Lists some aspects of protection, the Australian or global economy"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Basis of free trade (advantages/disadvantages)",
+        "Absolute/comparative advantage",
+        "Specialisation, reduced costs, greater output and growth, factor endowment, improved allocation of resources, improved efficiency",
+        "Nationalism, isolation",
+        "Protectionist policies/free trade",
+        "Infant industries, domestic employment, dumping, defence",
+        "Tariffs, subsidies, quotas, local content rules (use of diagrams)",
+        "Trading blocs/free trade agreements",
+        "EU, APEC, NAFTA, ASEAN",
+        "Bilateral and multilateral agreements",
+        "Effects of global protection on the Australian economy",
+        "Reduced export opportunities",
+        "Decline in economic growth",
+        "Decrease in income/wealth",
+        "Decreased employment",
+        "Increased production costs and overall prices",
+        "Inefficient allocation of resources",
+        "Structural change",
+        "Effects on the global economy",
+        "Reduced overall growth and stagnant wage growth",
+        "Increased global inequality",
+        "Misallocation of global resources",
+        "Global factor/product market failure",
+        "May refer to advanced, developing or emerging economies.",
+        "Use of contemporary information is encouraged eg, USA/Trump since late 2016.",
+        "Arguments can refer to specific examples or be theoretical."
+      ]
+    }
+  ],
+  "edits": [
+    "25, 26: the \"Demonstrates … either … OR …\" bullet placed in the 9–12 band, with the printed OR on the \"Sketches\" bullet, as NESA prints them (the text layer had moved it).",
+    "Figure parts: the stimulus keeps one bracketed description of each graph or table beside the printed caption."
+  ]
+}

@@ -170,7 +170,8 @@ import {
 // 2.68.0: Nine "Evaluate" past questions tagged EVALUATE (were ASSESS); task-instruction wording such as "to what extent" and "the extract provided" dropped from 37 term lists.
 // 2.69.0: 176 reviewed syllabus terms added to 156 questions (Missing Terms); 34 history and science exemplars lengthened.
 // 2.70.0: 66 full-mark exemplars revised to use the question's own terms; 294 curated terms on 286 short Syllabus Terms lists.
-export const DATA_VERSION = '2.70.0';
+// 2.71.0: Economics past HSC questions from the 2019–2024 papers (92, with 15 printed figures).
+export const DATA_VERSION = '2.71.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

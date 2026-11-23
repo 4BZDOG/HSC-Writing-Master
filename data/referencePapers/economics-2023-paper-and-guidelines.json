@@ -1,0 +1,617 @@
+{
+  "year": 2023,
+  "course": "Economics",
+  "papers": [
+    "2023-hsc-economics.pdf",
+    "2023-hsc-economics-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "23(a)",
+      "reason": "Answered by drawing: sketch the new Lorenz curve on the diagram above; not extracted (brief)."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline TWO roles of the World Trade Organization (WTO).",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms TWO roles of the World Trade Organization"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The role of the WTO is to promote free trade in the global economy and to resolve trade disputes between nations.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain why countries trade.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides a clear explanation as to why countries trade"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms why countries trade"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Countries who do not have access to certain resources must trade with other countries to obtain them. The trade for resources ultimately helps the country’s economy grow and develop.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the possible effects of a reduction in global trade protection on the global distribution of income.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a comprehensive understanding of the effects of a reduction in global trade protection on the global distribution of income"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of the effects of a reduction in global trade protection on the global distribution of income"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of the effect(s) of a reduction in global trade protection on the global distribution of income"
+        },
+        {
+          "marks": "2",
+          "text": "Describes some aspects of the effect of global trade protection on global income"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "High income economies who remove tariffs and subsidies on products could enable low-income countries who rely on these products to gain access to their markets. This should increase the income for the low-income economy by redistributing income. The income derived from access to export markets across the globe for low-income economies should enable further investment and economic growth which should equalise the distribution of global income.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 1,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Calculate the value of net secondary income (dollars billion) for the balance of payments data shown.",
+      "stimulus": "The data shows the balance of payments for an economy under a floating exchange rate. [Table: Components | Dollars billion. Export goods | 20. Import goods | 10. Net services | 30. Net primary income | 30. Net secondary income | ?. Capital account | 10. Financial account | –70.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Correctly calculates the value of net secondary income"
+        }
+      ],
+      "sampleAnswer": "–10bn (negative 10 billion)",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "eco-2023-22a.png",
+        "page": 16,
+        "alt": "Table of balance of payments components in dollars billion; net secondary income is shown as '?'."
+      },
+      "calculationOnly": true
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the relationship between the current account and the capital and financial account in this economy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides a clear explanation of the relationship between the current account and the capital and financial account in this economy"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of the relationship between the current and capital financial account in this economy"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "In this economy there is a strong relationship between foreign direct investment inflows (credits) on the capital and financial account which will generate primary income outflows (debits) on the current account. This economy has a deficit on the capital and financial account which is offset by a surplus on the current amount.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the possible effects of a depreciation of the currency on the current account in this economy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Demonstrates a comprehensive understanding of the effects of a depreciation on the current account with a clear judgement of value"
+        },
+        {
+          "marks": "5",
+          "text": "Demonstrates a comprehensive understanding of the effects of a depreciation on the current account with some judgement of value OR ; Demonstrates a sound understanding of the effects of a depreciation on the current account with a clear judgement of value"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of the effects of a depreciation on the current account with some judgement OR ; Demonstrates a comprehensive understanding of the effects of a depreciation on the current account"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of the effects of a depreciation on the current account"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines some effect(s) of a depreciation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The depreciation of the currency will have short-term and long-term effects on this economy’s current account. In the short term, the depreciation could increase the value of imports above $10bn because locals would be paying more for imports. Hence, the current account will deteriorate in the short term. However, over the medium term, the demand for imports will decrease and demand for exports will increase as they have become more internationally competitive eg the value of exports could move above $20bn and imports fall below $10bn, improving the Balance on Goods and Services. In addition, a deterioration in net primary income may occur due to higher debt servicing costs. The overall impact in the medium to long term of a depreciation is likely to be positive for current account balance for this economy.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline ONE way a government could decrease income inequality.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms one method a government could use to decrease income inequality"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Increasing the incomes of low income earners through higher transfer payments.",
+      "answersCouldInclude": [
+        "Increase in top MRT",
+        "Lower indirect taxes",
+        "More progressive income tax system."
+      ]
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How can family structure contribute to income inequality?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Demonstrates understanding of how family structure may influence income inequality"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant economic information"
+        }
+      ],
+      "sampleAnswer": "An increase in single parent families could lead to greater income inequality. On average single parent households earn less than couples, with or without children.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(d)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the economic and social costs of an increase in income inequality.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a comprehensive understanding of the relationship between income inequality and economic and social costs"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of the relationship between income inequality and economic and social costs"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of the relationship between income inequality and economic and social costs ; OR ; Demonstrates a sound understanding of the relationship between income inequality and EITHER economic or social costs"
+        },
+        {
+          "marks": "2",
+          "text": "Sketches in general terms some costs of inequality"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant economic information"
+        }
+      ],
+      "sampleAnswer": "Increasing income inequality occurs when a smaller number of households earn a greater proportion of an economy's income. Consequently, an economy will experience lower economic growth because low-income households have a higher marginal propensity to consume and, if they are earning less income there will be lower levels of consumption. Additionally, higher income earners have a higher propensity to save, making the decrease in economic growth. As income is less equally distributed in an economy it will also lead to social costs such as class divisions; a growing divide between high and low income earners. As a result these divisions may create social problems such as family breakdown, increased crime rates and a breakdown in social cohesion within society.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline ONE benefit of training and employment programs for the Australian economy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms ONE benefit of training and employment programs for the Australian economy"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant economic information"
+        }
+      ],
+      "sampleAnswer": "Training and employment programs aim to increase the skills of the labour market in order to reduce the level of structural unemployment in the Australian economy.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how the use of individualised methods of determining employment contracts may benefit employers and employees.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains how individualised methods of determining employment contracts may benefit BOTH employers and employees"
+        },
+        {
+          "marks": "2",
+          "text": "Explains how individualised methods of determining employment contracts may benefit employers or employees ; OR ; Identifies how individualised methods of determining employment contracts may benefit BOTH employers and employees"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant economic information"
+        }
+      ],
+      "sampleAnswer": "Individualised methods give employees greater incentive to improve skills and productivity because they may receive higher wages/salary. In addition, employers have greater flexibility to retain valued members of staff by offering different pay and conditions.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the effectiveness of using microeconomic policies to reduce unemployment in Australia.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Makes a comprehensive judgement regarding the effectiveness of microeconomic policies on unemployment"
+        },
+        {
+          "marks": "4",
+          "text": "Makes a sound judgement regarding the effectiveness of microeconomic policies on unemployment"
+        },
+        {
+          "marks": "3",
+          "text": "Makes some judgement regarding the effectiveness of microeconomic policies on unemployment ; OR ; Explains how/why microeconomic policies affect unemployment"
+        },
+        {
+          "marks": "2",
+          "text": "Provides characteristics and features of microeconomic policies and/or unemployment"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant economic information"
+        }
+      ],
+      "sampleAnswer": "Microeconomic policies have been largely successful in reducing the level of unemployment. These reforms, such as deregulation, seek to reallocate resources to more efficient industries, increasing economic growth in the long term, lowering the level of structural unemployment and, therefore the NAIRU. As such, from 1992 the unemployment rate has steadily decreased from 11.7% to 3.5% in part due to these policies. However, in the short term as inefficient industries go out of business, this will increase structural unemployment and will require the government to increase spending on training and employment programs.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "section": "III",
+      "sectionHeading": "Section III\n20 marks\nAttempt either Question 25 or Question 26\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Analyse how changes to the value, composition and direction of Australia’s trade have affected its economic performance. In your answer, refer to the information provided.",
+      "stimulus": "In June 2019, Australia recorded its first current account surplus in 44 years – a trend that has continued to the present (May 2023). The surplus has been driven by Australia’s exports, fuelled by record-high commodity prices. As a result, exports have contributed strongly to Australia’s economic growth and external stability. © Commonwealth of Australia/Services Australia [Graph: Exports by destination, annual share of total values, 2001 to 2021, for China, Japan, India, EU* and US.] *The graph has been revised to exclude the UK. Reserve Bank of Australia, January 2023 © Reserve Bank of Australia, January 2023",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "use the information provided",
+        "apply relevant economic terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Synthesises own knowledge and understanding with the information provided, to develop a sustained, logical and cohesive response ; Integrates relevant economic terms, concepts, relationships and theories ; Demonstrates a clear and comprehensive understanding of the implications of changes to the value, composition and direction of Australia’s trade on its economic performance"
+        },
+        {
+          "marks": "13–16",
+          "text": "Synthesises own knowledge and understanding with the information provided, to develop a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theories ; Demonstrates a sound understanding of the implications of changes to at least TWO of the value, composition and direction of Australia’s trade on its economic performance"
+        },
+        {
+          "marks": "9–12",
+          "text": "Uses own knowledge and understanding with the information provided, to develop a coherent response ; Uses relevant economic terms, concepts, relationships or theories ; Sketches in general terms the implications of changes to either the value and/or composition and/or direction of Australia’s trade on its economic performance"
+        },
+        {
+          "marks": "5–8",
+          "text": "Presents a generalised response ; Uses some economic terms and concepts ; Identifies some changes to either the value and/or composition and/or direction of Australia’s trade and relevant aspects of economic performance"
+        },
+        {
+          "marks": "1–4",
+          "text": "Presents a limited response ; Uses some economic terms and concepts ; Lists EITHER changes to trade OR aspects of relevant economic performance"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Improvements in Australia’s term of trade",
+        "Increase in trade with China and free trade agreements",
+        "Reliance on resources for export income",
+        "Persistent trade surpluses due to improvements in value",
+        "Decrease in the need for foreign debt to fund deficits leading to a decrease in net foreign liabilities",
+        "First current account surplus in 44 years",
+        "Increased demand for the Australian dollar could lead to other export industries, such as services, becoming less competitive",
+        "Services industry reliant on tourism and students",
+        "Increased contribution to economic growth and gross national income through higher export income",
+        "Redistribution of income to mining industries",
+        "Continued structural change and increasing employment in mining and services",
+        "Higher commodity prices have led to higher inflation for energy (gas and coal), higher cost-push inflation",
+        "Greater reliance on Chinese economy for economic growth",
+        "Reliance on intermediate and capital imports led to supply-chain issues",
+        "Covid 19, war in Ukraine",
+        "Increase in government revenue from resource royalties leading to an improvement in the budget outcome",
+        "Reliance on resources for export income could delay transition to green energy and compromise environmental sustainability",
+        "Comparative advantage in resources and services."
+      ],
+      "figure": {
+        "file": "eco-2023-25.png",
+        "page": 26,
+        "alt": "Line graph of exports by destination, annual share of total values (%), 2001 to 2021, for China, Japan, India, EU and US."
+      }
+    },
+    {
+      "number": "26",
+      "section": "III",
+      "sectionHeading": "Section III\n20 marks\nAttempt either Question 25 or Question 26\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Analyse the possible effects on the Australian economy of pursuing the goal of environmental sustainability. In your answer, refer to the information provided.",
+      "stimulus": "The sustainable use of energy and energy security is becoming an increasing issue for countries seeking social cohesion and economic prosperity. In Australia, as demand for energy increases there will be a greater emphasis in optimising energy efficiency. Services Australia, Environmental Sustainability Policy, November 2022 © Commonwealth of Australia/Services Australia [Graph: Australian coal exports scenario, annual exports in tonnes (million), 2005 to 2050, under current policies and net-zero 2050.] Reserve Bank of Australia, August 2022 © Reserve Bank of Australia, August 2022",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "use the information provided",
+        "apply relevant economic terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Synthesises own knowledge and understanding with the information provided, to develop a sustained, logical and cohesive response ; Integrates relevant economic terms, concepts, relationships and theories ; Demonstrates a clear and comprehensive understanding of the possible implications of pursuing the goal of environmental sustainability on the Australian economy"
+        },
+        {
+          "marks": "13–16",
+          "text": "Synthesises own knowledge and understanding with the information provided, to develop a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theories ; Demonstrates a sound understanding of the possible implications of pursuing the goal of environmental sustainability on the Australian economy"
+        },
+        {
+          "marks": "9–12",
+          "text": "Uses own knowledge and understanding with the information provided, to develop a coherent response ; Uses relevant economic terms, concepts, relationships or theories ; Sketches in general terms the possible implications of the goal of environmental sustainability on the Australian economy"
+        },
+        {
+          "marks": "5–8",
+          "text": "Presents a generalised response ; Uses some economic terms and concepts ; Identifies some aspects of environmental sustainability and relevant economic impacts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Presents a limited response ; Uses some economic terms and concepts ; Lists some aspects of EITHER relevant economic impacts OR environmental stability"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Domestic and international policies Australia is pursuing to achieve environmental sustainability",
+        "Intergenerational equity",
+        "Increase in investment in green/renewable energy",
+        "Reallocation of resources to renewable energy",
+        "Redistribution of income",
+        "Environmental preservation",
+        "Pollution reduction",
+        "Increasing biodiversity",
+        "Decrease in future coal and gas exports – trade deficit, current account deficit",
+        "Need to diversify export industries, decline in terms of trade",
+        "Microeconomic reform",
+        "Structural unemployment in coal and gas communities if policy of environmental sustainability pursued",
+        "Budgetary impacts",
+        "Opportunity cost",
+        "Short to medium term increase in energy prices during the transition from non-renewable to renewable energy",
+        "Increase in cost-push inflation through greater environmental legislation",
+        "Increasing need for recycling, higher costs of production",
+        "Could lead to medium term decrease in GDP and GNI",
+        "Decrease in external costs and increase in external benefits",
+        "International agreements, eg Paris, Cop 26."
+      ],
+      "figure": {
+        "file": "eco-2023-26.png",
+        "page": 27,
+        "alt": "Line graph of Australian coal exports scenario, annual exports in tonnes (million), 2005 to 2050, current policies and net-zero 2050."
+      }
+    },
+    {
+      "number": "27",
+      "section": "IV",
+      "sectionHeading": "Section IV\n20 marks\nAttempt either Question 27 or Question 28\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate the impact of globalisation in achieving economic growth and development on an economy other than Australia.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant economic information, terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Provides a sustained, logical and cohesive response that integrates relevant economic terms, concepts, relationships and theory ; Demonstrates a clear and comprehensive understanding of the impact of globalisation in achieving economic growth and development on an economy other than Australia ; Makes a well-informed judgement about the impact of globalisation in achieving economic growth and development on an economy other than Australia"
+        },
+        {
+          "marks": "13–16",
+          "text": "Provides a logical and cohesive response that applies relevant economic terms, concepts, relationships and theory ; Demonstrates a sound understanding of the impact of globalisation in achieving economic growth and development on an economy other than Australia ; Makes some judgement about the impact of globalisation in achieving economic growth and development on an economy other than Australia"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides a coherent response that uses economic terms, concepts, relationships and theory ; Demonstrates some understanding of the impact of globalisation in achieving economic growth and development on an economy other than Australia"
+        },
+        {
+          "marks": "5–8",
+          "text": "Provides a generalised response that uses some economic terms ; Demonstrates some understanding of globalisation in achieving economic growth and/or development on an economy other than Australia"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides a limited response that uses some economic terms ; Identifies some aspects of globalisation on an economy other than Australia"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Definition of globalisation/economic growth/development",
+        "Specific reference to an economy other than Australia",
+        "Use of relevant economic data/measures of economic growth/development",
+        "Economic integration",
+        "Drivers of globalisation",
+        "Free trade agreements",
+        "reduction in protectionist policies",
+        "greater role of the WTO",
+        "economic forums",
+        "International convergence of economic systems",
+        "Risk of financial ‘contagion’, international business cycle",
+        "Increased economic growth and development eg improvements in HDI",
+        "Structural change issues for global economies",
+        "Role of transnational corporations",
+        "Increased level of foreign investment",
+        "Emergence of resource industries",
+        "Increased reliance on technology",
+        "Impacts on global environmental sustainability",
+        "Impacts on climate change and biodiversity",
+        "Global immigration",
+        "Economic reform strategies of developing and emerging economies",
+        "Trends in the distribution of global income and wealth."
+      ]
+    },
+    {
+      "number": "28",
+      "section": "IV",
+      "sectionHeading": "Section IV\n20 marks\nAttempt either Question 27 or Question 28\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate the effectiveness of Australia’s macroeconomic policies in achieving economic growth and price stability.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant economic information, terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Provides a sustained, logical and cohesive response that integrates relevant economic terms, concepts, relationships and theory ; Demonstrates a clear and comprehensive understanding of the role of Australia’s macroeconomic policies in achieving economic growth and price stability ; Makes a well-informed judgement about the effectiveness of Australia’s macroeconomic policies in achieving economic growth and price stability"
+        },
+        {
+          "marks": "13–16",
+          "text": "Provides a logical and cohesive response that applies relevant economic terms, concepts, relationships and theory ; Demonstrates a sound understanding of the role of Australia’s macroeconomic policies in achieving economic growth and price stability ; Makes some judgement about the effectiveness of Australia’s macroeconomic policies in achieving economic growth and price stability"
+        },
+        {
+          "marks": "9–12",
+          "text": "Provides a coherent response that uses relevant economic terms, concepts, relationships and theory ; Demonstrates some understanding of the role of Australia’s macroeconomic policy/policies in achieving economic growth and/or price stability"
+        },
+        {
+          "marks": "5–8",
+          "text": "Provides a generalised response that uses some economic terms ; Demonstrates some understanding of Australia’s macroeconomic policy/policies OR economic growth and price stability"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides a limited response that uses some economic terms ; Identifies some aspects of macroeconomic policies, economic growth or price stability"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Clear definitions of the key macroeconomic policies used in Australia including fiscal and monetary policies",
+        "Reference to economic data including but not limited to GDP, inflation, unemployment, external stability, interest rates and the distribution of income and wealth",
+        "Definitions of the terms economic growth and price stability",
+        "Economic impact of changing interest rate levels on economic growth and price stability",
+        "Impact of macroeconomic policies on ‘cost of living’ pressures",
+        "Assessment of the impact of federal government income and expenditure measures associated with but not limited to, the federal budget",
+        "Shifts in aggregate demand and supply",
+        "Macroeconomic policies in response to international events",
+        "Redistribution of income affecting economic growth and price stability",
+        "Conflicting economic objectives",
+        "Limitations of economic policies",
+        "NAIRU",
+        "Philip’s curve."
+      ]
+    }
+  ],
+  "edits": [
+    "22(c): rows 5 and 4 re-split as printed (the text layer merged them).",
+    "25, 26: ladder rows restored to NESA's printed order (the text layer scrambled the band order).",
+    "24(c): \"Make some judgement\" reworded \"Makes some judgement\" so the row opens with a third-person verb, as the app requires; the checker reports this row.",
+    "Figure parts: the stimulus keeps one bracketed description of each graph or table beside the printed caption."
+  ]
+}
