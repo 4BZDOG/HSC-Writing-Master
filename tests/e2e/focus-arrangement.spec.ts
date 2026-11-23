@@ -117,9 +117,15 @@ const promptGeometry = (page: Page) =>
   });
 
 test.describe('Focus Mode question stays in view', () => {
+  // Each test signs in and opens a question first, which on a loaded WebKit runner
+  // takes most of the default 30s on its own (see workspace-chrome.spec.ts).
+  test.describe.configure({ timeout: 120_000 });
+
   test('side by side, a lone question sits at the top of its card, not in the middle', async ({
     page,
+    isMobile,
   }) => {
+    test.skip(!!isMobile, 'a phone has one column and no side-by-side layout');
     await page.setViewportSize({ width: 1440, height: 900 });
     // A question with no scenario is the case that used to be centred. A curator
     // clears the scenario in the normal workspace, then Focus Mode is entered.
@@ -164,7 +170,9 @@ test.describe('Focus Mode question stays in view', () => {
 
   test('a question card dragged to its smallest height still shows the question', async ({
     page,
+    isMobile,
   }) => {
+    test.skip(!!isMobile, 'a phone has no splitter: below sm the cards keep their own height');
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.addInitScript(() => localStorage.setItem('hsc.focus.promptHeight', '150'));
     await openWorkspace(page);
