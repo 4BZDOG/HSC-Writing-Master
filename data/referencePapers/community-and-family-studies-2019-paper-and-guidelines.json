@@ -1,0 +1,646 @@
+{
+  "year": 2019,
+  "course": "Community and Family Studies",
+  "papers": ["2019-hsc-community-and-family-studies.pdf"],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I Part A is multiple choice; not extracted (brief)."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline the research process that should be used when conducting research.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides detailed information on conducting research ; Provides relevant examples"
+        },
+        {
+          "marks": "3",
+          "text": "Provides information about research ; Provides relevant example(s)"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information about research ; Provides an example"
+        },
+        {
+          "marks": "1",
+          "text": "Provides one relevant point about research"
+        }
+      ],
+      "sampleAnswer": "Planning for research\n• Create a project plan which includes a research question or hypothesis and outline the research process.\nConducting research\n• Research any previous studies on the topic to create a literature review.\n• Select a sample group to adequately represent the population of the topic.\n• Gather primary data by conducting interviews and questionnaires to address the research.\n• Maintain a diary which records the ongoing process, values, attitudes and feelings and reflects on problems and their solutions.\nInterpreting research\n• Present research finding in graphs and tables.\n• Analyse research results by comparing key findings from primary and secondary data.\n• Form research-based conclusions and make recommendations.\n• Include a bibliography to credit sources of data.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21(b)",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Explain how Jason could improve both the reliability and validity of his research.",
+      "stimulus": "Jason conducted an Independent Research Project investigating the impact of technology on the wellbeing of teenagers. He asked four friends how much time they spent on their phone in a week, and then drew conclusions based on the data he collected.\n[Figure: Bar graph titled Hours spent per week using technology, showing about 12, 4, 16 and 8 hours for Friend 1 to Friend 4 on a 0 to 20 axis.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a detailed explanation of how reliability and validity could be improved during the researcher’s process ; Provides relevant examples"
+        },
+        {
+          "marks": "3",
+          "text": "Provides an explanation of how reliability and validity could be improved during the researcher’s process ; Provides an example(s)"
+        },
+        {
+          "marks": "2",
+          "text": "Provides information about reliability and/or validity"
+        },
+        {
+          "marks": "1",
+          "text": "Provides one relevant point about reliability or validity"
+        }
+      ],
+      "sampleAnswer": "Jason could improve the reliability of his research by increasing the amount of time he collected data. His current raw data only focuses on a week-long study. The reliability of the research could be improved by conducting the research over several weeks. To ensure reliability, it is important for Jason to use the same data collection processes for all participants throughout the process, eg ensuring the data collected from one participant is collected in the same manner for the other participants. Jason could also increase the size of the sample group.\nThis research is not valid because Jason is looking into the impact of technology on wellbeing, however his questions focus on the number of hours spent on their phone not the effect this time has on their wellbeing. This research does not reveal what Jason intended it to.",
+      "answersCouldInclude": [],
+      "figure": {
+        "file": "cafs-2019-21b.png",
+        "page": 11,
+        "alt": "Bar graph titled Hours spent per week using technology, showing about 12, 4, 16 and 8 hours for Friend 1 to Friend 4 on a 0 to 20 axis."
+      }
+    },
+    {
+      "number": "22",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how government and community organisations can assist parents in fulfilling their parental responsibilities.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides detailed information on how government and community organisations assist parents in fulfilling their parental responsibilities ; Provides a clear link between government and community organisations and parental responsibilities ; Provides relevant examples"
+        },
+        {
+          "marks": "4",
+          "text": "Provides information on how government and community organisations assist parents in fulfilling their parental responsibilities ; Attempts to link government and community organisations and parental responsibilities ; Provides relevant example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about government and/or community organisations and/or parental responsibilities ; Provides an example(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides one relevant point about government or community organisations or parental responsibilities"
+        }
+      ],
+      "sampleAnswer": "Formal support for parents includes support from recognised government and community organisations. Examples include childcare facilities, health services, recreational and sporting facilities, employment agencies and community centres. Health care services assist parents to meet the needs of their dependants in relation to social, emotional and physical needs. Examples include Medicare, doctors, early childhood health centres.\nThere are many education services for parents that assist them with their parental responsibilities. These include Australian Breast Feeding Association, Carers Australia, Families NSW and Tresillian. All these services assist with necessary skills and knowledge for meeting parental responsibilities.\nChildcare services provide safe childcare while the parents are working. These centres are great facilities to help children learn and socialise. Counselling is another service that helps parents meet their responsibilities. Counselling allows parents to discuss issues they may have, seek help with relationships with their dependants and manage depression and anxiety that a first time parent may experience. Sporting and recreational facilities assist parents with satisfying the dependants’ social and physical needs help build positive relationships.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Compare authoritarian and negligent styles of parenting in terms of the impact each style has on the relationship between parents and their dependants.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides thorough information on the similarities and/or differences of authoritarian and negligent parenting styles ; Provides a clear link between the parenting styles and the impact this has on the relationships between parents and their dependants ; Provides relevant examples"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides information on the similarities and/or differences of authoritarian and negligent parenting styles ; Attempts to link the parenting style with the impact this has on the relationships between parents and their dependants ; Provides relevant example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about parenting styles and/or relationships between parents and their dependants ; Provides an example(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides one relevant point about parenting styles or relationships between parents and their dependants"
+        }
+      ],
+      "sampleAnswer": "The styles of parenting adopted will impact on the role of the parent or carer and the relationship with the dependants. The authoritarian parent or carer is inflexible with strict rules, boundaries and limits and consequences if these are broken. Communication is clear but there is no negotiation or collaborative decision-making. The parent or carer aims to build positive relationships with the dependants and ensures all needs are satisfied and wellbeing promoted. However, this style of parenting can have a negative impact on the relationship between parent and child as the child may feel resentment due to lack of independence. Authoritarian styles of parenting can lead to dependants having difficulty making decisions as all decisions are made by the parent.\nNegligent parenting is when the dependants’ needs are not met and they may never have sound wellbeing. The parent does not fulfil their role in duty of care, setting limits or discipline, does not satisfy specific needs of the dependant and does not build positive relationships or promote wellbeing. In some situations government agencies may intervene and remove the dependant from their home. This situation may place strain between the dependants and their parents as the dependants may struggle to trust and respect their parent.\nAlthough these two parenting styles are different the impact on the relationships between the parent and dependant is negative for both parenting styles.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Discuss the suitability of ONE research method when conducting research on sensitive topics.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides thorough information about the suitability of a research method ; Provides a clear link between the suitability of the research method and conducting research on sensitive research topics ; Provides relevant examples"
+        },
+        {
+          "marks": "4",
+          "text": "Provides information about the suitability of a research method ; Attempts to link the suitability of the research method to sensitive research topics ; Provides relevant example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about research methods and/or sensitive research topics ; Provides an example(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides one relevant point about research methods or sensitive research topics"
+        }
+      ],
+      "sampleAnswer": "When conducting research on sensitive topics some research methods are more suitable than others. Interviews have features that would make them suitable for use in this area. For example, in an interview situation the researcher has the opportunity and time to build a rapport with the interviewee. This could make them feel more comfortable and at ease with talking about sensitive topics and sharing private information about themselves.\nIt allows the researcher to provide support and gather qualitative data while gaining an insight into and deeper understanding of the emotional aspects of the topic. Sensitive topics can often illicit an emotional response when being discussed. An interview situation allows the researcher to clarify and confirm information that may become unclear if the interviewee gets upset and needs time to compose themselves.\nHowever, in some cases interviewing someone may not be the most suitable method of collecting data on sensitive topics. People sharing the information may not want to be face-to-face with a stranger when disclosing private information. They may not be comfortable with being identified as the person who has shared this experience. A respondent may prefer, and therefore share more information, if they are protected by the anonymity of a questionnaire. Being unable to be identified may be the factor that allows the respondent to be truly honest and open in their responses.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How should individuals treat people who have a disability with dignity and respect?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a detailed explanation on how individuals treat people with a disability with dignity and respect ; Provides relevant examples"
+        },
+        {
+          "marks": "3",
+          "text": "Provides information on how individuals treat people with a disability with dignity and respect ; Provides an example(s)"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information on how individuals treat people with a disability with dignity and/or respect"
+        },
+        {
+          "marks": "1",
+          "text": "Provides one relevant point on how individuals could treat people with a disability with dignity and/or respect"
+        }
+      ],
+      "sampleAnswer": "There are a number of ways individuals should treat people with a disability with dignity and respect. Some examples include not parking in disabled car spaces unless you hold a genuine parking permit. This allows the person with a disability to access this entitlement and retain dignity. Another way individuals should treat people with a disability with dignity is to ensure they always use respectful and politically correct terminology and not use offensive or derogatory language in relation to them.\nIndividuals should support the dignity of people with a disability by not making judgements about their capabilities and skills, for example, an employer not discriminating against a potential new employee based on an individual’s diagnosed disability. This supports the individual to be treated with dignity.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "26",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Explain the preparations that Tina could undertake to enhance the wellbeing of this dependant.",
+      "stimulus": "Tina is a single woman with no biological children who has applied to become a foster parent. She has recently accepted the long-term placement of an eight-year-old boy who has a significant disability.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides thorough information about preparations undertaken by parents when preparing for a new dependant ; Provides a clear link between the preparation and how this can enhance the wellbeing of the dependant ; Provides relevant examples"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides information about preparations undertaken by parents when preparing for a new dependant ; Attempts to link the preparation and how this can enhance the wellbeing of the dependant ; Provides relevant example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about preparations undertaken by parents when preparing for a new dependant ; Provides an example(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides one relevant point about preparations undertaken by parents"
+        }
+      ],
+      "sampleAnswer": "If the eight-year-old had a significant hearing impairment. Tina will need to enhance her knowledge and skills. There are many resources Tina could access to assist her in this, for example Australian Hearing and Aussie Deaf Kids offer books, DVD’s, online resources, apps and face-to-face support groups designed to equip parents of hearing impaired children. She could also enrol in a class to learn Auslan (Australian Sign Language). As Tina is a sole parent with a disabled child she would benefit from these resources to assist her due to time constraints placed on her. By doing this Tina will be better able to meet the needs of her hearing-impaired child which will lead to his increased wellbeing while living in her home as he may feel more valued and feel safe and secure in his home.\nSmall modifications to her house will also be needed for him to feel at home and function effectively in his new environment. Some of these modifications include; a door bell with a flashing light instead of a sound, a smoke detector with a vibrating device to put under a pillow to alert him of a fire at night, personal amplifying devices, acoustics enhancing surfaces in the rooms of the house and closed caption television options.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "27",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the importance of both confidentiality and accurately crediting sources of data when conducting a quality research project.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides thorough information about confidentiality and crediting sources ; Provides a clear link between the importance of confidentiality and crediting sources and the impact they have on conducting a quality research project ; Provides relevant examples"
+        },
+        {
+          "marks": "4",
+          "text": "Provides information about confidentiality and crediting sources ; Attempts to link the importance of confidentiality and crediting sources to the impact it has on conducting a quality research project ; Provides relevant example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about confidentiality and/or crediting sources ; Provides an example(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides one relevant point about confidentiality or crediting sources"
+        }
+      ],
+      "sampleAnswer": "Confidentiality is important because participants need to remain anonymous and feel protected throughout the research project. This is done through seeking permission prior to commencing an interview or requesting them to take part in a questionnaire, case study or observation. If participants are not confident their responses will be kept confidential then they will be hesitant in providing their responses leading to unreliable results. It is important for the researcher to keep the confidentiality of their participants, to ensure each participant is treated with respect. This will help the participant to feel more confident in sharing personal information and for the researcher to obtain valid conclusions.\nAccurately crediting sources of data in the bibliography and appendix is an important part of a research project to ensure integrity of the data. Correct referencing demonstrates respect for other people’s work and also avoids plagiarism. As a researcher you have the responsibility to report findings honestly and objectively resulting in a reliable research project. It is important for the researcher to follow ethical procedures, which include crediting sources to uphold their integrity.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "28",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "How can the government better support this group so as to improve equity for all group members?",
+      "stimulus": "Answer the question in relation to ONE Category B group you have studied.\n[Category B groups, listed in two columns on the paper: Aged; Culturally and linguistically diverse communities; Aboriginal and Torres Strait Islander peoples; Rural and remote families; Gay, lesbian, bisexual, transgender, intersex communities; Sole parents; Homeless people]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "8",
+          "text": "Correctly identifies a group from the list provided ; Provides thorough information about how the government can better support the group ; Provides a clear link between the support provided by the government and equity for group members ; Provides relevant examples"
+        },
+        {
+          "marks": "6–7",
+          "text": "Correctly identifies a group from the list provided ; Provides detailed information about how the government can better support the group ; Provides a link between the support provided by the government and equity for group members ; Provides relevant examples"
+        },
+        {
+          "marks": "4–5",
+          "text": "Correctly identifies a group from the list provided ; Provides information about how the government can better support the group ; Attempts to show how the support provided by the government can lead to equity for group members ; Provides relevant example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about government support and/or equity for the group and/or a group ; Provides an example(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides one relevant point about government support or equity or a group"
+        }
+      ],
+      "sampleAnswer": "The Australian Human Rights Commission predicts that by 2050, one quarter of Australians will be 65 years and over. With so many people falling into this group, the government should be compelled to act to ensure equity and dignity for all group members. In 2004, the government passed the Age Discrimination Act, which makes it unlawful to discriminate against a person based on their age. Even though this is law, many aged people report that they have been overlooked and not considered when applying for jobs as they can be viewed as ‘too old’. Through the introduction of this law, the government has clearly made a stand to say that discrimination is unacceptable in our community, however in practice, the aged still experience this inequity. The government could better support the aged in this issue by providing services that exclusively support aged persons to locate and manage paid work opportunities. The government could also offer incentives for businesses and organisations that employ an aged person, similar to a program they offered to businesses that took on a new apprentice. As an individual ages they may require care to assist them in their day-to-day lives. Many are placed in nursing homes or are cared for by family members. There have been many reports of aged persons in nursing homes not receiving the care they deserve due to the lack of facilities and staffing. This issue could be improved with increased funding from the government to provide better facilities with more nursing staff. The government could also introduce and reform current legislation and initiatives to ensure the aged are effectively looked after and treated with dignity at all times. For example, the government could also provide incentives to attract younger individuals into caring professions and training to provide better trained staff. There could also be bigger incentives for family members to be a carer for an aged family member, which could reduce the need for nursing homes.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "29",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "To what extent does advocacy assist in creating a positive and supportive environment for this group?",
+      "stimulus": "Answer the question in relation to ONE Category B group you have studied.\n[Category B groups, listed in two columns on the paper: Aged; Culturally and linguistically diverse communities; Aboriginal and Torres Strait Islander peoples; Rural and remote families; Gay, lesbian, bisexual, transgender, intersex communities; Sole parents; Homeless people]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "8",
+          "text": "Correctly identifies a group from the list provided ; Provides thorough information about advocacy for the group ; Provides a clear link between advocacy and to what extent it creates a positive and supportive environment ; Provides relevant examples"
+        },
+        {
+          "marks": "6–7",
+          "text": "Correctly identifies a group from the list provided ; Provides detailed information about advocacy for the group ; Provides a link(s) between advocacy and how it creates a positive and supportive environment ; Provides relevant examples"
+        },
+        {
+          "marks": "4–5",
+          "text": "Correctly identifies a group from the list provided ; Provides information about advocacy for the group ; Attempts to link advocacy to the creation of a positive and supportive environment ; Provides relevant example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about advocacy for the group and/or creating positive and supportive environments ; Provides an example(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides one relevant point about advocacy or creating positive and/or supportive environments"
+        }
+      ],
+      "sampleAnswer": "Advocacy involves bringing attention and awareness to inequities that may be present in society. It can focus attention on human rights issues and plays a role in educating the wider community about groups within society that may not be reaching their full potential due to discrimination, lack of services or lack of access to the support needed.\nAdvocacy can assist greatly in creating a positive and supportive environment for groups experiencing inequities within society. By speaking up minority groups, for example the LGBTI community, can give their cause a voice, making their circumstances real for the wider community. It can bring attention to the needs of the group, the characteristics of people within this group, the need for services and ongoing support, as well as their entitlement to equal rights and protection from discrimination. For example, the campaigns advocating for marriage equality resulted in the community deciding to create a more positive and supportive environment for the LGBTI community.\nEffective advocacy not only raises awareness, it can be a vehicle for social change. The community can not only be more educated by advocacy for the LGBTI community but also shown the positive contributions made by this group. For example, the Sydney Gay and Lesbian Mardi Gras raises awareness as well as showcasing contributions to the arts, offering support for the younger members of this community via workshops, keynote speakers and the provision of safe spaces. This type of advocacy can foster a sense of inclusion, acceptance and understanding between the LGBTI community and the wider community which can assist in creating a more positive and supportive environment for all minority groups within the population.\nEven though there are a number of community organisations that advocate for the LGBTI community and issues of equality have significantly improved over the years for group members, there are still issues of discrimination and inequality experienced by group members. This means that advocacy is still important and needs to continue for this group.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(a)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe how the community recognises the aged as valuable citizens.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides detailed information about how the community recognises the aged as valuable citizens ; Provides relevant examples"
+        },
+        {
+          "marks": "3",
+          "text": "Provides information about how the community recognises the aged as valuable citizens ; Provides example(s)"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information about how the community recognises the aged as valuable citizens"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "There are programs within local communities where the aged can make valuable contributions to the local community. Attending local schools to speak of their treasured life experiences and wisdom. Many day care centres have ‘Grandparents’ day’ where children invite their grandparents to their day care centre. This initiative shows the children and local community they have knowledge, wisdom and can make contributions to the centre and therefore it includes them into their world. The government hosts Seniors Week recognising the contributions the elderly make to the community.\nTo recognise their valuable contributions the government awards Senior Australian of the Year.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(b)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how community support groups provide for the wellbeing of families.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides detailed information about how community support groups provide for the wellbeing of families ; Provides a clear link between the community support group and the wellbeing of families ; Provides relevant examples"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides information about how community support group/s provide for the wellbeing of families ; Attempts to link the community support group and the wellbeing of families ; Provides example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about a community support group and/or the wellbeing of families"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "There are a number of community support groups that provide for the wellbeing of families. These include Relationships Australia, St Vincent de Paul, Smith Family, Women’s refuges and Ronald McDonald House Charities.\nRelationships Australia provides for the wellbeing of families through a range of services including counselling, education programs, mediation services and other support for families.\nRelationships Australia offers a range of family and relationship skills courses and seminars. Family skills courses are for parents to feel more confident about parenting, including learning about effective ways of supporting their children. If parents do engage in these seminars, they may gain more confidence in their parenting skills, which could have a positive impact on the relationships within the home, thus increasing the overall wellbeing of families. Family counselling is also available from Relationships Australia and helps families to build positive relationships between parents as well as with their children.\nRonald McDonald House Charities also provides for the wellbeing of families through a range of programs for families with seriously ill children. The RMHC aims to support the wellbeing of families by trying to keep families together and close during challenging, emotional, difficult and stressful times. The RMHC provides a ‘home away from home’ for families of seriously ill children being treated at nearby hospitals. Other ways they support the wellbeing of families is through their Ronald McDonald family room, providing a break for parents while staying with their children at hospital. They also provide support to families through the learning program helping ill children to catch up on missed schooling and the family retreat program providing families an opportunity to reconnect on a holiday.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(c)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate the effectiveness of government legislation in supporting and protecting the welfare of children.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of societal influences on wellbeing relevant to the question",
+        "apply the skills of critical thinking and analysis",
+        "communicate ideas and information using relevant examples",
+        "present a logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Demonstrates extensive knowledge and understanding about how government legislation supports and protects the welfare of children ; Provides clear and valid judgements about the effectiveness of government legislation in supporting and protecting the welfare of children ; Provides a clear link to the effect on the wellbeing of children ; Communicates ideas and information using relevant examples ; Presents a logical and cohesive answer"
+        },
+        {
+          "marks": "10–12",
+          "text": "Demonstrates thorough knowledge and understanding about how government legislation supports and protects the welfare of children ; Provides judgement/s about the effectiveness of government legislation in supporting and protecting the welfare of children ; Provides a link to the effect on the wellbeing of children ; Communicates ideas and information using relevant examples ; Presents a cohesive answer"
+        },
+        {
+          "marks": "7–9",
+          "text": "Demonstrates sound knowledge about how government legislation supports and protects the welfare of children ; Communicates ideas and information using examples"
+        },
+        {
+          "marks": "4–6",
+          "text": "Provides some information about how government legislation supports and protects the welfare of children ; Provides example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides a relevant point(s) about government legislation and/or support and/or the welfare of children"
+        }
+      ],
+      "sampleAnswer": "A working with children check (WWCC) clearance involves a national police check. This is in place to protect the welfare of children. Anyone who wants to gain paid work or volunteer in activities which involve children must have a ‘cleared’ status. It is an offence to hire someone who doesn’t have a ‘cleared’ status. It is an offence to hire someone who doesn’t have a WWCC if their work involves working with children. In most cases this is effective because it is a compulsory requirement for employers and not-for-profit organisations. Unfortunately there are some exemptions to this legislation. A parent or close relative can be exempt if the child’s institution requires volunteering. This is not completely safe. If the adult is ‘barred’ from working with children but the institution allows them onto their premises to assist with activities they are putting the children at risk.\nThe Education Act (1990) states that it is the duty of the parent to make sure their child is enrolled at and attends a government, a non-government school or to be registered for home schooling with NSW Education Standards Authority (NESA). Education is essential for students to achieve quality life skills and outcomes, enhancing their welfare. Schools have policies and procedures in place to ensure parents meet their responsibilities and follow through with their duty of care to increase the effectiveness of this legislation. Some schools have some liaison officers who work in partnership with parents if their child is refusing to attend school.\nThere are some limitations to this legislation because even though children are enrolled and may attend school, they may refuse to participate in the learning opportunities or activities. This has a negative impact on their welfare.\nThe Australian Consumer Law and Fair Trading NSW ensure goods comply with safety requirements before they can be sold. Children are often admitted to hospital with severe\ninjuries that are caused at home. Government agencies are responsible for making sure products bought, such as children’s nursery furniture and toys, are safe and not a hazard for children. Fair Trading NSW is effective as they have the power to remove unsafe goods from sale.\nInjuries do still occur with children even though products must meet safety standards in NSW before being sold in stores. This may be because children don’t use the toy correctly or now, due to online shopping, people can buy items overseas which are often not meeting our product standards in Australia.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "31(a)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe how technology has led to efficient transport and travel.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides detailed information about how technology has led to efficient transport and travel ; Provides relevant examples"
+        },
+        {
+          "marks": "3",
+          "text": "Provides information about how technology has led to efficient transport and travel ; Provides example(s)"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information about how technology has led to efficient transport and/or travel"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some information about technology"
+        }
+      ],
+      "sampleAnswer": "Technology has greatly impacted the efficiency of transport and travel.\nThere are various smart phone apps that can be downloaded for example ‘trip view’. This app keeps commuters up to date on ‘real-time’ data for ferries, trains and buses from Transport NSW. Commuters are kept up to date on the arrival of public transport which can minimise ‘waiting’ time and keeps Transport NSW accountable, making transport run more efficiently.\nThe development of Australian e-passports makes it more efficient for travellers returning home from overseas. Technology has allowed individuals to scan themselves back into the country via facial recognition without having to wait in lines at the airport. This increases productivity and reduces the amount of time it takes to leave the airport.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "31(b)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the effect technology can have on interpersonal relationships within the family.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides detailed information about how technology can affect interpersonal relationships within the family ; Provides a clear link between technology and interpersonal relationships within the family ; Provides relevant examples"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides information about how technology can affect interpersonal relationships within the family ; Attempts to link technology and interpersonal relationships within the family ; Provides example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about technology and/or interpersonal relationships within the family"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some information about technology"
+        }
+      ],
+      "sampleAnswer": "Information and communication technologies, such as a smart phone, can have a negative impact on the relationships within the family. Many family members sit around a dining room table or in the lounge room and are in close proximity but not interacting with each other, as they are occupied with their device. This can have a negative effect on their relationships because they are not talking to each other, reflecting on the day, sharing feelings and emotions; this may limit their ability to build a deeper connection. Feelings of isolation and conflict between family members may be experienced if this becomes the culture of the family which would negatively impact their wellbeing.\nConversely, this technology can also have a positive impact on the relationships within a family. For example, if a family member was living overseas or interstate, the technology could allow family members to communicate on a regular basis and share experiences and feelings. This can be achieved through applications such as Snapchat, Facebook, Instagram, FaceTime etc. The use of these applications could lead to family members building and maintaining strong connections and bonds while living away from home, which increases family members’ social and emotional wellbeing.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "31(c)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the economic and ethical effects of emerging technologies on the community.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of societal influences on wellbeing relevant to the question",
+        "apply the skills of critical thinking and analysis",
+        "communicate ideas and information using relevant examples",
+        "present a logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Demonstrates extensive knowledge and understanding about the economic and ethical impacts of emerging technologies on the community ; Provides a clear and valid link between emerging technology and the economic and ethical effects on the community ; Provides a clear link to the effect on the wellbeing of the community ; Communicates ideas and information using relevant examples ; Presents a logical and cohesive answer"
+        },
+        {
+          "marks": "10–12",
+          "text": "Demonstrates thorough knowledge and understanding about the economic and ethical impacts of emerging technologies on the community ; Provides a link between emerging technology and the economic and ethical effects on the community ; Provides a link to the effect on the wellbeing of the community ; Communicates ideas and information using relevant examples ; Presents a cohesive answer"
+        },
+        {
+          "marks": "7–9",
+          "text": "Demonstrates sound knowledge about the economic and ethical impacts of emerging technologies on the community ; Communicates ideas and information using examples"
+        },
+        {
+          "marks": "4–6",
+          "text": "Provides some information about the economic and/or ethical impact(s) of emerging technology ; Provides example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides a relevant point/s about the impact of emerging technology"
+        }
+      ],
+      "sampleAnswer": "The emergence of new technology has many and varied impacts upon the community. Some of these impacts are ethical and some are economic.\nEthical dilemmas can occur when emerging technology gives us the opportunity to create, modify or harm either a process (conception) or a person (such as genetic engineering) or cause pain (testing new drug treatments or medical procedures on animals). New technologies that raise ethical questions can have a positive or negative impact on different individuals within the community. For example, emerging reproductive technology that allows the identification and management of genetic diseases can have an extremely positive impact on the family involved. However, some groups within the community may see this as interfering in a natural process and the step before genetic engineering and ‘designer babies’. This can cause conflict within the community between groups that support reproductive technological advancements and those who feel it is becoming unethical.\nAnother ethical consideration is the emergence of smart phone apps that use location information, search history and other phone utilities to gather information about the phone user. This is seen by some as a convenience because they receive tailored information and advertisements that suit their likes and interests. Other members of the community view this as a breach of their private and personal information and believe it is unethical behaviour by the developers of these apps.\nAn additional area where impacts are evident is in the area of economics. Emerging technologies are a costly investment for businesses, the community and the government. The impact of this is often that the cost of implementing technology is borne by the individuals within the community who use the technology or by the community as a whole.\nFor example a shopping centre that installs a new more reliable security system may pass on this cost to shop owners in the form of higher rents for their shop space. However, shop owners may be happy to pay the extra money if they feel the new technology would have the intended impact of decreasing crime and increasing the safety of themselves and their property.\nEconomic impacts can also be seen in the community when people lose jobs due to the implementation of emerging technologies. For example, the use of self-serve checkouts and online shopping have decreased the need for a large number of employees in retail outlets. This may have a negative impact on families within the community whose main breadwinner may become unemployed. Although the number of jobs may decrease, emerging technology can create jobs and economic growth for the community in other areas. For example job creation in the areas of development and maintenance of this new and emerging technology. There may also be the long-term need for trainers and educators in the fields that use these technologies.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "32(a)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe the factors that contribute to youth unemployment.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides detailed information about the factors that contribute to youth unemployment ; Provides relevant examples"
+        },
+        {
+          "marks": "3",
+          "text": "Provides information about the factors that contribute to youth unemployment ; Provides example(s)"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information about the factors that contribute to youth unemployment"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some information about work"
+        }
+      ],
+      "sampleAnswer": "Factors that contribute to youth unemployment include a lack of experience and skills in the workplace that more experienced workers have. Without skills or workplace-specific training, the youth can be difficult to employ. Youth unemployment is also increasing due to advancements in technology. Technology has decreased the number of low skill jobs, so occupations young people have previously taken are no longer available or in less demand. To maximise employment prospects, young people need to develop personal management skills required in the workplace, and prepare and plan for a career.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "32(b)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how parents could utilise workplace structures to manage multiple roles.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides detailed information about how parents could utilise workplace structures to manage multiple roles ; Provides a clear link between workplace structures and managing multiple roles ; Provides relevant examples"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides information about how parents could utilise workplace structures to manage multiple roles ; Attempts to link the workplace structure(s) with managing multiple roles ; Provides example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about parents and/or workplace structures and/or multiple roles"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "In order for parents to maintain a work/life balance and manage multiple roles, the individual needs to utilise workplace structures. Leave entitlements, for example long service leave, annual leave, carer’s leave, parental and sick leave enable the parent to meet their responsibilities both in the workplace and as a parent. Leave entitlements allow parents to take time off work with the right of return. This helps to promote wellbeing for both the parents and their dependants. Flexible work patterns and practices also support the parent to manage multiple roles. Work patterns that are flexible such as part-time work, job sharing and working from home enable the parent to manage both their workplace roles as well as other roles such as studying, caring or parenting. Flexibility in choosing the days and hours worked allows the parent to meet the needs of their dependants and promote wellbeing.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "32(c)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the possible effects on a family when one member of the family changes their pattern of work due to social factors.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of societal influences on wellbeing relevant to the question",
+        "apply the skills of critical thinking and analysis",
+        "communicate ideas and information using relevant examples",
+        "present a logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Demonstrates extensive knowledge and understanding about how social factors lead to individuals within a family changing their pattern of work ; Provides a clear and valid link between social factors and changing patterns of work and their effect on a family ; Provides a clear link to the effect on the wellbeing of the family ; Communicates ideas and information using relevant examples ; Presents a logical and cohesive answer"
+        },
+        {
+          "marks": "10–12",
+          "text": "Demonstrates thorough knowledge and understanding about how social factors lead to individuals within a family changing their pattern of work ; Provides a link between social factors and changing patterns of work and their effect on a family ; Provides a link to the effect on the wellbeing of the family ; Communicates ideas and information using relevant examples ; Presents a cohesive answer"
+        },
+        {
+          "marks": "7–9",
+          "text": "Demonstrates sound knowledge about how social factor(s) lead to individuals within a family changing their pattern of work ; Communicates ideas and information using examples"
+        },
+        {
+          "marks": "4–6",
+          "text": "Provides some information about social factor(s) and/or patterns of work ; Provides example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides a relevant point/s about social factors and/or patterns of work"
+        }
+      ],
+      "sampleAnswer": "There are a number of social factors that can lead to individuals within the family changing their pattern of work. These could include education/retraining, technology, employment/ unemployment, perceptions of gender, family circumstances including structural change, government policy and economics.\nIn many situations, family circumstances including structural change would lead to and influence an individual within the family to change their pattern of work. For example, if a married couple both worked full time in permanent roles and decided to have a child, one partner might change their pattern of work to suit the new family structure change. The individual might leave their full-time role and negotiate a more flexible pattern of work to suit their new family structure and could change from full-time employment to part-time, casual or start a working-from-home arrangement. This would give the individual more time to fulfil their new parenting roles. This could positively affect the wellbeing of the parent who has made the change in their pattern of work, because they have more time to spend with their child, which allows them an opportunity to build a deeper emotional bond and connection to their child. When changing to a flexible pattern of work such as working from home, part time or casual, the individual’s self-worth and self efficacy could be increased as they are still engaging in work which allows them to build connections with other adults and use their skills and knowledge to contribute to society, while still contributing to the household finances through their income, and still have opportunities to spend time with their child.\nAnother social factor that can lead to individuals within families changing their pattern of work would be education and retraining. For example, if a dependent child within a family finishes their HSC and then decides to complete tertiary education to become a teacher or a vet, the individual would have to engage in a flexible type of work while they were studying to allow time for their tertiary education. This could impact the parents, as they may have to continue working to meet the needs of their child. This could include the individual engaging in part-time, casual, contract or seasonal work. Once the individual has completed their study, they\nwould hopefully have the opportunity to change their pattern of work to a full-time or permanent role – therefore becoming more independent and able to financially contribute to the family.\nEngaging in flexible work patterns while studying could increase an individual’s wellbeing as it allows them the time and flexibility to manage their study and work commitments. Having an opportunity to engage in employment gives them an opportunity to earn an income and be partly independent while still living at home with their family. As they complete study and hopefully transition into full-time permanent work, their self esteem and self worth can be increased as they find security and happiness working in a permanent role in a position they feel passionate about, which could increase their wellbeing. Once they have completed their study and attempt to find permanent work, their emotional wellbeing may be negatively impacted if they struggle to secure or to transition into a full-time permanent role.",
+      "answersCouldInclude": []
+    }
+  ],
+  "edits": [
+    "21(b): the stimulus is the printed passage; the figure is shipped as cafs-2019-21b.png, with a [Figure: …] line added to the stimulus.",
+    "28, 29: the printed list of Category B groups is set as \"[Category B groups, listed in two columns on the paper: …]\", the 2025 format."
+  ]
+}
