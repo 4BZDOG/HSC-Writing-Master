@@ -83,6 +83,10 @@ interface StrategyBriefProps {
    *   the stage's own properties — `--stage-ink-*` for the neutrals and
    *   `--band-text` for the tier's hue, which is the bright `-500` on the dark
    *   stage and the `-700` on the light one — and only works inside it.
+   *   `ink` also has the wider measure and the larger type from `xl`, because
+   *   the stage's left column is the only place this brief is set beside a
+   *   display-size verb and has the width to spare; the surface keeps its
+   *   52ch at every width.
    */
   tone?: 'surface' | 'ink';
   className?: string;
@@ -121,6 +125,8 @@ const MoveDetail: React.FC<{
  *  into using different structure. */
 const PALETTES = {
   surface: {
+    // 52ch: the reading measure of the panel this sits in, at every width.
+    measure: 'max-w-[52ch]',
     secondary: 'text-[rgb(var(--color-text-secondary))]',
     primary: 'text-[rgb(var(--color-text-primary))]',
     muted: 'text-[rgb(var(--color-text-muted))]',
@@ -133,6 +139,10 @@ const PALETTES = {
     detail: 'text-xs',
   },
   ink: {
+    // 52ch below `xl`, as the surface has it. From `xl` the stage's left column
+    // is wide enough for a longer measure, so the lines run to a comfortable
+    // reading length rather than stopping at about half the column.
+    measure: 'max-w-[52ch] xl:max-w-[68ch] 2xl:max-w-[72ch]',
     secondary: 'text-[rgb(var(--stage-ink-3))]',
     primary: 'text-[rgb(var(--stage-ink-2))]',
     muted: 'text-[rgb(var(--stage-ink-3))]',
@@ -141,10 +151,11 @@ const PALETTES = {
     // A step up on each. The ink tone is the verb ribbon's stage, where the
     // method for answering a verb is the most useful thing on screen and sits
     // beside a 96px heading and an 18px definition: at 12–13px it was the
-    // smallest type in the hero and read as a footnote to it.
-    lead: 'text-base',
-    check: 'text-sm',
-    detail: 'text-sm',
+    // smallest type in the hero and read as a footnote to it. From `xl` the
+    // definition beside it is 20px, so the brief steps up with it.
+    lead: 'text-base xl:text-lg',
+    check: 'text-sm xl:text-base',
+    detail: 'text-sm xl:text-base',
   },
 } as const;
 
@@ -168,7 +179,7 @@ const StrategyBrief: React.FC<StrategyBriefProps> = ({
   const showDefinition = leadMode === 'definition';
 
   return (
-    <div className={`max-w-[52ch] ${className}`}>
+    <div className={`${palette.measure} ${className}`}>
       {showDefinition && (
         <>
           <p

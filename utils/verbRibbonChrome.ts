@@ -269,10 +269,14 @@ export const RIBBON_HEADER_CHEVRON_SHUT = 'text-white';
  *
  *  `z-10` over the aura and the mesh. One column below `lg`, where the
  *  staircase takes the full width and so keeps six columns wide enough to touch;
- *  the left column gets slightly more than half from `lg`, because it carries a
- *  96px verb. */
+ *  from `lg` the left column gets slightly more than half, because it carries a
+ *  96px verb. From `xl` the two columns are equal, and the definition and the
+ *  brief widen to fill the left one (`RIBBON_INK_DEFINITION` and `StrategyBrief`
+ *  step their measures there), so the words span the space instead of stopping
+ *  short of it. The gutter and the padding open up to match the larger type. */
 export const RIBBON_INK_HERO =
-  'relative z-10 grid gap-8 lg:gap-10 px-5 sm:px-8 pt-4 pb-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start ' +
+  'relative z-10 grid gap-8 lg:gap-10 xl:gap-14 px-5 sm:px-8 xl:px-10 2xl:px-12 pt-4 pb-8 ' +
+  'lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start ' +
   'shadow-[inset_0_3px_0_var(--stage-rule)]';
 
 /** The tier chip above the verb. Its words are the tier's, derived at the call
@@ -322,7 +326,15 @@ export const RIBBON_INK_VERB_GLOW =
  *  verbs of up to eight letters set at the full 96px only from 1440px, and the
  *  long ones — DIFFERENTIATE, and the two-word CRITICALLY ANALYSE and CRITICALLY
  *  EVALUATE, which wrap — step down so none of them is ever wider than its
- *  column. */
+ *  column.
+ *
+ *  Measured at the 1920px viewport, where the column is about 690px: the widest
+ *  eight-letter word, EVALUATE, is about 480px at its 96px, so it has room, but
+ *  the eleven-letter words are about 530px at 72px and would be about 700px at
+ *  96px, which overflows. So the short words stay where they are and only the
+ *  long single word gains a step from `2xl`: DIFFERENTIATE is about 520px at
+ *  72px. At the 1536px viewport the column is about 660px, and the widest verb
+ *  at 72px is then about 80% of it, so the step holds there too. */
 export const ribbonVerbSize = (term: string): string => {
   const length = term.length;
   if (!term.includes(' ') && length <= 8) {
@@ -331,7 +343,7 @@ export const ribbonVerbSize = (term: string): string => {
   if (!term.includes(' ') && length <= 11) {
     return 'text-4xl sm:text-5xl xl:text-6xl min-[1440px]:text-7xl';
   }
-  return 'text-3xl sm:text-4xl xl:text-5xl min-[1440px]:text-6xl';
+  return 'text-3xl sm:text-4xl xl:text-5xl min-[1440px]:text-6xl 2xl:text-7xl';
 };
 
 /** The tier-lit rule under the verb — the same device as the dotted underline
@@ -343,9 +355,14 @@ export const RIBBON_INK_VERB_RULE =
   'shadow-[0_0_18px_rgb(var(--band-rgb)/var(--rule-glow))]';
 
 /** The verb's definition. Painted on the stage. Plain `slate-100` at full
- *  strength: 18:1 here, and nothing on this ground is dimmed with `opacity`. */
+ *  strength: 18:1 here, and nothing on this ground is dimmed with `opacity`.
+ *
+ *  Capped at `max-w-xl` (36rem) below `xl`, where the left column is narrower
+ *  than that anyway. From `xl` it fills the column at `text-xl`: the definition
+ *  is the hero's second line, and the 36rem cap left the end of the column bare
+ *  beside it. `PROSE_BLOCK` balances the lines. */
 export const RIBBON_INK_DEFINITION =
-  'mt-5 max-w-xl text-lg font-semibold leading-snug text-[rgb(var(--stage-ink-2))]';
+  'mt-5 max-w-xl xl:max-w-none text-lg xl:text-xl font-semibold leading-snug text-[rgb(var(--stage-ink-2))]';
 
 /* RIBBON_DETAIL_TIP_ACCENT is gone with `StrategyTip`, which it dressed. The brief
  * itself is `StrategyBrief tone="ink"`, which takes its colours from a table of

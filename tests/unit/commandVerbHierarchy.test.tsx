@@ -109,12 +109,12 @@ describe('CommandVerbHierarchy', () => {
     expect(stage.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(5));
 
     fireEvent.click(screen.getByRole('button', { name: 'EVALUATE' }));
-    expect(screen.getByText('EVALUATE questions cap a response at Band 6 (Band 5 on 6 marks or fewer).')).toBeTruthy();
+    expect(screen.getByText('EVALUATE questions cap a response at Band 6, or Band 5 on 6 marks or fewer.')).toBeTruthy();
   });
 
   it('keeps the verb’s own cap when the question has no ceiling', () => {
     render(<CommandVerbHierarchy currentVerb={'COMPOSE' as PromptVerb} />);
-    expect(screen.getByText('COMPOSE questions cap a response at Band 6 (Band 5 on 6 marks or fewer).')).toBeTruthy();
+    expect(screen.getByText('COMPOSE questions cap a response at Band 6, or Band 5 on 6 marks or fewer.')).toBeTruthy();
   });
 
   it('collapses and re-expands via the header toggle with aria-expanded in sync', () => {
@@ -893,7 +893,7 @@ describe('the spectrum says its level in words', () => {
   it('moves the tier’s prose subtitle off the footer without losing it', () => {
     render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
 
-    const copies = screen.getAllByText(/Break things apart and use knowledge/);
+    const copies = screen.getAllByText(/Break ideas apart, then put what you know/);
     expect(copies).toHaveLength(1);
 
     const survivor = copies[0];
