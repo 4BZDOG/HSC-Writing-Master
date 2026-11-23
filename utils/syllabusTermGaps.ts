@@ -240,8 +240,40 @@ const wordKind = (word: string): WordKind => {
  * that artefact was then proposed as a term. The key is `normalise(display)`,
  * which removes the apostrophe the same way the question text is compared.
  */
-const candidateTerms = (dotPointText: string): { key: string; display: string }[] => {
-  const found: { key: string; display: string }[] = [];
+/**
+ * An adjective by its ending: -al, -ic, -ive, -ous, -ful, -ian, -ish. Only ever
+ * asked of the LAST word of a phrase the dot point carries on past, so a noun
+ * with one of these endings ("capital", "chemical") costs only a fragment
+ * ("working capital" of "working capital ratio"), never the full phrase.
+ */
+const looksAdjectival = (word: string): boolean =>
+  word.length > 4 && /(?:al|ic|ive|ous|ful|ian|ish)$/.test(word);
+
+/**
+ * Words the phrase-builder will not take — so they end a run — that are still
+ * part of the phrase they stand beside: "time" in "time series line graphs",
+ * "long" in "long term". A candidate remembers them as neighbours, so a
+ * question that writes the whole phrase is not read as using the fragment.
+ */
+const MODIFIER_STOPS = new Set(
+  'time long term first second third final local potential ongoing new specific associated intended'.split(
+    ' '
+  )
+);
+
+const isNeighbour = (word: string, kind: WordKind | undefined): boolean =>
+  !!word && (kind === 'content' || MODIFIER_STOPS.has(word));
+
+interface Candidate {
+  key: string;
+  display: string;
+  /** The content words the dot point writes either side of it, inside its phrase. */
+  before: Set<string>;
+  after: Set<string>;
+}
+
+const candidateTerms = (dotPointText: string): Candidate[] => {
+  const found: Candidate[] = [];
 
   /**
    * Punctuation ends a phrase. Flattening it to whitespace instead ran the
@@ -258,6 +290,12 @@ const candidateTerms = (dotPointText: string): { key: string; display: string }[
 
     for (let start = 0; start < raw.length; start++) {
       if (kinds[start] !== 'content') continue;
+      // The whole run of content words this window sits in, uncapped, so a
+      // window knows the words its own phrase continues with.
+      let runEnd = start;
+      while (runEnd + 1 < raw.length && kinds[runEnd + 1] === 'content') runEnd++;
+      const before =
+        start > 0 && isNeighbour(lows[start - 1], kinds[start - 1]) ? lows[start - 1] : '';
       // How far the run reaches from here.
       let end = start;
       while (
@@ -276,32 +314,115 @@ const candidateTerms = (dotPointText: string): { key: string; display: string }[
         if (!key) continue;
         if (!isPhrase && key.length < 4) continue;
         if (isPhrase && words.some((w) => w.length < 3)) continue;
-        found.push({ key, display });
+        const after =
+          last < runEnd
+            ? lows[last + 1]
+            : isNeighbour(lows[runEnd + 1] ?? '', kinds[runEnd + 1]) &&
+                kinds[runEnd + 1] !== 'content'
+              ? lows[runEnd + 1]
+              : '';
+        // A phrase that stops on an adjective, where the dot point carries on,
+        // is the front half of a longer one: "correct scientific" of "correct
+        // scientific language", "South African" of "South African security
+        // forces", and "high personal" of "high personal and ethical
+        // standards", where "and" shares the noun. The longer phrase is still
+        // offered in its own right; only the half is dropped.
+        const continues = !!after || /^(?:and|or)$/.test(lows[runEnd + 1] ?? '');
+        if (isPhrase && continues && looksAdjectival(lows[last])) continue;
+        found.push({
+          key,
+          display,
+          before: new Set(before ? [before] : []),
+          after: new Set(after ? [after] : []),
+        });
       }
     }
   }
 
-  const seen = new Set<string>();
-  return found.filter((t) => (seen.has(t.key) ? false : seen.add(t.key)));
+  // One entry per term, with every place the dot point wrote it.
+  const byKey = new Map<string, Candidate>();
+  for (const t of found) {
+    const prior = byKey.get(t.key);
+    if (!prior) byKey.set(t.key, t);
+    else {
+      t.before.forEach((w) => prior.before.add(w));
+      t.after.forEach((w) => prior.after.add(w));
+    }
+  }
+  return [...byKey.values()];
 };
 
 /**
- * Whole words only.
- *
- * Substring matching read "model" as present in "modelling" and offered it as a
- * term the question uses. Both sides are already normalised to single-spaced
- * lower case, so padding turns `includes` into a word-boundary test that works
- * for phrases as well as words.
+ * A word with its plural ending taken off: "graphs" → "graph", "policies" →
+ * "policy", "stresses" → "stress", "prefixes" → "prefix". Not a full stemmer
+ * ("analyses" → "analys"): both sides of every comparison go through it, so it
+ * only has to be consistent.
  */
-const usesTerm = (normalisedText: string, key: string): boolean =>
-  ` ${normalisedText} `.includes(` ${key} `);
+const singular = (w: string): string => {
+  if (w.length <= 3 || w.endsWith('ss')) return w;
+  if (w.endsWith('ies')) return `${w.slice(0, -3)}y`;
+  if (/(?:ss|x|ch|sh)es$/.test(w)) return w.slice(0, -2);
+  return w.endsWith('s') ? w.slice(0, -1) : w;
+};
 
-/** Is this term already spoken for by something on the list? */
-const alreadyListed = (keywords: string[], key: string): boolean =>
-  keywords.some((keyword) => {
-    const listed = normalise(keyword);
-    return !!listed && (listed === key || listed.includes(key) || key.includes(listed));
+/** A key with each word made singular, so "time series line graphs" is "time series line graph". */
+const singularKey = (key: string): string => key.split(' ').map(singular).join(' ');
+
+/**
+ * A year or a date is the question's setting, not a term: "1933", "the 1930s",
+ * "September 1939". The reviewers of the November 2026 pass skipped every one.
+ */
+const isDateOnly = (key: string): boolean =>
+  /^(?:(?:january|february|march|april|may|june|july|august|september|october|november|december) )?\d{3,4}s?$/.test(
+    key
+  );
+
+/**
+ * Is this term already spoken for by something on the list? Compared without
+ * plurals: the list had "time series line graph" and the syllabus writes
+ * "graphs", and the check proposed the fragment "series line graphs".
+ */
+const alreadyListed = (keywords: string[], key: string): boolean => {
+  const k = ` ${singularKey(key)} `;
+  return keywords.some((keyword) => {
+    const listed = singularKey(normalise(keyword));
+    return !!listed && (k.includes(` ${listed} `) || ` ${listed} `.includes(k));
   });
+};
+
+/**
+ * Does the text use this phrase as a term of its own, and not only as part of
+ * the longer phrase the dot point writes it in?
+ *
+ * The candidates are every window of a run of content words in the dot point,
+ * so "long-term financial objectives" also offers "long-term financial", and
+ * "total consumer spending" offers "total consumer". A question that says
+ * "long-term financial objectives" contains both, and the fragment was
+ * proposed as a term. So an occurrence does not count where the question
+ * carries on with the word the dot point carries on with ("objectives"), or
+ * opens with the word the dot point opens with ("time" before "series line
+ * graphs"). Any other neighbour is fine: "big data changes the posture" still
+ * uses "big data", because the dot point does not write "big data changes".
+ * Measured over the shipped library in November 2026, fragments of this kind
+ * were most of the 530 questions with a phrase proposed.
+ */
+const usesWholePhrase = (normalisedText: string, term: Candidate): boolean => {
+  const words = normalisedText.split(' ');
+  const parts = term.key.split(' ');
+  for (let i = 0; i + parts.length <= words.length; i++) {
+    let match = true;
+    for (let j = 0; j < parts.length; j++)
+      if (words[i + j] !== parts[j]) {
+        match = false;
+        break;
+      }
+    if (!match) continue;
+    const prev = i > 0 ? words[i - 1] : '';
+    const next = i + parts.length < words.length ? words[i + parts.length] : '';
+    if (!term.before.has(prev) && !term.after.has(next)) return true;
+  }
+  return false;
+};
 
 /**
  * The terms this question should carry and does not, in the syllabus's own
@@ -325,19 +446,22 @@ export const missingSyllabusTerms = (
 
   const wanted = candidateTerms(dotPointText).filter((term) => {
     if (alreadyListed(listed, term.key)) return false;
-    const isPhrase = term.key.includes(' ');
-    if (!isPhrase && TOO_GENERIC_ALONE.has(term.key)) return false;
-    const inQ = usesTerm(inQuestion, term.key);
-    const inS = hasScenario && usesTerm(inScenario, term.key);
-    // A phrase is subject matter wherever it turns up; a lone word has to be
-    // corroborated by all three before it counts as more than a verb.
-    return isPhrase ? inQ || inS : inQ && inS;
+    // Phrases only. A single word was offered when the dot point, question and
+    // scenario all used it, and in November 2026 reviewers read 261 of those and
+    // kept 36 — most of them only as part of a longer term ("aerobic" →
+    // "aerobic training"). The rest were a course's wallpaper ("text",
+    // "sources", "water", "conflict"). A lone word on a list is still a term;
+    // it is only no longer proposed.
+    if (!term.key.includes(' ')) return false;
+    if (isDateOnly(term.key)) return false;
+    // A phrase is subject matter wherever it turns up as a whole phrase.
+    return usesWholePhrase(inQuestion, term) || (hasScenario && usesWholePhrase(inScenario, term));
   });
 
   // Longest wins: with "Torres Strait Islander Peoples" kept there is nothing
   // to be gained from "Torres Strait", and with "big data" kept, none from
   // "data".
-  const kept: { key: string; display: string }[] = [];
+  const kept: Candidate[] = [];
   wanted
     .slice()
     .sort((a, b) => b.key.length - a.key.length)

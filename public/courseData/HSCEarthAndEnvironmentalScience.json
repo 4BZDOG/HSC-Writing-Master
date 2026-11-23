@@ -6396,7 +6396,8 @@
                       "decompression melting",
                       "mid-ocean ridge",
                       "geological feature",
-                      "new oceanic crust"
+                      "new oceanic crust",
+                      "transform boundaries"
                     ],
                     "linkedOutcomes": [
                       "EES-11-01"
@@ -7360,7 +7361,8 @@
                       "mafic",
                       "felsic",
                       "silica",
-                      "magma"
+                      "magma",
+                      "chemical composition"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -7643,7 +7645,8 @@
                       "key",
                       "fragments",
                       "grains",
-                      "physical properties"
+                      "physical properties",
+                      "sedimentary rock"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -7696,7 +7699,8 @@
                       "key",
                       "crystal size",
                       "texture",
-                      "colour"
+                      "colour",
+                      "igneous rock"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -9000,7 +9004,9 @@
                       "topographic",
                       "population",
                       "hydro-electric",
-                      "wind farm"
+                      "wind farm",
+                      "natural gas",
+                      "solar farm"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -10290,7 +10296,8 @@
                       "atmosphere",
                       "precipitation",
                       "runoff",
-                      "ocean"
+                      "ocean",
+                      "global water cycle"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -10683,7 +10690,8 @@
                       "density",
                       "sink",
                       "North Atlantic",
-                      "thermohaline circulation"
+                      "thermohaline circulation",
+                      "ocean conveyor belt"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -11239,7 +11247,8 @@
                       "tertiary",
                       "sedimentation",
                       "microorganisms",
-                      "organic matter"
+                      "organic matter",
+                      "sewage treatment"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -13715,7 +13724,8 @@
                       "interconnections",
                       "cultural knowledge",
                       "plants and animals",
-                      "introduced species"
+                      "introduced species",
+                      "Aboriginal and Torres Strait Islander Peoples"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -13768,7 +13778,8 @@
                       "Place",
                       "interconnections",
                       "cultural practices",
-                      "native plants"
+                      "native plants",
+                      "Aboriginal and Torres Strait Islander Peoples"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -21290,7 +21301,8 @@
                       "Mount Pinatubo",
                       "effects",
                       "environment",
-                      "magma"
+                      "magma",
+                      "1991 eruption of Mount Pinatubo"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21343,7 +21355,9 @@
                       "geological",
                       "environment",
                       "society",
-                      "subduction zone"
+                      "subduction zone",
+                      "1991 eruption of Mount Pinatubo",
+                      "2010 eruptions of Eyjafjallajökull"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -24172,7 +24186,8 @@
                       "carbon dioxide",
                       "methane",
                       "nitrous oxide",
-                      "water vapour"
+                      "water vapour",
+                      "greenhouse gases"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -28050,7 +28065,8 @@
                       "leachate",
                       "methane",
                       "groundwater",
-                      "secondary sources"
+                      "secondary sources",
+                      "waste management strategies"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"
@@ -28507,7 +28523,9 @@
                       "land area",
                       "mining",
                       "nuclear",
-                      "wind farm"
+                      "wind farm",
+                      "hydroelectric",
+                      "solar farm"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"

@@ -8376,7 +8376,8 @@
                       "period",
                       "amplitude",
                       "crest",
-                      "trough"
+                      "trough",
+                      "transverse wave"
                     ],
                     "linkedOutcomes": [
                       "PY-11-02"
@@ -8892,7 +8893,8 @@
                       "wavelength",
                       "water depth",
                       "shallow water",
-                      "limitation"
+                      "limitation",
+                      "water waves"
                     ],
                     "linkedOutcomes": [
                       "PY-11-02"
@@ -18080,7 +18082,8 @@
                       "scientific knowledge",
                       "Aboriginal",
                       "seasonal calendar",
-                      "environment"
+                      "environment",
+                      "Aboriginal and Torres Strait Islander Peoples"
                     ],
                     "linkedOutcomes": [
                       "PY-12WS-07",
@@ -22617,7 +22620,8 @@
                       "gravitational potential energy",
                       "conservation of energy",
                       "energy",
-                      "transformed"
+                      "transformed",
+                      "circular orbit"
                     ],
                     "markingCriteria": "2 marks: Analyses qualitatively the energy changes as the satellite moves\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -25875,7 +25879,8 @@
                       "XY",
                       "direction",
                       "magnitude",
-                      "rotated"
+                      "rotated",
+                      "magnetic field"
                     ],
                     "markingCriteria": "3 marks: Compares the forces acting on WX and XY before and after the rotation; Identifies some features of the forces acting on WX and XY\n2 marks: Compares the forces acting on WX or XY before and after the rotation\n1 mark: Identifies a feature of the force acting on WX or XY",
                     "sampleAnswers": [
@@ -26543,7 +26548,8 @@
                       "zero",
                       "initial position",
                       "90º",
-                      "180º"
+                      "180º",
+                      "current-carrying loop"
                     ],
                     "markingCriteria": "2 marks: Correctly describes changes in magnitude of torque throughout one half-rotation\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -26608,7 +26614,8 @@
                       "brushes",
                       "split-ring commutator",
                       "structure",
-                      "function"
+                      "function",
+                      "simple direct current (DC) motor"
                     ],
                     "linkedOutcomes": [
                       "PY-12-02"
@@ -26662,7 +26669,8 @@
                       "split-ring commutator",
                       "brushes",
                       "field magnets",
-                      "rotor coil"
+                      "rotor coil",
+                      "simple alternating current (AC) motor"
                     ],
                     "linkedOutcomes": [
                       "PY-12-02"
@@ -34605,7 +34613,8 @@
                       "postulates",
                       "speed of light",
                       "relativistic speed",
-                      "frame of reference"
+                      "frame of reference",
+                      "thought experiment"
                     ],
                     "linkedOutcomes": [
                       "PY-12-03"
@@ -34670,7 +34679,8 @@
                       "speed of light",
                       "observer",
                       "mirrors",
-                      "train"
+                      "train",
+                      "thought experiment"
                     ],
                     "markingCriteria": "3 marks: Outlines a thought experiment related to the prediction of time dilation\n2 marks: Provides features of a relevant thought experiment\n1 mark: Identifies a thought experiment or a feature of time dilation",
                     "sampleAnswers": [
@@ -42835,7 +42845,9 @@
                       "density",
                       "frequency shift",
                       "motion of stars",
-                      "Doppler effect"
+                      "Doppler effect",
+                      "chemical composition",
+                      "surface temperature"
                     ],
                     "markingCriteria": "3 marks: Relates observations to features of stars\n2 marks: Relates an observation to a feature of a star\n1 mark: Identifies an observation or other feature of a star",
                     "sampleAnswers": [

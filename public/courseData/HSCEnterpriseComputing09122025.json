@@ -1647,7 +1647,8 @@
                       "interactive media",
                       "lossless",
                       "file size",
-                      "artwork"
+                      "artwork",
+                      "lossy data compression"
                     ],
                     "linkedOutcomes": [
                       "EC-11-03",
@@ -10637,7 +10638,8 @@
                       "data mining",
                       "qualitative analysis",
                       "sentiment analysis",
-                      "viral spread"
+                      "viral spread",
+                      "memes"
                     ],
                     "markingCriteria": "3 marks: Describes how memes can be analysed to provide insights into the effectiveness of the advertising campaign\n2 marks: Outlines how memes can be analysed to provide insights into the effectiveness of the advertising campaign\n1 mark: Provides some relevant information",
                     "scenario": "A company wants to analyse memes on social media to assess the effectiveness of its advertising campaign.",
@@ -14118,7 +14120,8 @@
                       "sensor",
                       "microcontroller",
                       "actuator",
-                      "motor"
+                      "motor",
+                      "virtual reality"
                     ],
                     "linkedOutcomes": [
                       "EC-12-06"
@@ -14187,7 +14190,8 @@
                       "vibration sensor",
                       "proximity sensor",
                       "Internet of Things (IoT)",
-                      "networking hardware"
+                      "networking hardware",
+                      "intelligent system"
                     ],
                     "markingCriteria": "4 marks: Describes hardware needed for the intelligent system; Includes examples of specific types of sensors\n3 marks: Outlines relevant hardware devices; Includes at least ONE sensor\n2 marks: Outlines ONE relevant hardware device OR Identifies relevant hardware devices\n1 mark: Provides some relevant information",
                     "scenario": "A TV manufacturer wants to improve the efficiency and reliability of its manufacturing system. It plans to incorporate an intelligent system into its manufacturing process to collect live data for analysis. Hardware devices will be installed to collect data on the system’s operations. The data is then sent to a server for processing.\n\nThe manufacturing processes include attaching the LCD panel to the motherboard and testing the brightness of the screen. The current system is controlled through manual processes and monitoring.",

@@ -4384,7 +4384,8 @@
                       "fluid mosaic model",
                       "phospholipid bilayer",
                       "cell membrane",
-                      "structure"
+                      "structure",
+                      "integral proteins"
                     ],
                     "linkedOutcomes": [
                       "BI-11-01"
@@ -5021,7 +5022,9 @@
                       "sodium ions",
                       "simple diffusion",
                       "facilitated diffusion",
-                      "carrier protein"
+                      "carrier protein",
+                      "oxygen",
+                      "carbon dioxide"
                     ],
                     "linkedOutcomes": [
                       "BI-11-01"
@@ -15139,7 +15142,7 @@
                         "id": "sa-bio-hsc-2024-22a-2",
                         "source": "AI",
                         "mark": 1,
-                        "answer": "Wear gloves when handling the petri dishes.",
+                        "answer": "Wear gloves when handling the petri dishes, water samples and food samples, and keep the dishes closed.",
                         "feedback": "Meets the 1-mark row by providing some relevant information, since 'Wear gloves when handling the petri dishes' names a precaution but gives no reason for it. Explaining how the gloves stop microbes reaching the skin or mouth would lift it to the 2-mark row.",
                         "band": 4
                       }
@@ -17972,7 +17975,9 @@
                       "ribosome",
                       "specific amino acid",
                       "translation",
-                      "transcription"
+                      "transcription",
+                      "mRNA",
+                      "tRNA"
                     ],
                     "markingCriteria": "5 marks: Provides a thorough explanation of the importance of mRNA and tRNA in polypeptide synthesis\n4 marks: Provides a sound explanation of the importance of mRNA and tRNA in polypeptide synthesis\n3 marks: Demonstrates some understanding of the importance of mRNA and tRNA in polypeptide synthesis\n2 marks: Demonstrates an understanding of mRNA or tRNA\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -18855,7 +18860,8 @@
                       "transcription",
                       "mRNA",
                       "translation",
-                      "complementary base pairing"
+                      "complementary base pairing",
+                      "regulatory RNA"
                     ],
                     "linkedOutcomes": [
                       "BI-12-01"
@@ -19389,7 +19395,8 @@
                       "chromatids",
                       "maternal",
                       "paternal",
-                      "identical"
+                      "identical",
+                      "meiosis"
                     ],
                     "markingCriteria": "3 marks: Explains the misunderstanding of meiosis shown in the model\n2 marks: Describes in general terms the misunderstanding shown in the model\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -19457,7 +19464,8 @@
                       "Metaphase I",
                       "alleles",
                       "recombination",
-                      "maternal"
+                      "maternal",
+                      "genetic variation"
                     ],
                     "markingCriteria": "3 marks: Explains processes in meiosis that lead to genetic variation\n2 marks: Explains a process in meiosis that leads to genetic variation OR Identifies processes in meiosis that lead to genetic variation\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -20131,7 +20139,8 @@
                       "heterozygous",
                       "carriers",
                       "phenotype",
-                      "orange parents"
+                      "orange parents",
+                      "pedigree chart"
                     ],
                     "markingCriteria": "2 marks: Uses the pedigree chart to explain that the yellow allele is recessive\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -23557,7 +23566,8 @@
                       "primary exposure",
                       "re-exposure",
                       "plasma cells",
-                      "antigen"
+                      "antigen",
+                      "immune response"
                     ],
                     "markingCriteria": "3 marks: Explains the role of memory cells in the immune response\n2 marks: Outlines the role of memory cells\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -25911,7 +25921,7 @@
                         "id": "sa-bio-hsc-2023-27-1",
                         "source": "AI",
                         "mark": 7,
-                        "answer": "The study is not a valid epidemiological study, so it cannot show that air pollution causes the symptoms. The sample includes only people aged 20 to 50, and it does not indicate ethnic group, occupation or socioeconomic status, which are risk factors that might contribute to the symptoms, so confounding factors are not controlled. The study also does not indicate how close people live to industry, the degree of symptoms or each person's exposure to air pollution, and 12 months may be too short for symptoms to develop. Because these factors are not controlled, the study does not show a statistically significant relationship between cause and effect. A valid study would need a larger and more varied sample.",
+                        "answer": "The study is not a valid epidemiological study, so it cannot show that air pollution causes the symptoms. The sample includes only people aged 20 to 50, a selection error that limits how far the results apply to the wider population. The study also does not indicate ethnic group, occupation or socioeconomic status, which are risk factors that might contribute to the symptoms, so confounding factors are not controlled. It does not indicate how close people live to industry, the degree of symptoms or each person’s exposure to air pollution, and 12 months may be too short for symptoms to develop. Because these factors are not controlled, the study does not show a statistically significant relationship between cause and effect. The table also cannot be read as a simple comparison. City 2 has the same percentage of males and females with symptoms, while City 3 shows a larger difference between the sexes, and without information on the other risk factors it is not possible to tell whether these differences reflect air pollution or something else. A valid study would need a larger and more varied sample, selected at random, and a comparison group living in an area with low air pollution.",
                         "feedback": "Meets the 7-mark row by demonstrating a thorough understanding of the features of a valid epidemiological study, providing a comprehensive analysis of the study and making an informed judgement. It states that 'The study is not a valid epidemiological study' and supports this with 'The sample includes only people aged 20 to 50'.",
                         "band": 6
                       },
@@ -27642,7 +27652,8 @@
                       "asexual",
                       "clonal",
                       "genetic identity",
-                      "mitosis"
+                      "mitosis",
+                      "budding"
                     ],
                     "markingCriteria": "1 mark: Identifies the type of reproduction",
                     "sampleAnswers": [
@@ -27883,7 +27894,7 @@
                         "id": "sa-bio-hsc-2023-32-1",
                         "source": "AI",
                         "mark": 7,
-                        "answer": "Bushfires reduced the Mt Buller population and its gene pool. The population fell from about 90 in 1996 to about 35 in 1999, and the fires of 1998, 2000 and 2002 removed more individuals and alleles. By 2005 and 2007 the population was about 8, so chance losses of alleles, a genetic drift (bottleneck effect), had further reduced its diversity. The males introduced from Mt Bogong in 2007 and 2012 brought gene flow and new alleles, and the population rose to about 150 by 2015. Overall, the introduced males had the greater positive effect on the gene pool, although this small, isolated population remains vulnerable to further bushfires.",
+                        "answer": "Bushfires reduced the Mt Buller population and its gene pool. The population fell from about 90 in 1996 to about 35 in 1999, and the fires of 1998, 2000 and 2002 removed more individuals and alleles. By 2005 and 2007 the population was about 8, so chance losses of alleles, a genetic drift (bottleneck effect), had further reduced its diversity. With so few individuals left, each chance event had a large effect on allele frequency. The population was still recovering from these losses when a further fire struck in 2011. The males introduced from Mt Bogong in 2007 and 2012 brought gene flow and new alleles, and the population rose to about 150 by 2015. Gene flow from another population was a far faster source of new alleles than mutation alone, so the introduction had an effect that the bushfires could not. The males came from Mt Bogong, a separate sub-population, so the alleles they carried were not already present in the isolated Mt Buller population. Overall, the introduced males had the greater positive effect on the gene pool, although this small, isolated population remains vulnerable to further bushfires, and a further fire could again reduce it to a few individuals.",
                         "feedback": "Meets the 7-mark row by demonstrating an extensive understanding of how bushfires and the introduced males affected population size and the gene pool, and making an informed judgement. It states that 'the introduced males had the greater positive effect on the gene pool' and supports this with 'brought gene flow and new alleles'.",
                         "band": 6
                       },

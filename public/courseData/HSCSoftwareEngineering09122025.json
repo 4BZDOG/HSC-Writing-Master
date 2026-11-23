@@ -8619,7 +8619,8 @@
                       "inactive sessions",
                       "memory leaks",
                       "garbage collection",
-                      "resource management"
+                      "resource management",
+                      "session management"
                     ],
                     "markingCriteria": "3 marks: Describes how session management can affect code execution efficiency\n2 marks: Identifies some features of session management\n1 mark: Provides some relevant information",
                     "isPastHSC": true,
@@ -8646,8 +8647,8 @@
                         "id": "sa-se-hsc-2025-20-3",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Session management stores data about each user's visit to the website, such as their login details. Sessions also have a time limit, after which they expire and the data is removed. Sessions can also end when the user logs out or closes the browser.",
-                        "feedback": "Meets the 2-mark row: it identifies some features of session management, stored visit data, a time limit and logging out. It does not say how these features affect the efficiency of code execution, so it stays short of the 3-mark row. Explaining how large stored session data slows the program would lift it.",
+                        "answer": "Session management stores data about each user's visit, such as their login details. Sessions have a time limit, after which they expire and the data is removed.",
+                        "feedback": "Meets the 2-mark row: it identifies some features of session management, stored visit data and a time limit after which it expires. It does not say how these features affect the efficiency of code execution, so it stays short of the 3-mark row. Explaining how large stored session data slows the program would lift it.",
                         "band": 1
                       },
                       {
@@ -13417,7 +13418,8 @@
                       "Web Server",
                       "HTTP Request",
                       "HTTP Response",
-                      "Database"
+                      "Database",
+                      "back-end"
                     ],
                     "markingCriteria": "6 marks: Describes the full lifecycle of a request in sequence, from the web server through routing, controller logic and database access to the response\n5 marks: Describes the lifecycle in correct sequence, with most stages named and explained\n4 marks: Describes the main stages, including routing and the controller, with some accurate detail\n3 marks: Describes some stages of the request in general terms, with at least one correct role\n2 marks: Identifies TWO components involved in a web request\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -17912,7 +17914,8 @@
                       "Input validation",
                       "Error detection",
                       "input domain",
-                      "exhaustive testing"
+                      "exhaustive testing",
+                      "test plan"
                     ],
                     "markingCriteria": "4 marks: Evaluates boundary value analysis with reasons why errors cluster at input boundaries and how efficient it is, applied accurately to the age field with a clear judgement\n3 marks: Describes boundary value analysis and gives a relevant example, with some evaluation of its effectiveness\n2 marks: Describes boundary value analysis accurately\n1 mark: Makes a basic statement about testing the edges of inputs",
                     "sampleAnswers": [
@@ -19539,7 +19542,8 @@
                       "Intercept",
                       "Coefficients",
                       "private attributes",
-                      "y-axis"
+                      "y-axis",
+                      "linear regression"
                     ],
                     "markingCriteria": "2 marks: Outlines TWO private attributes a LinearRegression class needs, stating what each one stores\n1 mark: Identifies ONE private attribute of a LinearRegression class",
                     "sampleAnswers": [
