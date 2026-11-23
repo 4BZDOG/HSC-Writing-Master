@@ -1,5 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
-import { openWorkspace } from './support/workspace';
+import { clearOnboarding, openFirstQuestion, openWorkspace, signIn } from './support/workspace';
 
 /**
  * Focus Mode on a desktop: the student picks how the question and the writing
@@ -87,5 +87,98 @@ test.describe('Focus Mode arrangement', () => {
         return c.prompt!.bottom <= c.response!.top;
       })
       .toBe(true);
+  });
+});
+
+/**
+ * The question card's own geometry: the card, its scrolling body, and the
+ * question heading inside them. Used where the question has to be in view.
+ */
+const promptGeometry = (page: Page) =>
+  page.evaluate(() => {
+    const h3 = Array.from(document.querySelectorAll('h3')).find((h) =>
+      h.textContent?.includes('Writing Prompt')
+    );
+    const card = h3?.closest('[class*="rounded-surface"]') as HTMLElement | null;
+    const body = Array.from(card?.querySelectorAll('div') ?? []).find((d) =>
+      d.className.includes('overflow-y-auto')
+    );
+    const h2 = card?.querySelector('h2');
+    if (!card || !body || !h2) return null;
+    const c = card.getBoundingClientRect();
+    const b = body.getBoundingClientRect();
+    const q = h2.getBoundingClientRect();
+    return {
+      viewport: { width: window.innerWidth, height: window.innerHeight },
+      card: { top: c.top, bottom: c.bottom },
+      body: { top: b.top, bottom: b.bottom, height: b.height },
+      question: { top: q.top, bottom: q.bottom },
+    };
+  });
+
+test.describe('Focus Mode question stays in view', () => {
+  test('side by side, a lone question sits at the top of its card, not in the middle', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    // A question with no scenario is the case that used to be centred. A curator
+    // clears the scenario in the normal workspace, then Focus Mode is entered.
+    await signIn(page, 'admin');
+    await clearOnboarding(page);
+    await openFirstQuestion(page);
+    const edit = page.getByRole('button', { name: 'Edit Scenario' });
+    if (await edit.count()) {
+      await edit.first().click();
+      await page.getByLabel('Scenario text').fill('');
+      await page.getByRole('button', { name: /Save Scenario/ }).click();
+    }
+    await page.getByRole('button', { name: 'Focus mode' }).first().click();
+    await page.getByRole('radio', { name: 'Side by side' }).click();
+
+    await expect
+      .poll(async () => {
+        const g = await promptGeometry(page);
+        return !!g && g.card.bottom - g.card.top > 600;
+      })
+      .toBe(true);
+    const g = (await promptGeometry(page))!;
+    // The card is the window's height; a centred question would start near its middle.
+    expect(g.question.top - g.card.top).toBeLessThan(160);
+  });
+
+  test('on a phone, Focus Mode opens with the question on screen, even if the scenario was left open', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.addInitScript(() => localStorage.setItem('hsc.focus.scenarioOpen', '1'));
+    await openWorkspace(page);
+    await page.getByRole('button', { name: 'Focus mode' }).first().click();
+
+    await expect
+      .poll(async () => {
+        const g = await promptGeometry(page);
+        return !!g && g.question.top >= 0 && g.question.bottom <= g.viewport.height;
+      })
+      .toBe(true);
+  });
+
+  test('a question card dragged to its smallest height still shows the question', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.addInitScript(() => localStorage.setItem('hsc.focus.promptHeight', '150'));
+    await openWorkspace(page);
+    await page.getByRole('button', { name: 'Focus mode' }).first().click();
+
+    await expect
+      .poll(async () => {
+        const g = await promptGeometry(page);
+        return !!g && g.body.height > 60;
+      })
+      .toBe(true);
+    const g = (await promptGeometry(page))!;
+    // The question is inside the card's visible body, not hidden behind the chrome.
+    expect(g.question.top).toBeGreaterThanOrEqual(g.body.top);
+    expect(g.question.bottom).toBeLessThanOrEqual(g.body.bottom + 1);
   });
 });

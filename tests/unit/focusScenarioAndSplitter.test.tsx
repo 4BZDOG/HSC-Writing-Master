@@ -6,7 +6,6 @@ import FocusSplitter from '../../components/FocusSplitter';
 import {
   FOCUS_PROMPT_HEIGHT_KEY,
   FOCUS_PROMPT_MIN,
-  FOCUS_SCENARIO_KEY,
   maxFocusPromptHeight,
   readFocusPromptHeight,
 } from '../../utils/focusLayout';
@@ -74,7 +73,7 @@ describe('Focus Mode scenario', () => {
     expect(document.getElementById(toggle().getAttribute('aria-controls') ?? '')).toBeNull();
   });
 
-  it('opens and closes the scenario, and remembers the choice', () => {
+  it('opens and closes the scenario when the student chooses', () => {
     render(<PromptDisplay {...props} prompt={makePrompt(SCENARIO)} condensed />);
     fireEvent.click(toggle());
     expect(toggle().getAttribute('aria-expanded')).toBe('true');
@@ -82,17 +81,45 @@ describe('Focus Mode scenario', () => {
     const region = document.getElementById(toggle().getAttribute('aria-controls') ?? '');
     expect(region).not.toBeNull();
     expect(region?.textContent).toMatch(/Allied draft/);
-    expect(window.localStorage.getItem(FOCUS_SCENARIO_KEY)).toBe('1');
 
     fireEvent.click(toggle());
     expect(toggle().getAttribute('aria-expanded')).toBe('false');
-    expect(window.localStorage.getItem(FOCUS_SCENARIO_KEY)).toBe('0');
   });
 
-  it('opens on the next visit when the student last left it open', () => {
-    window.localStorage.setItem(FOCUS_SCENARIO_KEY, '1');
+  it('stays folded on load even when a previous visit left it open, and the question is in view', () => {
+    // Regression: a remembered open scenario pushed a long one above the writing
+    // card on load. The choice is no longer read back, so every entry starts folded.
+    window.localStorage.setItem('hsc.focus.scenarioOpen', '1');
     render(<PromptDisplay {...props} prompt={makePrompt(SCENARIO)} condensed />);
-    expect(toggle().getAttribute('aria-expanded')).toBe('true');
+    expect(toggle().getAttribute('aria-expanded')).toBe('false');
+    expect(document.getElementById(toggle().getAttribute('aria-controls') ?? '')).toBeNull();
+    expect(screen.getByRole('heading', { level: 2 }).textContent).toMatch(/terms of the Treaty/);
+  });
+
+  it('never writes the scenario choice to storage', () => {
+    render(<PromptDisplay {...props} prompt={makePrompt(SCENARIO)} condensed />);
+    fireEvent.click(toggle());
+    expect(window.localStorage.getItem('hsc.focus.scenarioOpen')).toBeNull();
+  });
+
+  it('places a lone question at the top of the Focus card, not centred in it', () => {
+    // Regression: side by side the card is the height of the window, and a
+    // question with no scenario was vertically centred in it (`my-auto`).
+    const { container } = render(
+      <PromptDisplay {...props} prompt={makePrompt()} condensed scenarioAlwaysOpen />
+    );
+    const content = container.querySelector('.overflow-y-auto > div') as HTMLElement;
+    expect(content).not.toBeNull();
+    expect(content.className).not.toMatch(/\bmy-auto\b/);
+    expect(content.className).toMatch(/\bpt-6\b/);
+  });
+
+  it('keeps the full card centring a lone question, as before', () => {
+    const { container } = render(
+      <PromptDisplay {...props} prompt={makePrompt()} userRole="user" />
+    );
+    const content = container.querySelector('.overflow-y-auto > div') as HTMLElement;
+    expect(content.className).toMatch(/\bmy-auto\b/);
   });
 
   it('is not offered when the question has no scenario', () => {

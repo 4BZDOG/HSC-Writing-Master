@@ -75,7 +75,6 @@ import { TERM_CHIP_RESTING } from '../utils/termChrome';
 import { withIndefiniteArticle } from '../utils/grammar';
 import { canStepReadingSize, stepReadingSize } from '../utils/readingSize';
 import { capOutcomeLinks } from '../utils/outcomeCodes';
-import { readFocusScenarioOpen, writeFocusScenarioOpen } from '../utils/focusLayout';
 
 interface PromptDisplayProps {
   prompt: Prompt;
@@ -445,11 +444,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   const [editQuestionText, setEditQuestionText] = useState(prompt.question);
   const [isEditingScenario, setIsEditingScenario] = useState(false);
   const [editScenarioText, setEditScenarioText] = useState(prompt.scenario || '');
-  // Focus Mode starts with the scenario folded away so the writing area gets the
-  // height; the student's last choice is remembered. The full card keeps it open.
-  const [scenarioOpen, setScenarioOpen] = useState(() =>
-    condensed ? readFocusScenarioOpen() : true
-  );
+  // Focus Mode folds the scenario on every entry, so the question is what the
+  // student meets first; opening it is their choice for this visit and is not
+  // remembered. The full card keeps it open.
+  const [scenarioOpen, setScenarioOpen] = useState(() => !condensed);
   const scenarioRegionId = useId();
   const questionTextareaRef = useRef<HTMLTextAreaElement>(null);
   const scenarioTextareaRef = useRef<HTMLTextAreaElement>(null);
@@ -598,6 +596,12 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   useEffect(() => {
     setEditScenarioText(prompt.scenario || '');
   }, [prompt.scenario]);
+
+  // Focus Mode: each question opens at the top of its card. The body is kept
+  // mounted across questions, so it would otherwise keep the scroll of the last one.
+  useEffect(() => {
+    if (condensed && bodyRef.current) bodyRef.current.scrollTop = 0;
+  }, [condensed, prompt.id]);
 
   // The card is not remounted when the curator moves to another question, so
   // open editors and their text carried over: a scenario started on Q1 showed Q1's
@@ -1049,17 +1053,19 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         >
           <div
             ref={bodyContentRef}
-            // `my-auto` when the question stands alone: the card is floored at
-            // MIN_CARD_HEIGHT so the writing area beside it stays usable, and a
-            // lone one-line question pinned to the top left the rest of the card
-            // reading as blank. Auto margins collapse to 0 the moment the
-            // content is taller than the body, so long questions still start at
-            // the top and scroll normally.
+            // `my-auto` when the question stands alone in the full card: the card
+            // is floored at MIN_CARD_HEIGHT so the writing area beside it stays
+            // usable, and a lone one-line question pinned to the top left the rest
+            // of the card reading as blank. Auto margins collapse to 0 the moment
+            // the content is taller than the body, so long questions still start
+            // at the top and scroll normally. Focus Mode never centres: its card
+            // can be the full height of a side-by-side window, and a lone question
+            // floating in the middle of it reads as misplaced, so it sits at the top.
             // Below `sm` the sides come in to the header's 16px gutter, so the question
             // and the scenario line up with the icon, and the scenario has the width
             // to read at (see the scenario's own classes).
-            className={`${condensed ? 'py-4 px-6 max-sm:px-4 sm:px-8' : 'p-6 max-sm:px-4 sm:p-8 pb-4 sm:pb-4'} ${
-              showScenarioSection ? '' : 'my-auto'
+            className={`${condensed ? 'pt-6 sm:pt-8 pb-4 px-6 max-sm:px-4 sm:px-8' : 'p-6 max-sm:px-4 sm:p-8 pb-4 sm:pb-4'} ${
+              showScenarioSection || condensed ? '' : 'my-auto'
             } relative z-10 flex flex-col ${condensed ? 'gap-4' : 'gap-6 sm:gap-8'}`}
           >
             {/* Provenance editor — opened from the header chip. */}
@@ -1201,11 +1207,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   {condensed && !scenarioAlwaysOpen && hasScenario && !isEditingScenario && (
                     <button
                       type="button"
-                      onClick={() => {
-                        const next = !scenarioOpen;
-                        setScenarioOpen(next);
-                        writeFocusScenarioOpen(next);
-                      }}
+                      onClick={() => setScenarioOpen((open) => !open)}
                       aria-expanded={!scenarioCollapsed}
                       // Named only while the region is in the DOM (see below), so the
                       // folded state does not point at a node that is not there.

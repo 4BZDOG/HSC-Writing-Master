@@ -8,11 +8,15 @@
  * leave the layout working on its defaults rather than throw.
  */
 
-export const FOCUS_SCENARIO_KEY = 'hsc.focus.scenarioOpen';
 export const FOCUS_PROMPT_HEIGHT_KEY = 'hsc.focus.promptHeight';
 
-/** The smallest the question card can be dragged: its header plus a line or two of body. */
-export const FOCUS_PROMPT_MIN = 150;
+/**
+ * The smallest the question card can be dragged: its header and footer row of
+ * outcome chips (about 150px together at a desktop width), and room in the body
+ * for a two-line question. Below this the body is squeezed to nothing and the
+ * question is hidden behind the chrome.
+ */
+export const FOCUS_PROMPT_MIN = 280;
 
 /**
  * The shortest the writing card may be. Below this the writing well is too small
@@ -54,11 +58,13 @@ export const focusWritingCardMinHeight = (promptPx: number): string =>
   `max(${FOCUS_WRITING_CARD_MIN}px, calc(100dvh - ${Math.round(promptPx) + FOCUS_CHROME_RESERVE}px))`;
 
 /**
- * Whether entering Focus Mode on a wide window must scroll the layout into view.
+ * Whether entering Focus Mode must scroll the layout into view.
  *
  * The layout (question card, splitter and writing card) is taller than a desktop
- * screen, so it is the TOP edge that the student must see. It needs scrolling
- * only when that edge is off screen; a top already on screen is left where it is.
+ * screen, and on a phone the writing card sits below the question card. In both
+ * cases it is the TOP edge, the question's, that the student must see. It needs
+ * scrolling only when that edge is off screen; a top already on screen is left
+ * where it is.
  */
 export const focusEntryNeedsScroll = (topPx: number, viewportHeight: number): boolean =>
   topPx < 0 || topPx >= viewportHeight;
@@ -83,12 +89,6 @@ const writeItem = (key: string, value: string | null): void => {
     // Unavailable storage: the choice simply isn't remembered this time.
   }
 };
-
-/** Whether the scenario is open in Focus Mode. Collapsed unless the student has opened it. */
-export const readFocusScenarioOpen = (): boolean => readItem(FOCUS_SCENARIO_KEY) === '1';
-
-export const writeFocusScenarioOpen = (open: boolean): void =>
-  writeItem(FOCUS_SCENARIO_KEY, open ? '1' : '0');
 
 /**
  * The question card's chosen height in px, or `null` to fit the question.
