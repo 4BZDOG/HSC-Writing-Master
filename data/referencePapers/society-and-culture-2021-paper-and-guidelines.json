@@ -1,0 +1,421 @@
+{
+  "year": 2021,
+  "course": "Society and Culture",
+  "papers": [
+    "2021-hsc-society-and-culture.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–8",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    }
+  ],
+  "questions": [
+    {
+      "number": "9",
+      "section": "I",
+      "sectionHeading": "Section I — Social and Cultural Continuity and Change",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain why social change is considered a complex process. Support your answer with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Clearly explains why social change is considered a complex process ; Integrates a relevant example"
+        },
+        {
+          "marks": "3",
+          "text": "Explains why social change is considered a complex process ; Uses a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Describes social change ; May use an example"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to social change ; May mention an example"
+        }
+      ],
+      "sampleAnswer": "Social change is complex because it is multi-directional, not necessarily uni-linear, it may be regressive and rates of change may differ within and between societies. For example, the #MeToo movement raised awareness of the need to reduce discriminatory practices against women. The movement illustrates the complexity of societal change because behavioural modifications at the micro level, associated with challenging patriarchal attitudes, take longer to be adopted within institutions at the meso or macro levels. The effect of the movement differed between countries, as some women are yet to experience the benefits of the movement due to entrenched traditions and values.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "10",
+      "section": "I",
+      "sectionHeading": "Section I — Social and Cultural Continuity and Change",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "To what extent has empowerment influenced social change in ONE country you have studied?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "8",
+          "text": "Makes well-informed judgements about the extent to which empowerment has influenced social change in ONE country ; Effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "6–7",
+          "text": "Makes judgements about the extent to which empowerment has influenced social change in ONE country ; Integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "4–5",
+          "text": "Describes how empowerment has influenced social change in ONE country ; Supports the response with example(s) ; Presents an organised response using course concepts"
+        },
+        {
+          "marks": "2–3",
+          "text": "Outlines empowerment and/or social change in ONE country ; May use example(s) ; Includes course concepts"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to empowerment and/or change ; May use course concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Empowerment is a social process whereby individuals and groups are able to make decisions, take action and to some extent, control their future. Black South Africans have always outnumbered white South Africans, yet historically whites held positions of power and authority. Examples of empowerment in relation to social change in South Africa include:",
+        "The African National Congress (ANC) party represents many black South Africans, and is now an empowered political group. With the authority to govern the country, the ANC has the capacity to effect social change through democratic processes at a macro level.",
+        "The Black Economic Empowerment initiative was introduced in 2005 and sought to redistribute wealth and reduce inequalities that were reinforced during Apartheid. However, the lack of genuine involvement of black business owners at the meso level has hindered social change in this area, as in some circumstances they have actually been at the periphery, rather than the core of decision making.",
+        "Empowerment of blacks in South Africa has influenced social change to a limited extent due to the slow pace of reducing white domination of the corporate sector.",
+        "While some progress has been made, empowerment has not necessarily led to social change in some areas. Gated communities, poverty, limited employment opportunities and discrimination continue to hinder prospects of equality in South Africa."
+      ]
+    },
+    {
+      "number": "11(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Account for negative perceptions of popular culture in society. Support your answer with relevant examples.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Clearly states reasons for negative perceptions of popular culture in society ; Presents a cohesive response that effectively integrates relevant examples ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "4",
+          "text": "States reasons for negative perceptions of popular culture in society ; Presents a logical response that integrates relevant examples ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "3",
+          "text": "Describes negative perceptions of popular culture in society ; Presents an organised response that uses example(s) ; Uses some relevant course concepts and language"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines negative perception(s) of popular culture in society ; Refers to example(s) ; Refers to some course concepts and/or language"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to a negative perception and/or popular culture ; May use an example and/or course concept"
+        }
+      ],
+      "sampleAnswer": "Due to the values embedded in the commodity, both the popular cultures of denim as fashion and reality television continue to be perceived negatively by the wider society. Denim’s affordability and its blue-collar worker status contribute to its perception as a casual fabric making it unacceptable to wear in many workplaces. Denim’s values of freedom and utilitarianism have led to the perception of denim as a low status commodity. For example, it is perceived to be inappropriate to wear denim to occasions requiring respect and honour such as funerals, weddings and high-status events such as Parliamentary meetings. Criticisms of reality television include contrived situations, manipulation of participants, endorsing unethical actions by contestants and perpetuating negative stereotypes. Reality television often relies on conflict, humiliation and insult; creating a commodity that may be seen as corroding social values in order to gain higher TV rating. For example, such television programs are seen to manipulate body image and racial issues into widely accessible content.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "11(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "To what extent have contemporary social values influenced the commodification of ONE popular culture?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Makes well-informed judgements about the influence of contemporary social values on the commodification of ONE popular culture ; Supports the response with a range of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Makes judgement(s) about the influence of contemporary social values on the commodification of ONE popular culture ; Supports the response with detailed and accurate information and integrates examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Attempts to make judgement(s) about the influence of contemporary social values on the commodification of ONE popular culture ; Supports the response with relevant information and uses example(s) ; Presents an organised response using some course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Describes the influence of contemporary social values and/or the commodification of ONE popular culture ; May use example(s) ; Includes course concepts and/or language"
+        },
+        {
+          "marks": "1–3",
+          "text": "Shows a limited understanding of social values and/or commodification and/or popular culture ; May use course concepts and/or language"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Commodification is the process of transforming a popular culture into a product ready for consumption through marketing activities (commercialisation). An example of this is through toys such as dolls. Dolls in the past often represented traditional white Americanised values in an unrealistic appearance or form. Contemporary social values have influenced the commodification process over time in the following ways:",
+        "Tolerance – creating a range of dolls representing a variety of cultures, profoundly influenced by the widespread acceptance of ethnic diversity.",
+        "Inclusion – destigmatising and normalising the use of wheelchairs and prosthetics, achieving greater inclusion for children with a disability.",
+        "Gender equality – shifting from traditional gender binary ideology to contemporary values of gender neutrality, fluidity and same-sex relationships with the outcome of greater awareness and social acceptance.",
+        "Equal opportunity – raising career aspirations through the sale of girl dolls with high-profile careers including STEM occupations, astrophysicist, pilot and surgeon. This commodity change, along with associated paraphernalia, reflects the career choices for women of the feminist era.",
+        "Freedom of expression – creating the value of individualism. This has been achieved with dolls which do not represent stereotypical appearance. This reflects a substantial shift in recognising individualism.",
+        "A range of fashion dolls, now reflect contemporary social values."
+      ]
+    },
+    {
+      "number": "12(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Account for the existence of hierarchy within belief systems. Support your answer with relevant examples.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Clearly states reasons for the existence of hierarchy within belief systems ; Presents a cohesive response that effectively integrates relevant examples ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "4",
+          "text": "States reasons for hierarchy within belief systems ; Presents a logical response that integrates relevant examples ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "3",
+          "text": "Describes hierarchy within belief systems ; Presents an organised response that uses example(s) ; Uses some relevant course concepts and language"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines hierarchy within belief system(s) ; Refers to example(s) ; Refers to some course concepts and/or language"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to hierarchy and/or a belief system ; May use an example and/or course concept"
+        }
+      ],
+      "sampleAnswer": "Belief systems are large institutions that typically have a hierarchy to maintain a sense of order and social control and allow the smooth dissemination of information in a complex system. The belief system of Christianity uses a hierarchical structure to create a sense of order by defining roles for important individuals such as the Pope, cardinals, bishops, priests and groups such as lay people. The hierarchy creates different levels of power and authority. As the head of the Catholic church, the Pope has unwavering power to govern the behaviour of adherents through the de-frocking of priests when necessary and by encouraging modesty in lay people. The Tibetan Buddhist hierarchy enables the dissemination of information to flow down through the three levels in the system. This is important in ensuring consistency of information reaching adherents across countries. For example, the Dalai Lama, at the top of the hierarchy, uses technology to broadcast messages about peace and displays leadership in reinforcing humanitarian values.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "12(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the effectiveness of ONE belief system or ideology in resolving conflict.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Makes well-informed judgements about the effectiveness of ONE belief system or ideology in resolving conflict ; Supports the response with a range of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Makes judgement(s) about the effectiveness of ONE belief system or ideology in resolving conflict ; Supports the response with detailed and accurate information and integrates examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Attempts to make a judgement(s) about the effectiveness of ONE belief system or ideology in resolving conflict ; Supports the response with relevant information and uses example(s) ; Presents an organised response using some course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Describes how ONE belief system or ideology resolves conflict ; May use example(s) ; Includes course concepts and/or language"
+        },
+        {
+          "marks": "1–3",
+          "text": "Shows a limited understanding of conflict and/or a belief system or ideology ; May use course concepts and/or language"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "All belief systems and ideologies work towards resolving conflict and achieving peace. Shared values and understandings within each belief system or ideology promote not only an identity but also social cohesion. In relation to Feminism:",
+        "The ideology of feminism was originally based on the conflicts caused by gender differences and the power struggles arising from the inequalities caused. For example, the fourth wave seeks to achieve peace and resolve conflicts by eliminating inequality due to gender, ethnicity, social class or religious intolerance.",
+        "Increasingly, feminists raise awareness about conflicts on a global scale such as corporate inequality and the exploitation of workers by transnational corporations. They attempt to resolve such conflict by lobbying governments and campaigning for greater participation in male-dominated social systems.",
+        "Feminists argue that if the macro institutions, for example the federal government, adopt feminist principles then conflict will be lessened to a large extent as more sustainable and equitable systems are developed.",
+        "For example, in 2014, the Swedish Foreign Minister Margot Wallstrom announced that feminist principles underpinned their foreign policy. Sexism, oppression of, and violence towards, women was a threat to global peace and security. Wallstrom denounced the suppression of women in Saudi Arabia and followed through by revoking a weapons export agreement with Saudi Arabia that had been in place over ten years. This was an effort to achieve peace and resolve conflict at a macro level."
+      ]
+    },
+    {
+      "number": "13(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Account for the social exclusion of individuals at the meso level of society. Support your answer with relevant examples.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Clearly states reasons for the social exclusion of individuals at the meso level of society ; Presents a cohesive response that effectively integrates relevant examples ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "4",
+          "text": "States reasons for the social exclusion of individuals at the meso level of society ; Presents a logical response that integrates relevant examples ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "3",
+          "text": "Describes social exclusion of individuals at the meso level of society ; Presents an organised response that uses example(s) ; Uses some relevant course concepts and language"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines social exclusion of individuals at the meso level of society ; Refers to relevant example(s) ; Refers to some course concepts and/or language"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to social exclusion and/or meso level of society ; May use an example and/or course concept"
+        }
+      ],
+      "sampleAnswer": "Social exclusion of individuals at the meso level of society exists due to factors such as gender and age. Girls are excluded from education in Timor L’Este because of gender expectations, the cost of schooling and the geographical location of education facilities. Parents prioritise sending their sons to school, because daughters fetch a higher bride-price (barlake) the younger they are married. The cost of schooling can be prohibitive for families and limited access to digital resources has resulted in continued exclusion for girls. In rural locations, some girls are only sent to school for a few years. Age can influence social exclusion in the workplace. Children are deliberately excluded from employment by law to protect them from exploitation. This is supported by International Labour Organisation (ILO) standards. The elderly can also be excluded from some workplaces due to discrimination and perceived lack of technological skills, slower pace of work and reduced physical mobility. Ultimately, social exclusion at the meso level is caused by prejudice and discrimination.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "13(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "To what extent have economic and political forces influenced the generation and maintenance of social inclusion in ONE country?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Makes well-informed judgements about the influence of economic and political forces on the generation and maintenance of social inclusion in ONE country ; Supports the response with a range of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Makes judgement(s) about the influence of economic and political forces on the generation and maintenance of social inclusion in ONE country ; Supports the response with detailed and accurate information and integrates examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Attempts to make a judgement(s) about the influence of economic and political forces on the generation and/or maintenance of social inclusion in ONE country ; Supports the response with relevant information and uses example(s) ; Presents an organised response using some course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Describes economic and/or political forces and social inclusion ; May use example(s) ; Includes course concepts and/or language"
+        },
+        {
+          "marks": "1–3",
+          "text": "Shows a limited understanding of economic and/or political forces and/or social inclusion ; May use course concepts and/or language"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Political and economic forces generating and maintaining social inclusion in Cuba are inextricably linked. Women’s participation in political life, free quality health care and education put Cuba in the ‘high’ range of the UN’s Human Development Index.",
+        "Economic forces have not achieved social inclusion to a great extent due to the following:",
+        "Cuba's economic crisis which generated social exclusion related to employment, as thousands moved from the countryside to cities like Havana in search of work.",
+        "Becoming more capitalist, the divide between the ‘haves’ and the ‘have nots’, between whites and blacks has become more obvious. This economic force has not generated social inclusion.",
+        "Maintaining the two-tiered currency system has not reduced existing inequalities. It is a significant barrier to reform. For example, one type of currency is used for tourism and foreign trade, while the other is worth much less and is what locals are paid in.",
+        "Political forces have been more successful in generating and maintaining social inclusion due to:",
+        "Totalitarianism – the government exercises direct control over most facets of Cuban life. It has been successful in eliminating child malnutrition and homelessness",
+        "Rigorous scrutiny of institutions and punishment of corruption has led to the perception of a more ethical social system that supports inclusive policies and practices",
+        "Fidel Castro’s Literacy Campaign was established in 1961. This generated high levels of literacy and has continued today, resulting in Cuba achieving nearly 100% literacy rate."
+      ]
+    },
+    {
+      "number": "14(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Account for internalisation as a response by individuals to social influence. Support your answer with relevant examples.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Clearly states reasons for internalisation as a response by individuals to social influence ; Presents a cohesive response that effectively integrates relevant examples ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "4",
+          "text": "States reasons for internalisation as a response by individuals to social influence ; Presents a logical response that integrates relevant examples ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "3",
+          "text": "Describes internalisation as a response by individuals to social influence ; Presents an organised response that uses example(s) ; Uses some relevant course concepts and language"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines internalisation and/or a response by individuals to social influence ; Refers to relevant example(s) ; Refers to some course concepts and/or language"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to internalisation and/or social influence ; May use an example and/or course concept"
+        }
+      ],
+      "sampleAnswer": "An individual may take on group norms in a private or public manner, but it is the persistence of these aspects without the presence of social pressure that means an individual’s attitudes, behaviours and beliefs are truly internalised. Internalisation occurs because an individual feels validated and supported by the group, which affirms their self-concept. As a response to social influence, this would avoid an individual being perceived as deviant. For example, someone may convert quickly to scientology if their beliefs and values are similar. The need to be accepted (normative conformity) is one reason for an individual’s internalisation of group norms and desire to contribute to group cohesion. For example, a new mother doesn’t want to be seen as different, or be rejected from a mother’s group, so she may alter the way she feeds her child to align with group norms. Most importantly, internalising these norms means the new mother will continue this behaviour after the group stops meeting.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "14(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the effectiveness of both sanctions and peer pressure in achieving social cohesion within ONE group.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Makes well-informed judgements about the effectiveness of both sanctions and peer pressure in achieving social cohesion within ONE group ; Supports the response with a range of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Makes judgement(s) about the effectiveness of both sanctions and peer pressure in achieving social cohesion within ONE group ; Supports the response with detailed and accurate information and integrates examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Attempts to make a judgement(s) about the effectiveness of sanctions and peer pressure in achieving social cohesion within ONE group ; Supports the response with relevant information and uses example(s) ; Presents an organised response using some course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Describes the sanctions and/or peer pressure and social cohesion within ONE group ; May use example(s) ; Includes course concepts and/or language"
+        },
+        {
+          "marks": "1–3",
+          "text": "Shows a limited understanding of sanctions and/or peer pressure and/or social cohesion ; May use course concepts and/or language"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Kibbutz in Israel traditionally share a socialist ideology. As a community group, all members contribute to collective farming activities, although now industry is more hi-tech.",
+        "Despite being a voluntary community, rules do exist. Sanctions are implemented to punish or modify deviant behaviour, and ensure the individual members fulfil their responsibility to conform to group values and norms. The following sanctions have been applied in an effort to maintain social cohesion:",
+        "Expulsion is the most severe and most effective sanction but this is rare as participation is voluntary and democratic",
+        "Ostracism, silence and the prevention of social interaction can be applied by conforming group members to someone whose behaviour is not appropriate. This is extremely effective, as essentially it encourages the deviant person to leave",
+        "Private ownership of property is prohibited – everything is shared – which reinforces group cohesion. However, economic incentives have sought to increase group cohesion by motivating some members to contribute more.",
+        "Peer pressure to conform within a kibbutz is particularly strong and the success of the community depends on the cohesion created as a result. Peer pressure is one of the most effective forms of achieving group cohesion. For example:",
+        "Members are expected to ‘dob in’ those that are ‘shirking’ their jobs and not pulling their weight, which challenges group cohesion in that people are always being watched and scrutinised",
+        "Community leaders designed social practices to limit privacy, increase interactions and live in close proximity, which intensified peer pressure and led to greater levels of conformity. They also encouraged occupations that are easy to monitor eg cotton picking, orange picking",
+        "An area where peer pressure has not been as effective in achieving cohesion is in upholding socialist ideologies. This has declined with each generation. Some members have been criticised for abandoning the socialist ideals in pursuit of capitalist ideals."
+      ]
+    }
+  ]
+}

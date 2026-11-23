@@ -1,5 +1,20 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-23 (Society and Culture and CAFS: three more years of HSC papers)
+
+- **Added (DATA_VERSION 2.67.0).** 87 past HSC questions from the 2019–2021 papers, placed as the 2022–2025 questions
+  are.
+  - **Society and Culture (30).** The core short answer and extended response, and both parts of each depth-study
+    question. NESA's sample answers are the full-mark exemplars for the 15 parts that have one. The 15 extended
+    responses get a complete written answer. A marker note flags a slip in NESA's 2020 13(a) sample, which dates the
+    Universal Declaration of Human Rights to 1949; it was adopted in 1948.
+  - **Community and Family Studies (57).** Section I Part B and the three Section II options. 40 parts use NESA's
+    sample as the full-mark exemplar. 4 parts carry a printed graph or illustration as `scenarioImage` (3 files).
+    The 2019–2021 papers were set on the 2013 syllabus before its 2022 amendment; no part's content was removed by it.
+    Category B stimuli follow the 2025 form.
+  - Extracts are in `data/referencePapers/society-and-culture-2019…2021-paper-and-guidelines.json` and
+    `community-and-family-studies-2019…2021-paper-and-guidelines.json`, with `edits` recording each deliberate change.
+
 ## [Unreleased] - 2026-11-21 (Business Studies: five more years of HSC papers)
 
 - **Added (DATA_VERSION 2.66.0).** 72 past HSC questions from the 2015–2019 Business Studies papers (the current

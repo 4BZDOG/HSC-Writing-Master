@@ -1,0 +1,442 @@
+{
+  "year": 2020,
+  "course": "Society and Culture",
+  "papers": [
+    "2020-hsc-society-and-culture.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–8",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    }
+  ],
+  "questions": [
+    {
+      "number": "9",
+      "section": "I",
+      "sectionHeading": "Section I — Social and Cultural Continuity and Change",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How can social change influence society at the micro level?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Clearly explains how social change can influence society at the micro level ; Presents a coherent response that uses relevant example(s)"
+        },
+        {
+          "marks": "2",
+          "text": "Refers to how social change can influence society at the micro level ; May use relevant example(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to social change ; May mention example(s)"
+        }
+      ],
+      "sampleAnswer": "Social change refers to long-term alterations in society such as differences in values and attitudes, social norms and patterns of human behaviour. The rate of social change has become more rapid in recent decades, often as a result of technological developments. Technology has influenced micro level interactions and forged new ways of communicating, supporting family and building peer networks. Such changes have also led to increased individual levels of social mobility, which is considered a desirable outcome. Large-scale social change, such as the feminist movement, has influenced gender roles and status within households, for example challenging who does traditional male and female chores.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "10",
+      "section": "I",
+      "sectionHeading": "Section I — Social and Cultural Continuity and Change",
+      "marks": 9,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "To what extent are cooperation and conflict likely to influence future directions in ONE country you have studied?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "9",
+          "text": "Makes informed judgements about the influence of cooperation and conflict on future directions in ONE country ; Effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–8",
+          "text": "Makes judgements about the influence of cooperation and conflict on future directions in ONE country ; Integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "5–6",
+          "text": "Describes the influence of cooperation and conflict on future directions in ONE country ; Supports the response with example(s) ; Presents an organised response using course concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Describes cooperation and/or conflict and/or the future in ONE country ; May use example(s) ; Includes course concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Shows limited understanding of cooperation and/or conflict and/or the future in ONE country ; May use course concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Fiji is a Pacific island nation of just under 1 million people. It has experienced significant change within its legal system and political sphere over the past three decades; at one stage it averaged a coup every five years between 1986 and 2006.",
+        "The nature of conflict in Fiji has changed over time. Conflict will significantly influence the future of Fiji given:",
+        "Past political upheaval",
+        "Past volatile relations between the military and the government. For example, Colonel Rabuka dissolved all the courts in 1987 and implemented a new Constitution in 1988",
+        "Entrenched ethnic divisions between historically indentured Indian labourers and native Fijian landholders",
+        "Ongoing rural and urban divisions, evident in a rapid urbanisation rate which is predicted to be 56% by 2021",
+        "Extreme poverty in some areas",
+        "Documented gender-based violence and high rates of youth suicide.",
+        "Such social issues and instability have pervaded all levels of society and, if left unchecked, could lead to a resurgence in conflict that would affect Fiji’s future.",
+        "Cooperation at a macro level has meant greater stability in recent years and is more likely to influence the future of Fiji, given:",
+        "The transition to democracy when a stable government was elected in 2014. This also meant Fiji was welcomed back into the Commonwealth",
+        "Plans to promote Fijian culture and identity through applying to host the Commonwealth Games, Rugby Sevens and other international sporting events",
+        "Pledged land reforms",
+        "Agreement on a coordinated approach to tackling climate change",
+        "Receipt of international aid eg Australia has recently pledged to direct more of its aid towards the Pacific",
+        "A continued role in UN peacekeeping operations",
+        "The public promise to uphold the rule of law and protect the Constitution.",
+        "Challenges facing Fiji may cause conflict but will require cooperation at macro, meso and micro levels of society to ensure the best possible future for the country and its people."
+      ]
+    },
+    {
+      "number": "11(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How does society influence popular culture? Support your answer with reference to relevant examples.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Clearly explains how society influences popular culture ; Presents a cohesive response that effectively integrates relevant examples ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "4",
+          "text": "Explains how society influences popular culture ; Presents a logical response that applies relevant example(s) ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "3",
+          "text": "Describes how society influences popular culture ; Presents an organised response that uses example(s) ; Uses relevant course concepts and language"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines society and/or popular culture ; Refers to example(s) ; Refers to course concepts and/or language"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to society or popular culture ; May use an example or course concept"
+        }
+      ],
+      "sampleAnswer": "Society constantly influences popular culture. As many societies seek to acknowledge and include minority groups such as LGBTQI+, those with disabilities, and various ethnicities, the content of popular culture is changing to reflect a more accurate representation of that population. Often, consumer demand for greater diversity and inclusivity in popular cultures requires new products and paraphernalia to be developed. Society has influenced how different types of children’s toys reflect the changing role of women and the importance of inclusivity. For example, fashion dolls such as Barbie and Fulla have evolved to show the diversity of occupations and ethnicities that women have. Furthermore, Mattel’s most requested item through their consumer hotline was a doll in a wheelchair. They recently responded to this demand through the release of the ‘Becky’ doll, allowing for an increased representation of minority groups. In music, artists are affected by social movements such as marriage equality and have taken to referencing this in their song lyrics. Macklemore’s song ‘Same Love’ represents the widespread acceptance of the LGBTQI+ community. The demands that society places on popular cultures have a direct influence on how popular culture evolves.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "11(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the impacts of technology and institutional power on the consumption of ONE popular culture.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Makes informed judgements about the impacts of technology and institutional power on the consumption of ONE popular culture ; Supports the response with a wide range of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Makes judgement(s) about the impacts of technology and institutional power on the consumption of ONE popular culture ; Supports the response with detailed and accurate information and integrates examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Attempts to make a judgement about the impacts of technology and institutional power on the consumption of ONE popular culture ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Describes the impacts of technology and/or institutional power on the consumption of ONE popular culture ; May use example(s) ; Includes course concepts and/or language"
+        },
+        {
+          "marks": "1–3",
+          "text": "Shows a limited understanding of technology and/or institutional power and/or consumption and/or popular culture ; May use course concepts and/or language"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Technology has affected the consumption of reality television through innovations such as:",
+        "The ability of producers to control consumption through releasing an entire season at once so consumers can ‘binge watch’ or releasing just one episode per week to maintain more consistent consumption patterns.",
+        "Control devices for parents to manage their child’s consumption on an actual television or on their child’s personal device. At times, this can lead to reduced consumption of reality television.",
+        "Portable devices, including mobile phones and tablets that allow for personal consumption at any time in any location. This greatly increases consumption as individuals can watch reality television while commuting, for example.",
+        "Interactivity where the use of mobile phone technology allows consumers to vote via text for their favourite artists on shows such as ‘The Voice’. This engages consumers and often perpetuates consumption as consumers follow/support their favourite artist. Further technological innovations in interactivity and production have given consumers the ability to ‘choose their own adventure’ with the TV remote, eg Bear Grylls’s show ‘You vs wild’.",
+        "Institutional power refers to the power that exists in institutions such as family, school, law, government, organised religion and how those institutions control, change or maintain continuity in the consumption of reality television.",
+        "Families influence the consumption of reality TV within households to a significant extent, with parents in particular imparting values about what is considered appropriate and what is not. The impact of parents moderating their child’s consumption of reality TV would be considered beneficial, assuming sound values are upheld, especially if the program content is considered inappropriate for their age.",
+        "Schools inadvertently have an impact on teenagers’ consumption of reality TV through references to examples in class in an effort to connect learning to real world examples and make learning relevant, thereby fostering interest and perpetuating the social demand for such programs. However, schools most likely have a minimal impact on consumption in this case.",
+        "Laws and governments have the most significant impact on the consumption of reality TV because they have the power to control and change patterns of interactions. Various government bodies (eg Australian Communications and Media Authority) set standards for programs, classify material and report on consumption patterns."
+      ]
+    },
+    {
+      "number": "12(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Why are shared values important within ideologies? Support your answer with reference to relevant examples.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Clearly explains why shared values are important within ideologies ; Presents a cohesive response that effectively integrates relevant examples ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "4",
+          "text": "Explains why shared values are important within ideologies ; Presents a logical response that applies relevant example(s) ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "3",
+          "text": "Describes why shared values are important within ideologies ; Presents an organised response that uses example(s) ; Uses relevant course concepts and language"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines values and/or ideologies ; Refers to example(s) ; Refers to course concepts and/or language"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to values or ideologies ; May use an example or course concept"
+        }
+      ],
+      "sampleAnswer": "Shared values within ideologies are extremely important in achieving a collective identity for adherents. These shared values create meaning, purpose and identity for individuals and groups. Shared values within environmentalism promote ecological understanding, health and sustainability. Shared values also allow for increased cohesion and organisation within ideologies. In feminism, the Pussy Hat movement aimed to promote equality between the sexes. Thousands of women identified with this cause and supported activists by knitting pink hats that were worn at rallies. Customs and rituals practised within Taosim reinforce the shared values upon which this ideology is based. These shared values can include simplicity and patience, while the importance of these values is reinforced through the custom of meditation. Overall, the personal and collective identities of those following different ideologies are greatly influenced by shared values, creating the sense of meaning and purpose that underpins each ideology.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "12(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the relationship between ethical issues in society and the philosophy of ONE belief system or ideology.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Clearly draws out and relates implications of ethical issues in society and the philosophy of ONE belief system or ideology ; Supports the response with a wide range of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Relates implications of ethical issues in society and the philosophy of ONE belief system or ideology ; Supports the response with detailed and accurate information and integrates examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Attempts to relate implications of ethical issues in society and the philosophy of ONE belief system or ideology ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Describes ethical issues in society and/or philosophy of ONE belief system of ideology ; May use example(s) ; Includes course concepts and/or language"
+        },
+        {
+          "marks": "1–3",
+          "text": "Shows a limited understanding of ethical issues in society and/or philosophy of ONE belief system of ideology ; May use course concepts and/or language"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "The eight-fold path of Buddhism underpins many aspects of its philosophy and these ideals may influence the approach of traditional and modern Buddhists to certain ethical issues within society.",
+        "Buddhist philosophy ascribes to the idea that life should not be destroyed and starts at conception, which creates tension when considering ethical issues such as abortion and euthanasia.",
+        "Traditional Buddhists reject abortion, while modern Buddhists are more divided about the issue. As a figurehead of the Buddhist belief system, the Dalai Lama advised, ‘I think abortion should be approved or disapproved according to each circumstance’.",
+        "While most, if not all, Buddhists are against involuntary euthanasia, positions regarding voluntary euthanasia are less clear. Given their belief in reincarnation, the way life ends has a profound impact on the way the next will begin, which is why voluntary euthanasia is approved only for those who have achieved enlightenment.",
+        "Interpretation of the precept ‘respect for pure nature’ has influenced different perspectives in relation to the rights of LGBTQI+ people and gender roles and status.",
+        "Zen Buddhism does not make a distinction between same sex and opposite sex relationships; however, prostitution violates the third precept, which is respect for pure nature. The Dalai Lama publicly condemned violence against LGBTQI+ people in a 1997 press conference, but also conceded that from a Buddhist point of view, same sex relationships could be considered misconduct. Furthermore, while there is no rule preventing LGBTQI+ people from serving as monks or nuns, some monasteries may prohibit the ordination of LGBTQI+ people.",
+        "Gender equality in Buddhism has also been a topic of debate. Although women are allowed to follow Buddha, he imposed extra regulations that placed women in an inferior position to men.",
+        "Because of a traditionally lower status in society, Buddhist nunneries have not been as successful as monasteries. In some countries, ordination is not allowed. In Taiwan, women entering monastic life outnumber men by 5 to 1, possibly indicating that the status of Buddhist nuns around the world will continue to progress, reflecting social change.",
+        "According to the fifth precept, Buddhists are meant to refrain from any quantity of alcohol or drugs that might cause reckless behaviour. Most Buddhists view the use of intoxicants to be a hindrance to the development of an enlightened mind. The Dalai Lama has sought to prevent drug use by teaching self-restraint through meditation and education."
+      ]
+    },
+    {
+      "number": "13(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Why is the acknowledgement of human rights important in achieving social inclusion? Support your answer with reference to relevant examples.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Clearly explains why the acknowledgement of human rights is important in achieving social inclusion ; Presents a cohesive response that effectively integrates relevant examples ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "4",
+          "text": "Explains why the acknowledgement of human rights is important in achieving social inclusion ; Presents a logical response that applies relevant example(s) ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "3",
+          "text": "Describes why the acknowledgement of human rights is important in achieving social inclusion ; Presents an organised response that uses example(s) ; Uses relevant course concepts and language"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines human rights and/or social inclusion ; Refers to example(s) ; Refers to course concepts and/or language"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to human rights or social inclusion ; May use an example or course concept"
+        }
+      ],
+      "sampleAnswer": "Social inclusion refers to improving the ability, opportunity and access for disadvantaged people to fully participate in society. ‘Human rights’ refers to a shared standard for basic equality and human dignity. Acknowledgement of human rights is formalised at a macro level when a country becomes a signatory to the UN’s Universal Declaration of Human Rights (UDHR, 1949). Marginalised groups, in particular, are dependent on governments upholding these human rights so they can have the possibility of achieving social inclusion. For example, Aboriginal and Torres Strait Islander peoples and International Indigenous peoples around the world have the right to self-determination, yet this has not been fully achieved. Governments are obliged to provide equitable access to socially valued resources. Under the United Nations Declaration on the Rights of Indigenous People they pledge to provide access to housing and education for all. Unfortunately, while this does not always happen, acknowledging human rights is one of the first steps towards social inclusion. At a micro level, individuals have the right to seek asylum, practise their religion and have same-sex relationships: it is only when these human rights are acknowledged that true social inclusion can be achieved.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "13(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the implications of continued social exclusion from housing and technologies for ONE group.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Makes informed judgements about continued social exclusion from housing and technologies for ONE group ; Supports the response with a wide range of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Makes judgement(s) about continued social exclusion from housing and technologies for ONE group ; Supports the response with detailed and accurate information and integrates examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Attempts to make a judgement about continued social exclusion from housing and technologies for ONE group ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Describes social exclusion from housing and/or technologies for ONE group ; May use example(s) ; Includes course concepts and/or language"
+        },
+        {
+          "marks": "1–3",
+          "text": "Shows a limited understanding of social exclusion ; May use course concepts and/or language"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Social exclusion refers to the failure of society to provide individuals and groups with access to socially valued resources such as the right to work, health care, education, access to technologies and housing. African migrants to Australia, along with their children who have been born here, have experienced varying degrees of social exclusion, which means there is inadequate social cohesion and integration at a micro level, causing a lack of capacity to participate at a macro level in society.",
+        "As a group, Census data from 2006 showed that there were 248 699 African-born people living in Australia. While some settlement programs and skills-based immigration policies have been successful, there are a still significant number of African Australians who continue to experience social exclusion. Ongoing social exclusion from housing and technology includes:",
+        "Reduced opportunities to access and interact with information online eg job applications, government rebates, social networking",
+        "Experiences of racial profiling, stereotyping, prejudice and discrimination when applying for housing rentals",
+        "Some migrants are told where to live and are issued housing. The Brotherhood of St Lawrence found that 71% of public housing tenants feel socially excluded",
+        "Housing and technology affordability.",
+        "Implications for African Australians if this exclusion continues could include:",
+        "Perpetuation of the poverty cycle",
+        "Increased social isolation",
+        "Increased levels of social dislocation",
+        "Widening gap between rich and poor",
+        "Reduced social mobility",
+        "Increased rates of homelessness",
+        "Sustained inequality.",
+        "Technology lies at the heart of many activities that constitute social inclusion, so enabling equal access to technology and housing for African Australians is essential for an equitable future."
+      ]
+    },
+    {
+      "number": "14(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How does deindividuation influence a person’s behaviour? Support your answer with reference to relevant examples.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Clearly explains how deindividuation influences behaviours ; Presents a cohesive response that effectively integrates relevant examples ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "4",
+          "text": "Explains how deindividuation influences behaviours ; Presents a logical response that applies relevant example(s) ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "3",
+          "text": "Describes how deindividuation influences behaviours ; Presents an organised response that uses example(s) ; Uses relevant course concepts and language"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines deindividuation and/or behaviours ; Refers to example(s) ; Refers to course concepts and/or language"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to deindividuation and/or behaviours ; May use an example or course concept"
+        }
+      ],
+      "sampleAnswer": "Deindividuation occurs when an individual finds it difficult to separate themselves from others and the prevailing group identity. An individual, whose actions may usually be restrained by self-consciousness and a sense of morality or shyness, may tend to conform to group norms. For example, when wearing club colours, football team supporters feel a sense of unity and may join other supporters in heckling the opposition at a match, whereas they may refrain if they were not part of the group. In large crowds, an individual can take on the identity of a group and may engage in antisocial behaviour they would not otherwise be involved in. For example, looting during protests and participating in escalating violence and vandalism that took place in the Cronulla Riots of 2005. Deindividuation can also occur when a person has an altered state of mind eg through intoxication or hysteria. Loss of self-awareness means an individual’s behaviour can quickly deteriorate because they are not easily identifiable and therefore have diminished responsibility and lower levels of accountability for their actions.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "14(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "To what extent do the values of ONE group influence its interactions with the wider society?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Makes informed judgements about the extent to which the values of ONE group influence its interactions with wider society ; Supports the response with a wide range of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Makes judgement(s) about the extent to which the values of ONE group influence its interactions with wider society ; Supports the response with detailed and accurate information and integrates examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Attempts to make a judgement about the extent to which the values of ONE group influence its interactions with wider society ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Describes the values of ONE group and/or its interactions with wider society ; May use example(s) ; Includes course concepts and/or language"
+        },
+        {
+          "marks": "1–3",
+          "text": "Shows a limited understanding of the values of ONE group and/or interactions with wider society ; May use course concepts and/or language"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Sea Shepherd Conservation Society (SSCS) is an international environmental group that takes direct action for ocean conservation. Its values include upholding and promoting laws that protect the world’s oceans, opposing actions that harm the oceans and protecting marine life.",
+        "In order to uphold these values the SSCS engages in activities off and onshore which are disapproved of by some people and groups in wider society. Fierce belief in, and pursuit of, these values has led to positive and negative interactions with wider society.",
+        "SSCS actions breached international laws when their fleet chased down and rammed poaching vessels in an attempt to preserve marine life. This resulted in SSCS being perceived by wider society as extreme environmentalists.",
+        "Negative interaction with Japanese whalers was one of the earliest paths of action for the SSCS and continues today. SSCS members have boarded Japanese vessels; Japanese whalers have scuttled SSCS vessels and have sued the SSCS for blocking their whaling activities.",
+        "SSCS has been labelled as an eco-terrorist group by many countries, and has been disbarred by the International Whaling Commission. In this case, actions that are based on their values have led to international condemnation.",
+        "SSCS has its own online store where it promotes its conservation values to wider society through slogans on merchandise such as T-shirts and hats. This can be seen as a positive interaction between the organisation and its supporters in wider society.",
+        "SSCS made a documentary called ‘Whale Wars’ for the Animal Planet channel. This provided an insight into the values that underpin the organisation and created some positive attention from wider society.",
+        "A clear and positive interaction that SSCS has had with wider society includes artists, musicians and actors who use their talent to support SSCS core values.",
+        "SSCS’s values underpin their actions and these actions have a direct link to perceived interactions with wider society, both in a positive and negative way."
+      ]
+    }
+  ]
+}
