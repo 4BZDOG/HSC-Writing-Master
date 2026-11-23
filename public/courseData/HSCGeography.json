@@ -3522,7 +3522,8 @@
                       "sampling site",
                       "record",
                       "field log",
-                      "instrument"
+                      "instrument",
+                      "mean"
                     ],
                     "markingCriteria": "4 marks: Describes a field log with the date, time, site, instrument and value with unit, and explains how consistent recording allows later processing\n3 marks: Describes a recording method with most of these fields and gives a reason\n2 marks: Describes recording in general terms, or lists fields without a reason\n1 mark: Names a single item to record, such as the reading",
                     "sampleAnswers": [
@@ -4242,7 +4243,8 @@
                       "natural world",
                       "vary",
                       "culture",
-                      "daily contact"
+                      "daily contact",
+                      "economic activity"
                     ],
                     "markingCriteria": "6 marks: Explains at least three factors that shape the connection (such as culture, daily contact, education or economic activity), with examples from both places, and shows how the factors interact\n5 marks: Explains three factors with examples, with limited interaction\n4 marks: Explains two factors with examples\n3 marks: Explains one factor, or two factors with little development\n2 marks: Names factors without explaining how they shape the connection\n1 mark: States that people's connection to nature varies",
                     "sampleAnswers": [

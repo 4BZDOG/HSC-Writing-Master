@@ -125,6 +125,22 @@ describe('exemplarAudit — a top-band exemplar that skips the question’s own 
     expect(codes(auditTopBand(p, longAnswerUsing('alpha')))).not.toContain('thin-coverage');
   });
 
+  it('does not ask a composed piece to name the task’s own terms', () => {
+    // The answer to a COMPOSE question is the story itself: it is not expected
+    // to say "imaginative writing" or "craft language".
+    const p = prompt({
+      totalMarks: 10,
+      verb: 'COMPOSE' as PromptVerb,
+      question: 'Compose a piece of imaginative writing that shows craft language and alpha.',
+      keywords: ['imaginative writing', 'craft language', 'alpha'],
+    });
+    const flags = auditSampleAnswer(
+      p,
+      sample({ band: 6, mark: markForBand(6, 10, tierOf(p.verb)), answer: longAnswerUsing('idea') })
+    );
+    expect(codes(flags)).not.toContain('thin-coverage');
+  });
+
   it('counts a term the dot point names when the caller supplies it', () => {
     const p = evaluateOn(['alpha', 'beta', 'gamma'], 'Evaluate the thing.');
     const flags = auditTopBand(p, longAnswerUsing('idea'), 'describe alpha, beta and gamma');

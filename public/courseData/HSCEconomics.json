@@ -174,7 +174,8 @@
                       "social science",
                       "economy",
                       "evidence",
-                      "scarce resources"
+                      "scarce resources",
+                      "ceteris paribus"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -7414,7 +7415,8 @@
                       "income",
                       "wealth",
                       "consumption",
-                      "revenue"
+                      "revenue",
+                      "cyclical"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -11184,7 +11186,8 @@
                       "supply graph",
                       "supply curve",
                       "quantity supplied",
-                      "law of supply"
+                      "law of supply",
+                      "positively sloping"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-08",
@@ -12176,7 +12179,8 @@
                       "relatively elastic",
                       "relatively inelastic",
                       "unitary elastic",
-                      "quantity supplied"
+                      "quantity supplied",
+                      "PES"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-03",
@@ -12343,7 +12347,8 @@
                       "supply curve",
                       "quantity supplied",
                       "relatively inelastic",
-                      "relatively elastic"
+                      "relatively elastic",
+                      "PES"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-08",
@@ -13102,7 +13107,8 @@
                       "economic and social objectives",
                       "allocative efficiency",
                       "market failure",
-                      "external costs"
+                      "external costs",
+                      "socially efficient"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-01",
@@ -14911,7 +14917,8 @@
                       "historical international trade routes",
                       "major exports",
                       "trepang",
-                      "Makassan traders"
+                      "Makassan traders",
+                      "monsoon"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-05",
@@ -14970,7 +14977,8 @@
                       "balanced",
                       "surplus",
                       "deficit",
-                      "trade balance"
+                      "trade balance",
+                      "imports"
                     ],
                     "linkedOutcomes": [
                       "ECO-11-09",
@@ -28259,7 +28267,7 @@
                         "source": "AI",
                         "mark": 10,
                         "feedback": "Full marks: three options are proposed and evaluated against effectiveness, time to take effect, cost and feasibility, the inflation constraint is built into the evaluation, and the answer gives a reasoned recommendation with its remaining limits.",
-                        "answer": "Three policy options can be proposed for this government, each judged against the economic objectives in the Australian context. The first is a targeted employment program for the affected region, combining wage subsidies with retraining and transport investment. It addresses unemployment directly and can be implemented quickly, but it has a significant fiscal cost, and the jobs it creates may depend on temporary subsidies. Its effectiveness against full employment is high in the short run and more moderate over time, and its feasibility depends on whether the budget can absorb the spending. The second option is a productivity package: funding for vocational training in high-demand skills, incentives for research and development, and reforms that reduce barriers to starting a business. This addresses slow productivity growth, which supports higher living standards and wage growth without adding directly to inflation. Its effects take several years to appear, so it does little for current unemployment. The third option is a change to the tax and transfer system that raises income support for low-income households and adjusts the tax treatment of high incomes. It addresses the widening income gap and the equitable distribution of income directly, with a clear effect on household budgets. However, it can reduce the incentive to work for some recipients, and it adds to the budget cost. The inflation objective constrains all three options, and the main trade-offs are between speed, cost and inflation. Spending increases in the employment program add to demand, so they must be timed so that they do not push inflation further above the target range, and monetary policy will respond to the total demand the package creates. The recommendation is therefore to combine the employment program with the productivity package. The employment program addresses the immediate unemployment problem, while the productivity package raises the economy's capacity over time, which allows employment to grow without sustained inflation pressure. The income measure should be introduced once the budget position is clear, so that it does not add to inflation at a time when the central bank is already tightening policy. The government should also state the indicators it will use to judge progress, such as unemployment in the affected region, productivity growth and the inflation rate, so that the package can be adjusted if one measure moves in the wrong direction. This package is feasible, addresses three of the problems together, and manages the inflation constraint, although it does not fully resolve the income gap in the short run.",
+                        "answer": "Three policy options can be proposed for this government, each judged against the economic objectives in the Australian context. The first is a targeted employment program for the affected region, combining wage subsidies with retraining and transport investment, which can be directed to low-emission projects to support environmental sustainability. It addresses unemployment directly and can be implemented quickly, but it has a significant fiscal cost, and the jobs it creates may depend on temporary subsidies. Its effectiveness against full employment is high in the short run and more moderate over time, and its feasibility depends on whether the budget can absorb the spending. The second option is a productivity package: funding for vocational training in high-demand skills, incentives for research and development, and reforms that reduce barriers to starting a business. This addresses slow productivity growth, which supports economic growth, higher living standards and wage growth without adding directly to inflation. Its effects take several years to appear, so it does little for current unemployment. The third option is a change to the tax and transfer system that raises income support for low-income households and adjusts the tax treatment of high incomes. It addresses the widening income gap and the equitable distribution of income directly, with a clear effect on household budgets. However, it can reduce the incentive to work for some recipients, and it adds to the budget cost. The price stability objective constrains all three options, and the main trade-offs are between speed, cost and inflation. Spending increases in the employment program add to demand, so they must be timed so that they do not push inflation further above the target range, and monetary policy will respond to the total demand the package creates. The recommendation is therefore to combine the employment program with the productivity package. The employment program addresses the immediate unemployment problem, while the productivity package raises the economy's capacity over time, which allows full employment to be pursued without sustained inflation pressure. The income measure should be introduced once the budget position is clear, so that it does not add to inflation at a time when the central bank is already tightening policy. The government should also state the indicators it will use to judge progress, such as unemployment in the affected region, productivity growth and the inflation rate, so that the package can be adjusted if one measure moves in the wrong direction. This package is feasible, addresses three of the problems together, and manages the inflation constraint, although it does not fully resolve the income gap in the short run.",
                         "band": 6
                       },
                       {

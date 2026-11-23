@@ -1073,7 +1073,8 @@
                       "participant",
                       "voluntary",
                       "research",
-                      "scientific knowledge"
+                      "scientific knowledge",
+                      "autonomy"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-07",
@@ -1603,7 +1604,8 @@
                       "secondary sources",
                       "reliability",
                       "evidence",
-                      "publication date"
+                      "publication date",
+                      "conflict of interest"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-05"
@@ -1668,7 +1670,8 @@
                       "select",
                       "qualitative",
                       "quantitative",
-                      "tables"
+                      "tables",
+                      "mean"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-04"
@@ -1902,7 +1905,8 @@
                       "sources",
                       "acknowledge",
                       "referencing style",
-                      "reference list"
+                      "reference list",
+                      "DOI"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-07"
@@ -1956,7 +1960,8 @@
                       "sources",
                       "acknowledge",
                       "referencing style",
-                      "in-text citation"
+                      "in-text citation",
+                      "reference list"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-07"
@@ -2309,7 +2314,8 @@
                       "trends",
                       "inconsistencies",
                       "replicates",
-                      "concentration"
+                      "concentration",
+                      "mean"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-04",
@@ -2897,7 +2903,8 @@
                     "keywords": [
                       "cause-and-effect",
                       "evaporation",
-                      "volume"
+                      "volume",
+                      "surface area"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-06",
@@ -3250,7 +3257,8 @@
                       "conclusions",
                       "peer review",
                       "evaluation",
-                      "control group"
+                      "control group",
+                      "fair test"
                     ],
                     "linkedOutcomes": [
                       "BI-11WS-05",
@@ -5789,7 +5797,8 @@
                       "enzyme activity",
                       "rate of reaction",
                       "active site",
-                      "saturation"
+                      "saturation",
+                      "plateau"
                     ],
                     "linkedOutcomes": [
                       "BI-11-01"
@@ -6244,7 +6253,8 @@
                       "base pairing",
                       "replication fork",
                       "enzyme",
-                      "simplification"
+                      "simplification",
+                      "semi-conservative replication"
                     ],
                     "linkedOutcomes": [
                       "BI-11-01"
@@ -7602,7 +7612,8 @@
                       "rate",
                       "photosynthesis",
                       "limiting factor",
-                      "carbon dioxide"
+                      "carbon dioxide",
+                      "light-dependent reactions"
                     ],
                     "linkedOutcomes": [
                       "BI-11-02"
@@ -7713,7 +7724,8 @@
                       "light intensity",
                       "rate",
                       "oxygen",
-                      "limiting factor"
+                      "limiting factor",
+                      "light-dependent reactions"
                     ],
                     "linkedOutcomes": [
                       "BI-11-02"
@@ -10308,7 +10320,8 @@
                       "endocrine hormone",
                       "blood glucose",
                       "insulin",
-                      "negative feedback"
+                      "negative feedback",
+                      "causation"
                     ],
                     "linkedOutcomes": [
                       "BI-11-02"
@@ -11358,7 +11371,8 @@
                       "natural selection",
                       "inheritance",
                       "mutation",
-                      "selective pressure"
+                      "selective pressure",
+                      "variation"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -13049,7 +13063,8 @@
                       "abiotic",
                       "biotic",
                       "ecosystem",
-                      "dissolved oxygen"
+                      "dissolved oxygen",
+                      "line transect"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -13103,7 +13118,8 @@
                       "biotic",
                       "ecosystem",
                       "dissolved oxygen",
-                      "invertebrates"
+                      "invertebrates",
+                      "detritus feeders"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -13163,7 +13179,8 @@
                       "aquatic",
                       "terrestrial",
                       "temperature",
-                      "ecosystem"
+                      "ecosystem",
+                      "specific heat capacity"
                     ],
                     "linkedOutcomes": [
                       "BI-11-03"
@@ -15285,7 +15302,8 @@
                       "evidence",
                       "findings",
                       "record",
-                      "systematically"
+                      "systematically",
+                      "tare"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-03",
@@ -15453,7 +15471,8 @@
                       "nitrate",
                       "algal growth",
                       "limitations",
-                      "journal article"
+                      "journal article",
+                      "causal link"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-04",
@@ -15758,7 +15777,8 @@
                       "journal article",
                       "reference",
                       "authors",
-                      "in-text citation"
+                      "in-text citation",
+                      "APA"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-04",
@@ -16115,7 +16135,8 @@
                       "trends",
                       "inconsistencies",
                       "germination",
-                      "replicate"
+                      "replicate",
+                      "non-viable seeds"
                     ],
                     "linkedOutcomes": [
                       "BI-12WS-05"
@@ -26924,7 +26945,8 @@
                       "seed dispersal",
                       "seedling density",
                       "cassowary",
-                      "rainforest"
+                      "rainforest",
+                      "seedling establishment"
                     ],
                     "linkedOutcomes": [
                       "BI-12-03"
@@ -28230,7 +28252,8 @@
                       "survival",
                       "Tasmanian devil",
                       "consistent with",
-                      "population"
+                      "population",
+                      "immune response"
                     ],
                     "linkedOutcomes": [
                       "BI-12-03"
@@ -29147,7 +29170,8 @@
                       "natural resources",
                       "regeneration",
                       "biodiversity",
-                      "ecosystem processes"
+                      "ecosystem processes",
+                      "nutrient cycling"
                     ],
                     "linkedOutcomes": [
                       "BI-12-03"
@@ -30687,7 +30711,8 @@
                       "genetically modified organisms",
                       "genetic engineering",
                       "gene",
-                      "Bt cotton"
+                      "Bt cotton",
+                      "genetic material"
                     ],
                     "linkedOutcomes": [
                       "BI-12-04"
@@ -30811,7 +30836,8 @@
                       "biotechnology",
                       "computer model",
                       "laboratory",
-                      "prediction"
+                      "prediction",
+                      "substrate"
                     ],
                     "linkedOutcomes": [
                       "BI-12-04"
@@ -30863,7 +30889,8 @@
                       "biotechnology",
                       "computer model",
                       "field trial",
-                      "independent validation"
+                      "independent validation",
+                      "water stress"
                     ],
                     "linkedOutcomes": [
                       "BI-12-04"
@@ -31107,7 +31134,8 @@
                       "prevalence",
                       "genetic disease",
                       "affected individuals",
-                      "sample"
+                      "sample",
+                      "disease-causing variant"
                     ],
                     "linkedOutcomes": [
                       "BI-12-04"

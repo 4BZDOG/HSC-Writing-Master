@@ -1589,7 +1589,8 @@
                       "reliability",
                       "usefulness",
                       "newspaper article",
-                      "government agency"
+                      "government agency",
+                      "hydrology"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-05",
@@ -1656,7 +1657,8 @@
                       "quantitative",
                       "flow charts",
                       "table",
-                      "diagram"
+                      "diagram",
+                      "soil profile"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-04",
@@ -1827,7 +1829,8 @@
                       "unit conversions",
                       "units",
                       "graph",
-                      "conclusion"
+                      "conclusion",
+                      "unit error"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-05",
@@ -1941,7 +1944,8 @@
                       "representations",
                       "spreadsheet",
                       "table",
-                      "analysis"
+                      "analysis",
+                      "transcription errors"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-04",
@@ -2002,7 +2006,8 @@
                       "referencing style",
                       "acknowledge",
                       "pH",
-                      "dissolved oxygen"
+                      "dissolved oxygen",
+                      "reference list"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-04",
@@ -2119,7 +2124,8 @@
                       "observations",
                       "Aboriginal and Torres Strait Islander Peoples",
                       "patch burning",
-                      "land"
+                      "land",
+                      "wildfire"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-05"
@@ -2173,7 +2179,8 @@
                       "observations",
                       "Aboriginal and Torres Strait Islander Peoples",
                       "scientific knowledge",
-                      "research"
+                      "research",
+                      "variables"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-05",
@@ -3183,7 +3190,8 @@
                       "investigation",
                       "modify",
                       "moisture",
-                      "sample"
+                      "sample",
+                      "infiltration"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-02",
@@ -3473,7 +3481,8 @@
                       "peer review",
                       "claim",
                       "wetland",
-                      "council"
+                      "council",
+                      "runoff"
                     ],
                     "linkedOutcomes": [
                       "EES-11WS-07",
@@ -8603,7 +8612,8 @@
                       "Country",
                       "Pilbara",
                       "mining",
-                      "Traditional Owners"
+                      "Traditional Owners",
+                      "mine footprint"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -9282,7 +9292,8 @@
                       "Aboriginal and Torres Strait Islander Peoples",
                       "power generation",
                       "cultural significance",
-                      "site selection"
+                      "site selection",
+                      "environmental risk"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -9616,7 +9627,8 @@
                       "non-renewable",
                       "reliability",
                       "carbon dioxide",
-                      "fuel supply"
+                      "fuel supply",
+                      "emissions"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -9726,7 +9738,8 @@
                       "mix of sources",
                       "solar",
                       "wind",
-                      "peak demand"
+                      "peak demand",
+                      "fossil fuel"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -10184,7 +10197,8 @@
                       "Aboriginal Peoples",
                       "water Country",
                       "irrigation",
-                      "cultural sites"
+                      "cultural sites",
+                      "ecology"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -10913,7 +10927,8 @@
                       "rainfall",
                       "river flows",
                       "water availability",
-                      "eastern Australia"
+                      "eastern Australia",
+                      "catchment"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -11076,7 +11091,8 @@
                       "human activity",
                       "water supply",
                       "bushfire",
-                      "farming"
+                      "farming",
+                      "river flows"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -11412,7 +11428,8 @@
                       "run-off",
                       "nutrients",
                       "algal bloom",
-                      "monitoring data"
+                      "monitoring data",
+                      "phosphorus"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -11582,7 +11599,8 @@
                       "guideline value",
                       "monitoring results",
                       "human health",
-                      "environmental health"
+                      "environmental health",
+                      "dissolved oxygen"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -15398,7 +15416,8 @@
                       "equipment",
                       "consistent method",
                       "reliability",
-                      "comparison"
+                      "comparison",
+                      "variables"
                     ],
                     "linkedOutcomes": [
                       "EES-12WS-02",
@@ -16712,7 +16731,8 @@
                       "further investigation",
                       "limitations",
                       "sampling",
-                      "variable"
+                      "variable",
+                      "dissolved oxygen"
                     ],
                     "linkedOutcomes": [
                       "EES-12WS-05",
@@ -17003,7 +17023,8 @@
                       "new evidence",
                       "variable",
                       "control",
-                      "light"
+                      "light",
+                      "pH"
                     ],
                     "linkedOutcomes": [
                       "EES-12WS-02",
@@ -17567,7 +17588,8 @@
                       "purpose",
                       "evidence",
                       "terminology",
-                      "plate boundary"
+                      "plate boundary",
+                      "fault"
                     ],
                     "linkedOutcomes": [
                       "EES-12WS-07"
@@ -18077,7 +18099,8 @@
                       "geological timescale",
                       "rock layers",
                       "correlation",
-                      "widespread"
+                      "widespread",
+                      "relative age"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -18135,7 +18158,8 @@
                       "principle",
                       "extreme events",
                       "event conjunctions",
-                      "slow processes"
+                      "slow processes",
+                      "erosion"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -19330,7 +19354,8 @@
                       "ozone layer",
                       "oxygen",
                       "ultraviolet",
-                      "atmosphere"
+                      "atmosphere",
+                      "respiration"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -19447,7 +19472,8 @@
                       "physical characteristics",
                       "ecosystems",
                       "secondary-source investigation",
-                      "sessile organisms"
+                      "sessile organisms",
+                      "benthic"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -20175,7 +20201,8 @@
                       "mass extinction",
                       "ancestral",
                       "niches",
-                      "diversification"
+                      "diversification",
+                      "lineage"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -20398,7 +20425,8 @@
                       "icehouse",
                       "latitude",
                       "continental position",
-                      "pole"
+                      "pole",
+                      "polar region"
                     ],
                     "linkedOutcomes": [
                       "EES-12-01"
@@ -20633,7 +20661,8 @@
                       "Aboriginal Oral traditions",
                       "volcanic hazards",
                       "Australia",
-                      "lava flows"
+                      "lava flows",
+                      "geological record"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -20856,7 +20885,8 @@
                       "hazards",
                       "effusive eruption",
                       "infrastructure",
-                      "volcanic gases"
+                      "volcanic gases",
+                      "air quality"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21020,7 +21050,8 @@
                       "past eruptions",
                       "zones",
                       "hazard map",
-                      "hotspots"
+                      "hotspots",
+                      "vent"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -21243,7 +21274,8 @@
                       "gas emissions",
                       "Australian environment",
                       "timescales",
-                      "sulphur dioxide"
+                      "sulphur dioxide",
+                      "sulphate aerosol"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -22159,7 +22191,8 @@
                       "base isolation",
                       "earthquakes",
                       "damage",
-                      "flexible"
+                      "flexible",
+                      "ground motion"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -22269,7 +22302,8 @@
                       "earthquake waves",
                       "built structures",
                       "independent variable",
-                      "controlled variables"
+                      "controlled variables",
+                      "displacement"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -22321,7 +22355,8 @@
                       "limitations",
                       "earthquake waves",
                       "built structures",
-                      "scale"
+                      "scale",
+                      "stiffness"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -25479,7 +25514,8 @@
                       "cross-dating",
                       "past climate",
                       "missing ring",
-                      "reliable"
+                      "reliable",
+                      "climate signal"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -26155,7 +26191,8 @@
                       "carbon dioxide",
                       "atmosphere",
                       "limitation",
-                      "infrared radiation"
+                      "infrared radiation",
+                      "global warming"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -26438,7 +26475,8 @@
                       "dissolved carbon dioxide",
                       "concentration",
                       "water",
-                      "pH"
+                      "pH",
+                      "weak acid"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -26490,7 +26528,8 @@
                       "dissolved carbon dioxide",
                       "pH",
                       "variable",
-                      "limitation"
+                      "limitation",
+                      "water vapour"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -26660,7 +26699,8 @@
                       "shells",
                       "laboratory experiment",
                       "control",
-                      "eggshell"
+                      "eggshell",
+                      "pH"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -27365,7 +27405,8 @@
                       "Kyoto Protocol",
                       "Paris Agreement",
                       "greenhouse emissions",
-                      "emission targets"
+                      "emission targets",
+                      "legally binding"
                     ],
                     "linkedOutcomes": [
                       "EES-12-03"
@@ -27788,7 +27829,8 @@
                       "secondary sources",
                       "compost",
                       "biogas",
-                      "useful materials"
+                      "useful materials",
+                      "nutrients"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"
