@@ -1016,7 +1016,8 @@
                       "safety and security",
                       "satisfaction of needs",
                       "SMART goals",
-                      "wellbeing"
+                      "wellbeing",
+                      "stable housing"
                     ],
                     "linkedOutcomes": [
                       "P1.2",
@@ -2031,7 +2032,8 @@
                       "planning and organisation",
                       "resource management",
                       "time",
-                      "money"
+                      "money",
+                      "budget"
                     ],
                     "linkedOutcomes": [
                       "P5.1",
@@ -2857,7 +2859,8 @@
                       "effective resource management",
                       "extent",
                       "research results",
-                      "sample size"
+                      "sample size",
+                      "self-reported"
                     ],
                     "linkedOutcomes": [
                       "P4.1",
@@ -3047,7 +3050,8 @@
                       "shared interest",
                       "common goal",
                       "social interaction",
-                      "specific need"
+                      "specific need",
+                      "isolation"
                     ],
                     "linkedOutcomes": [
                       "P2.1"
@@ -3571,7 +3575,8 @@
                       "school and community groups",
                       "tasks are achieved",
                       "relationships",
-                      "aims"
+                      "aims",
+                      "advocacy"
                     ],
                     "linkedOutcomes": [
                       "P2.1"
@@ -6162,7 +6167,8 @@
                       "different outcomes",
                       "win-lose",
                       "mediation",
-                      "minority"
+                      "minority",
+                      "sense of belonging"
                     ],
                     "linkedOutcomes": [
                       "P2.3",
@@ -6471,7 +6477,8 @@
                       "family",
                       "living arrangements",
                       "relationships",
-                      "membership"
+                      "membership",
+                      "household"
                     ],
                     "linkedOutcomes": [
                       "P3.1"
@@ -7343,7 +7350,8 @@
                       "ABS",
                       "groups",
                       "local community",
-                      "local council"
+                      "local council",
+                      "consultation"
                     ],
                     "linkedOutcomes": [
                       "P4.1",
@@ -7638,7 +7646,8 @@
                       "research data",
                       "questionnaires",
                       "percentage",
-                      "sample size"
+                      "sample size",
+                      "tally sheet"
                     ],
                     "linkedOutcomes": [
                       "P4.1",
@@ -7693,7 +7702,8 @@
                       "research data",
                       "questionnaires",
                       "percentage",
-                      "sample size"
+                      "sample size",
+                      "respondents"
                     ],
                     "linkedOutcomes": [
                       "P4.1",
@@ -7808,7 +7818,8 @@
                       "local",
                       "national",
                       "global",
-                      "scale"
+                      "scale",
+                      "social connection"
                     ],
                     "linkedOutcomes": [
                       "P3.1"
@@ -7985,7 +7996,8 @@
                       "satisfying specific needs",
                       "building relationships",
                       "promoting wellbeing",
-                      "community groups"
+                      "community groups",
+                      "sense of belonging"
                     ],
                     "linkedOutcomes": [
                       "P2.2",
@@ -8040,7 +8052,8 @@
                       "satisfying specific needs",
                       "building relationships",
                       "promoting wellbeing",
-                      "community groups"
+                      "community groups",
+                      "mental health"
                     ],
                     "linkedOutcomes": [
                       "P2.2",
@@ -16221,7 +16234,8 @@
                       "socioeconomic status",
                       "dependant",
                       "wellbeing",
-                      "parenting role"
+                      "parenting role",
+                      "advocate"
                     ],
                     "linkedOutcomes": [
                       "H1.1",
@@ -16332,7 +16346,8 @@
                       "gender expectations",
                       "media stereotypes",
                       "parents and carers",
-                      "wellbeing"
+                      "wellbeing",
+                      "primary carer"
                     ],
                     "linkedOutcomes": [
                       "H3.4",
@@ -16747,7 +16762,8 @@
                       "democratic",
                       "authoritarian",
                       "permissive or indulgent",
-                      "negligent"
+                      "negligent",
+                      "warmth"
                     ],
                     "linkedOutcomes": [
                       "H2.1"
@@ -18998,7 +19014,8 @@
                       "rights",
                       "young people",
                       "law",
-                      "alcohol"
+                      "alcohol",
+                      "provisional licence"
                     ],
                     "linkedOutcomes": [
                       "H2.3",
@@ -19476,7 +19493,8 @@
                       "online youth mental health services",
                       "community support organisations",
                       "health care",
-                      "support"
+                      "support",
+                      "referrals"
                     ],
                     "linkedOutcomes": [
                       "H3.2",
@@ -20538,7 +20556,9 @@
                       "Digital Revolution",
                       "Information Age",
                       "digital technology",
-                      "information sharing"
+                      "information sharing",
+                      "search engines",
+                      "online databases"
                     ],
                     "linkedOutcomes": [
                       "H3.4"
@@ -20826,7 +20846,8 @@
                       "ABS",
                       "household use",
                       "information and communication technology",
-                      "trends"
+                      "trends",
+                      "percentage points"
                     ],
                     "linkedOutcomes": [
                       "H4.1",
@@ -21502,7 +21523,8 @@
                       "wellbeing",
                       "individuals",
                       "families",
-                      "physical wellbeing"
+                      "physical wellbeing",
+                      "physical strain"
                     ],
                     "linkedOutcomes": [
                       "H2.3"
@@ -22174,7 +22196,8 @@
                       "safety technology",
                       "health and safety",
                       "workplace",
-                      "warehouse"
+                      "warehouse",
+                      "proximity sensors"
                     ],
                     "linkedOutcomes": [
                       "H3.4"
@@ -24249,7 +24272,8 @@
                       "benefits",
                       "limitations",
                       "work-life balance",
-                      "flexible work"
+                      "flexible work",
+                      "mentoring"
                     ],
                     "linkedOutcomes": [
                       "H5.2",
@@ -24457,7 +24481,7 @@
                         "id": "sa-cafs-hsc-2023-32c-1",
                         "source": "AI",
                         "mark": 15,
-                        "answer": "The suitability of a pattern of work depends on the stage of life a person is in, because each stage brings different needs, commitments and capacities. The best pattern is usually one that meets the person's income needs while leaving room for their other roles, such as study, caring and rest. Judged against this standard, casual, seasonal and part-time work suit different stages well, but each has limits that affect wellbeing.\n\nFor a 16-year-old youth, casual work is generally suitable because its flexible hours can be arranged around school and extracurricular activities, while still providing independent income. Seasonal work is also suitable, because a young person can work during school holidays without taking time from study during term. The wellbeing benefit is financial independence, work skills and a sense of achievement. The limitation is that casual hours are unstructured and casual work usually carries no paid leave, so a 16-year-old may find it hard to plan study and rest. Full-time work would be unsuitable, because a 16-year-old would not be able to manage that many hours alongside school.\n\nFor a 35-year-old parent of young children, part-time work is often the most suitable pattern. Its set hours can be matched to childcare arrangements, which reduces family stress and keeps the parent connected to a career. Job-share is also suitable, because two people share one full-time role and can cover each other when a child is unwell. These patterns support wellbeing by balancing paid work with family life. Their limit is that part-time work usually means lower income and fewer chances for promotion, which can affect long-term financial security.\n\nFor a 70-year-old nearing retirement, voluntary work and part-time work are the most suitable patterns. Voluntary work allows the person to contribute to the community, meet new people and keep a sense of identity after leaving full-time work. Part-time work lets them ease out of the workforce gradually, which reduces physical strain and gives a steady income during the transition. The wellbeing benefit is social connection and a gradual change. The limit is that voluntary work provides no income, so the person's retirement finances must already be secure, and full-time work may become unsuitable if health declines.\n\nOverall, each pattern is most suitable when it matches the commitments and needs of that stage. Casual and seasonal work suit the 16-year-old, part-time and job-share work suit the parent, and voluntary and part-time work suit the older worker. None of these patterns suits every person at every stage, so the wellbeing outcome depends on whether individuals can choose and change their pattern as their circumstances change.",
+                        "answer": "The suitability of patterns of work depends on the stage of life a person is in across the lifespan, because each stage brings different needs, commitments and capacities. The best pattern is usually one that meets the person's income needs while leaving room for their other roles, such as study, caring and rest. Judged against this standard, casual, seasonal and part-time work suit different stages well, but each has limits that affect wellbeing.\n\nFor a 16-year-old youth, casual work is generally suitable because its flexible hours can be arranged around school and extracurricular activities, while still providing independent income. Seasonal work is also suitable, because a young person can work during school holidays without taking time from study during term. The wellbeing benefit is financial independence, work skills and a sense of achievement. The limitation is that casual hours are unstructured and casual work usually carries no paid leave, so a 16-year-old may find it hard to plan study and rest. Full-time work would be unsuitable, because a 16-year-old would not be able to manage that many hours alongside school.\n\nFor a 35-year-old parent of young children, part-time work is often the most suitable pattern. Its set hours can be matched to childcare arrangements, which reduces family stress and keeps the parent connected to a career. Job-share is also suitable, because two people share one full-time role and can cover each other when a child is unwell. These patterns support wellbeing by balancing paid work with family life. Their limit is that part-time work usually means lower income and fewer chances for promotion, which can affect long-term financial security.\n\nFor a 70-year-old nearing retirement, voluntary work and part-time work are the most suitable patterns. Voluntary work allows the person to contribute to the community, meet new people and keep a sense of identity after leaving full-time work. Part-time work lets them ease out of the workforce gradually, which reduces physical strain and gives a steady income during the transition. The wellbeing benefit is social connection and a gradual change. The limit is that voluntary work provides no income, so the person's retirement finances must already be secure, and full-time work may become unsuitable if health declines.\n\nOverall, each pattern is most suitable when it matches the commitments and needs of that stage. Casual and seasonal work suit the 16-year-old, part-time and job-share work suit the parent, and voluntary and part-time work suit the older worker. None of these patterns suits every person at every stage, so the wellbeing outcome depends on whether individuals can choose and change their pattern as their circumstances change.",
                         "feedback": "Meets the 13-15 row: an extensive assessment of the suitability of patterns of work for each of the three individuals across the lifespan, with a verdict for each stage and clear links to their wellbeing. The limitations of each pattern keep the judgement balanced.",
                         "band": 6
                       },
@@ -26063,7 +26087,8 @@
                       "youth employment",
                       "case study",
                       "factors contributing",
-                      "young people"
+                      "young people",
+                      "work experience"
                     ],
                     "linkedOutcomes": [
                       "H3.3",

@@ -3087,7 +3087,8 @@
                       "vulnerabilities",
                       "phishing",
                       "technology",
-                      "patching"
+                      "patching",
+                      "multi-factor authentication"
                     ],
                     "linkedOutcomes": [
                       "EC-11-03",
@@ -4232,7 +4233,8 @@
                       "dedicated app",
                       "mobile device",
                       "social networking",
-                      "push notification"
+                      "push notification",
+                      "engagement"
                     ],
                     "linkedOutcomes": [
                       "EC-11-01",
@@ -4287,7 +4289,8 @@
                       "dedicated app",
                       "mobile device",
                       "social networking",
-                      "engagement"
+                      "engagement",
+                      "push notifications"
                     ],
                     "linkedOutcomes": [
                       "EC-11-01",
@@ -4881,7 +4884,8 @@
                       "capacity",
                       "accessibility",
                       "location",
-                      "enterprise"
+                      "enterprise",
+                      "encryption"
                     ],
                     "linkedOutcomes": [
                       "EC-11-02",
@@ -5117,7 +5121,8 @@
                       "non-cloud on premises",
                       "access",
                       "services",
-                      "data storage"
+                      "data storage",
+                      "backups"
                     ],
                     "linkedOutcomes": [
                       "EC-11-01",
@@ -16144,7 +16149,8 @@
                       "pseudocode",
                       "reorder level",
                       "stock",
-                      "flag"
+                      "flag",
+                      "loop"
                     ],
                     "linkedOutcomes": [
                       "EC-12-08",
@@ -17104,7 +17110,8 @@
                       "enterprise project",
                       "components",
                       "client",
-                      "end users"
+                      "end users",
+                      "third party"
                     ],
                     "linkedOutcomes": [
                       "EC-12-09"

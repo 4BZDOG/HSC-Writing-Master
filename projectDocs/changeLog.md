@@ -1,5 +1,20 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-23 (Content Studio: exemplars that use the question's terms, and fuller term lists)
+
+- **Changed (DATA_VERSION 2.70.0).** 66 full-mark exemplars, almost all English, now use the terms their question
+  names: the module's "form" and "perspective", or a phrase the question quotes, such as "idiotically comic". The
+  edits are light: thesis, quotations and length are kept (within 10%), and no quotation was invented. Exemplar
+  Mismatch now shows none.
+- **Fixed.** The exemplar audit no longer asks a COMPOSE answer to name the question's terms. There the answer is the
+  piece of writing, and the terms describe the task ("imaginative writing", "craft language", "audience, purpose and
+  context"). Revising eight such stories to pass the check made their narrators talk about their own writing, so
+  those eight keep their original text.
+- **Added.** A third curated pass on short Syllabus Terms lists: 294 terms on 286 questions, each one used by that
+  question's full-mark sample, so no new audit warning follows. Examples: "split-ring commutator", "random error",
+  "voluntary participation", "ceteris paribus", "carbonised". Lists under 6 terms fall from 607 to 335. The rest stay
+  short because their samples use only scenario details or generic words, and nothing was padded.
+
 ## [Unreleased] - 2026-11-23 (Content Studio: Missing Terms that are terms, and full-length exemplars)
 
 - **Fixed.** Missing Terms proposed fragments and wallpaper. It flagged 850 questions; it now flags 247, and what is

@@ -593,7 +593,9 @@
                       "communication technologies",
                       "individuals",
                       "groups",
-                      "institutions"
+                      "institutions",
+                      "misinformation",
+                      "inequalities"
                     ],
                     "linkedOutcomes": [
                       "P3"
@@ -887,7 +889,8 @@
                       "meso",
                       "macro",
                       "interactions",
-                      "society"
+                      "society",
+                      "policy"
                     ],
                     "linkedOutcomes": [
                       "P3"
@@ -1002,7 +1005,8 @@
                       "interactions",
                       "change",
                       "time",
-                      "members"
+                      "members",
+                      "culture"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -2465,7 +2469,8 @@
                       "conclusions",
                       "social issue",
                       "research question",
-                      "patterns and themes"
+                      "patterns and themes",
+                      "interpretation"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -2518,7 +2523,8 @@
                       "findings",
                       "conclusions",
                       "questionnaire",
-                      "interviews"
+                      "interviews",
+                      "rostering"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -2578,7 +2584,8 @@
                       "conclusions",
                       "appropriate format",
                       "audience",
-                      "language"
+                      "language",
+                      "social research"
                     ],
                     "linkedOutcomes": [
                       "P9",
@@ -3094,7 +3101,8 @@
                       "statistical analysis",
                       "questionnaire",
                       "interviews",
-                      "limitation"
+                      "limitation",
+                      "census"
                     ],
                     "linkedOutcomes": [
                       "P6",
@@ -3996,7 +4004,8 @@
                       "technologies",
                       "individuals",
                       "family",
-                      "social connection"
+                      "social connection",
+                      "isolation"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -4476,7 +4485,8 @@
                       "personal and social identity",
                       "social group",
                       "belonging",
-                      "social acceptance"
+                      "social acceptance",
+                      "status"
                     ],
                     "linkedOutcomes": [
                       "P2",
@@ -5735,7 +5745,8 @@
                       "stereotypes",
                       "values",
                       "cultural diversity",
-                      "understanding"
+                      "understanding",
+                      "generalisations"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -5970,7 +5981,8 @@
                       "institutions",
                       "groups",
                       "community",
-                      "benefits"
+                      "benefits",
+                      "digital access"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -6088,7 +6100,8 @@
                       "medium",
                       "messages",
                       "encode",
-                      "receiver"
+                      "receiver",
+                      "communication norms"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -6488,7 +6501,8 @@
                       "intra-generational interaction",
                       "social interaction",
                       "communication technologies",
-                      "peer groups"
+                      "peer groups",
+                      "social media"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -6726,7 +6740,8 @@
                       "stress-adaptation-growth dynamic",
                       "stress",
                       "adaptation",
-                      "growth"
+                      "growth",
+                      "intercultural identity"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -6781,7 +6796,8 @@
                       "stress-adaptation-growth dynamic",
                       "host communication competence",
                       "stress",
-                      "adaptation"
+                      "adaptation",
+                      "withdrawal"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -6842,7 +6858,8 @@
                       "anxiety",
                       "uncertainty",
                       "intercultural communication",
-                      "effective intercultural communication"
+                      "effective intercultural communication",
+                      "withdrawal"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -6897,7 +6914,8 @@
                       "anxiety",
                       "uncertainty",
                       "intercultural communication",
-                      "limitations"
+                      "limitations",
+                      "power"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -7137,7 +7155,8 @@
                       "ethical research practices",
                       "informed consent",
                       "confidentiality",
-                      "cultural continuity"
+                      "cultural continuity",
+                      "identity"
                     ],
                     "linkedOutcomes": [
                       "P8",
@@ -7566,7 +7585,8 @@
                       "sources",
                       "topic",
                       "primary research",
-                      "secondary research"
+                      "secondary research",
+                      "survey"
                     ],
                     "linkedOutcomes": [
                       "H7"
@@ -7919,7 +7939,8 @@
                       "social research",
                       "Personal Interest Project",
                       "informed consent",
-                      "confidentiality"
+                      "confidentiality",
+                      "voluntary participation"
                     ],
                     "linkedOutcomes": [
                       "H8",
@@ -8452,7 +8473,8 @@
                       "westernisation",
                       "beliefs and values",
                       "tradition",
-                      "continuity and change"
+                      "continuity and change",
+                      "local identity"
                     ],
                     "linkedOutcomes": [
                       "H1",
@@ -8634,7 +8656,8 @@
                       "technologies",
                       "continuity and change",
                       "family",
-                      "tradition"
+                      "tradition",
+                      "rituals"
                     ],
                     "linkedOutcomes": [
                       "H1",
@@ -8990,7 +9013,8 @@
                       "secondary research",
                       "research methods",
                       "findings",
-                      "reliability"
+                      "reliability",
+                      "corroboration"
                     ],
                     "linkedOutcomes": [
                       "H6",
@@ -9103,7 +9127,8 @@
                       "qualitative research",
                       "numerical data",
                       "research methods",
-                      "meanings"
+                      "meanings",
+                      "generalisable"
                     ],
                     "linkedOutcomes": [
                       "H6",
@@ -9366,7 +9391,8 @@
                       "micro level",
                       "continuity and change",
                       "society",
-                      "meso level"
+                      "meso level",
+                      "policy"
                     ],
                     "linkedOutcomes": [
                       "H3",
@@ -10203,7 +10229,8 @@
                       "meso level",
                       "continuity and change",
                       "individual",
-                      "group"
+                      "group",
+                      "identity"
                     ],
                     "linkedOutcomes": [
                       "H3",
@@ -10258,7 +10285,8 @@
                       "meso level",
                       "macro level",
                       "continuity and change",
-                      "individuals and groups"
+                      "individuals and groups",
+                      "policy"
                     ],
                     "linkedOutcomes": [
                       "H3",
@@ -10343,7 +10371,7 @@
                         "id": "sa-sac-hsc-2025-10-1",
                         "source": "AI",
                         "mark": 8,
-                        "answer": "Globalisation has changed family life and population patterns in South Korea, producing both gains and tensions. Western ideals of individualism and gender equality have challenged the patrilineal, kinship-oriented family. Pressure from international feminist movements led the Republic of Korea to abolish the hojuje system of family registration in favour of individual registration, which expanded women’s rights within families. Yet these changes have also weakened the traditional expectation that the family remains a single, unified unit.\n\nMigration and tourism have reshaped a society that was once monocultural. About one in ten marriages is now cross-cultural. Some families have been divided into gireogi (wild geese) arrangements, in which children and one parent live overseas while the other remains in Korea, which threatens the continuity of family life.\n\nThe most significant consequence is population decline. South Korea’s fertility rate of 0.68 babies per woman in 2024 is one of the lowest in the world. Higher education for women, the spread of Western capitalist values and female empowerment through social media activism, such as the 4B movement, have all contributed to fewer births. On balance, globalisation has made Korean families more equal and more open, but it has also reduced family size and placed continuity under strain.",
+                        "answer": "In South Korea, globalisation has driven significant family life and population changes, producing both gains and tensions. Western ideals of individualism and gender equality have challenged the patrilineal, kinship-oriented family. Pressure from international feminist movements, reflected in changes to the legal system, led the Republic of Korea to abolish the hojuje system of family registration in favour of individual registration, which expanded women’s rights within families. Yet these changes have also weakened the traditional expectation that the family remains a single, unified unit.\n\nMigration and tourism have reshaped a society that was once monocultural. About one in ten marriages is now cross-cultural. Some families have been divided into gireogi (wild geese) arrangements, in which children and one parent live overseas while the other remains in Korea, which threatens the continuity of family life.\n\nThe most significant consequence is population decline. South Korea’s fertility rate of 0.68 babies per woman in 2024 is one of the lowest in the world. Higher education for women, the spread of Western capitalist values and female empowerment through social media activism, such as the 4B movement, have all contributed to fewer births. On balance, the continuity and change in Korean families shows that globalisation has made families more equal and more open, but it has also reduced family size and placed continuity under strain.",
                         "feedback": "Meets the top row: a comprehensive discussion of globalisation’s effects on one country, with detailed references to family life and population change, weighing gains against tensions. The answer is organised around one aspect and uses specific, relevant evidence.",
                         "band": 5
                       },
@@ -11064,7 +11092,7 @@
                         "id": "sa-sac-hsc-2022-10-1",
                         "source": "AI",
                         "mark": 9,
-                        "answer": "Functionalist theory is a suitable framework for explaining continuity in Australian family life, because it sees the family as an institution that persists by meeting the needs of society, such as socialising children and providing emotional support. Functionalists such as Talcott Parsons argued that a society remains stable when its institutions adapt to perform these functions. Family structures have changed considerably since the mid-twentieth century, with more de facto relationships and later marriage, yet the family remains central to Australian life. Most people still raise children within family units, which continues to socialise the next generation into shared values. Functionalism explains this continuity well, because adaptation maintains equilibrium.\n\nHowever, the theory is less effective at explaining why change happens. The Marriage Amendment (Definition and Religious Freedoms) Act 2017 legalised same-sex marriage after a national postal survey, a shift that functionalism treats as an adjustment to maintain order rather than a challenge to power. Conflict theory, which sees change arising from struggle between groups, explains this shift more persuasively. Functionalism is therefore highly suitable for explaining continuity in the family's social role, but its emphasis on stability limits its value in explaining why family structures themselves were transformed.",
+                        "answer": "The suitability of functionalist theory, as a social theory, is high for explaining continuity in Australian family life, because it sees the family as an institution that persists by meeting the needs of society, such as socialising children and providing emotional support. Functionalists such as Talcott Parsons argued that a society remains stable when its institutions adapt to perform these functions. Family life and population changes have been considerable since the mid-twentieth century, with more de facto relationships and later marriage, yet the family remains central to Australian life. Most people still raise children within family units, which continues to socialise the next generation into shared values. As a social theory, functionalism explains this continuity well, because adaptation maintains equilibrium.\n\nHowever, the theory is less effective at explaining why change happens. The Marriage Amendment (Definition and Religious Freedoms) Act 2017 legalised same-sex marriage after a national postal survey, a shift that functionalism treats as an adjustment to maintain order rather than a challenge to power. Conflict theory, which sees change arising from struggle between groups, explains this shift more persuasively. Functionalism is therefore highly suitable for explaining continuity in the family's social role, but its emphasis on stability limits its value in explaining why family structures themselves were transformed.",
                         "feedback": "Meets the top row: an informed judgement on suitability, with the aspect integrated and a second theory used to test the first. It could be tightened, but the response is sustained and logical as it stands.",
                         "band": 6
                       },
@@ -11287,7 +11315,8 @@
                       "likely changes",
                       "probable continuities",
                       "implications",
-                      "employment patterns"
+                      "employment patterns",
+                      "mobility"
                     ],
                     "linkedOutcomes": [
                       "H5",
@@ -12353,7 +12382,8 @@
                       "global",
                       "popular culture",
                       "technologies",
-                      "acceptance"
+                      "acceptance",
+                      "integration"
                     ],
                     "linkedOutcomes": [
                       "H3",
@@ -12781,7 +12811,7 @@
                         "id": "sa-sac-hsc-2023-11b-1",
                         "source": "AI",
                         "mark": 15,
-                        "answer": "Skateboarding shows that a popular culture is shaped by both conflict and continuity. Its development has been driven by a persistent tension between the rebellious identity that gave it appeal and the commercial and institutional forces that have tried to contain it. The core practices of riding, improvisation and self-expression have carried through every phase.\n\nContinuity is evident in the origins of the culture. In the 1950s, Californian surfers adapted their sport to the pavement when the ocean was flat, creating a practice that was physical, improvised and independent of organised sport. This ethos of improvisation remained central as the activity moved from streets to backyards and empty pools. In the 1970s, the Zephyr team from Venice Beach, known as the Z-Boys, rode drained swimming pools with an aggressive, vertical style that became a reference point for later generations. The values of creativity and self-reliance set in those years still guide skaters today.\n\nConflict has been equally formative. Skating in public spaces brought skaters into conflict with police, property owners and councils, and many cities restricted skating on streets, plazas and steps. This opposition gave skateboarding its outsider status and its association with trespass. Its close links to punk music and an anti-establishment image deepened the division with mainstream society, so parents and local communities often saw skateboarders as a threat rather than as athletes.\n\nCommercial tension has also been significant. As skateboarding gained popularity through magazines, films and sponsorship, the question arose of who controlled its image and whether commercial interests were diluting its authenticity. Some skaters rejected sponsorship and corporate branding, while others became household names through television and video games and expanded the culture's reach. This tension between the street ethos and mass consumption has been a continuing source of change.\n\nInstitutional change has also reshaped the culture. Purpose-built skate parks, which spread from the 1970s, moved skating off the street and into designated spaces. This resolved some conflict with authorities, while generating new debates about whether park skating was authentic. The inclusion of skateboarding in the Tokyo Olympics, held in 2021, and the Paris Olympics in 2024 shows how far the culture has moved from its outsider origins, although many skaters see the Olympic format as a departure from the street values that defined it.\n\nAssessed overall, conflict has been the more visible driver of change, because each clash with authority or commerce forced skateboarding to reinvent itself. Continuity, however, has been the more fundamental force. The rebellious spirit and creativity that began on the surfers' pavement have persisted, so the culture has changed its form while keeping its core identity.",
+                        "answer": "Skateboarding shows that a popular culture is shaped by both conflict and continuity. Its development has been driven by a persistent tension between the rebellious identity that gave it appeal and the commercial and institutional forces that have tried to contain it. The core practices of riding, improvisation and self-expression have carried through every phase.\n\nContinuity is evident in the origins of the culture. In the 1950s, Californian surfers adapted their sport to the pavement when the ocean was flat, creating a practice that was physical, improvised and independent of organised sport. This ethos of improvisation remained central as the activity moved from streets to backyards and empty pools. In the 1970s, the Zephyr team from Venice Beach, known as the Z-Boys, rode drained swimming pools with an aggressive, vertical style that became a reference point for later generations. The values of creativity and self-reliance set in those years still guide skaters today.\n\nConflict has been equally formative. Skating in public spaces brought skaters into conflict with police, property owners and councils, and many cities restricted skating on streets, plazas and steps. This opposition gave skateboarding its outsider status and its association with trespass. Its close links to punk music and an anti-establishment image deepened the division with mainstream society, so parents and local communities often saw skateboarders as a threat rather than as athletes.\n\nCommercial tension, and the commodification of skateboarding, has also been significant. As skateboarding gained popularity through magazines, films and sponsorship, the question arose of who controlled its image and whether commercial interests were diluting its authenticity. Some skaters rejected sponsorship and corporate branding, while others became household names through television and video games and expanded the culture's reach. This tension between the street ethos and mass consumption has been a continuing source of change.\n\nInstitutional change has also reshaped the culture. Purpose-built skate parks, which spread from the 1970s, moved skating off the street and into designated spaces. This resolved some conflict with authorities, while generating new debates about whether park skating was authentic. The inclusion of skateboarding in the Tokyo Olympics, held in 2021, and the Paris Olympics in 2024 shows how far the culture has moved from its outsider origins, although many skaters see the Olympic format as a departure from the street values that defined it.\n\nAssessed overall, conflict has been the more visible driver of change, because each clash with authority or commerce forced skateboarding to reinvent itself. Continuity, however, has been the more fundamental force. The rebellious spirit and creativity that began on the surfers' pavement have persisted, so the culture shows both continuity and change: it has changed its form while keeping its core identity.",
                         "feedback": "Meets the top row: a sustained assessment of both conflict and continuity, with accurate and integrated examples and a judgement on which force mattered more. The Olympic point could be argued further, with evidence of how it changed the culture's identity.",
                         "band": 6
                       },
@@ -12850,7 +12880,7 @@
                         "id": "sa-sac-hsc-2025-11b-1",
                         "source": "AI",
                         "mark": 15,
-                        "answer": "Ethnicity and location have significantly influenced the consumption of hip hop, but their influence differs in kind and has changed over time. Ethnicity shapes the meaning audiences find in the music, while location has shaped who can access it. Two criteria are used to judge the extent of influence: how strongly each factor shapes access to hip hop, and how far each shapes the meaning consumers take from it. Measured this way, ethnicity remains the more durable influence, because communication technologies have weakened the role of location in access.\n\nAn individual’s ethnicity can shape their engagement with hip hop, as it creates parasocial connections between cultural identity and the beliefs, values and attitudes communicated in the music. For example, some Aboriginal and Torres Strait Islander artists have achieved strong popularity among Aboriginal youth in remote communities in Arnhem Land. Listeners in these communities draw strength, solidarity and cultural pride from the themes of the music, so consumption becomes a way of reinforcing identity rather than only entertainment. Ethnicity does not determine consumption alone, however. Listeners of other backgrounds consume hip hop for its rhythm and storytelling, which shows that ethnicity matters most where the music speaks directly to a group’s lived experience.\n\nLocation can both facilitate and restrict access to hip hop. Historically, urban locations were the focal point of its creation and consumption. Hip hop emerged in the 1970s in the Bronx, New York, where African American and Latino communities facing socioeconomic disadvantage used it to express their struggles. In these settings, location determined who made the music and who could take part in its live culture, such as block parties and local dance scenes. Geography therefore set the early limits on consumption, and it did so through the social conditions of particular places.\n\nCommunication technologies and globalisation have since mitigated these geographical barriers. Web-based downloads and streaming platforms allow a listener in a remote community to consume music created anywhere in the world. Because access now depends more on connectivity and cost than on living in a city, location has become a weaker influence than it once was. Location still matters in a different form, since connectivity is uneven and remote communities may have limited internet access. The influence of location is therefore conditional on access, while the influence of ethnicity operates through identity.\n\nOverall, ethnicity has influenced the consumption of hip hop to a significant extent, because it shapes identity and the meaning audiences attach to the music. Location has influenced consumption to a more limited and declining extent, as technology has reduced its role in access while leaving differences in connectivity. The two factors interact, as the Arnhem Land example shows, where place and identity reinforce each other. On balance, ethnicity is the more influential factor, although location remains a constraint for communities without reliable connections.",
+                        "answer": "Ethnicity and location have significantly influenced the consumption of hip hop as a popular culture, but their influence differs in kind and has changed over time. Ethnicity shapes the meaning audiences find in the music, while location has shaped who can access it. Two criteria are used to judge the extent of influence: how strongly each factor shapes access to hip hop, and how far each shapes the meaning consumers take from it. Measured this way, ethnicity remains the more durable influence, because communication technologies have weakened the role of location in access.\n\nAn individual’s ethnicity can shape their engagement with hip hop, as it creates parasocial connections between cultural identity and the beliefs, values and attitudes communicated in the music. For example, some Aboriginal and Torres Strait Islander artists have achieved strong popularity among Aboriginal youth in remote communities in Arnhem Land. Listeners in these communities draw strength, solidarity and cultural pride from the themes of the music, so consumption becomes a way of reinforcing identity rather than only entertainment. Ethnicity does not determine consumption alone, however. Listeners of other backgrounds consume hip hop for its rhythm and storytelling, which shows that ethnicity matters most where the music speaks directly to a group’s lived experience.\n\nLocation can both facilitate and restrict access and consumption of hip hop. Historically, urban locations were the focal point of its creation and consumption. Hip hop emerged in the 1970s in the Bronx, New York, where African American and Latino communities facing socioeconomic disadvantage used it to express their struggles. In these settings, location determined who made the music and who could take part in its live culture, such as block parties and local dance scenes. Geography therefore set the early limits on consumption, and it did so through the social conditions of particular places.\n\nGlobalisation and technologies, particularly communication technologies, have since mitigated these geographical barriers. Web-based downloads and streaming platforms allow a listener in a remote community to consume music created anywhere in the world. Because access now depends more on connectivity and cost than on living in a city, location has become a weaker influence than it once was. Location still matters in a different form, since connectivity is uneven and remote communities may have limited internet access. The influence of location is therefore conditional on access, while the influence of ethnicity operates through identity.\n\nOverall, ethnicity has influenced the consumption of hip hop to a significant extent, because it shapes identity and the meaning audiences attach to the music. Location has influenced consumption to a more limited and declining extent, as technology has reduced its role in access while leaving differences in connectivity. The two factors interact, as the Arnhem Land example shows, where place and identity reinforce each other. On balance, ethnicity is the more influential factor, although location remains a constraint for communities without reliable connections.",
                         "feedback": "Meets the top row (13–15): a comprehensive judgement on the extent of influence, with criteria stated and tested, a breadth of accurate examples, and a sustained, logical structure that applies course concepts such as identity and technologies.",
                         "band": 6
                       },
@@ -14131,7 +14161,8 @@
                       "gender",
                       "adherents",
                       "belief system",
-                      "roles"
+                      "roles",
+                      "power"
                     ],
                     "linkedOutcomes": [
                       "H3",
@@ -14246,7 +14277,8 @@
                       "institutional power",
                       "worldview",
                       "adherents",
-                      "belief system"
+                      "belief system",
+                      "authority"
                     ],
                     "linkedOutcomes": [
                       "H1",
@@ -14313,7 +14345,8 @@
                       "belief system",
                       "ideology",
                       "social change",
-                      "adherents"
+                      "adherents",
+                      "continuity and change"
                     ],
                     "linkedOutcomes": [
                       "H5",
@@ -14992,7 +15025,8 @@
                       "hierarchy",
                       "ideology",
                       "unity",
-                      "members"
+                      "members",
+                      "factions"
                     ],
                     "linkedOutcomes": [
                       "H3",
@@ -15507,7 +15541,7 @@
                         "id": "sa-sac-hsc-2023-12b-1",
                         "source": "AI",
                         "mark": 15,
-                        "answer": "Christianity in Australia has been affected by both time and institutional power, and the balance between them has shaped who identifies with the faith and how strongly they hold it. Over time, secularisation has weakened the faith's hold on the population. Institutional power has produced loyalty for some adherents and damage to trust for others. Evaluated together, time has been the more pervasive force, but institutional power has determined how adherents experience that change.\n\nTime has altered the faith's place in Australian life. Since the mid-twentieth century, rising education, urbanisation and migration from many parts of the world have produced a more diverse and secular society. In the 2021 Census close to two in five Australians reported no religion, and the proportion identifying as Christian has fallen over the preceding decades. For many adherents, faith has become a private matter rather than a shared social identity, and the parish or congregation is less central to community life. The decline is significant, but it is uneven, with some denominations and migrant communities retaining strong practice.\n\nInstitutional power has shaped adherents' experience directly. The churches have long operated schools, hospitals and welfare services, and their authority over these institutions gave them influence over the next generation. That power was misused in some cases. The Royal Commission into Institutional Responses to Child Sexual Abuse, which reported in 2017, exposed failures by church leaders to protect children. Many adherents responded by leaving the church, and many who stayed questioned leaders who had claimed moral authority.\n\nEvaluating the two forces together, time has changed the numbers, while institutional power has changed the quality of belonging for those who remain. Some adherents have left after scandal, while others have used their faith to press institutions for accountability. Adherents also shape the faith: lay groups and migrant congregations have sustained practice where official structures have weakened. The evaluation therefore has to recognise that the forces interact rather than operate separately.\n\nJudged on its evidence, the impact of time is more widespread, because it touches the whole population and is not reversed by a single decision. The impact of institutional power is narrower but more intense, because it shapes the trust, identity and moral commitments of the people who stayed. A complete evaluation recognises that the church's own choices about accountability influence how far secular change erodes its adherents' commitment.",
+                        "answer": "Christianity in Australia, as a belief system, has been affected by both time and institutional power, and the balance between them has shaped who identifies with the faith and how strongly they hold it. Over time, secularisation has weakened the faith's hold on the population. Institutional power has produced loyalty for some adherents and damage to trust for others. Evaluated together, time has been the more pervasive force, but institutional power has determined how adherents experience that change.\n\nTime has altered the faith's place in Australian life. Since the mid-twentieth century, rising education, urbanisation and migration from many parts of the world have produced a more diverse and secular society. In the 2021 Census close to two in five Australians reported no religion, and the proportion identifying as Christian has fallen over the preceding decades. For many adherents, faith has become a private matter rather than a shared social identity, and the parish or congregation is less central to community life. The decline is significant, but it is uneven, with some denominations and migrant communities retaining strong practice.\n\nInstitutional power has shaped adherents' experience directly. The churches have long operated schools, hospitals and welfare services, and these power structures gave leaders influence over the next generation. That power was misused in some cases. The Royal Commission into Institutional Responses to Child Sexual Abuse, which reported in 2017, exposed failures by church leaders to protect children. Many adherents responded by leaving the church, and many who stayed voiced dissent, questioning leaders who had claimed moral authority.\n\nEvaluating the two forces together, time has changed the numbers, while institutional power has changed the quality of belonging for those who remain. Some adherents have left after scandal, while others have used their faith to press institutions for accountability. Adherents also shape the faith, and resistance to change has come from lay groups and migrant congregations that have sustained practice where official structures have weakened. The evaluation therefore has to recognise that the forces interact rather than operate separately.\n\nJudged on its evidence, the impact of time is more widespread, because it touches the whole population and is not reversed by a single decision. The impact of institutional power is narrower but more intense, because it shapes the trust, identity and moral commitments of the people who stayed. A complete evaluation recognises that the church's own choices about accountability influence how far secular change erodes its adherents' commitment.",
                         "feedback": "Meets the top row: a comprehensive evaluation of both time and institutional power, with detailed Australian examples and a judgement that weighs breadth against intensity of impact. The claims about migrant congregations could be supported with a specific example.",
                         "band": 6
                       },
@@ -15638,7 +15672,7 @@
                         "id": "sa-sac-hsc-2025-12b-1",
                         "source": "AI",
                         "mark": 15,
-                        "answer": "Secularisation has had a substantial positive impact on the acceptance of humanism in Australia, although its impact on rejection is more mixed. Two criteria are used to evaluate this impact: whether secularisation has widened the social space in which humanism is accepted, and whether it has provoked rejection of humanism at the micro, meso and macro levels. Secularisation is an outcome of modernisation, as scientific knowledge and technological advances have reduced the influence of traditional religion in many spheres of social life, while ideologies have gained acceptance.\n\nAt the micro level, secular values of individualism and personal empowerment align closely with humanist values, so acceptance of humanism becomes a natural fit for many individuals. As fewer Australians identify with a religion, humanism is increasingly chosen as a worldview. The growing number of Australians choosing ‘No religion’ in the 2021 Census is evidence of this shift, and it has prompted calls for humanism to be recognised as a census option in future.\n\nAt the macro level, secularisation has allowed humanism to gain influence in public life. Organisations such as Humanists Australia have become key agents in social and political debates, including reconciliation and LGBTQIA+ rights. Their advocacy has ensured greater representation for groups that were previously marginalised, which in turn makes humanist principles more visible and accepted in public policy.\n\nSecularisation has also produced rejection of humanism. Many religious communities perceive humanism as a challenge to their core beliefs, particularly where humanist ethics offer moral reasoning in place of religious authority. In these communities, humanism may be seen as a threat to religious identity rather than a worldview to be accepted. The impact of secularisation on rejection is therefore strongest where religion remains central to community life, and weaker in the wider population.\n\nA more recent challenge is artificial intelligence (AI). Humanists believe AI will devalue people’s capacity to exercise empathy and moral reasoning in fields such as medicine, economics and politics. This challenges the humanist belief in human judgement, and it shows that the effects of secularisation are not one-directional. Technological change can create new resistance to humanism even as secularisation has opened space for it.\n\nOn balance, secularisation has had a substantial impact on the acceptance of humanism in Australia, particularly at the micro and macro levels, because it has shifted the values and institutions through which people form their worldviews. Its impact on rejection is more limited and depends on the strength of religious identity in particular communities. The most significant constraint is now technological and ethical challenge rather than secularisation itself. The impact is therefore considerable but conditional, and humanism’s acceptance is likely to grow while its contested status in some communities continues.",
+                        "answer": "Secularisation has had a substantial impact on the acceptance and rejection of humanism in Australia: its effect on acceptance is positive, while its effect on rejection is more mixed. Two criteria are used to evaluate this impact: whether secularisation has widened the social space in which humanism is accepted, and whether it has provoked rejection of humanism at the micro, meso and macro levels. Secularisation is an outcome of modernisation, as scientific knowledge and technological advances have reduced the influence of traditional religion in many spheres of social life, while humanism, as a belief system or ideology, has gained acceptance.\n\nAt the micro level, secular values of individualism and personal empowerment align closely with humanist values, so acceptance of humanism becomes a natural fit for many individuals. As fewer Australians identify with a religion, humanism is increasingly chosen as a worldview. The growing number of Australians choosing ‘No religion’ in the 2021 Census is evidence of this shift, and it has prompted calls for humanism to be recognised as a census option in future.\n\nAt the macro level, secularisation has allowed humanism to gain influence in public life. Organisations such as Humanists Australia have become key agents in social and political debates, including reconciliation and LGBTQIA+ rights. Their advocacy has ensured greater representation for groups that were previously marginalised, which in turn makes humanist principles more visible and accepted in public policy.\n\nSecularisation has also produced rejection of humanism. Many religious communities perceive humanism as a challenge to their core beliefs, particularly where humanist ethics offer moral reasoning in place of religious authority. In these communities, humanism may be seen as a threat to religious identity rather than a worldview to be accepted. The impact of secularisation on rejection is therefore strongest where religion remains central to community life, and weaker across wider society.\n\nA more recent challenge is artificial intelligence (AI). Humanists believe AI will devalue people’s capacity to exercise empathy and moral reasoning in fields such as medicine, economics and politics. This challenges the humanist belief in human judgement, and it shows that the effects of secularisation are not one-directional. Technological change can create new resistance to humanism even as secularisation has opened space for it.\n\nOn balance, secularisation has had a substantial impact on the acceptance of humanism in Australia, particularly at the micro and macro levels, because it has shifted the values and institutions through which people form their worldviews. Its impact on rejection is more limited and depends on the strength of religious identity in particular communities. The most significant constraint is now technological and ethical challenge rather than secularisation itself. The impact is therefore considerable but conditional, and humanism’s acceptance is likely to grow while its contested status in some communities continues.",
                         "feedback": "Meets the top row (13–15): a comprehensive evaluation with criteria stated and applied at micro, meso and macro levels, accurate examples, and a sustained, logical structure that weighs acceptance against rejection and reaches a verdict.",
                         "band": 6
                       },
@@ -16843,7 +16877,8 @@
                       "social exclusion",
                       "socially valued resources",
                       "Australia",
-                      "unequal access"
+                      "unequal access",
+                      "Closing the Gap"
                     ],
                     "linkedOutcomes": [
                       "H7",
@@ -16897,7 +16932,8 @@
                       "social exclusion",
                       "socially valued resources",
                       "Australia",
-                      "National Disability Insurance Scheme"
+                      "National Disability Insurance Scheme",
+                      "eligibility"
                     ],
                     "linkedOutcomes": [
                       "H7",
@@ -17200,7 +17236,8 @@
                       "societies",
                       "cultures",
                       "shared values",
-                      "social inclusion"
+                      "social inclusion",
+                      "cohesion"
                     ],
                     "linkedOutcomes": [
                       "H2",
@@ -17492,7 +17529,8 @@
                       "social inclusion",
                       "transport",
                       "access",
-                      "education"
+                      "education",
+                      "employment"
                     ],
                     "linkedOutcomes": [
                       "H1",
@@ -18544,7 +18582,8 @@
                       "probable future directions",
                       "social inclusion",
                       "social exclusion",
-                      "online services"
+                      "online services",
+                      "digital access"
                     ],
                     "linkedOutcomes": [
                       "H5",
@@ -18685,7 +18724,7 @@
                         "id": "sa-sac-hsc-2023-13b-1",
                         "source": "AI",
                         "mark": 15,
-                        "answer": "The future of older Australians is shaped by both authority and social differentiation, and the two forces interact. Authority, held mainly by government and regulators, determines the rules and resources that older people can rely on. Social differentiation, the unequal distribution of socially valued resources across older groups, determines who can benefit from those rules. Assessed together, authority is the more direct lever for future change, but differentiation will decide whether that change reaches everyone.\n\nGovernment authority has become more visible since the Royal Commission into Aged Care Quality and Safety reported in 2021 in its final report, Care, Dignity and Respect. The report found serious failures in aged care and recommended sweeping reform. The Aged Care Quality and Safety Commission, established in 2019, monitors providers and can act on poor care. These changes give the state a strong capacity to shape the future of residential care, including staffing and standards of care, and this authority is likely to change how older Australians are treated over the next decade.\n\nSocial differentiation, however, limits who benefits. Older people from non-English speaking backgrounds, Aboriginal and Torres Strait Islander elders, and people in regional areas often face barriers to information, services and culturally appropriate care. Ageism in employment and public life also reduces the income security and social participation of older workers. Where differentiation is strong, authority reforms may reproduce existing inequities, because people with the most resources are best placed to navigate new systems.\n\nThe influence of authority also has limits. Reforms take time to implement, depend on funding decisions that governments may defer, and can be undermined by providers that lack capacity. A probable continuity is the preference for care at home, which reduces pressure on residential places. Whether that care is accessible, however, depends on social differentiation, because people without digital access or family support are less likely to receive it.\n\nOverall, authority is likely to be the stronger influence in the short term, because it sets the framework for care and can change standards quickly once applied. Social differentiation is likely to be the more persistent influence, because it reflects long-standing inequalities in income, health and culture that policy alone does not remove. The future of older Australians will depend on whether authority is used to narrow differentiation, rather than simply to regulate services for those who can already access them.",
+                        "answer": "The future of older Australians is shaped by both authority and social differentiation, and the two forces interact. Authority, held mainly by government and regulators, determines the rules and resources that older people can rely on. Social differentiation, the unequal distribution of socially valued resources across older groups, determines who can benefit from those rules. Assessed together, authority is the more direct lever for future change, but differentiation will decide whether that change reaches everyone.\n\nGovernment authority has become more visible since the Royal Commission into Aged Care Quality and Safety reported in 2021 in its final report, Care, Dignity and Respect. The report found serious failures in aged care and recommended sweeping reform. The Aged Care Quality and Safety Commission, established in 2019, monitors providers and can act on poor care. These changes give the state a strong capacity to shape the future of residential care, including staffing and standards of care, and this authority is among the likely changes that will shape how older Australians are treated over the next decade.\n\nSocial differentiation, however, shapes social inclusion and exclusion, and limits who benefits. Older people from non-English speaking backgrounds, Aboriginal and Torres Strait Islander elders, and people in regional areas often face barriers to information, services and culturally appropriate care. Ageism in employment and public life also reduces the income security and social participation of older workers. Where differentiation is strong, authority reforms may reproduce existing inequities, because people with the most resources are best placed to navigate new systems.\n\nThe influence of authority also has limits. Reforms take time to implement, depend on funding decisions that governments may defer, and can be undermined by providers that lack capacity. A probable continuity is the preference for care at home, which reduces pressure on residential places. Whether that care is accessible, however, depends on social differentiation, because people without digital access or family support are less likely to receive it.\n\nOverall, authority is likely to be the stronger influence in the short term, because it sets the framework for care and can change standards quickly once applied. Social differentiation is likely to be the more persistent influence, because it reflects long-standing inequalities in income, health and culture that policy alone does not remove. The future of older Australians will depend on whether authority is used to narrow differentiation, rather than simply to regulate services for those who can already access them.",
                         "feedback": "Meets the top row: a comprehensive assessment of how authority and social differentiation influence the future of older Australians, with specific institutions and a judgement on their relative influence. The claim about home care could be supported with data on take-up.",
                         "band": 6
                       },
@@ -19145,7 +19184,8 @@
                       "world view",
                       "deviance",
                       "values",
-                      "social cohesion"
+                      "social cohesion",
+                      "labelling"
                     ],
                     "linkedOutcomes": [
                       "H1",
@@ -19262,7 +19302,8 @@
                       "contemporary society",
                       "nonconformity",
                       "subcultural group",
-                      "social norms"
+                      "social norms",
+                      "stereotypes"
                     ],
                     "linkedOutcomes": [
                       "H7",
@@ -19692,7 +19733,8 @@
                       "internalisation",
                       "acquiescence",
                       "social influence",
-                      "nonconformity"
+                      "nonconformity",
+                      "norms"
                     ],
                     "linkedOutcomes": [
                       "H1",
@@ -20291,7 +20333,8 @@
                       "subcultural group",
                       "values",
                       "behaviours",
-                      "social change"
+                      "social change",
+                      "identification"
                     ],
                     "linkedOutcomes": [
                       "H1",
@@ -20433,7 +20476,7 @@
                         "id": "sa-sac-hsc-2023-14b-1",
                         "source": "AI",
                         "mark": 15,
-                        "answer": "The mod subculture of 1960s Britain developed through the interaction of its worldview and the self-concept of its members, and the two were inseparable. Its worldview valued modernity, sharp dress and an idealised urban style, while members used those values to build a sense of who they were. Assessed together, worldview gave the group its direction and purpose, and self-concept gave the individual a reason to join and stay. The significance of the subculture lies in the bond between the two.\n\nThe worldview of the mods took shape in London in the late 1950s and early 1960s. Young people took inspiration from jazz clubs, Italian tailoring and imported scooters such as the Lambretta and the Vespa. This outlook prized modernity and self-presentation, and it rejected the drabness that many young people saw in their parents' generation. The worldview gave mods shared symbols, including the scooter, the parka and tailored suits, which marked insiders and gave the group a purpose that was specific to it.\n\nSelf-concept was equally important. For many members, being a mod was a way of building an identity that was not defined by school, work or class. Status within the group depended on care over appearance, record collection and knowledge of style, so individuals gained a sense of worth through their own achievement. Membership was an active choice, which strengthened the sense that a mod was a particular kind of person, distinct from others.\n\nThe two forces interacted in the group's development. The worldview provided the criteria for self-worth, and self-concept made the worldview personal. This combination gave the subculture a clear and cohesive identity, which was tested in the 1964 clashes between mods and rockers at seaside resorts such as Clacton and Brighton. Those events were widely reported and helped define mods as deviant in the eyes of the wider society, which strengthened the group's sense of itself as set apart.\n\nThe worldview is more significant to the group's external development, because it shaped the style, music and commercial culture that spread the mod influence beyond London. Self-concept is more significant to the internal development, because it kept individuals committed when the subculture faced hostility and changed. Taken together, the two explain both how the mod subculture grew and why its identity outlasted its moment of greatest visibility.",
+                        "answer": "The mod subculture of 1960s Britain, a distinct subcultural group, developed through the interaction of its worldview and the self-concept of its members, and the two were inseparable. Its worldview valued modernity, sharp dress and an idealised urban style, while members used those values to build a sense of who they were. Assessed together, worldview gave the group its direction and purpose, and self-concept gave the individual a reason to join and stay. The significance of the subculture lies in the bond between the two.\n\nThe social development of the mods began with a worldview that took shape in London in the late 1950s and early 1960s. Young people took inspiration from jazz clubs, Italian tailoring and imported scooters such as the Lambretta and the Vespa. This outlook prized modernity and self-presentation, and it rejected the drabness that many young people saw in their parents' generation. The worldview gave mods shared symbols, including the scooter, the parka and tailored suits, which marked insiders and gave the group a purpose that was specific to it.\n\nSelf-concept was equally important. For many members, being a mod was a way of building an identity that was not defined by school, work or class. Status within the group depended on care over appearance, record collection and knowledge of style, so individuals gained a sense of worth through their own achievement. Membership was an active choice, which strengthened the sense that a mod was a particular kind of person, distinct from others.\n\nThe two forces interacted in the group's development. The worldview provided the criteria for self-worth, and self-concept made the worldview personal. This combination gave the subculture a clear and cohesive identity, which was tested in the 1964 clashes between mods and rockers at seaside resorts such as Clacton and Brighton. Those events were widely reported and helped define mods as deviant in the eyes of the wider society, which strengthened the group's sense of itself as set apart.\n\nThe worldview is more significant to the group's external development, because it shaped the style, music and commercial culture that spread the mod influence beyond London. Self-concept is more significant to the internal development, because it kept individuals committed when the subculture faced hostility and changed. Taken together, the two explain both how the mod subculture grew and why its identity outlasted its moment of greatest visibility.",
                         "feedback": "Meets the top row: a comprehensive assessment of both worldview and self-concept in the group's development, with integrated examples and a judgement on the significance of each. The account of how the identity outlasted the 1960s could be supported with one later example.",
                         "band": 6
                       },

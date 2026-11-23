@@ -3160,7 +3160,8 @@
                       "internal factors",
                       "external factors",
                       "cash flow",
-                      "resistance to change"
+                      "resistance to change",
+                      "competition"
                     ],
                     "markerNotes": [
                       "Strong answers show interaction, for example a management decision to keep an old workshop reduces the cash available to respond to cheaper imports",
@@ -3219,7 +3220,8 @@
                       "involuntary cessation",
                       "liquidation",
                       "creditors",
-                      "owners"
+                      "owners",
+                      "liquidator"
                     ],
                     "markerNotes": [
                       "Strong answers identify who makes the decision: the owners in voluntary cessation, an outside party in involuntary cessation",
@@ -4608,7 +4610,8 @@
                       "business goals",
                       "cancelled bookings",
                       "bookings",
-                      "customer reviews"
+                      "customer reviews",
+                      "cancellation rate"
                     ],
                     "linkedOutcomes": [
                       "P7",
@@ -5068,7 +5071,8 @@
                       "time-and-motion",
                       "piece rate",
                       "written procedure",
-                      "standard time"
+                      "standard time",
+                      "financial incentives"
                     ],
                     "linkedOutcomes": [
                       "P5"
@@ -5408,7 +5412,8 @@
                       "decision making",
                       "staff direction",
                       "centralised authority",
-                      "management approach"
+                      "management approach",
+                      "consultation"
                     ],
                     "linkedOutcomes": [
                       "P5"
@@ -5460,7 +5465,8 @@
                       "decision making",
                       "staff motivation",
                       "centralised authority",
-                      "management approach"
+                      "management approach",
+                      "consultative approach"
                     ],
                     "linkedOutcomes": [
                       "P5",
@@ -5634,7 +5640,8 @@
                       "motivating",
                       "communicating",
                       "two-way communication",
-                      "staff motivation"
+                      "staff motivation",
+                      "feedback"
                     ],
                     "linkedOutcomes": [
                       "P5"
@@ -6537,7 +6544,8 @@
                       "inputs",
                       "transformation",
                       "outputs",
-                      "operations"
+                      "operations",
+                      "raw materials"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -7102,7 +7110,8 @@
                       "sources of finance",
                       "equity",
                       "debt",
-                      "retained profit"
+                      "retained profit",
+                      "bank loan"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -7329,7 +7338,8 @@
                       "gross profit",
                       "net profit before tax",
                       "cost of sales",
-                      "revenue"
+                      "revenue",
+                      "expenses"
                     ],
                     "linkedOutcomes": [
                       "P10",
@@ -8527,7 +8537,8 @@
                       "external influences",
                       "competition",
                       "customer preferences",
-                      "technology"
+                      "technology",
+                      "market share"
                     ],
                     "linkedOutcomes": [
                       "P2",
@@ -8585,7 +8596,8 @@
                       "business information system",
                       "management information system",
                       "decision making",
-                      "management reports"
+                      "management reports",
+                      "database"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -8977,7 +8989,8 @@
                       "external expertise",
                       "objectivity",
                       "cost",
-                      "internal staff"
+                      "internal staff",
+                      "fixed budget"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -9397,7 +9410,8 @@
                       "global market",
                       "long-term growth",
                       "exporting",
-                      "licensing"
+                      "licensing",
+                      "royalty"
                     ],
                     "linkedOutcomes": [
                       "P1",
@@ -10205,7 +10219,8 @@
                       "small to medium enterprises",
                       "cash flow",
                       "financial records",
-                      "marketing"
+                      "marketing",
+                      "fixed costs"
                     ],
                     "linkedOutcomes": [
                       "P3",
@@ -11978,7 +11993,8 @@
                       "vision statement",
                       "short-term",
                       "long-term",
-                      "decision making"
+                      "decision making",
+                      "financial planning"
                     ],
                     "linkedOutcomes": [
                       "P3",
@@ -13980,7 +13996,8 @@
                       "teams",
                       "recruitment",
                       "training",
-                      "team structure"
+                      "team structure",
+                      "supervision"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -14033,7 +14050,8 @@
                       "team structure",
                       "staff turnover",
                       "recruitment",
-                      "training"
+                      "training",
+                      "morale"
                     ],
                     "linkedOutcomes": [
                       "P4",
@@ -17477,7 +17495,8 @@
                       "transformed resources",
                       "materials",
                       "customers",
-                      "operations process"
+                      "operations process",
+                      "inputs"
                     ],
                     "markingCriteria": "4 marks: Describes transformed resources accurately, including materials, information and customers, and explains that these are the resources the process changes, with examples\n3 marks: Describes three transformed resources, such as materials, information and customers, with accurate detail\n2 marks: Identifies transformed resources with some accuracy, but with little explanation of how they are changed\n1 mark: Makes a general statement about resources",
                     "sampleAnswers": [
@@ -17520,7 +17539,8 @@
                       "materials",
                       "order data",
                       "blending",
-                      "operations process"
+                      "operations process",
+                      "production plan"
                     ],
                     "linkedOutcomes": [
                       "H4",
@@ -18030,7 +18050,8 @@
                       "capacity",
                       "queue",
                       "process design",
-                      "scheduling"
+                      "scheduling",
+                      "flexible staffing"
                     ],
                     "linkedOutcomes": [
                       "H2",
@@ -24737,7 +24758,8 @@
                       "primary research",
                       "secondary research",
                       "surveys",
-                      "decision-making"
+                      "decision-making",
+                      "promotion"
                     ],
                     "markingCriteria": "4 marks: Describes market research accurately, distinguishing primary and secondary research and explaining how businesses use the information in decisions, with examples\n3 marks: Describes market research and one use with accurate detail\n2 marks: Identifies market research or its types with some accuracy\n1 mark: Makes a general statement about research",
                     "sampleAnswers": [
@@ -41291,7 +41313,8 @@
                       "training",
                       "career progression",
                       "skills",
-                      "performance"
+                      "performance",
+                      "mentoring"
                     ],
                     "markingCriteria": "4 marks: Describes the development process in human resource management accurately, including training, career progression and performance development, with examples\n3 marks: Describes three elements of development with accurate detail\n2 marks: Identifies development activities with some accuracy\n1 mark: Makes a general statement about training",
                     "sampleAnswers": [

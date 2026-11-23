@@ -153,7 +153,14 @@ export const auditSampleAnswer = (
   const keywords = (prompt.keywords || []).filter(
     (k) => typeof k === 'string' && k.trim().length > 0
   );
-  if (band >= 5 && keywords.length >= 2) {
+  //
+  //    Not asked of a COMPOSE question. There the answer IS the piece of
+  //    writing, and the terms the question names describe the task
+  //    ("imaginative writing", "craft language", "audience, purpose and
+  //    context"): a Band 6 story that says them has stepped out of the story.
+  //    Revising eight such exemplars to pass the check, in November 2026, made
+  //    their narrators remark on their own writing.
+  if (band >= 5 && keywords.length >= 2 && prompt.verb !== 'COMPOSE') {
     const named = classifySyllabusTerms(keywords, {
       question: prompt.question,
       scenario: prompt.scenario,

@@ -2127,7 +2127,7 @@
                         "id": "prompt-swe-11-12-cp-pmc-umhs-stg11-06-n0-n1-s1",
                         "source": "AI",
                         "mark": 5,
-                        "answer": "A lithium-ion battery is the better choice for this mechatronic system. It stores more energy for its weight than a lead-acid battery, so it can meet the required capacity in a package light enough to carry by hand. It also suffers less damage from deep discharge, although it needs a battery management circuit and suitable charging equipment. An aluminium chassis is recommended to meet the material requirements of this robot. Aluminium is lighter than steel, which reduces total weight, and it resists corrosion better when anodised or coated, which matters in wet stormwater pipes. Steel is stronger and cheaper, but it is heavier and rusts quickly in wet conditions unless protected. The main trade-off is that aluminium costs more than steel, but the council gains a lighter and more durable robot.",
+                        "answer": "A lithium-ion battery is the better choice for this mechatronic system, as it best meets the battery requirements. It stores more energy for its weight than a lead-acid battery, so it can meet the power requirements of two hours per charge in a package light enough to carry by hand. It also suffers less damage from deep discharge, although it needs a battery management circuit and suitable charging equipment. An aluminium chassis is recommended to meet the material requirements of this robot. Aluminium is lighter than steel, which reduces total weight, and it resists corrosion better when anodised or coated, which matters in wet stormwater pipes. Steel is stronger and cheaper, but it is heavier and rusts quickly in wet conditions unless protected. The main trade-off is that aluminium costs more than steel, but the council gains a lighter and more durable robot.",
                         "feedback": "Recommends a battery and a material, each justified against weight, durability, cost and the wet conditions with a stated trade-off, which meets the 5-mark row. Quantifying the energy density difference would add precision.",
                         "band": 5
                       },
@@ -3015,7 +3015,8 @@
                       "Prototypes",
                       "Mechatronic system",
                       "Programming code",
-                      "Sensor"
+                      "Sensor",
+                      "logic error"
                     ],
                     "linkedOutcomes": [
                       "SE-11-06",
@@ -3793,7 +3794,8 @@
                       "determining specifications",
                       "software development steps",
                       "testing and debugging",
-                      "rework"
+                      "rework",
+                      "faults"
                     ],
                     "linkedOutcomes": [
                       "SE-11-01"
@@ -6800,7 +6802,7 @@
                         "id": "sa-6b16246c-8f32-4904-bdb6-e1fe21fafbe6",
                         "source": "AI",
                         "band": 5,
-                        "answer": "The first is simple push-notification multi-factor authentication, with one 'Approve' button on the user's smartphone. This is justified because senior users may struggle to type a six-digit code in time, and it keeps protection strong while preserving accessibility. The second is large, plain-language warnings before risky actions, such as sharing health records. This is justified because this group is more vulnerable to phishing, and explicit prompts such as 'Are you sure you want to share your health summary?' build phishing resistance.",
+                        "answer": "The first secure design feature is simple push-notification multi-factor authentication, with one 'Approve' button on the user's smartphone. This is justified because senior citizens may struggle to type a six-digit code in time, and it keeps protection strong while preserving accessibility. The second is large, plain-language warnings before risky actions, such as sharing health records. This is justified because this group is more vulnerable to phishing, and explicit prompts such as 'Are you sure you want to share your health summary?' build phishing resistance.",
                         "mark": 4,
                         "feedback": "Proposes two secure design features, push-notification authentication and plain-language warnings, and justifies each by the needs of senior users and the risks they face, which meets the 4-mark row."
                       },
@@ -7954,7 +7956,7 @@
                         "id": "sa-9f95d709-853f-4f7d-9fa9-6b9925a91ac1",
                         "source": "AI",
                         "mark": 8,
-                        "answer": "Employing SAST, DAST and manual penetration testing is a highly effective, and indeed essential, strategy for securing a high-risk e-commerce platform. Together they form a defence in depth approach that covers the SDLC.\n\nSAST is a white-box method that analyses source code for flaws before the application is compiled. Its strength is early integration into the IDE or CI/CD pipeline, which lets developers fix issues such as SQL injection cheaply. However, SAST cannot find runtime or configuration errors and produces many false positives. Its relative importance lies in establishing secure coding practices as a preventative control.\n\nDAST is a black-box method that tests the running application. It identifies runtime problems such as server misconfigurations and authentication flaws, and can simulate attacks against login pages or payment gateways. Its weakness is that it gives no code location and is applied later, which raises the cost of fixing defects. Its importance lies in validating the deployed platform against real-world attacks.\n\nManual penetration testing relies on human expertise to find business logic flaws, such as manipulating a shopping cart's pricing, or to chain low-severity vulnerabilities into a high-impact exploit. For a platform handling financial data, it is the most critical validation step, but it is expensive and limited by scope and time.\n\nIn judgement, all three are vital, but manual penetration testing holds the highest relative importance for the final security sign-off because of the high-value target and the complex logic flaws it uncovers. Its effectiveness depends on the breadth of SAST during development and the runtime validation of DAST.",
+                        "answer": "Employing SAST, DAST and manual penetration testing is a highly effective, and indeed essential, strategy for securing a high-risk e-commerce platform. Together they form a defence in depth approach to security testing that covers the SDLC.\n\nSAST is a white-box method that analyses source code for flaws before the application is compiled. Its strength is early integration into the IDE or CI/CD pipeline, which lets developers fix issues such as SQL injection cheaply. However, SAST cannot find runtime or configuration errors and produces many false positives. Its relative importance lies in establishing secure coding practices as a preventative control.\n\nDAST is a black-box method that tests the running application. It supports vulnerability assessment of the running application, identifying runtime problems such as server misconfigurations and authentication flaws, and it can simulate attacks against login pages or payment gateways. Its weakness is that it gives no code location and is applied later, which raises the cost of fixing defects. Its importance lies in validating the deployed platform against real-world attacks.\n\nManual penetration testing relies on human expertise to find business logic flaws, such as manipulating a shopping cart's pricing, or to chain low-severity vulnerabilities into a high-impact exploit. For a platform handling financial data, it is the most critical validation step, but it is expensive and limited by scope and time.\n\nIn judgement, all three are vital, but manual penetration testing holds the highest relative importance for the final security sign-off because of the high-value target and the complex logic flaws it uncovers. Its effectiveness depends on the breadth of SAST during development and the runtime validation of DAST.",
                         "feedback": "Evaluates the combined approach and judges the relative importance of each method, which meets the 7-8 marks row. Keep the judgement tied to the platform's sensitive data and transactions.",
                         "band": 6
                       },
@@ -9154,7 +9156,7 @@
                         "id": "prompt-1762992559552-xnx79zp-n1-s1",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "The senior back-end developer, who knows the payment logic best, should lead threat modelling and the security design review. Code review of authentication and input handling should be shared between the front-end developer and the other back-end developer. The tester should own security testing, including penetration testing. The junior developer should pair with the senior developer on reviews to learn common vulnerabilities. This allocation improves the quality of the module.",
+                        "answer": "The senior back-end developer, whose expertise in the payment logic is greatest, should lead threat modelling and the security design review. Code review of authentication and input handling should be shared between the front-end developer and the other back-end developer. The tester should own security testing, including penetration testing. The junior developer should pair with the senior developer on reviews to learn common vulnerabilities. Such collaboration between members improves the quality of the module.",
                         "feedback": "Proposes a specific allocation of security tasks matched to expertise, with reasons linked to module quality, which meets the 4-mark row. Keep each allocation tied to a named skill.",
                         "band": 5
                       },
@@ -12144,7 +12146,7 @@
                       {
                         "id": "sa-aa5e865c-7d75-4673-b54f-802f70efa682",
                         "source": "AI",
-                        "answer": "Git is justified in a collaborative web project for several reasons. Firstly, a central repository acts as a single source of truth, which prevents team members from working on outdated versions. Secondly, Git's branching and merging let developers work on features in isolated branches and merge them once tested, which supports parallel development. Finally, a VCS keeps a complete history of every change, so the team can trace when a bug was introduced and revert to a stable state.",
+                        "answer": "Version control, through Git, is justified in a collaborative web application project for several reasons. Firstly, a central repository acts as a single source of truth, which prevents team members from working on outdated versions. Secondly, Git's branching and merging let developers work on features in isolated branches and merge them once tested, which supports parallel development. Finally, a version control system keeps a complete history of every change, so the team can trace when a bug was introduced and revert to a stable state.",
                         "mark": 4,
                         "feedback": "Justifies Git through three linked features, a central repository, branching and merging, and a complete history, each tied to a benefit for the team, which meets the 4-mark row. Keep each feature tied to a team benefit.",
                         "band": 5
@@ -15152,7 +15154,8 @@
                       "Sequential phases",
                       "Requirements specification",
                       "Deployment",
-                      "design document"
+                      "design document",
+                      "test report"
                     ],
                     "linkedOutcomes": [
                       "SE-12-01",
@@ -16385,7 +16388,8 @@
                       "development approach",
                       "pseudocode",
                       "inputs",
-                      "outputs"
+                      "outputs",
+                      "iterative development"
                     ],
                     "linkedOutcomes": [
                       "SE-12-02",
