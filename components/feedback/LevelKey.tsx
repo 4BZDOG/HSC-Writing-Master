@@ -26,13 +26,13 @@ const levelSentence = (
   top: ReportLevels['top'],
   total: number
 ): string => {
-  const head = `You scored ${you.mark} out of ${total}, Band ${you.band}.`;
+  const head = `You scored ${you.mark} out of ${total} in Band ${you.band}.`;
   if (!next) return `${head} That is the top of this question.`;
   const subject = next.isRewrite ? 'The improved response' : 'The next level';
   if (next.mark >= total) {
-    return `${head} ${subject} reaches ${next.mark} out of ${total}, Band ${next.band}, the top of this question.`;
+    return `${head} ${subject} reaches ${next.mark} out of ${total} in Band ${next.band}. That is the top of this question.`;
   }
-  return `${head} ${subject} reaches ${next.mark} out of ${total}, Band ${next.band}. The top of this question is ${top.mark} out of ${top.mark}, Band ${top.band}.`;
+  return `${head} ${subject} reaches ${next.mark} out of ${total} in Band ${next.band}. The top of this question is ${top.mark} out of ${top.mark} in Band ${top.band}.`;
 };
 
 /**

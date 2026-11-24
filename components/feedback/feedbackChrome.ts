@@ -39,7 +39,9 @@ export const FEEDBACK_HEADING =
  * hero title wears, at 14-15px rather than the hero's 18-24px. The modal title is
  * still the loudest thing on the page; these divide it into named parts.
  *
- * Only `SectionHeading` wears this. `FEEDBACK_HEADING` stays sentence case: it
+ * `SectionHeading` wears this, and so do the improvement review's headings (its margin
+ * and its side-by-side columns), so the two windows share one section voice.
+ * `FEEDBACK_HEADING` stays sentence case: it
  * also sets the "Band N goal" heading, and the workspace rail's panel names are
  * documented as the same voice as it, so changing it would move both.
  */
@@ -97,7 +99,7 @@ export const NEUTRAL_PRIMARY =
  * (`LevelKey`) takes a line of its own below `sm`, so nothing wraps mid-tile.
  */
 export const POST_MARKING_HEADER =
-  'px-4 sm:px-6 py-3 text-white flex flex-wrap items-center justify-between gap-x-4 gap-y-3 relative overflow-hidden flex-shrink-0 rounded-t-surface-inner';
+  'px-4 sm:px-6 py-3.5 text-white flex flex-wrap items-center justify-between gap-x-4 gap-y-3 relative overflow-hidden flex-shrink-0 rounded-t-surface-inner';
 
 /** A control on the band's solid fill, in its ink. It is 44px on a phone. */
 export const INK_BUTTON =

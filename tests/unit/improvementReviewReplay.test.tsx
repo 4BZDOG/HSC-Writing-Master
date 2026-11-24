@@ -522,7 +522,7 @@ describe('three-zone layout', () => {
     const why = asideNamed('What changed and why')!;
     const where = asideNamed('The edits')!;
     const page = screen
-      .getByText(/everything unmarked is your own writing/)
+      .getByText(/Unmarked text is your own writing/)
       .closest('div')!.parentElement!;
 
     expect(why.className).toMatch(/xl:col-start-1/);

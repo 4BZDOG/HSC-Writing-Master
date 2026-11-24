@@ -98,7 +98,7 @@ describe('ImprovementReviewModal chrome', () => {
     const top = promptBandForMark(prompt, prompt.totalMarks);
     expect(
       within(dialog).getByRole('group', {
-        name: `You scored 4 out of 8, Band ${you}. The improved response reaches 5 out of 8, Band ${improved}. The top of this question is 8 out of 8, Band ${top}.`,
+        name: `You scored 4 out of 8 in Band ${you}. The improved response reaches 5 out of 8 in Band ${improved}. The top of this question is 8 out of 8 in Band ${top}.`,
       })
     ).toBeTruthy();
   });
@@ -134,7 +134,7 @@ describe('ImprovementReviewModal chrome', () => {
     expect(dialog.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(youBand));
     expect(
       within(dialog).getByRole('group', {
-        name: new RegExp(`You scored 11 out of 20, Band ${youBand}\\.`),
+        name: new RegExp(`You scored 11 out of 20 in Band ${youBand}\\.`),
       })
     ).toBeTruthy();
   });

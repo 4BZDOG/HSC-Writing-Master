@@ -68,7 +68,7 @@ describe('LevelKey', () => {
     expect(within(group).queryByText('Improved')).toBeNull();
     expect(
       screen.getByRole('group', {
-        name: /You scored 3 out of 8, Band \d\. The next level reaches \d out of 8, Band \d\. The top of this question is 8 out of 8, Band \d\./,
+        name: /You scored 3 out of 8 in Band \d\. The next level reaches \d out of 8 in Band \d\. The top of this question is 8 out of 8 in Band \d\./,
       })
     ).toBeTruthy();
   });
@@ -82,7 +82,7 @@ describe('LevelKey', () => {
     expect(container.querySelector('.border-dotted')).toBeNull();
     expect(
       screen.getByRole('group', {
-        name: /You scored 7 out of 8, Band \d\. The improved response reaches 8 out of 8, Band \d, the top of this question\./,
+        name: /You scored 7 out of 8 in Band \d\. The improved response reaches 8 out of 8 in Band \d\. That is the top of this question\./,
       })
     ).toBeTruthy();
   });
@@ -97,7 +97,7 @@ describe('LevelKey', () => {
     expect(container.querySelector('svg.lucide-trophy')).toBeTruthy();
     expect(
       screen.getByRole('group', {
-        name: /You scored 8 out of 8, Band \d\. That is the top of this question\./,
+        name: /You scored 8 out of 8 in Band \d\. That is the top of this question\./,
       })
     ).toBeTruthy();
   });

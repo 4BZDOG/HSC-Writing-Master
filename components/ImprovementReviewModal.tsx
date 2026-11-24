@@ -38,7 +38,12 @@ import {
 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
-import { NEXT_GROUND, POST_MARKING_HEADER, PRIMARY_ACTION } from './feedback/feedbackChrome';
+import {
+  FEEDBACK_SECTION_HEADING,
+  NEXT_GROUND,
+  POST_MARKING_HEADER,
+  PRIMARY_ACTION,
+} from './feedback/feedbackChrome';
 import {
   diffWords,
   groupEdits,
@@ -362,13 +367,30 @@ const DiffText: React.FC<{
   );
 };
 
-/** A heading in the margin: small, quiet, and the same everywhere in it. */
+/** A count in words up to ten ("two"), in figures above it ("11"), for a title. */
+const COUNT_WORDS = [
+  'zero',
+  'one',
+  'two',
+  'three',
+  'four',
+  'five',
+  'six',
+  'seven',
+  'eight',
+  'nine',
+  'ten',
+];
+const countWord = (n: number): string => (n >= 0 && n <= 10 ? COUNT_WORDS[n] : String(n));
+const upperFirst = (text: string): string => text.charAt(0).toUpperCase() + text.slice(1);
+
+/** A heading in the margin, in the same section voice as the feedback window's headings. */
 const RailHeading: React.FC<{ children: React.ReactNode; aside?: React.ReactNode }> = ({
   children,
   aside,
 }) => (
   <div className="flex items-baseline justify-between gap-3 mb-3">
-    <h3 className="text-[13px] font-semibold text-slate-800 dark:text-slate-100">{children}</h3>
+    <h3 className={FEEDBACK_SECTION_HEADING}>{children}</h3>
     {aside}
   </div>
 );
@@ -852,14 +874,14 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
     : gained === 1
       ? 'Your answer, one mark higher'
       : gained > 1
-        ? `Your answer, ${gained} marks higher`
+        ? `Your answer, ${countWord(gained)} marks higher`
         : 'Your answer, improved';
   const shortTitle = unchanged
     ? 'Unchanged'
     : gained === 1
       ? 'One mark higher'
       : gained > 1
-        ? `${gained} marks higher`
+        ? `${upperFirst(countWord(gained))} marks higher`
         : 'Improved';
 
   return createPortal(
@@ -883,7 +905,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
             key the feedback window carries. The replay's progress is a rule along its
             foot, in the Improved band, and does not sit above the rounded corners. */}
         <header
-          className={`${POST_MARKING_HEADER} shrink-0`}
+          className={`${POST_MARKING_HEADER} max-sm:gap-y-2 shrink-0`}
           style={{ background: cardHeaderWash(youBand) }}
         >
           <div className="flex items-start gap-3 sm:gap-4 min-w-0 relative z-10 flex-1 sm:flex-none">
@@ -913,7 +935,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 {unchanged
                   ? 'The marker left it as you wrote it.'
                   : hasOriginal
-                    ? 'The marker’s edits, drawn on your own writing.'
+                    ? 'Where the marker changed your writing.'
                     : 'The marker’s version of this answer.'}
               </p>
             </div>
@@ -955,7 +977,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
         {comparing && (
           <section
             aria-label="What changed"
-            className="px-5 sm:px-8 pt-4 pb-3 shrink-0 border-b border-slate-500 dark:border-white/40 bg-surface-elevated dark:bg-white/[0.02] animate-fade-in-up motion-reduce:animate-none"
+            className="px-5 sm:px-8 pt-4 pb-3 max-sm:pt-3 max-sm:pb-2.5 shrink-0 border-b border-slate-500 dark:border-white/40 bg-surface-elevated dark:bg-white/[0.02] animate-fade-in-up motion-reduce:animate-none"
           >
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="min-w-0 md:max-w-xl">
@@ -966,10 +988,12 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   {wordCountsLine(stats)}
                 </p>
               </div>
-              <dl className="grid grid-cols-3 gap-2 md:flex md:flex-wrap md:justify-end shrink-0">
+              <dl className="max-sm:flex max-sm:flex-wrap max-sm:items-baseline max-sm:gap-x-2 max-sm:gap-y-1 sm:grid sm:grid-cols-3 sm:gap-2 md:flex md:flex-wrap md:justify-end shrink-0">
                 {/* The figures are the page's ink, not the diff's colours: emerald and
                     rose belong to the marks on the text, and each added or cut tile
-                    carries a key swatch in its mark's own colours to say so. */}
+                    carries a key swatch in its mark's own colours to say so. Below `sm`
+                    the three tiles are one line of text instead (figure first, then its
+                    label), so the answer keeps the height a phone does not have to spare. */}
                 {[
                   {
                     key: 'kept',
@@ -980,6 +1004,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   {
                     key: 'added',
                     label: 'words added',
+                    shortLabel: 'added',
                     value: stats.added === 0 ? '0' : `+${stats.added}`,
                     swatch:
                       'bg-emerald-200/80 dark:bg-emerald-500/15 ring-1 ring-inset ring-emerald-600/60 dark:ring-emerald-400/60',
@@ -987,6 +1012,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   {
                     key: 'cut',
                     label: 'words cut',
+                    shortLabel: 'cut',
                     value: stats.removed === 0 ? '0' : `−${stats.removed}`,
                     swatch:
                       'bg-rose-200/80 dark:bg-rose-500/10 ring-1 ring-inset ring-rose-600/70 dark:ring-rose-400/70',
@@ -994,21 +1020,30 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 ].map((tile, i) => (
                   <div
                     key={tile.key}
-                    className="flex flex-col-reverse gap-0.5 px-3 py-2 md:px-3.5 md:min-w-[7.5rem] report-tile rounded-xl border border-slate-500 dark:border-white/40 bg-[rgb(var(--color-bg-surface))] dark:bg-white/[0.04] animate-fade-in-up-sm motion-reduce:animate-none"
+                    className="flex flex-col-reverse gap-0.5 max-sm:flex-row max-sm:items-center max-sm:gap-1.5 max-sm:[&:not(:last-child)]:after:content-['·'] max-sm:[&:not(:last-child)]:after:ml-1.5 max-sm:[&:not(:last-child)]:after:text-slate-500 max-sm:p-0 px-3 py-2 md:px-3.5 md:min-w-[7.5rem] report-tile sm:rounded-xl sm:border sm:border-slate-500 sm:dark:border-white/40 sm:bg-[rgb(var(--color-bg-surface))] sm:dark:bg-white/[0.04] animate-fade-in-up-sm motion-reduce:animate-none"
                     style={{ animationDelay: `${120 + i * 90}ms`, animationFillMode: 'both' }}
                   >
                     {/* The label comes first in the source, as a `dl` requires; the
                         column is reversed so the figure reads first on screen. */}
-                    <dt className="t-label flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
+                    <dt className="t-label flex items-center gap-1.5 text-slate-600 dark:text-slate-400 max-sm:whitespace-nowrap">
                       {!!tile.swatch && (
                         <span
                           aria-hidden="true"
                           className={`inline-block w-2.5 h-2.5 rounded-full shrink-0 ${tile.swatch}`}
                         />
                       )}
-                      {tile.label}
+                      {/* On a phone the short word stands for the label, and the full label is
+                          what a screen reader is given, so the line is read in full. */}
+                      {tile.shortLabel && (
+                        <span aria-hidden="true" className="sm:hidden">
+                          {tile.shortLabel}
+                        </span>
+                      )}
+                      <span className={tile.shortLabel ? 'max-sm:sr-only' : undefined}>
+                        {tile.label}
+                      </span>
                     </dt>
-                    <dd className="text-lg md:text-xl font-bold tabular-nums leading-tight m-0 text-slate-900 dark:text-white">
+                    <dd className="text-lg md:text-xl max-sm:order-first max-sm:text-xs font-bold tabular-nums leading-tight m-0 text-slate-900 dark:text-white">
                       {tile.value}
                     </dd>
                   </div>
@@ -1018,9 +1053,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
 
             {newKeywords.length > 0 && (
               <section className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
-                <h3 className="text-[13px] font-semibold text-slate-800 dark:text-slate-100">
-                  Syllabus terms the revision added
-                </h3>
+                <h3 className={FEEDBACK_SECTION_HEADING}>Syllabus terms the revision added</h3>
                 <ul className="flex flex-wrap gap-1.5">
                   {newKeywords.map((kw) => {
                     const at = termEdit.get(kw) ?? -1;
@@ -1045,7 +1078,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           {liveText}
         </p>
 
-        <div className="px-5 sm:px-8 py-2.5 border-b border-slate-500 dark:border-white/40 bg-surface-elevated dark:bg-white/[0.02] flex flex-wrap items-center gap-x-2 sm:gap-x-4 gap-y-2 shrink-0">
+        <div className="px-5 sm:px-8 max-sm:py-2 py-2.5 border-b border-slate-500 dark:border-white/40 bg-surface-elevated dark:bg-white/[0.02] flex flex-wrap items-center gap-x-2 sm:gap-x-4 gap-y-2 shrink-0">
           {comparing && (
             <div
               className="flex w-full sm:w-auto sm:h-9 items-center gap-0.5 p-0.5 rounded-xl border border-slate-500 bg-slate-200 dark:border-white/40 dark:bg-black/25"
@@ -1190,7 +1223,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   <ArrowLeft className="w-3.5 h-3.5" />
                 </button>
                 {/* Named, not a bare fraction: "Edit 1/2" says what the figure counts. */}
-                <span className="px-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
+                <span className="t-label px-1.5 font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
                   Edit{' '}
                   <span className="tabular-nums">
                     {cursor + 1}/{edits.length}
@@ -1243,7 +1276,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
                 <div>
                   <p className="text-sm text-emerald-800 dark:text-emerald-300">
-                    No changes — this is already your answer
+                    No changes. This is already your answer
                   </p>
                   {/* The way to get a different rewrite is to write more: this
                       modal has no control that asks for another one. */}
@@ -1271,9 +1304,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                           aria-hidden="true"
                         />
                       )}
-                      <h3 className="text-[13px] font-semibold text-slate-700 dark:text-slate-200">
-                        {label}
-                      </h3>
+                      <h3 className={FEEDBACK_SECTION_HEADING}>{label}</h3>
                       <span className="ml-auto t-label text-slate-600 dark:text-slate-400 tabular-nums">
                         {words} words
                       </span>
@@ -1302,12 +1333,12 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                  characters at the default size) rather than to the modal. The
                  bound wraps the legend and the prose together, so the two
                  narrow as one. */
-              <div className="px-5 sm:px-10 py-7 max-w-3xl mx-auto">
+              <div className="px-5 sm:px-10 py-7 max-sm:py-4 max-w-3xl mx-auto">
                 {comparing && view === 'marked' && (
-                  <p className="t-label mb-5 text-slate-600 dark:text-slate-400 flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <p className="t-label mb-5 max-sm:mb-3 text-slate-600 dark:text-slate-400 flex flex-wrap items-center gap-x-3 gap-y-1">
                     <span className={OP_CLASS.insert}>added</span>
                     <span className={OP_CLASS.delete}>cut</span>
-                    <span>everything unmarked is your own writing</span>
+                    <span>Unmarked text is your own writing</span>
                   </p>
                 )}
                 {/* The response on a ruled sheet, the way the writing area holds it:
@@ -1516,7 +1547,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
             "Back to feedback" when there is not. Everything else is secondary. On a
             phone the primary takes the first full-width row, and the rest share the
             row beneath. */}
-        <div className="px-5 sm:px-8 py-4 border-t border-slate-500 dark:border-white/40 bg-surface-elevated dark:bg-white/[0.02] flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0">
+        <div className="px-5 sm:px-8 max-sm:py-3 py-4 border-t border-slate-500 dark:border-white/40 bg-surface-elevated dark:bg-white/[0.02] flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0">
           {/* A note on what comes next, which a phone cannot spare two lines for:
               the primary button already names it. */}
           <p className="hidden sm:block text-xs text-slate-600 dark:text-slate-400 text-left">

@@ -68,7 +68,7 @@ describe('ImprovementReviewModal', () => {
   it('bounds the unified reading column, and only that view', () => {
     renderModal();
 
-    const marked = screen.getByText(/everything unmarked is your own writing/i);
+    const marked = screen.getByText(/Unmarked text is your own writing/i);
     const column = marked.closest('div');
     expect(column?.className, 'the unified column carries the reading bound').toMatch(/max-w-3xl/);
     expect(column?.className).toMatch(/mx-auto/);
@@ -177,7 +177,7 @@ describe('ImprovementReviewModal', () => {
     expect(
       within(dialog).getByRole('group', {
         name: new RegExp(
-          `You scored 4 out of 8, Band ${you}\\. The improved response reaches 5 out of 8, Band ${improved}`
+          `You scored 4 out of 8 in Band ${you}\\. The improved response reaches 5 out of 8 in Band ${improved}`
         ),
       })
     ).toBeTruthy();
@@ -191,9 +191,15 @@ describe('ImprovementReviewModal', () => {
   it('says how many marks when the gain is more than one, and only once', () => {
     renderModal({ originalMark: 3, targetMark: 5 });
 
-    expect(screen.getByRole('dialog', { name: 'Your answer, 2 marks higher' })).toBeTruthy();
+    expect(screen.getByRole('dialog', { name: 'Your answer, two marks higher' })).toBeTruthy();
     expect(screen.queryByText(/\+2 marks/)).toBeNull();
     expect(screen.queryByText(/\+1 mark/)).toBeNull();
+  });
+
+  it('spells a gain of up to ten marks out in words in the title', () => {
+    renderModal({ originalMark: 2, targetMark: 5 });
+    expect(screen.getByRole('dialog', { name: 'Your answer, three marks higher' })).toBeTruthy();
+    expect(screen.getByText('Three marks higher')).toBeTruthy();
   });
 
   it('names the syllabus terms the revision brought in', () => {
@@ -228,7 +234,7 @@ describe('ImprovementReviewModal', () => {
   it('says plainly when the marker changed nothing', () => {
     renderModal({ improvedAnswer: ORIGINAL });
 
-    expect(screen.getByText(/No changes — this is already your answer/)).toBeTruthy();
+    expect(screen.getByText(/No changes\. This is already your answer/)).toBeTruthy();
     expect(screen.queryAllByTitle('Added by the marker')).toHaveLength(0);
     // With no changes there is nothing to step through…
     expect(screen.queryByLabelText('Next change')).toBeNull();
@@ -242,7 +248,7 @@ describe('ImprovementReviewModal', () => {
   it('treats a punctuation-only rewrite as no change', () => {
     renderModal({ improvedAnswer: `${ORIGINAL.replace(/\.$/, '')}!` });
 
-    expect(screen.getByText(/No changes — this is already your answer/)).toBeTruthy();
+    expect(screen.getByText(/No changes\. This is already your answer/)).toBeTruthy();
   });
 
   it('ignores markdown the model wrapped around its wording', () => {
@@ -252,7 +258,7 @@ describe('ImprovementReviewModal', () => {
       improvedAnswer: 'Caching stores data. It makes the system **faster**.',
     });
 
-    expect(screen.getByText(/No changes — this is already your answer/)).toBeTruthy();
+    expect(screen.getByText(/No changes\. This is already your answer/)).toBeTruthy();
   });
 
   it('steps through the changes in a long revision', () => {
