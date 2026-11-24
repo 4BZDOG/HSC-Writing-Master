@@ -22,6 +22,7 @@ const MODELS = {
   'gemini-3.1-pro-preview': { input: 2.0, output: 12.0 }, // ≤200k-token prompts
   'gemini-3-flash-preview': { input: 0.5, output: 3.0 },
   'gemini-3.8-flash': { input: 0.75, output: 3.75 }, // doubles on 1 January 2027
+  'gemini-4-hydrogen': { input: 1.5, output: 7.5 }, // checked 24 November 2026; free tier exists
 };
 
 /** Stripe, Australian domestic cards, standard pricing from 1 October 2026. */
