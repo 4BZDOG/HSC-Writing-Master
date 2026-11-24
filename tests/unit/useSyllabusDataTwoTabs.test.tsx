@@ -172,10 +172,17 @@ describe('two tabs on one library', () => {
     typeIn(tabB.result, 'p2', 'beta draft');
     await waitFor(() => expect(storedDraft('p2')).toBe('beta draft'), { timeout: 4000 });
 
-    // The store keeps A's Q1 text, and B's state took it.
+    // The store keeps A's Q1 text, and B's state took it. B adopts A's draft in the
+    // save's `.then`, after the store write the wait above saw, so its state is
+    // waited for too: asserted at once, a loaded CI runner read it a render early.
     expect(storedDraft('p1')).toBe('alpha draft');
-    expect(promptIn(tabB.result.current.courses, 'p1').userDraft).toBe('alpha draft');
-    expect(promptIn(tabB.result.current.courses, 'p2').userDraft).toBe('beta draft');
+    await waitFor(
+      () => {
+        expect(promptIn(tabB.result.current.courses, 'p1').userDraft).toBe('alpha draft');
+        expect(promptIn(tabB.result.current.courses, 'p2').userDraft).toBe('beta draft');
+      },
+      { timeout: 4000 }
+    );
   });
 
   it('the save settles: after the adoption, no further writes keep coming', async () => {
