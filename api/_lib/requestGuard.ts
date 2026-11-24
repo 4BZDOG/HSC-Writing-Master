@@ -33,6 +33,7 @@ export const ALLOWED_MODELS: ReadonlyArray<readonly [provider: string, model: st
   ['gemini', 'gemini-3-flash-preview'],
   ['gemini', 'gemini-3.1-pro-preview'],
   ['gemini', 'gemini-3.8-flash'],
+  ['gemini', 'gemini-4-hydrogen'],
   ['anthropic', 'claude-sonnet-4-6'],
   ['anthropic', 'claude-haiku-4-5'],
   ['anthropic', 'claude-sonnet-5'],

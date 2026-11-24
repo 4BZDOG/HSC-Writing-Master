@@ -92,6 +92,21 @@ export const AI_MODELS: AIModelOption[] = [
     estCostPerCall: 0.0053,
   },
   {
+    // Released 12 November 2026. Prices checked against
+    // ai.google.dev/gemini-api/docs/pricing and the model page on 24 November
+    // 2026: US$1.50/M in + US$7.50/M out (thinking billed as output), with a
+    // free tier. Blended 2k-in/1k-out estimate: 0.0105.
+    id: 'gemini-hydrogen',
+    provider: 'gemini',
+    model: 'gemini-4-hydrogen',
+    label: 'Gemini 4 Hydrogen',
+    description:
+      'Google’s newest model, released November 2026. Costs twice as much as Gemini 3.8 Flash at current prices. Has a free tier.',
+    roles: ['basic', 'reasoning'],
+    keyEnv: 'GEMINI_API_KEY',
+    estCostPerCall: 0.0105,
+  },
+  {
     id: 'claude-sonnet',
     provider: 'anthropic',
     model: 'claude-sonnet-4-6',

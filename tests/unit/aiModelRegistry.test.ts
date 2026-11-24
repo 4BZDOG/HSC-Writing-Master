@@ -1,6 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { AI_MODELS, getModelById, getModelByProviderModel } from '../../services/aiModels';
-import { resolveTarget, setSelectedModel } from '../../services/aiConfig';
+import {
+  AI_MODELS,
+  DEFAULT_SELECTION,
+  getModelById,
+  getModelByProviderModel,
+} from '../../services/aiModels';
+import { getOverloadFallback, resolveTarget, setSelectedModel } from '../../services/aiConfig';
 
 /**
  * Integrity of the engine registry. Adding a model is meant to be a one-entry
@@ -83,5 +88,38 @@ describe('Kimi K3', () => {
   it('prices its usage rows from the recorded provider string', () => {
     // The tally records `moonshotai/kimi-k3`; the dashboard has to find it.
     expect(getModelByProviderModel('moonshotai/kimi-k3')?.id).toBe('openrouter-kimi-k3');
+  });
+});
+
+describe('Gemini 4 Hydrogen', () => {
+  it('is selectable for both roles, through the existing Gemini key', () => {
+    const hydrogen = getModelById('gemini-hydrogen');
+    expect(hydrogen, 'the Gemini 4 Hydrogen entry is missing').toBeTruthy();
+    expect(hydrogen!.provider).toBe('gemini');
+    expect(hydrogen!.model).toBe('gemini-4-hydrogen');
+    expect(hydrogen!.label).toBe('Gemini 4 Hydrogen');
+    expect(hydrogen!.keyEnv).toBe('GEMINI_API_KEY');
+    expect(hydrogen!.roles).toEqual(['basic', 'reasoning']);
+  });
+
+  it('prices its usage rows from the recorded provider string', () => {
+    expect(getModelByProviderModel('gemini-4-hydrogen')?.id).toBe('gemini-hydrogen');
+  });
+
+  it('resolves to the Gemini 4 model when selected for marking', () => {
+    setSelectedModel('reasoning', 'gemini-hydrogen');
+    expect(resolveTarget('reasoning')).toEqual({ provider: 'gemini', model: 'gemini-4-hydrogen' });
+    setSelectedModel('reasoning', 'gemini-pro');
+  });
+
+  it('falls back to Gemini 3.8 Flash when overloaded', () => {
+    expect(getOverloadFallback('gemini-4-hydrogen')).toEqual({
+      provider: 'gemini',
+      model: 'gemini-3.8-flash',
+    });
+  });
+
+  it('leaves the default selection for every role unchanged', () => {
+    expect(DEFAULT_SELECTION).toEqual({ basic: 'gemini-flash', reasoning: 'gemini-pro' });
   });
 });

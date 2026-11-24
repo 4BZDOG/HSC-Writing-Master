@@ -114,6 +114,7 @@ const OVERLOAD_FALLBACK_MODEL: Record<string, string> = {
   'gemini-3-flash-preview': 'gemini-3.8-flash',
   'gemini-3.1-pro-preview': 'gemini-3.8-flash',
   'gemini-3.8-flash': 'gemini-3-flash-preview',
+  'gemini-4-hydrogen': 'gemini-3.8-flash',
 };
 
 /** The sibling Gemini model to retry on when `model` is persistently
