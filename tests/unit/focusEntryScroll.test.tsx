@@ -12,8 +12,9 @@ import { resetSupportEngagement } from '../../utils/supportEngagement';
  * On a wide window the Focus layout (question, splitter, writing card) is taller
  * than the screen, so the writing card's own 'nearest' scroll left the question
  * entirely above the fold. The layout's top edge is what must land on screen.
- * On a phone the question sits above the writing card and the writing card's
- * top is what the student needs, as before.
+ * On a phone the writing card sits below the question card, so the same top
+ * edge is the one to bring on screen: scrolling to the writing card pushed the
+ * question above the viewport.
  */
 
 vi.mock('../../services/geminiService', () => ({
@@ -146,15 +147,25 @@ describe('entering Focus Mode on a wide window', () => {
 });
 
 describe('entering Focus Mode on a phone', () => {
-  it('still brings the writing card to the top, as before', () => {
+  it('brings the Focus layout to the top, so the question is on screen, not the writing card', async () => {
     setViewport(390, 844);
     topEdgeAt(-900);
     render(ui(true));
 
     const spy = Element.prototype.scrollIntoView as ReturnType<typeof vi.fn>;
-    expect(spy).toHaveBeenCalledWith({ block: 'start' });
+    await waitFor(() => expect(spy).toHaveBeenCalledTimes(1));
     const target = spy.mock.contexts[0] as HTMLElement;
-    expect(target.className).not.toBe(LAYOUT_CLASS);
+    expect(target.className).toBe(LAYOUT_CLASS);
+    expect(spy).toHaveBeenCalledWith({ block: 'start' });
+  });
+
+  it('does not scroll when the layout top is already on screen', async () => {
+    setViewport(390, 844);
+    topEdgeAt(60);
+    render(ui(true));
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(Element.prototype.scrollIntoView).not.toHaveBeenCalled();
   });
 });
 

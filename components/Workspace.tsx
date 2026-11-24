@@ -319,22 +319,17 @@ const Workspace: React.FC<WorkspaceProps> = ({
     };
   }, [focusFills]);
 
-  // Entering Focus Mode from a scrolled page would open it with the writer out
-  // of view. Bring the writing card on screen: on a phone it sits under the
-  // question, so its top is what the student needs.
+  // Entering Focus Mode from a scrolled page would open it with the student out
+  // of view. The question card comes first on every width (on a phone the writing
+  // card sits below it), so the TOP of the layout is what must be on screen. Bring
+  // it to the top of the screen unless it is there already. Scrolling to the
+  // writing card instead put the question above the fold on a phone.
+  // The page's padding eases for 500ms as Focus opens, so the position is read
+  // only once that has settled (see whenAncestorsSettle).
   useEffect(() => {
     if (!isFocusMode) return;
     let cancelled = false;
     const frame = requestAnimationFrame(() => {
-      if (!isWideWindow) {
-        writingColumnRef.current?.scrollIntoView({ block: 'start' });
-        return;
-      }
-      // Wide window: the layout is taller than the screen, so 'nearest' on the
-      // writing card left the question above the fold. Bring the TOP of the layout
-      // (the question card's top edge) to the top of the screen, unless it is there.
-      // The page's padding eases for 500ms as Focus opens, so the position is read
-      // only once that has settled (see whenAncestorsSettle).
       const layout = focusLayoutRef.current;
       if (!layout) return;
       void whenAncestorsSettle(layout).then(() => {
