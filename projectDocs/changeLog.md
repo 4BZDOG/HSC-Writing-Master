@@ -1,5 +1,19 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-25 (Earth and Environmental Science: the 2019 HSC paper)
+
+- **Added (DATA_VERSION 2.72.0).** 17 past HSC questions from the 2019 Earth and Environmental Science paper (2017
+  syllabus), each mapped to the 2025 dot point that covers it, as the 2025 paper was. 3 printed tables, diagrams and
+  graphs ship as `scenarioImage`, with a text description in the scenario.
+  - NESA's sample answers are the full-mark exemplars, verbatim, for 16 parts. For Question 35 that is the worked
+    answer NESA prints after the "Answers could include" list. Question 29 has no printed sample and gets a written one.
+  - Marker notes flag the slips in NESA's samples. The main one is 27, which gives meteorite iridium as 0.05 ppm where
+    the stimulus says 0.5 ppm.
+  - Left out: multiple choice and the parts answered by drawing or completing a table (22, 23(a), 23(b), 24(a)).
+  - The extract is in `data/referencePapers/earth-and-environmental-science-2019-paper-and-guidelines.json`.
+- **Fixed.** `scripts/verifyPastPaperExtract.mts` no longer reports a figure's bracketed description as "not verbatim".
+  `build_past.py` treats an official name ending in "Organization" as a proper noun, not US spelling.
+
 ## [Unreleased] - 2026-11-23 (Economics: six more years of HSC papers)
 
 - **Added (DATA_VERSION 2.71.0).** 92 past HSC questions from the 2019–2024 Economics papers (2009 syllabus), each
