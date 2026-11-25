@@ -175,7 +175,8 @@ import {
 // 2.73.0: History Extension past HSC questions from the 2019–2024 papers (12).
 // 2.74.0: Legal Studies past HSC questions from the 2019–2024 papers (86).
 // 2.75.0: Earth and Environmental Science past HSC questions from the 2020–2024 papers (96, with 29 printed figures).
-export const DATA_VERSION = '2.75.0';
+// 2.76.0: 266 questions gain the term their syllabus heading names ("inflation", "unemployment", "salinity").
+export const DATA_VERSION = '2.76.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

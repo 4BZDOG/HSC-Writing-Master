@@ -5190,7 +5190,8 @@
                       "servers",
                       "end-point devices",
                       "on-premises computing",
-                      "cloud computing"
+                      "cloud computing",
+                      "infrastructure"
                     ],
                     "linkedOutcomes": [
                       "EC-11-01",
@@ -8427,7 +8428,8 @@
                       "Power BI",
                       "Tableau",
                       "customisation",
-                      "data security"
+                      "data security",
+                      "data visualisation"
                     ],
                     "markingCriteria": "5 marks: Evaluates both options against the bank's needs, weighing speed, cost and customisation, and reaches a reasoned judgement\n4 marks: Evaluates both options, with strengths and limitations linked to the bank's needs\n3 marks: Explains the strengths and limitations of both options in relation to the bank\n2 marks: Describes one option's strengths or limitations with some relevance to the bank\n1 mark: Makes a general statement about analytics services or custom software",
                     "sampleAnswers": [
@@ -8783,7 +8785,8 @@
                       "interactive dashboard",
                       "relevance",
                       "real-time data",
-                      "decision-making"
+                      "decision-making",
+                      "data visualisation"
                     ],
                     "markingCriteria": "4 marks: Explains how customisation and live analysis each improve UX for the field team, naming the UX gain for each\n3 marks: Explains how both features improve UX, with a relevant link to the field team\n2 marks: Describes one feature in some detail and its UX benefit, or both features in general terms\n1 mark: Makes a general statement that customisation or live data is good",
                     "sampleAnswers": [

@@ -5,8 +5,10 @@
 <nesa_dir> holds the year's PDFs as NESA names them (download them from the year's page on
 nsw.gov.au/education-and-training/nesa/curriculum/hsc-exam-papers/<subject>/<year>) and, beside each,
 the `pdftotext -layout` .txt of the paper. <subject-slug> is the slug in those names:
-"business-studies", "english-standard" (also matches "english-std"), "english-advanced"
-(also "english-adv"), "geography".
+"business-studies", "english-standard", "history-extension", "earth-and-environmental-science".
+NESA's shortened names are found too: the ones in ALIASES ("english-std", "history-ext",
+"earth-and-enviro-sci"), and any other whose words abbreviate the slug's, so the PDFs never need
+renaming.
 
 For every past question it reports:
 - STEM: a sentence of the stem that is not word for word in the paper (expected only where a question
@@ -73,12 +75,41 @@ def rows_of(guide):
     return out
 
 
+# NESA shortens some subject names in some years' file names: 2022 and 2023 History Extension guidelines are
+# "history-ext-mg", the 2022 Earth and Environmental Science guidelines "earth-and-enviro-sci-mg", and the 2025 ones
+# "earth-and-environment-science-mg". `abbreviates` catches the shortenings not listed here.
+ALIASES = {
+    'english-standard': ['english-std'],
+    'english-advanced': ['english-adv'],
+    'history-extension': ['history-ext'],
+    'earth-and-environmental-science': ['earth-and-enviro-sci', 'earth-and-environment-science'],
+}
+# Words NESA appends to a file name after the subject: the guidelines, a copyright-cleared or unredacted reissue,
+# a paper number, a date stamp.
+SUFFIX_WORDS = re.compile(r'^(?:mg|cc|unredacted|paper|p\d+|\d+)$')
+
+
+def abbreviates(name, slug):
+    """Is this file's subject part, word by word, a shortening of the slug's ("enviro-sci" of
+    "environmental-science")? The file name is `<year>-hsc-<subject>[-mg|-cc|_<date>_unredacted…].pdf`."""
+    words = re.split(r'[-_]', name)
+    while words and SUFFIX_WORDS.match(words[-1]):
+        words.pop()
+    target = slug.split('-')
+    return len(words) == len(target) and all(t.startswith(w) and len(w) >= min(3, len(t)) for w, t in zip(words, target))
+
+
 def files_for(nesa, slug, p):
     """(paper stem, guidelines pdf) for a question, by NESA's file naming."""
     year = p['hscYear']
-    short = {'english-standard': 'english-std', 'english-advanced': 'english-adv'}
-    pats = [slug] + ([short[slug]] if slug in short else [])
+    pats = [slug] + ALIASES.get(slug, [])
     cands = sorted({f for pat in pats for f in glob.glob(os.path.join(nesa, f'{year}-hsc-{pat}*.pdf'))})
+    # Any other file of the year whose subject part abbreviates the slug: a shortening no one has listed yet.
+    prefix = f'{year}-hsc-'
+    cands = sorted(set(cands) | {
+        f for f in glob.glob(os.path.join(nesa, f'{prefix}*.pdf'))
+        if abbreviates(os.path.basename(f)[len(prefix):-4], slug)
+    })
     paper_no = None
     if (p.get('hscSection') or '').startswith('Paper'):
         paper_no = p['hscSection'][6]

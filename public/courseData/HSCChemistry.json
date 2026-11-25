@@ -22011,7 +22011,8 @@
                       "inorganic acids",
                       "inorganic bases",
                       "hydrochloric acid",
-                      "calcium hydroxide"
+                      "calcium hydroxide",
+                      "bases"
                     ],
                     "linkedOutcomes": [
                       "CH-12-02"
@@ -22177,7 +22178,8 @@
                       "neutralisation",
                       "carbonate",
                       "metal",
-                      "reacts"
+                      "reacts",
+                      "bases"
                     ],
                     "linkedOutcomes": [
                       "CH-12-02"
@@ -22237,7 +22239,8 @@
                       "effectiveness",
                       "acids and bases",
                       "red cabbage",
-                      "colour change"
+                      "colour change",
+                      "bases"
                     ],
                     "linkedOutcomes": [
                       "CH-12-02"
@@ -22290,7 +22293,8 @@
                       "effectiveness",
                       "acids and bases",
                       "colour change",
-                      "pH range"
+                      "pH range",
+                      "bases"
                     ],
                     "linkedOutcomes": [
                       "CH-12-02"
@@ -22465,7 +22469,8 @@
                       "Brønsted–Lowry theory",
                       "acids and bases",
                       "hydroxide ions",
-                      "ammonia"
+                      "ammonia",
+                      "bases"
                     ],
                     "linkedOutcomes": [
                       "CH-12-02"
@@ -22519,7 +22524,8 @@
                       "limitations",
                       "proton",
                       "hydrogen chloride",
-                      "ammonia"
+                      "ammonia",
+                      "bases"
                     ],
                     "linkedOutcomes": [
                       "CH-12-02"
@@ -22583,7 +22589,8 @@
                       "proton acceptors",
                       "Arrhenius theory",
                       "acidic oxides",
-                      "Arrhenius base"
+                      "Arrhenius base",
+                      "bases"
                     ],
                     "markingCriteria": "5 marks: Makes an informed judgement about the usefulness of the B–L model; Considers an advantage and a limitation of the model; Includes at least TWO relevant equations\n4 marks: Makes a judgement about the usefulness of the B–L model; Considers an advantage and a limitation of the model; Includes at least ONE relevant equation OR Outlines an advantage and a limitation of the B–L model; Includes at least TWO relevant equations\n2-3 marks: Outlines an advantage and/or a limitation of the model AND/OR Includes at least ONE relevant equation\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -26559,7 +26566,8 @@
                       "ventilation",
                       "methane",
                       "ethene",
-                      "risk"
+                      "risk",
+                      "hydrocarbons"
                     ],
                     "linkedOutcomes": [
                       "CH-12-03"
@@ -26614,7 +26622,8 @@
                       "environmental harm",
                       "ventilation",
                       "hexane",
-                      "disposal"
+                      "disposal",
+                      "hydrocarbons"
                     ],
                     "linkedOutcomes": [
                       "CH-12-03"
@@ -27088,7 +27097,8 @@
                       "London dispersion forces",
                       "surface area",
                       "trend",
-                      "molecular size"
+                      "molecular size",
+                      "hydrocarbons"
                     ],
                     "linkedOutcomes": [
                       "CH-12-03"
@@ -27143,7 +27153,8 @@
                       "London dispersion forces",
                       "room temperature",
                       "physical state",
-                      "intermolecular forces"
+                      "intermolecular forces",
+                      "hydrocarbons"
                     ],
                     "linkedOutcomes": [
                       "CH-12-03"
