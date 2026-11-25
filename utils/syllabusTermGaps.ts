@@ -425,16 +425,179 @@ const usesWholePhrase = (normalisedText: string, term: Candidate): boolean => {
 };
 
 /**
+ * Where a question sits in the syllabus, beyond its own dot point: what the
+ * heading-term rule below needs.
+ */
+export interface TermGapContext {
+  /** The sub-topic and topic names the question sits under. */
+  headings?: readonly string[];
+  /**
+   * Words (lower case, singular) written in so many of the course's dot points
+   * that, alone, they name nothing: "economy" in Economics, "text" in English.
+   * Built once per course by `courseWideWords`.
+   */
+  courseWideWords?: ReadonlySet<string>;
+}
+
+/**
+ * Past this share of a course's dot points, a word is the course's wallpaper.
+ *
+ * Measured over the shipped library in November 2026. At 6% the words that
+ * drop out are "economy", "economic", "Australian", "text", "business",
+ * "reaction", "health" and "group"; the ones kept are the sub-topic concepts:
+ * "inflation" (4% of Economics), "unemployment", "atom", "mineral",
+ * "biotechnology".
+ */
+export const COURSE_WIDE_SHARE = 0.06;
+
+/** The words written in more than `COURSE_WIDE_SHARE` of these dot points. */
+export const courseWideWords = (dotPointTexts: readonly string[]): Set<string> => {
+  const counts = new Map<string, number>();
+  for (const text of dotPointTexts)
+    for (const word of new Set(normalise(text).split(' ').map(singular)))
+      if (word) counts.set(word, (counts.get(word) ?? 0) + 1);
+  const limit = dotPointTexts.length * COURSE_WIDE_SHARE;
+  return new Set([...counts].filter(([, n]) => n > limit).map(([w]) => w));
+};
+
+/** Does the (normalised) text use this key as whole words, plurals aside? */
+const containsTerm = (normalisedText: string, key: string): boolean =>
+  !!key && ` ${singularKey(normalisedText)} `.includes(` ${singularKey(key)} `);
+
+/** Is this term on the list in its own right, not only inside a longer phrase? */
+const listedExactly = (keywords: string[], key: string): boolean =>
+  keywords.some((k) => singularKey(normalise(k)) === singularKey(key));
+
+/**
+ * One-word headings that name an activity or a frame rather than a concept:
+ * "Management and change", "Historical investigation and research",
+ * "Background". Observed in the November 2026 measurement; a student is not
+ * helped by "research" or "change" in their Syllabus Terms panel.
+ */
+const HEADING_TOO_BROAD = new Set(
+  'change research background development establishment graph body aged caring context overview introduction'.split(
+    ' '
+  )
+);
+
+/**
+ * Does the text write this word with a capital, somewhere other than at the
+ * start of a sentence? Then it is a name ("Australia", "Australia's", "Nazi").
+ */
+const isCapitalisedIn = (text: string, word: string): boolean => {
+  const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(`(?<![.?!:]\\s|^)\\b${escaped}`, 'giu');
+  return [...(text || '').matchAll(re)].some((m) => /^\p{Lu}/u.test(m[0]));
+};
+
+/**
+ * The terms a heading IS, not every term inside it: each part of the heading
+ * between punctuation and "and"/"or", taken whole, where every word of it is
+ * subject matter. "Inflation" gives "inflation"; "Circular motion" gives
+ * "circular motion"; "Types and causes" gives nothing. "US foreign policy
+ * 1919–1941" gives nothing either: its parts run into a year, and a fragment
+ * such as "foreign" is not the concept the heading names.
+ */
+const headingUnits = (heading: string): Candidate[] =>
+  (heading || '')
+    .split(/[^\p{L}\p{N}\s'’-]+/u)
+    .flatMap((clause) => {
+      const parts = clause.split(/\s(?:and|or|&)\s/i);
+      // "Personal and group interests": a lone word before "and" whose partner
+      // runs on is a modifier sharing that noun, not a concept of its own.
+      return parts.filter(
+        (part, i) =>
+          !(i < parts.length - 1 && !/\s/.test(part.trim()) && /\s/.test(parts[i + 1].trim()))
+      );
+    })
+    .map((part) => part.replace(/^\s*(?:the|a|an)\s+/i, '').trim())
+    .filter(Boolean)
+    .flatMap((part) => {
+      const words = part.split(/\s+/);
+      if (words.length > MAX_PHRASE_WORDS) return [];
+      if (words.some((w) => wordKind(normalise(w)) !== 'content')) return [];
+      const key = normalise(part);
+      return key
+        ? [{ key, display: part, before: new Set<string>(), after: new Set<string>() }]
+        : [];
+    });
+
+/**
+ * Terms the syllabus HEADING names, that the dot point and the question both
+ * use, and that the list does not carry in their own right.
+ *
+ * The phrase rule cannot see a one-word concept, and on purpose: a lone word
+ * agreeing between a dot point and a question is usually a verb or a word the
+ * whole course is written in. But a word NESA uses as a heading is neither.
+ * Economics 2024 22(a), "Outline ONE cause of inflation in Australia", sits
+ * under the sub-topic "Inflation" on the dot point "Types and causes of
+ * inflation", and its list read "cost inflation", "inflation rate", "raw
+ * materials"... Every existing check counted "inflation" as covered by "cost
+ * inflation", so the concept the question is about was never on the list on
+ * its own. Three witnesses — heading, dot point and question — make a lone
+ * word safe to propose, and `courseWideWords` drops headings such as "The
+ * Australian economy" whose words are on every page.
+ */
+const missingHeadingTerms = (
+  dotPointText: string,
+  inQuestion: string,
+  listed: string[],
+  context: TermGapContext
+): Candidate[] => {
+  const inDotPoint = normalise(dotPointText);
+  const wide = context.courseWideWords;
+  // Display a term the way the dot point writes it ("inflation"), not as the
+  // heading capitalises it ("Inflation"), where the dot point has it.
+  const dotPointDisplay = new Map(candidateTerms(dotPointText).map((t) => [t.key, t.display]));
+  const found = new Map<string, Candidate>();
+  for (const heading of context.headings ?? [])
+    for (const term of headingUnits(heading)) {
+      if (found.has(term.key) || isDateOnly(term.key)) continue;
+      const single = !term.key.includes(' ');
+      if (single) {
+        if (term.key.length < 4 || isWeakLoneTerm(term.key)) continue;
+        if (HEADING_TOO_BROAD.has(singular(term.key))) continue;
+        if (wide?.has(singular(term.key))) continue;
+        if (wordKind(term.key) !== 'content') continue;
+        // A name the dot point capitalises ("Australia", "China") is the
+        // question's setting, not a term, in the way a year is.
+        if (isCapitalisedIn(dotPointText, term.key)) continue;
+      } else if (alreadyListed(listed, term.key)) continue;
+      if (listedExactly(listed, term.key)) continue;
+      if (!containsTerm(inDotPoint, term.key) || !containsTerm(inQuestion, term.key)) continue;
+      // A heading (or a dot point) capitalises its first word; the term itself
+      // is lower case unless the dot point writes it as a name mid-sentence.
+      const shown = dotPointDisplay.get(term.key) ?? term.display;
+      const display = isCapitalisedIn(dotPointText, term.key.split(' ')[0])
+        ? shown
+        : shown.charAt(0).toLowerCase() + shown.slice(1);
+      found.set(term.key, { ...term, display });
+    }
+  // Longest wins among the heading's own terms: "criminal justice system", not
+  // also "justice system".
+  const kept: Candidate[] = [];
+  [...found.values()]
+    .sort((a, b) => b.key.length - a.key.length)
+    .forEach((t) => {
+      if (!kept.some((k) => ` ${k.key} `.includes(` ${t.key} `))) kept.push(t);
+    });
+  return kept;
+};
+
+/**
  * The terms this question should carry and does not, in the syllabus's own
  * words.
  *
  * A question with no scenario is still checked — on phrases only, which is what
  * the asymmetry above buys: 42 of the flagged questions have no scenario at
- * all, and "safe work practices" is no less missing from one of those.
+ * all, and "safe work practices" is no less missing from one of those. With a
+ * `context`, a term the sub-topic or topic heading names is checked too, single
+ * words included (`missingHeadingTerms`).
  */
 export const missingSyllabusTerms = (
   dotPointText: string | undefined,
-  prompt: Pick<Prompt, 'question' | 'scenario' | 'keywords'>
+  prompt: Pick<Prompt, 'question' | 'scenario' | 'keywords'>,
+  context?: TermGapContext
 ): string[] => {
   const question = (prompt.question || '').trim();
   if (!dotPointText || !question) return [];
@@ -474,7 +637,17 @@ export const missingSyllabusTerms = (
 
   // Back into the order the syllabus wrote them.
   const order = new Map(candidateTerms(dotPointText).map((t, i) => [t.key, i]));
-  return kept
+  const fromDotPoint = kept
     .sort((a, b) => (order.get(a.key) ?? 0) - (order.get(b.key) ?? 0))
     .map((t) => t.display);
+  if (!context?.headings?.length) return fromDotPoint;
+
+  // Heading terms go FIRST, and are never swallowed by a longer dot-point
+  // phrase: with "imported inflation" proposed, "inflation" is still the
+  // concept the sub-topic is named for, and the point of this rule.
+  const have = new Set(fromDotPoint.map((t) => singularKey(normalise(t))));
+  const headed = missingHeadingTerms(dotPointText, inQuestion, listed, context)
+    .map((t) => t.display)
+    .filter((t) => !have.has(singularKey(normalise(t))));
+  return [...headed, ...fromDotPoint];
 };

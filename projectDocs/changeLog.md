@@ -1,5 +1,28 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-25 (Missing Terms: the concept a syllabus heading names)
+
+- **Fixed.** Missing Terms could not see a one-word concept. Economics 2024 22(a), "Outline ONE cause of inflation in
+  Australia.", sits under the sub-topic "Inflation", and its Syllabus Terms read "cost inflation", "inflation rate",
+  "raw materials"… Every check counted "inflation" as covered by "cost inflation", and lone words had been dropped from
+  the check altogether because most were verbs or a course's wallpaper.
+  - **Heading terms** (`missingSyllabusTerms` with a `TermGapContext`). A term the sub-topic or topic heading names,
+    taken whole ("Inflation", "Circular motion"), that the dot point and the question both use, must be on the list in
+    its own right; a longer phrase containing it does not count. The three witnesses make a lone word safe to offer.
+  - **Not offered:** a word on more than 6% of the course's dot points (`courseWideWords`: "economy", "text",
+    "business"); a name the dot point capitalises ("Australia", "China"), which is the question's setting, as a year
+    is; a word from inside a longer heading ("foreign" of "US foreign policy"); a modifier before "and" ("Personal"
+    of "Personal and group interests"); and broad heading words such as "change" and "research".
+  - The Content Studio passes each question's headings and its course's wallpaper words with the node, so the Missing
+    Terms filter and Add Terms (no AI) use the rule. `tests/unit/headingTerms.test.ts` holds the cases above and the
+    shipped 2024 22(a).
+- **Changed (DATA_VERSION 2.76.0).** Add Terms applied to the shipped library: 266 questions gain the heading term
+  they lacked, among them "inflation" (17), "unemployment", "inequality", "marketing", "operations", "soil",
+  "salinity", "earthquakes", "evolution" and "parenting". Only appended, never reordered; lists stay within 10.
+- **Fixed.** `check_past_questions.py` finds NESA's shortened file names ("history-ext", "earth-and-enviro-sci",
+  "earth-and-environment-science") through a list of aliases and an abbreviation match, so the PDFs no longer need
+  renaming before a check.
+
 ## [Unreleased] - 2026-11-25 (Earth and Environmental Science: the 2020–2024 HSC papers)
 
 - **Added (DATA_VERSION 2.75.0).** 96 past HSC questions from the 2020–2024 Earth and Environmental Science papers

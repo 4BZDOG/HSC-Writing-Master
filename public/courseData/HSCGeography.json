@@ -10755,7 +10755,8 @@
                       "event",
                       "weather",
                       "recording sheet",
-                      "transect"
+                      "transect",
+                      "fieldwork"
                     ],
                     "markingCriteria": "4 marks: Constructs four timed log entries in time order, each recording the event or activity, the weather and its effect on the fieldwork, all matching the field notes\n3 marks: Constructs four entries in time order, but leaves out the effect on the fieldwork in one or two entries, or includes one entry that does not match the notes\n2 marks: Constructs two or three entries in time order, recording the activity but not its effect on the fieldwork\n1 mark: States that a fieldwork log records events in time order, without constructing any entries",
                     "sampleAnswers": [
@@ -10808,7 +10809,8 @@
                       "reliability",
                       "transect counts",
                       "interruption",
-                      "comparable"
+                      "comparable",
+                      "fieldwork"
                     ],
                     "markingCriteria": "3 marks: Explains that timed entries show when counting was interrupted or changed, so the class can judge whether counts from different times are comparable, and links this to the reliability of the transect counts, using the rain pause as an example\n2 marks: Explains the purpose of a log in general terms, without linking it to the transect counts or their reliability\n1 mark: States that a log records what happened, without explanation",
                     "sampleAnswers": [
@@ -10982,7 +10984,8 @@
                       "strengths",
                       "weaknesses",
                       "transect",
-                      "fieldwork activity"
+                      "fieldwork activity",
+                      "fieldwork"
                     ],
                     "markingCriteria": "8 marks: Evaluates the activity with a balanced judgement, weighing the strengths of the sampling design and recording sheet against the weaknesses (the rain pause and the single observer), with specific reference to reliability, and reaches a supported conclusion about the value of the data, together with a recommended change that follows from a weakness\n7 marks: Evaluates the strengths and weaknesses with specific reference to the scenario, but the judgement is partly descriptive or the conclusion is not clearly supported\n5-6 marks: Identifies relevant strengths and weaknesses with some reference to the scenario, but the evaluation is mostly descriptive\n3-4 marks: Describes the design and identifies one strength or one weakness, without judgement\n2 marks: Lists features of the activity without evaluating them\n1 mark: Names one feature of the fieldwork without comment",
                     "sampleAnswers": [
@@ -11044,7 +11047,8 @@
                       "strengths",
                       "limitations",
                       "conclusions",
-                      "seasonal"
+                      "seasonal",
+                      "fieldwork"
                     ],
                     "markingCriteria": "6 marks: Assesses the strengths (the two days allow a weekday and a weekend pattern to be compared) and the limitations (two days cannot show seasonal change or the typical litter level), with a judgement about how far the conclusions can be trusted\n5 marks: Assesses both strengths and limitations with reference to the scenario, but the judgement about the conclusions is missing or unclear\n4 marks: Identifies a strength and a limitation with some reference to the scenario, without assessing their effect on the conclusions\n3 marks: Identifies a strength or a limitation in general terms, without reference to the scenario\n2 marks: Identifies one feature of the sampling days without assessment\n1 mark: States that more sampling days would be better, without explanation",
                     "sampleAnswers": [
@@ -13813,7 +13817,8 @@
                       "nutrient cycling",
                       "species interactions",
                       "complexity",
-                      "feedback loops"
+                      "feedback loops",
+                      "ecosystems"
                     ],
                     "markingCriteria": "6 marks: Explains how energy enters through photosynthesis and moves through food webs, how nutrients are recycled between organisms and the soil, and how species interactions such as predation, mutualism and competition link these processes into a complex, interdependent system, with a named example\n5 marks: Explains two of the three processes and their links, with a named example\n4 marks: Explains energy flow and nutrient cycling as separate processes, with an example\n3 marks: Describes one process with a general example\n2 marks: Names one process of ecosystem functioning\n1 mark: Names ecosystem functioning without description",
                     "sampleAnswers": [
@@ -13867,7 +13872,9 @@
                       "interdependence",
                       "biome",
                       "keystone species",
-                      "biodiversity loss"
+                      "biodiversity loss",
+                      "biodiversity",
+                      "ecosystems"
                     ],
                     "markingCriteria": "8 marks: Analyses how interdependence among species and their physical environment sustains ecosystem functioning, uses a named biome to show how the loss of a keystone species or a functional group would change the system, and links this to the global pattern of biodiversity\n5-7 marks: Analyses one link between species interdependence and ecosystem functioning, using a named example\n3-4 marks: Describes the links between species, with a general example\n1-2 marks: Names a feature of ecosystem functioning or biodiversity",
                     "sampleAnswers": [
@@ -13924,7 +13931,8 @@
                       "dynamic equilibrium",
                       "feedback loops",
                       "biodiversity",
-                      "resilience"
+                      "resilience",
+                      "ecosystems"
                     ],
                     "markingCriteria": "17-20 marks: Demonstrates comprehensive knowledge and understanding of the nature and complexity of ecosystem functioning; Provides a detailed explanation of the nature and complexity of ecosystem functioning; Integrates relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; Presents a sustained, logical and cohesive response using appropriate geographical ideas, terms and concepts\n13-16 marks: Demonstrates well-developed knowledge and understanding of the nature and complexity of ecosystem functioning; Provides an explanation of the nature and complexity of ecosystem functioning; Refers to relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; Presents a logical response using appropriate geographical terminology and concepts\n9-12 marks: Demonstrates sound knowledge and understanding of the nature and/or complexity of ecosystem functioning; Describes the nature and/or complexity of ecosystem functioning; Refers to examples, geographical information and the Stimulus Booklet where appropriate; Presents a structured response using appropriate geographical concepts\n5-8 marks: Demonstrates some knowledge and understanding of ecosystem functioning; May refer to examples, geographical information and/or the Stimulus Booklet; Uses some geographical terminology\n1-4 marks: Demonstrates a basic understanding of ecosystem functioning",
                     "sampleAnswers": [
@@ -13989,7 +13997,8 @@
                       "provisioning services",
                       "regulating services",
                       "cultural services",
-                      "biodiversity value"
+                      "biodiversity value",
+                      "ecosystems"
                     ],
                     "markingCriteria": "5 marks: Distinguishes the four service types by the kind of benefit each provides (goods, regulation of natural processes, non-material benefits, and the underlying processes), and gives a correct example of each from a named wetland or coastal ecosystem\n4 marks: Distinguishes three of the four types, with examples\n3 marks: Distinguishes two types, with one example\n2 marks: Names two service types and gives one example\n1 mark: Names one service type",
                     "sampleAnswers": [
@@ -14042,7 +14051,8 @@
                       "ecosystem management",
                       "biodiversity",
                       "intrinsic value",
-                      "cultural value"
+                      "cultural value",
+                      "ecosystems"
                     ],
                     "markingCriteria": "8 marks: Justifies why economic valuation captures only part of biodiversity's value (for example, intrinsic value, cultural significance and non-market services are hard to price), evaluates the argument that non-market values should guide ecosystem management, and reaches a supported position that considers trade-offs\n6-7 marks: Justifies the view with one or two reasons and states or evaluates the argument for non-market values, with limited consideration of trade-offs\n4-5 marks: Describes economic valuation and at least one non-market value, and links them loosely, without justifying the view or evaluating the argument\n2-3 marks: Names one or two values of biodiversity, such as the value of timber or wetland water, without explaining why economic valuation falls short\n1 mark: Names one way of valuing biodiversity",
                     "sampleAnswers": [
@@ -14101,7 +14111,8 @@
                       "vulnerability",
                       "wetland",
                       "nutrient runoff",
-                      "threshold"
+                      "threshold",
+                      "ecosystems"
                     ],
                     "markingCriteria": "6 marks: Explains that the two stresses interact, so that drought reduces the water depth and the wetland's capacity to dilute nutrients while runoff adds nutrients, and that the combined stress can push the wetland past a threshold where its resilience is lost, with a named process\n5 marks: Explains the combined effect of both stresses on resilience, with one process named, but without a clear account of the threshold at which resilience is lost\n4 marks: Explains each stress on the wetland separately, without the combined effect on resilience\n3 marks: Describes one stress and its effect on the wetland, such as the lower water depth caused by drought, without linking it to the other stress\n2 marks: Names one stress and a general effect on the wetland, such as harm to its plants or animals, without explaining the process involved\n1 mark: Names a stress that affects the wetland",
                     "sampleAnswers": [
@@ -14156,7 +14167,8 @@
                       "resilience",
                       "human stress",
                       "ecological stress",
-                      "ecological footprint"
+                      "ecological footprint",
+                      "ecosystems"
                     ],
                     "markingCriteria": "10 marks: Assesses how ecological and human stresses interact to shape vulnerability and resilience, uses ecological integrity and biocapacity precisely and separately, weighs evidence for and against the relationship in a specific ecosystem, and reaches a supported judgement\n8-9 marks: Assesses the relationship with reasons, uses both concepts, and reaches a judgement with limited weighing of evidence\n5-7 marks: Assesses the relationship using one concept, with an explanation of vulnerability or resilience, but without a clear judgement or weighing of evidence\n3-4 marks: Describes stresses and their effects on ecosystems, with one concept named but not used to assess the relationship\n1-2 marks: Names a stress or a concept, such as biocapacity, with little or no explanation",
                     "sampleAnswers": [
@@ -14210,7 +14222,8 @@
                       "human stress",
                       "local stress",
                       "surplus",
-                      "ecosystem condition"
+                      "ecosystem condition",
+                      "ecosystems"
                     ],
                     "markingCriteria": "8 marks: Critically analyses the claim by explaining that biocapacity and footprint are regional averages that can hide local stresses such as overfishing, water extraction or habitat fragmentation, weighs evidence for and against the claim, and concludes that the claim is not supported without local ecological integrity data\n7 marks: Critically analyses the claim with two specific reasons why averages can hide local stress\n5-6 marks: Identifies one reason why the average may mislead, with a brief analysis\n3-4 marks: Describes biocapacity and ecological footprint and their meaning, without assessing the claim\n2 marks: States the meaning of one term\n1 mark: Names one term",
                     "sampleAnswers": [
@@ -14270,7 +14283,8 @@
                       "IUCN Red List",
                       "Living Planet Index",
                       "extinction risk",
-                      "data limitations"
+                      "data limitations",
+                      "ecosystems"
                     ],
                     "markingCriteria": "8 marks: Discusses the global state of ecosystems and biodiversity using two named sources (for example the IUCN Red List and the Living Planet Index), identifies the most important limitation of each source (such as sampling bias towards well-studied species or vertebrates), and weighs how far the evidence agrees\n6-7 marks: Discusses the global state using two sources, with one limitation identified\n4-5 marks: Describes the global state using one source, with a limitation\n2-3 marks: Describes one feature of the global state of biodiversity\n1 mark: Names one source",
                     "sampleAnswers": [
@@ -14322,7 +14336,8 @@
                       "global state",
                       "biodiversity decline",
                       "drivers",
-                      "fragmentation"
+                      "fragmentation",
+                      "biodiversity"
                     ],
                     "markingCriteria": "6 marks: Examines the evidence for habitat loss as a driver, including how clearing and land conversion reduce available habitat, how fragmentation isolates populations, and at least one specific example, and weighs the strength of the evidence\n5 marks: Examines the evidence for habitat loss with two mechanisms and one example, but without weighing how strong that evidence is\n4 marks: Describes habitat loss as a driver and explains one mechanism, such as clearing for agriculture, with an example, without examining the evidence\n3 marks: Describes habitat loss as a driver with a general account of its effect, but without a mechanism or example\n2 marks: States that habitat loss reduces biodiversity or species numbers, with no evidence, mechanism or example to support the statement\n1 mark: Names habitat loss as a driver",
                     "sampleAnswers": [
@@ -14378,7 +14393,8 @@
                       "habitat loss",
                       "land and sea use",
                       "direct exploitation",
-                      "invasive alien species"
+                      "invasive alien species",
+                      "biodiversity"
                     ],
                     "markingCriteria": "4 marks: Explains ONE trend in global biodiversity\n3 marks: Describes ONE trend in global biodiversity\n2 marks: Outlines ONE trend in global biodiversity\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -14442,7 +14458,8 @@
                       "named scale",
                       "stakeholders",
                       "monitoring",
-                      "protected area"
+                      "protected area",
+                      "ecosystems"
                     ],
                     "markingCriteria": "5 marks: Explains the mechanism of the chosen strategy at the named scale (how it reduces a pressure on the ecosystem and what keeps it working), identifies the stakeholders involved, and gives an accurate example in practice\n4 marks: Explains the mechanism of the strategy at the named scale and gives an accurate example, but does not identify the stakeholders involved\n3 marks: Explains the mechanism in general terms, such as how a protected area limits damaging activities, without giving an example in practice\n2 marks: Names a strategy and gives one general feature of its scale or purpose, without explaining how it works or giving an example\n1 mark: Names a strategy for sustainable management",
                     "sampleAnswers": [

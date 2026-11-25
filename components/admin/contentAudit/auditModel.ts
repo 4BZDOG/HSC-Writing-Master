@@ -9,7 +9,7 @@ import {
 import { createKeywordRegex } from '../../../utils/renderUtils';
 import { promptHasExemplarMismatch, sampleCountsAsAnswer } from '../../../utils/exemplarAudit';
 import { dropNonSyllabusTerms, isSyllabusTerm } from '../../../services/geminiService';
-import { missingSyllabusTerms } from '../../../utils/syllabusTermGaps';
+import { courseWideWords, missingSyllabusTerms } from '../../../utils/syllabusTermGaps';
 import { guideStyleProblem } from '../../../utils/markingGuideLadder';
 
 /**
@@ -67,6 +67,13 @@ export interface TreeNode {
    * a prompt's surroundings that check needs travels with it.
    */
   dotPointText?: string;
+  /**
+   * The sub-topic and topic names a PROMPT node sits under, and its course's
+   * wallpaper words: what `missingSyllabusTerms` needs to check the terms a
+   * heading names ("Inflation") as well as the dot point's phrases.
+   */
+  headings?: readonly string[];
+  courseWideWords?: ReadonlySet<string>;
   dataRef: Course | Topic | SubTopic | DotPoint | Prompt | FacultyGroup;
   /**
    * The syllabus path this node sits at. Empty for a faculty, which sits above
@@ -216,23 +223,29 @@ export const isFlagged = (n: TreeNode): boolean => {
  * changed underneath it — the answer depends on both, and only the prompt is a
  * stable key.
  */
-const termGapCache = new WeakMap<Prompt, { dotPointText: string; terms: string[] }>();
+const termGapCache = new WeakMap<
+  Prompt,
+  { dotPointText: string; headings: string; terms: string[] }
+>();
 
 export const syllabusTermGaps = (n: TreeNode): string[] => {
   if (n.type !== 'prompt') return [];
   const prompt = n.dataRef as Prompt;
   const dotPointText = n.dotPointText ?? '';
+  const headings = (n.headings ?? []).join('\n');
   const cached = termGapCache.get(prompt);
-  if (cached && cached.dotPointText === dotPointText) return cached.terms;
+  if (cached && cached.dotPointText === dotPointText && cached.headings === headings)
+    return cached.terms;
   // Every candidate must also pass the app's own term rule, with the same
   // context the Tidy Terms repair uses. This lives here rather than in
   // `utils/syllabusTermGaps`, because `services/geminiService` already imports
   // that module; importing back would be a cycle.
   const context = termContextFor(prompt, dotPointText);
-  const terms = missingSyllabusTerms(dotPointText, prompt).filter((t) =>
-    isSyllabusTerm(t, prompt.verb, context)
-  );
-  termGapCache.set(prompt, { dotPointText, terms });
+  const terms = missingSyllabusTerms(dotPointText, prompt, {
+    headings: n.headings,
+    courseWideWords: n.courseWideWords,
+  }).filter((t) => isSyllabusTerm(t, prompt.verb, context));
+  termGapCache.set(prompt, { dotPointText, headings, terms });
   return terms;
 };
 
@@ -448,7 +461,7 @@ export const AUDIT_FILTERS: AuditFilterDefinition[] = [
     id: 'missingTerms',
     label: 'Missing Terms',
     title:
-      'Questions built on a term the Syllabus Terms list leaves out. A phrase counts when the syllabus dot point and either the question or its scenario use it; a single word has to appear in all three, because on its own it is usually the command verb or a word the whole course is written in. Add Terms puts them on the list, and needs no AI.',
+      'Questions built on a term the Syllabus Terms list leaves out. A phrase counts when the syllabus dot point and either the question or its scenario use it. A term the sub-topic or topic heading names ("Inflation") counts when the dot point and the question use it too, and must be listed in its own right, not only inside a longer phrase ("cost inflation"); a word on most of the course\'s pages ("economy") never does. Add Terms puts them on the list, and needs no AI.',
     tone: 'lime',
     group: 'review',
     matches: hasSyllabusTermGaps,
@@ -635,6 +648,12 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
   };
 
   const buildCourse = (course: Course): TreeNode => {
+    // Once per course, shared by every prompt node in it.
+    const wallpaper = courseWideWords(
+      (course.topics || []).flatMap((t) =>
+        (t.subTopics || []).flatMap((st) => (st.dotPoints || []).map((dp) => dp.description))
+      )
+    );
     const topics = (course.topics || []).map((topic) => {
       /**
        * The outcome codes a question in THIS topic may legitimately carry.
@@ -696,6 +715,8 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
               },
               dataRef: p,
               dotPointText: dp.description,
+              headings: [st.name, topic.name],
+              courseWideWords: wallpaper,
               path: {
                 courseId: course.id,
                 topicId: topic.id,

@@ -7674,7 +7674,8 @@
                       "clastic",
                       "sedimentary rock",
                       "weathering",
-                      "deposition"
+                      "deposition",
+                      "rocks"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -7727,7 +7728,8 @@
                       "pressure",
                       "contact metamorphic",
                       "regional metamorphic",
-                      "clastic sedimentary"
+                      "clastic sedimentary",
+                      "rocks"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -7787,7 +7789,8 @@
                       "fragments",
                       "grains",
                       "physical properties",
-                      "sedimentary rock"
+                      "sedimentary rock",
+                      "rocks"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -7841,7 +7844,8 @@
                       "crystal size",
                       "texture",
                       "colour",
-                      "igneous rock"
+                      "igneous rock",
+                      "rocks"
                     ],
                     "linkedOutcomes": [
                       "EES-11-02"
@@ -12262,7 +12266,8 @@
                       "climate",
                       "topography",
                       "organisms",
-                      "leaching"
+                      "leaching",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -12315,7 +12320,8 @@
                       "topography",
                       "horizon",
                       "organic matter",
-                      "leaching"
+                      "leaching",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -12428,7 +12434,8 @@
                       "chemical components",
                       "organic matter",
                       "soil structure",
-                      "nutrient cycling"
+                      "nutrient cycling",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -12600,7 +12607,8 @@
                       "silt",
                       "clay",
                       "soil type",
-                      "proportion"
+                      "proportion",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -12653,7 +12661,8 @@
                       "clay loam",
                       "water holding capacity",
                       "drainage",
-                      "soil type"
+                      "soil type",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -12765,7 +12774,8 @@
                       "controlled conditions",
                       "sample size",
                       "variables",
-                      "field conditions"
+                      "field conditions",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -12824,7 +12834,8 @@
                       "food chain",
                       "bioaccumulation",
                       "plant growth",
-                      "human health"
+                      "human health",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -12877,7 +12888,8 @@
                       "leaching",
                       "wind-blown dust",
                       "risk",
-                      "community"
+                      "community",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -12936,7 +12948,8 @@
                       "management strategy",
                       "reliability",
                       "evidence",
-                      "soil resource"
+                      "soil resource",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -12989,7 +13002,8 @@
                       "soil loss",
                       "evidence",
                       "management strategy",
-                      "limitations"
+                      "limitations",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -13048,7 +13062,9 @@
                       "weathering",
                       "land clearing",
                       "water table",
-                      "evaporation"
+                      "evaporation",
+                      "salinity",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -13101,7 +13117,9 @@
                       "water table",
                       "land clearing",
                       "salt-tolerant plants",
-                      "weathering"
+                      "weathering",
+                      "salinity",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -13160,7 +13178,9 @@
                       "water table",
                       "deep-rooted",
                       "evaporation",
-                      "salt"
+                      "salt",
+                      "salinity",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -13213,7 +13233,9 @@
                       "secondary soil salinity",
                       "water table",
                       "environmental water flows",
-                      "catchment"
+                      "catchment",
+                      "salinity",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -13384,7 +13406,8 @@
                       "revegetation",
                       "water table",
                       "deep-rooted perennials",
-                      "saltbush"
+                      "saltbush",
+                      "salinity"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -13437,7 +13460,8 @@
                       "water table",
                       "deep-rooted perennials",
                       "effectiveness",
-                      "limitations"
+                      "limitations",
+                      "salinity"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -13496,7 +13520,9 @@
                       "ground cover",
                       "overgrazing",
                       "contour ploughing",
-                      "stubble"
+                      "stubble",
+                      "erosion",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -13549,7 +13575,9 @@
                       "tillage",
                       "runoff",
                       "ground cover",
-                      "land management"
+                      "land management",
+                      "erosion",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -13608,7 +13636,9 @@
                       "waterways",
                       "topsoil",
                       "turbidity",
-                      "gully erosion"
+                      "gully erosion",
+                      "erosion",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -13661,7 +13691,9 @@
                       "waterways",
                       "topsoil",
                       "turbidity",
-                      "long-term effects"
+                      "long-term effects",
+                      "erosion",
+                      "soil"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -13773,7 +13805,8 @@
                       "effectiveness",
                       "replicate",
                       "field conditions",
-                      "variables"
+                      "variables",
+                      "erosion"
                     ],
                     "linkedOutcomes": [
                       "EES-11-03"
@@ -25696,7 +25729,8 @@
                       "transform boundary",
                       "shallow",
                       "depth",
-                      "lithosphere"
+                      "lithosphere",
+                      "earthquakes"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -25749,7 +25783,8 @@
                       "subduction zone",
                       "depth",
                       "subducting plate",
-                      "trench"
+                      "trench",
+                      "earthquakes"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -25815,7 +25850,8 @@
                       "oceanic crust",
                       "mid-ocean ridge",
                       "transform boundary",
-                      "depth"
+                      "depth",
+                      "earthquakes"
                     ],
                     "markingCriteria": "3 marks: Links each boundary type to the depth at which earthquakes occur; States reasons why earthquakes occur at these depths\n2 marks: Provides some knowledge about the depths at which earthquakes occur and boundary types\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -25880,7 +25916,8 @@
                       "plate boundary",
                       "shallow earthquake",
                       "deep earthquake",
-                      "depth"
+                      "depth",
+                      "earthquakes"
                     ],
                     "markingCriteria": "3 marks: Explains why an earthquake focus varies in depth\n2 marks: Explains why an earthquake focus is either shallow or deep OR Describes a cause of both shallow and deep earthquakes\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -26572,7 +26609,8 @@
                       "earthquake risk",
                       "liquefaction",
                       "ground motion",
-                      "rezoning"
+                      "rezoning",
+                      "earthquakes"
                     ],
                     "markingCriteria": "3 marks: Justifies the need for different building codes linked to different levels of earthquake risk; Links the tectonic settings to both high and low earthquake risk\n2 marks: Justifies the need for a building code linked to the level of earthquake risk in one tectonic setting; OR; Links the tectonic setting of areas to both high and low earthquake risk\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -26684,7 +26722,8 @@
                       "built structures",
                       "independent variable",
                       "controlled variables",
-                      "displacement"
+                      "displacement",
+                      "earthquakes"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -26737,7 +26776,8 @@
                       "earthquake waves",
                       "built structures",
                       "scale",
-                      "stiffness"
+                      "stiffness",
+                      "earthquakes"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -26868,7 +26908,8 @@
                       "seismometers",
                       "P waves",
                       "warning time",
-                      "surface waves"
+                      "surface waves",
+                      "earthquakes"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -26921,7 +26962,8 @@
                       "effectiveness",
                       "warning time",
                       "epicentre",
-                      "seismometers"
+                      "seismometers",
+                      "earthquakes"
                     ],
                     "linkedOutcomes": [
                       "EES-12-02"
@@ -26984,7 +27026,8 @@
                       "seismic waves",
                       "earthquake detection",
                       "ground movement",
-                      "warning systems"
+                      "warning systems",
+                      "earthquakes"
                     ],
                     "markingCriteria": "2 marks: Describes a technology that could be used to understand a characteristic of the earthquake\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -33401,7 +33444,8 @@
                       "social",
                       "economic",
                       "governance",
-                      "society"
+                      "society",
+                      "sustainability"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"
@@ -33454,7 +33498,8 @@
                       "environment",
                       "compost",
                       "landfill",
-                      "methane"
+                      "methane",
+                      "sustainability"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"
@@ -35617,7 +35662,8 @@
                       "wastes",
                       "fuel sustainability",
                       "coal fired",
-                      "solar farm"
+                      "solar farm",
+                      "sustainability"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"
@@ -35672,7 +35718,8 @@
                       "nuclear",
                       "hydroelectric",
                       "wind farm",
-                      "fuel sustainability"
+                      "fuel sustainability",
+                      "sustainability"
                     ],
                     "linkedOutcomes": [
                       "EES-12-04"

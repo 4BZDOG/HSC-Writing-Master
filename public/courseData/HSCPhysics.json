@@ -8195,7 +8195,8 @@
                       "friction",
                       "trolley",
                       "measurement",
-                      "air resistance"
+                      "air resistance",
+                      "momentum"
                     ],
                     "linkedOutcomes": [
                       "PY-11-01"
@@ -9090,7 +9091,8 @@
                       "particle",
                       "vibration",
                       "energy",
-                      "mechanical wave"
+                      "mechanical wave",
+                      "sound"
                     ],
                     "linkedOutcomes": [
                       "PY-11-02"
@@ -9144,7 +9146,8 @@
                       "energy",
                       "medium",
                       "particle",
-                      "source"
+                      "source",
+                      "sound"
                     ],
                     "linkedOutcomes": [
                       "PY-11-02"
@@ -9322,7 +9325,8 @@
                       "energy",
                       "sound wave",
                       "independent variable",
-                      "dependent variable"
+                      "dependent variable",
+                      "sound"
                     ],
                     "markerNotes": [
                       "Name the independent variable, frequency, and the dependent variable, sound level, because the question asks about a relationship.",
@@ -9377,7 +9381,8 @@
                       "energy",
                       "sound wave",
                       "practical investigation",
-                      "independent variable"
+                      "independent variable",
+                      "sound"
                     ],
                     "markerNotes": [
                       "Reject the claim with a reason: the energy depends on amplitude as well as frequency, so a higher frequency alone does not guarantee more energy.",
@@ -9438,7 +9443,8 @@
                       "propagation",
                       "vacuum",
                       "speed of light",
-                      "mechanical wave"
+                      "mechanical wave",
+                      "light"
                     ],
                     "markerNotes": [
                       "Name the two types of wave, a mechanical wave for sound and an electromagnetic wave for light, rather than saying both are waves.",
@@ -9494,7 +9500,8 @@
                       "speed of light",
                       "propagation",
                       "electric field",
-                      "magnetic field"
+                      "magnetic field",
+                      "light"
                     ],
                     "markerNotes": [
                       "Explain that an electromagnetic wave is a changing electric field producing a changing magnetic field, so it does not depend on particles.",
@@ -10025,7 +10032,8 @@
                       "light source",
                       "laboratory experiment",
                       "independent variable",
-                      "dependent variable"
+                      "dependent variable",
+                      "light"
                     ],
                     "markerNotes": [
                       "Name distance as the independent variable and light intensity as the dependent variable.",
@@ -10080,7 +10088,8 @@
                       "light source",
                       "energy",
                       "spherical surface",
-                      "non-linear relationship"
+                      "non-linear relationship",
+                      "light"
                     ],
                     "markerNotes": [
                       "Describe the rate of change: steep near the lamp, levelling off further away.",
@@ -12384,7 +12393,8 @@
                       "charge separation",
                       "electrons",
                       "electric field",
-                      "storm cloud"
+                      "storm cloud",
+                      "electricity"
                     ],
                     "linkedOutcomes": [
                       "PY-11-03"
@@ -12439,7 +12449,8 @@
                       "electric field",
                       "distance",
                       "pointed",
-                      "tall"
+                      "tall",
+                      "electricity"
                     ],
                     "linkedOutcomes": [
                       "PY-11-03"
@@ -12626,7 +12637,8 @@
                       "force",
                       "separation",
                       "repulsion",
-                      "decreases"
+                      "decreases",
+                      "electrostatics"
                     ],
                     "linkedOutcomes": [
                       "PY-11-03"
