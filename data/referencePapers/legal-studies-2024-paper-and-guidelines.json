@@ -1,0 +1,825 @@
+{
+  "year": 2024,
+  "course": "Legal Studies",
+  "papers": [
+    "2024-hsc-legal-studies.pdf",
+    "2024-hsc-legal-studies-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted."
+    }
+  ],
+  "edits": [
+    "Converted from data/referencePapers/legal-studies-2020-2025-past-papers.json (October 2026 extraction, ladders re-cut against the PDF)."
+  ],
+  "questions": [
+    {
+      "number": "21",
+      "section": "II-A",
+      "marks": 2,
+      "stem": "Define the term self-determination.",
+      "stimulus": "",
+      "assessedOn": [],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "States the meaning of self-determination"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about self-determination"
+        }
+      ],
+      "sampleAnswer": "Self-determination refers to the principle that communities have the right to freely determine their political status, pursue their economic, social and cultural development, and manage their own affairs.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "22",
+      "section": "II-A",
+      "marks": 6,
+      "stem": "In relation to human rights, discuss the extent to which the Australian Constitution reflects changing values and ethical standards.",
+      "stimulus": "",
+      "assessedOn": [],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides a thorough discussion of the extent to which the Australian Constitution reflects changing social values and ethical standards"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides a sound discussion of the extent to which the Australian Constitution reflects changing social values and ethical standards"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some discussion of the extent to which the Australian Constitution reflects changing social values and ethical standards"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The Australian Constitution, established in 1901, provides a framework to reflect changing values and ethical standards through judicial interpretation, referendums and legislative reforms. The few explicit rights identified in the Constitution, such as the right to freedom of religion (Section 116) arguably leave gaps in protection. Further, the Constitution does not list what the Australian values are. Due to the complexity of the process, Constitutional reform is not often accomplished, for example the 1988 Rights and Freedoms referendum which aimed at enshrining civil rights failed. Conversely, the Constitution does allow the High Court to uphold implied rights and adapt to changing values. This occurred in the 1997 case, Lange v Australia Broadcasting Corporation, which upheld the existence of freedom of political communication. Additionally, the Constitution provides a framework to reflect changing values and ethical standards, however, has limitations due to the complexity of the reform progress.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "23",
+      "section": "II-A",
+      "marks": 7,
+      "stem": "Analyse the impact of state sovereignty on a contemporary human rights issue.",
+      "stimulus": "",
+      "assessedOn": [],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "6–7",
+          "text": "Demonstrates a thorough understanding of state sovereignty ; Provides an informed analysis about the impact of state sovereignty on a contemporary human rights issue"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates a sound understanding of state sovereignty ; Provides some analysis about the impact of state sovereignty on a contemporary human rights issue"
+        },
+        {
+          "marks": "2–3",
+          "text": "Demonstrates some understanding of state sovereignty ; Attempts to make an analysis about the impact of state sovereignty on a contemporary human rights issue"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "State sovereignty influences whether there is recognition, protection or enforcement of human rights, such as the right to be free from slavery. Positively, nation states can use their right to govern themselves without external interference to ratify and enact international laws that uphold human rights. For example, Australia ratified the 2000 Palermo Protocol by amending D. 270 of the Criminal Code 2005 (Cth) to criminalise slavery practices including servitude, forced labour and deceptive recruiting for labour or services. An example of enforcement is the case of R v Wei Tang 2008 HCA which was Australia’s first conviction under this amendment. On the other hand, sovereignty allows states to infringe upon the human rights of its citizens. For example, North Korea had the highest rate of people experiencing modern slavery in 2023. Due to state sovereignty, the international community is unable to interfere with global failures to uphold the right to be free from slavery.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "24",
+      "section": "II-B",
+      "marks": 15,
+      "stem": "To what extent does the criminal trial and sentencing process provide justice for adult offenders?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Demonstrates comprehensive understanding of the criminal trial and sentencing process ; Makes an informed judgement about the extent to which justice is provided for adult offenders ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "10–12",
+          "text": "Demonstrates substantial understanding of the criminal trial and sentencing process ; Makes a sound judgement about the extent to which justice is provided for adult offenders ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Demonstrates an understanding of the criminal trial and/or sentencing process ; Makes some judgement about the extent to which justice is provided for adult offenders ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates a limited understanding of the criminal trial and/or sentencing process ; Makes statements about justice for the adult offender ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–3",
+          "text": "Writes in general terms about criminal processes ; May include reference to examples such as legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "• Court jurisdiction",
+        "• The adversary system",
+        "• Legal personnel: magistrate, judge, police prosecutor, Director of Public Prosecutions, Public Defender",
+        "• Pleas, charge negotiation",
+        "• Legal representation, including legal aid",
+        "• Burden and standard of proof",
+        "• Use of evidence, including witnesses",
+        "• Defences to criminal charges:",
+        "– complete defences",
+        "– partial defences to murder",
+        "• The role of juries, including verdicts",
+        "• Statutory and judicial guidelines",
+        "• The purposes of punishment: deterrence (specific and general), retribution, rehabilitation, incapacitation",
+        "• Factors affecting a sentencing decision: aggravating and mitigating circumstances",
+        "• The role of the victim in sentencing",
+        "• Appeals",
+        "• Types of penalties including: no conviction recorded, caution, fine, bond, suspended sentence, probation, criminal infringement notice, penalty units, community service order, home detention, periodic detention, forfeiture of assets, imprisonment, diversionary programs",
+        "• Alternative methods of sentencing including circle sentencing, restorative justice",
+        "• Post-sentencing considerations, including security classification, protective custody, parole, preventative detention, continued detention, sexual offenders registration, deportation."
+      ],
+      "sectionHeading": "Section II – 30 marks. Part B – Crime, 15 marks. Attempt Question 24. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "25(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Analyse the role of state and federal government organisations in responding to the rights of consumers.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of the roles of state and federal government organisations in relation to consumers ; Provides an informed analysis of government responses to the rights of consumers ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of the roles of state and federal government organisations in relation to consumers ; Provides a sound analysis of government responses to the rights of consumers ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of the roles of state and/or federal government organisations in relation to consumers ; Provides some analysis of government responses to the rights of consumers ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of the roles of state and/or federal government organisations in relation to consumers ; Makes some statements about government responses to the rights of consumers ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law concerning consumers ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "• State government organisations",
+        "• Federal government organisations",
+        "• The role of tribunals and courts",
+        "• Consumer remedies: individual, society."
+      ],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "25(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "To what extent are legal responses effective in addressing the issues of credit and technology?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of the law concerning consumers ; Makes an informed judgement about the extent to which legal responses effectively address the issues of credit and technology ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of the law concerning consumers ; Makes a sound judgement about the extent to which legal responses effectively address the issues of credit and technology ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of the law concerning consumers ; Makes some judgement about the extent to which legal responses effectively address the issues of credit and/or technology ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of the law concerning consumers ; Makes statements about the effectiveness of legal responses in addressing the issues of credit and/or technology ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about the law concerning consumers ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Contemporary issues concerning consumers:",
+        "• Credit",
+        "• Technology."
+      ],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "26(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Analyse the role of Australia’s federal structure in the protection of the global environment.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about global environmental protection ; Provides an informed analysis of the role of Australia’s federal structure in the protection of the global environment ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about global environmental protection ; Provides a sound analysis of the role of Australia’s federal structure in the protection of the global environment ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about global environmental protection ; Provides some analysis of the role of Australia’s federal structure in the protection of the global environment ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about global environmental protection ; Makes some statements about Australia’s federal structure in the protection of the global environment ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about global environmental protection ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "• Nation state and state sovereignty",
+        "• International instruments",
+        "• Courts and conferences",
+        "• Intergovernmental organisations",
+        "• Australia’s federal structure",
+        "• Australia’s responses to international initiatives for global environmental protection."
+      ],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "26(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "To what extent are legal responses effective in addressing the conflict between the demand for resources and global environmental protection?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about global environmental protection ; Makes an informed judgement about the extent to which legal responses effectively address the conflict between the demand for resources and global environmental protection ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about global environmental protection ; Makes a sound judgement about the extent to which legal responses effectively address the conflict between the demand for resources and global environmental protection ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about global environmental protection ; Makes some judgement about the extent to which legal responses effectively address the conflict between the demand for resources and/or global environmental protection ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about global environmental protection ; Makes statements about the effectiveness of legal responses to address the conflict between the demand for resources and/or global environmental protection ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about global environmental protection ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Contemporary issues concerning global environmental protection:",
+        "• Legal responses to conflict between the demand for resources and global environmental protection."
+      ],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "27(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Analyse the role of state and federal governments in responding to the rights of family members.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of the role of state and federal governments in relation to family ; Provides an informed analysis of government responses to the rights of family members ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of the role of state and federal governments in relation to family ; Provides a sound analysis of government responses to the rights of family members ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of the role of state and/or federal governments in relation to family ; Provides some analysis of government responses to the rights of family members ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of the role of state and/or federal governments in relation to family ; Makes some statements about government responses to the rights of family members ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about family law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "• The concept of family law",
+        "• Legal requirements of marriage",
+        "• Alternative family relationships",
+        "• Legal rights and obligations of parents and children",
+        "• Adoption",
+        "• Divorce",
+        "• Legal consequences of separation:",
+        "– children",
+        "– property",
+        "• Dealing with domestic violence",
+        "• The roles of:",
+        "– courts and dispute resolution methods",
+        "– non-government organisations",
+        "– the media."
+      ],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "27(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "To what extent are legal responses effective in addressing the issues of surrogacy and birth technologies?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of legal responses related to family ; Makes an informed judgement about the extent to which legal responses effectively address the issues of surrogacy and birth technologies ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of legal responses related to family ; Makes a sound judgement about the extent to which legal responses effectively address the issues of surrogacy and birth technologies ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of legal responses related to family ; Makes some judgement about the extent to which legal responses effectively address the issues of surrogacy and/or birth technologies ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of legal responses related to family ; Makes statements about the effectiveness of legal responses in addressing the issues of surrogacy and/or birth technologies ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about family law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Contemporary issues concerning family law",
+        "• Surrogacy and birth technologies",
+        "• Changing nature as parental responsibility",
+        "• Legal rights and obligations of parents and children",
+        "• The roles of courts and disputes resolution methods."
+      ],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "28(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Analyse the role of Australia’s federal structure in responding to the rights of Indigenous peoples.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of responses related to Indigenous peoples ; Provides an informed analysis of the role of Australia’s federal structure in responding to the rights of Indigenous peoples ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of responses related to Indigenous peoples ; Provides a sound analysis of the role of Australia’s federal structure in responding to the rights of Indigenous peoples ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of responses related to Indigenous peoples ; Provides some analysis of the role of Australia’s federal structure in responding to the rights of Indigenous peoples ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of responses related to Indigenous peoples ; Makes some statements about the role of Australia’s federal structure in responding to the rights of Indigenous peoples ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about Indigenous peoples ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "• The roles of:",
+        "– the nation state and state sovereignty",
+        "• Courts",
+        "• Intergovernmental organisations",
+        "• Australia’s federal structure."
+      ],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "28(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "To what extent are legal responses effective in addressing the issues of intellectual property and cultural rights of Indigenous peoples?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of legal responses relating to Indigenous peoples ; Makes an informed judgement about the extent to which legal responses effectively address the issues of intellectual property and cultural rights ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of legal responses relating to Indigenous peoples ; Makes a sound judgement about the extent to which legal responses effectively address the issues of intellectual property and cultural rights ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of legal responses relating to Indigenous peoples ; Makes some judgement about the extent to which legal responses effectively address the issues of intellectual property and/or cultural rights ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of legal responses relating to Indigenous peoples ; Makes statements about the effectiveness of legal responses in addressing the issues of intellectual property and/or cultural rights ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about legal responses relating to Indigenous peoples ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Contemporary issues concerning Indigenous peoples:",
+        "• Loss of cultural rights including language",
+        "• Intellectual property rights."
+      ],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "29(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Analyse the role of state and federal governments in responding to the rights of individuals accessing shelter.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of the role of state and federal governments in relation to shelter ; Provides an informed analysis of government responses to the rights of individuals seeking shelter ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of the role of state and federal governments in relation to shelter ; Provides a sound analysis of government responses to the rights of individuals seeking shelter ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of the role of state and/or federal governments in relation to shelter ; Provides some analysis of government responses to the rights of individuals seeking shelter ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of the role of state and/or federal governments in relation to shelter ; Makes some statements about government responses to the rights of individuals seeking shelter ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about laws relating to shelter ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "• Right to shelter",
+        "• Discuss the right to shelter according to international law",
+        "• Obligation to provide shelter",
+        "• Examine the obligation of state and federal governments to provide shelter",
+        "• Assess the role of the legal system in protecting those securing and providing shelter",
+        "• The roles of:",
+        "– courts and tribunals",
+        "– alternative dispute resolution",
+        "– government organisations."
+      ],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "29(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "To what extent are legal responses effective in addressing the issues of affordability and social housing?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of legal responses related to shelter ; Makes an informed judgement about the extent to which legal responses effectively address the issues of affordability and social housing ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of legal responses related to shelter ; Makes a sound judgement about the extent to which legal responses effectively address the issues of affordability and social housing ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of legal responses related to shelter ; Makes some judgement about the extent to which legal responses effectively address the issues of affordability and/or social housing ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of legal responses related to shelter ; Makes statements about the effectiveness of legal responses in addressing the issues of affordability and/or social housing ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about legal responses related to shelter ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Contemporary issues concerning shelter:",
+        "• Affordability",
+        "• Social housing including public housing, cooperative housing and community housing."
+      ],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "30(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Analyse the role of state and federal governments in responding to the rights of employees.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of the role of state and federal governments in relation to employees ; Provides an informed analysis of government responses to the rights of employees ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of the role of state and federal governments in relation to employees ; Provides a sound analysis of the role of government responses to the rights of employees ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of the role of state and/or federal governments in relation to employees ; Provides some analysis of the role of government responses to the rights of employees ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of the role of state and/or federal governments in relation to employees ; Makes some statements about the government responses to the rights of employees ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about the role of state and/or federal governments in relation to employees ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "• Regulation of the workplace",
+        "• Industrial relations – the state and federal framework",
+        "• The roles of:",
+        "– courts and tribunals",
+        "– governmental organisations."
+      ],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "30(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "To what extent are legal responses effective in addressing the issues of leave and termination of employment?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of legal responses related to workplace ; Makes an informed judgement about the extent to which legal responses effectively address the issues of leave and termination of employment ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of legal responses related to workplace ; Makes a sound judgement about the extent to which legal responses effectively address the issues of leave and termination of employment ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of legal responses related to workplace ; Makes some judgement about the extent to which legal responses effectively address the issues of leave and/or termination of employment ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of legal responses related to workplace ; Makes statements about the effectiveness of legal responses in addressing the issues of leave and/or termination of employment ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about legal responses related to workplace ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Contemporary issues concerning workplace:",
+        "• Termination of employment",
+        "• Leave."
+      ],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "31(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Analyse the role of Australia’s federal government in promoting and maintaining world order.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of the role of Australia’s federal government in relation to world order ; Provides an informed analysis of the government responses in promoting and maintaining world order ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of the role of Australia’s federal government in relation to world order ; Provides a sound analysis of the government responses in promoting and maintaining world order ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of the role of Australia’s federal government in relation to world order ; Provides some analysis of the government responses in promoting and/or maintaining world order ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of the role of Australia’s federal government in relation to world order ; Makes some statements about the government responses in promoting and/or maintaining world order ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about legal responses related to world order ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "• Responses to world order",
+        "• The roles of:",
+        "– the nation state and state sovereignty",
+        "– Australia’s federal government."
+      ],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "31(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "To what extent are legal responses effective in ensuring the principle of ‘responsibility to protect’ and rules regarding the conduct of hostilities?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of legal responses related to world order ; Makes an informed judgement about the extent to which legal responses effectively ensure the principle of ‘responsibility to protect’ and the rules regarding the conduct of hostilities ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of legal responses related to world order ; Makes a sound judgement about the extent to which legal responses effectively ensure the principle of ‘responsibility to protect’ and the rules regarding the conduct of hostilities ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of legal responses related to world order ; Makes some judgement about the extent to which legal responses effectively ensure the principle of ‘responsibility to protect’ and/or the rules regarding the conduct of hostilities ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of legal responses related to world order ; Makes statements about the effectiveness of legal responses in ensuring the principle of ‘responsibility to protect’ and/or the rules regarding the conduct of hostilities ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about legal responses related to world order ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Contemporary issues concerning world order:",
+        "• The principle of ‘responsibility to protect’",
+        "• Rules regarding the conduct of hostilities."
+      ],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    }
+  ]
+}
