@@ -1,0 +1,653 @@
+{
+  "year": 2021,
+  "course": "Earth and Environmental Science",
+  "papers": [
+    "2021-hsc-earth-and-environmental-science.pdf",
+    "2021-hsc-earth-and-environmental-science-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "26(a)",
+      "reason": "Requires drawing a labelled diagram of a model (\"include a labelled diagram of the model\"); the top band needs the diagram (brief: label a diagram / diagrams in the answer)."
+    },
+    {
+      "number": "29(a)",
+      "reason": "Requires completing a table (\"complete the following table\"), a tabular response (brief)."
+    },
+    {
+      "number": "31(a)",
+      "reason": "Requires drawing a sequence of at least THREE labelled cross-sectional diagrams (brief: parts answered by drawing)."
+    }
+  ],
+  "edits": [
+    "23: ladder row 1 reworded to open with a third-person verb, as the app requires: \"Any relevant information associated with any natural hazard\" -> \"Provides any relevant information associated with any natura\""
+  ],
+  "images": {
+    "24": {
+      "file": "ees-2021-24.png",
+      "alt": "Venn-style model titled Building Climate Resilience, with overlapping Mitigation and Adaptation circles and labelled strategy icons."
+    },
+    "28(a)": {
+      "file": "ees-2021-28.png",
+      "alt": "Two graphs of Kilauea data, Graph 1 summit tilt from 1958 to 2000 and Graph 2 volcanic and seismic data for January to June 1986, with a key."
+    },
+    "28(b)": {
+      "file": "ees-2021-28.png",
+      "alt": "Two graphs of Kilauea data, Graph 1 summit tilt from 1958 to 2000 and Graph 2 volcanic and seismic data for January to June 1986, with a key."
+    },
+    "28(c)": {
+      "file": "ees-2021-28.png",
+      "alt": "Two graphs of Kilauea data, Graph 1 summit tilt from 1958 to 2000 and Graph 2 volcanic and seismic data for January to June 1986, with a key."
+    },
+    "29(b)": {
+      "file": "ees-2021-29.png",
+      "alt": "Diagram A, a table of magma types and minerals based on Bowen's Reaction Series, above Diagram B, a sequence of boxes showing crystallisation in magmas X, Y and Z."
+    },
+    "30(a)": {
+      "file": "ees-2021-30a.png",
+      "alt": "World outline map (Map 1) with six circled letters A to F, each linked to a plate boundary cross-section."
+    },
+    "30(b)": {
+      "file": "ees-2021-30b.png",
+      "alt": "Map 2, a map of the Isthmus of Panama joining North and South America between the Atlantic and Pacific Oceans."
+    },
+    "31(b)(i)": {
+      "file": "ees-2021-31bi.png",
+      "alt": "Stratigraphic column with an Ma BP scale, rock types and fossil symbols, with keys."
+    },
+    "31(b)(ii)": {
+      "file": "ees-2021-31bii.png",
+      "alt": "Geological Time Scale chart listing eons, eras, periods and epochs against a Ma BP scale."
+    }
+  },
+  "questions": [
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": false,
+      "stimulus": "Rubbish, packaging and discarded household goods resulting from online shopping, home renovations and general clean-ups has increased in recent years.",
+      "assessedOn": [],
+      "sampleAnswer": "Waste type one: Used furniture\nSustainable: Local councils or community groups organised a social media network. This allowed members of their community to know that specific solid waste items, such as furniture or even plants, could be picked up for free and thus reused by those who wanted such items.\nWaste type two: Old electrical appliances\nUnsustainable: Extra solid household waste was taken up by an increased frequency of household curb side collections. This resulted in an increase in material going to landfill sites.",
+      "answersCouldInclude": [],
+      "number": "21",
+      "marks": 4,
+      "kind": "text",
+      "stem": "Describe one sustainable and one unsustainable management option for different types of household solid waste.",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Describes TWO management options, one sustainable and one unsustainable"
+        },
+        {
+          "marks": "3",
+          "text": "Describes ONE management option and outlines another management option ; OR ; Describes TWO sustainable or TWO unsustainable management options"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines TWO management options ; OR ; Describes ONE management option"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": false,
+      "stimulus": "",
+      "assessedOn": [],
+      "sampleAnswer": "Timber is an important renewable resource.\nOR\nGold is an important non-renewable resource.",
+      "answersCouldInclude": [],
+      "number": "22(a)",
+      "marks": 1,
+      "kind": "text",
+      "stem": "Identify an important Australian resource. The resource may be renewable OR non-renewable.",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies a renewable or non-renewable resource"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": false,
+      "stimulus": "",
+      "assessedOn": [],
+      "sampleAnswer": "Since habitation of the continent the location of significant timber resources was found through exploration. This process continued with the arrival of Europeans. The extraction of timber was originally by hand but over the years significant infrastructure such as plantations and roads have been developed for the timber industry.\nOR\nIn the past prospectors would pan for gold to identify likely alluvial or reef deposits. Once a viable deposit is found it is then mined. The gold is dug out of the ground, extracted and separated from the waste material in processing.",
+      "answersCouldInclude": [],
+      "number": "22(b)",
+      "marks": 3,
+      "kind": "text",
+      "stem": "Outline how this resource is found and extracted/harnessed.",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Sketches in general terms how the resource is both found and extracted/harnessed"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines how the resource is either found or extracted/harnessed"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": false,
+      "stimulus": "",
+      "assessedOn": [],
+      "sampleAnswer": "Timber provides employment and contributes to the Australian economy in various industries, particularly the housing industry. This resource is also important environmentally as seen by the creation and maintenance of national parks.\nOR\nGold provides employment and contributes to the Australian economy in various industries. This provides specific and flow-on employment opportunities.",
+      "answersCouldInclude": [],
+      "number": "22(c)",
+      "marks": 3,
+      "kind": "text",
+      "stem": "Explain the importance of this resource to Australians.",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains the importance of this resource to Australians"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines the importance of this resource to Australians"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": false,
+      "stimulus": "",
+      "assessedOn": [],
+      "sampleAnswer": "Earthquakes generate a series of seismic waves which pass through the crust causing the ground to shake. This causes cracks in built structures and weakens foundations which can lead to the collapse of structures such as buildings and dams.\nTsunamis are generated by a shift in crustal slabs which moves the ocean above and causes massive waves which wipe out structures and ecosystems. This causes death and destruction as the surge carries large amounts of energy and debris.",
+      "answersCouldInclude": [],
+      "number": "23",
+      "marks": 4,
+      "kind": "text",
+      "stem": "Identify TWO hazards associated with earthquakes and explain the effect that each has on the environment.",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains the effects of TWO identified hazards associated with earthquakes on the environment"
+        },
+        {
+          "marks": "3",
+          "text": "Explains the effects of ONE identified hazard associated with earthquakes on the environment ; Identifies a second effect associated with earthquakes ; OR ; Describes the impact of two identified hazards associated with earthquakes"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies the impact of TWO hazards associated with earthquakes ; OR ; Provides details of ONE impact associated with earthquakes ; OR ; Explains TWO non-earthquake related natural hazards"
+        },
+        {
+          "marks": "1",
+          "text": "Provides any relevant information associated with any natural hazard"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": true,
+      "stimulus": "As climate continues to change, many people believe human behaviour must also change to build climate resilience. One model for building climate resilience is shown below.\n[Model titled 'Building Climate Resilience': two overlapping circles. The left circle is labelled 'Mitigation' with the text 'Action to reduce emissions that cause climate change'; the right circle is labelled 'Adaptation' with the text 'Action to manage the risks of climate change impacts'. Each strategy has a small icon and label. Sustainable transportation, Alternative energy sources and Energy efficiency sit in the Mitigation circle only; Disaster management and business continuity, Flood protection and Urban design sit in the Adaptation circle only; Water conservation, New energy systems, Agricultural practices, Urban forests, Geo engineering strategies and Education sit in the shaded overlap.]",
+      "assessedOn": [],
+      "sampleAnswer": "One way in which humans can build climate resilience is to employ alternative energy sources. By replacing coal-fired electricity with wind power you can reduce the amount of carbon dioxide entering the atmosphere without affecting the quality of life experienced by people. One downside to this is that the wind does not always blow and so excess energy generated by wind turbines would have to be stored in batteries or pumped hydro to be used at a later date. This strategy is currently employed in South Australia using the Tesla battery. By using this strategy people could reduce total carbon dioxide in the atmosphere leading to mitigation of emissions and later reduction in global temperatures.",
+      "answersCouldInclude": [],
+      "number": "24",
+      "marks": 4,
+      "kind": "visual",
+      "stem": "Choose one of the strategies identified in the above model. Discuss its usefulness in the mitigation of, and/or adaptation to, increased global temperatures.",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Discusses the usefulness of the named strategy from the model ; Relates the strategy to mitigation of and/or adaptation"
+        },
+        {
+          "marks": "3",
+          "text": "Describes a usefulness of a named strategy from the model"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a named strategy from the model"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": false,
+      "stimulus": "",
+      "assessedOn": [],
+      "sampleAnswer": "Pollution of Australia’s water resources could be catastrophic for entire ecosystems and could clearly affect the sustainability of this resource. This pollution could be caused by activities such as runoff of fertilisers from agriculture or the illegal disposal of waste. Water pollution can impact the life cycle of the plants and animals that live within the affected water systems, resulting in a significant reduction in the biodiversity and the quality of water for years into the future.\nThe granting of water allocations by government departments clearly impacts on the natural flows of water systems such as the Murray-Darling. This has been seen over recent years where communities that depend on the sustainability of water flows within that system have struggled to maintain a water supply during prolonged periods of drought because too much water has been removed upstream.",
+      "answersCouldInclude": [
+        "Damming, Flood irrigation, Forestry, Fishing, Urban development, Agricultural practices, National Parks, Wildlife policies.",
+        "Bushfire management/mitigation through cultural burning, joint management with traditional owners, Indigenous rangers and caring for country programs."
+      ],
+      "number": "25",
+      "marks": 7,
+      "kind": "text",
+      "stem": "Assess the extent to which human activities have affected the sustainability of Australian resources. Support your answer with examples.",
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Demonstrates a comprehensive knowledge AND understanding of the effects that human activities have had on sustainability ; Clearly relates the effects to Australian resources ; Provides two or more specific examples ; Provides a clear judgement ; Demonstrates logical progression of thought"
+        },
+        {
+          "marks": "5–6",
+          "text": "Demonstrates a thorough knowledge AND/OR understanding of the effects that humans have had on sustainability ; Relates the effects to Australian resources ; Provides two or more specific examples ; Provides or implies a judgement"
+        },
+        {
+          "marks": "3–4",
+          "text": "Shows knowledge of the effects that human activities have had on sustainability AND/OR relates the effects to Australian resources ; Provides one or two examples"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines how human activities have affected sustainability"
+        },
+        {
+          "marks": "1",
+          "text": "Shows a basic knowledge of sustainability ; OR ; Identifies a human activity that has affected Australian resources"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": false,
+      "stimulus": "",
+      "assessedOn": [],
+      "sampleAnswer": "The natural greenhouse effect is an influence caused by natural levels of atmospheric carbon dioxide from volcanism or methane from peat bogs, moderating the extreme temperatures on the earth. Without it the earth would freeze at night and boil during the day.\nThe anthropogenic greenhouse effect has been occurring since the industrial revolution due to increased levels of carbon dioxide in the atmosphere caused by human activities such as the burning of fossil fuels. Similarly wide spread agricultural practices producing more methane and other industrial activities creating more greenhouse gases. It is causing climate changes beyond the natural averages with increased ferocity of storms and increased global temperature averages. The natural greenhouse effect has created a stable climate, while the anthropogenic greenhouse effect has destabilised the climate causing extremes in heat and icy weather systems.",
+      "answersCouldInclude": [],
+      "number": "26(b)",
+      "marks": 4,
+      "kind": "text",
+      "stem": "How does the anthropogenic greenhouse effect differ from the natural greenhouse effect?",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a detailed knowledge and understanding of differences between the cause of natural and anthropogenic greenhouse effect"
+        },
+        {
+          "marks": "3",
+          "text": "Describes natural and anthropogenic greenhouse effects with limited emphasis on the differences"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies a natural or an anthropogenic greenhouse effect ; OR ; Describes differences in causes of natural and anthropogenic greenhouse effect"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information on either natural or anthropogenic greenhouse effect"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": false,
+      "stimulus": "",
+      "assessedOn": [],
+      "sampleAnswer": "We have indications of ancient global temperatures from a variety of sources. Biological sources like pollen grains and microscopic sea creatures as well as physical sources such as sedimentary rocks and isotope ratios in sediment can indicate ancient variations in global temperatures.\nPollens and spores are indicative of the plant life present on the earth. This information can be gleaned back to 400 Million years ago. The types of plants and their abundance indicate the related climate to the scientist.\nInformation from sediments can indicate past climate. For example the presence of drop-stones on the south coast sediments near Kiama indicate that there were glaciers on the Australian coast during the Permian.\nPollens and sediments provide a useful clue to the ancient climate and by linking these together, they provide a solid base of evidence to relate to variations in temperature from the ancient past.",
+      "answersCouldInclude": [],
+      "number": "27",
+      "marks": 5,
+      "kind": "text",
+      "stem": "How does scientific evidence contribute to our understanding of ancient variations in global temperature? Support your answer using TWO specific examples.",
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Explains how two examples of scientific evidence indicate ancient variations in global temperatures"
+        },
+        {
+          "marks": "4",
+          "text": "Describes one and explains the other example of scientific evidence indicating global temperatures in the ancient past"
+        },
+        {
+          "marks": "3",
+          "text": "Describes TWO pieces of evidence indicating global temperatures in the past"
+        },
+        {
+          "marks": "2",
+          "text": "Describes one example of evidence ; OR ; Outlines TWO examples"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": true,
+      "stimulus": "Scientists have been monitoring and recording volcanic activity in Hawaii for more than 100 years.\nGraph 1 shows the summit tilt of the Hawaiian volcano Kilauea and a record of ground movement data measured in microradians collected from tilt meters at the summit of Kilauea from 1958–2000.\nGraph 2 shows detailed volcanic and seismic data for the period between January and June of 1986.\n[Graph 1, titled 'Graph 1 – Summit Tilt of Kilauea 1958–2000'. x-axis: years 1960 to 2000, range 1958–2000. y-axis: Microradians, 0 to 800 (labelled 200, 400, 600 and 800). A line shows summit tilt through the period, between about 200 and 600 microradians, with sharp falls at some points. Upward arrows mark eruptions. Two shaded bands near the top mark continuous eruptions, the first from about 1969 to 1975 and the second from about 1983 to 2000. A small box near 1986 is joined by lines to Graph 2.]\n[Graph 2, titled 'Graph 2 – 1986 Eruptions, January–June'. x-axis: months January to June 1986, with 'No data' labelled in three places (near March, April and June). Left y-axes: Microradians, 0 to 30 (summit tilt line); Number of volcanic earthquakes, 0 to 2500 (open bars). Right y-axis: Number of tectonic earthquakes, 0 to 1000 (filled bars). Upward arrows mark eruptions. The key lists continuous eruptions, summit tilt, eruption, tectonic earthquakes and volcanic earthquakes.]",
+      "assessedOn": [],
+      "sampleAnswer": "Eruptions on Kilauea follow an increase in the tilt of the summit.\nOr\nTilt of the summit decreases after an eruption begins on Kilauea.",
+      "answersCouldInclude": [],
+      "number": "28(a)",
+      "marks": 1,
+      "kind": "visual",
+      "stem": "Outline the relationship between changes in summit tilt and eruptions on Kilauea.",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies that tilt increases prior to an eruption and/or decreases as a result of an eruption"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": true,
+      "stimulus": "Scientists have been monitoring and recording volcanic activity in Hawaii for more than 100 years.\nGraph 1 shows the summit tilt of the Hawaiian volcano Kilauea and a record of ground movement data measured in microradians collected from tilt meters at the summit of Kilauea from 1958–2000.\nGraph 2 shows detailed volcanic and seismic data for the period between January and June of 1986.\n[Graph 1, titled 'Graph 1 – Summit Tilt of Kilauea 1958–2000'. x-axis: years 1960 to 2000, range 1958–2000. y-axis: Microradians, 0 to 800 (labelled 200, 400, 600 and 800). A line shows summit tilt through the period, between about 200 and 600 microradians, with sharp falls at some points. Upward arrows mark eruptions. Two shaded bands near the top mark continuous eruptions, the first from about 1969 to 1975 and the second from about 1983 to 2000. A small box near 1986 is joined by lines to Graph 2.]\n[Graph 2, titled 'Graph 2 – 1986 Eruptions, January–June'. x-axis: months January to June 1986, with 'No data' labelled in three places (near March, April and June). Left y-axes: Microradians, 0 to 30 (summit tilt line); Number of volcanic earthquakes, 0 to 2500 (open bars). Right y-axis: Number of tectonic earthquakes, 0 to 1000 (filled bars). Upward arrows mark eruptions. The key lists continuous eruptions, summit tilt, eruption, tectonic earthquakes and volcanic earthquakes.]",
+      "assessedOn": [],
+      "sampleAnswer": "Graph 2 shows that an increase in frequency of tectonic earthquakes can predict an impending eruption.",
+      "answersCouldInclude": [
+        "The graph indicates that an eruption occurs every month."
+      ],
+      "number": "28(b)",
+      "marks": 2,
+      "kind": "visual",
+      "stem": "Using Graph 2, describe ONE indicator other than tilt of an impending eruption.",
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides information about tectonic earthquake activity OR historical data and eruptions"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies earthquakes or historical data as an indicator"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": true,
+      "stimulus": "Scientists have been monitoring and recording volcanic activity in Hawaii for more than 100 years.\nGraph 1 shows the summit tilt of the Hawaiian volcano Kilauea and a record of ground movement data measured in microradians collected from tilt meters at the summit of Kilauea from 1958–2000.\nGraph 2 shows detailed volcanic and seismic data for the period between January and June of 1986.\n[Graph 1, titled 'Graph 1 – Summit Tilt of Kilauea 1958–2000'. x-axis: years 1960 to 2000, range 1958–2000. y-axis: Microradians, 0 to 800 (labelled 200, 400, 600 and 800). A line shows summit tilt through the period, between about 200 and 600 microradians, with sharp falls at some points. Upward arrows mark eruptions. Two shaded bands near the top mark continuous eruptions, the first from about 1969 to 1975 and the second from about 1983 to 2000. A small box near 1986 is joined by lines to Graph 2.]\n[Graph 2, titled 'Graph 2 – 1986 Eruptions, January–June'. x-axis: months January to June 1986, with 'No data' labelled in three places (near March, April and June). Left y-axes: Microradians, 0 to 30 (summit tilt line); Number of volcanic earthquakes, 0 to 2500 (open bars). Right y-axis: Number of tectonic earthquakes, 0 to 1000 (filled bars). Upward arrows mark eruptions. The key lists continuous eruptions, summit tilt, eruption, tectonic earthquakes and volcanic earthquakes.]",
+      "assessedOn": [],
+      "sampleAnswer": "Historical data which shows repeating patterns of behaviour such as that seen in both graphs, where eruptions occur following a period of increased tilt and earthquake activity, provides valuable information that a volcano is preparing to erupt. This improves the reliability of predictions allowing scientists to provide sufficient warning to local communities to evacuate the region before the eruption occurs. While this may not reduce the damage caused by the eruption, it is possible to save many lives.",
+      "answersCouldInclude": [],
+      "number": "28(c)",
+      "marks": 4,
+      "kind": "visual",
+      "stem": "Assess the importance of historical data like that shown in the graphs in making predictions that a volcano is about to erupt.",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates an understanding of the nature of historical data in predicting eruptions ; Describes the importance of providing reliable timely predictions ; Provides a judgement regarding the importance of predictions"
+        },
+        {
+          "marks": "3",
+          "text": "Identifies historical data of past behaviour can be used to predict future behaviour of volcanoes ; Identifies the importance of providing reliable predictions ; Provides a judgement regarding the importance of predictions"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies the importance of making reliable predictions of eruptions"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information about making predictions of an eruption"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": true,
+      "stimulus": "Diagram A provides a model which explains differences in chemical composition of mafic, intermediate and felsic magmas.\n[Diagram A, captioned 'Diagram A' with the source line 'Adapted from Bowen's Reaction Series': a table with columns Temperature, Minerals and Magma type. A large downward arrow labelled 'Cooling of magma' runs down the Temperature column from 'High temperature of crystallisation 1200°C' at the top to 'Low temperature 600°C' at the bottom. Arrows in the Minerals column point to Olivine, Pyroxene, Amphibole, Biotite mica, Potassium feldspar and Quartz; a long arrow from Calcium rich runs to Sodium rich, labelled Plagioclase feldspar. The Magma type column reads Mafic (top row), Intermediate (middle row) and Felsic (bottom row).]\nDiagram B shows the progressive crystallisation of minerals in a magma to alter its composition.\n[Diagram B, captioned 'Diagram B': a rightward arrow above three boxes labelled Magma X, Magma Y and Magma Z, numbered 1, 2 and 3 beneath them. Each box shows mineral grains: Magma X has a few scattered grains above a layer of grains at the base; Magma Y has more grains, many of them rectangular, in its lower part; Magma Z has grains filling most of the box. A key box labelled Mineral shows a polygon grain, a rectangular grain and a small dotted grain. A horizontal arrow labelled Cooling runs beneath, from 1200°C on the left to 600°C on the right.]",
+      "assessedOn": [],
+      "sampleAnswer": "Magma X is much hotter than Magma Z and the only minerals able to crystallise at these high temperatures are olivine, pyroxene and calcium rich plagioclase. Since Magma Z is so much cooler, these minerals have already crystallised out of the magma mix and the only components remaining in Magma Z will produce biotite mica, plagioclase feldspar and quartz.",
+      "answersCouldInclude": [],
+      "number": "29(b)",
+      "marks": 4,
+      "kind": "visual",
+      "stem": "Use diagrams A and B to account for the differences in the mineral composition of Magma X and Magma Z.",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a thorough knowledge and understanding of the process of progressive crystallisation ; Uses information from both diagrams"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound knowledge and understanding of the process of progressive crystallisation ; Uses information from diagram(s)"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines the difference in the mineral composition of Magma X and Magma Z"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information about crystallisation or mineral composition"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": true,
+      "stimulus": "Examples of all stages of the plate tectonic supercycle currently taking place on Earth are indicated by the letters A–F on Map 1.\n[Map 1: a world outline map with six black circles lettered A to F, each joined by a dotted line to a small cross-section box. Each cross-section shows shaded layers and arrows indicating the direction of plate movement. A small box labelled 'See Map 2' sits on Central America.]",
+      "assessedOn": [],
+      "sampleAnswer": "D (starts break-up), C, E, F, A, B.",
+      "answersCouldInclude": [],
+      "number": "30(a)",
+      "marks": 2,
+      "kind": "visual",
+      "stem": "Use the letters to identify the correct order of the plate tectonic supercycle. Begin with the break-up of a super continent.",
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Orders all SIX letters in the correct order beginning with D"
+        },
+        {
+          "marks": "1",
+          "text": "Orders any THREE letters correctly"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": true,
+      "stimulus": "Twenty million years ago, North and South America were not joined, and the Atlantic and Pacific Oceans were able to mix. Over time, the plates drifted closer and the strip of land shown below (known as the Isthmus of Panama) formed. It joins the continents of North and South America.\n[Map 2, titled 'Map 2': a boxed map showing the Isthmus of Panama as a light grey strip of land, labelled Panama, joining North America (left) and South America (right). The Atlantic Ocean is labelled above the isthmus and the Pacific Ocean below and to the right of it.]",
+      "assessedOn": [],
+      "sampleAnswer": "Climate\nPrior to the formation of the Isthmus, the waters of the Pacific and Atlantic Oceans would have been able to mix, and equatorial waters would have been kept warm. Once the Isthmus formed, they could no longer mix. This would have affected the direction of the water currents and their saltiness which would have changed the distribution of heat around the planet.\nOR\nEvolutionary processes\nPrevious to the Isthmus forming, the organisms on North and South America would have evolved separately, and have been physically separated. Once the landmasses joined, species from one continent could now migrate to the other continent, resulting in predation competition or interbreeding.",
+      "answersCouldInclude": [],
+      "number": "30(b)",
+      "marks": 3,
+      "kind": "visual",
+      "stem": "Describe possible changes in either climate OR evolutionary processes resulting from the formation of the Isthmus of Panama.",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes a likely/possible change to the climate or evolutionary processes that would have been altered by the formation of the Isthmus, including details of before and after the formation of the Isthmus"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies a characteristic of the climate or evolutionary processes that would have been altered by the formation of the Isthmus"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information on climate or evolutionary processes or geological processes"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": true,
+      "stimulus": "This stratigraphic sequence can be used to date the Treptichnus pedum shown.\n[Stratigraphic sequence: a vertical column of rock layers beside an 'Age Ma BP' scale, with 505 labelled at the top of the column and 620 labelled at the top of the basalt layer. From top to bottom the layers are volcaniclastics, mudstone, siltstone, sandstone, basalt and shale. A trilobite is drawn in the mudstone layer, Treptichnus pedum in the siltstone layer, and Dickinsonia and Cloudina in the sandstone layer. A key box lists the fossils Treptichnus pedum, Dickinsonia, Trilobite and Cloudina, and a second key lists the rock types.]",
+      "assessedOn": [],
+      "sampleAnswer": "Relative dating will also tell us that Tp is younger than Dickinsonia and Cloudina because it is above them and older than the layer containing the trilobite because it is below it. A more accurate age can be determined using a combination of radiometric dating to determine an absolute age for the igneous rocks and the relative position of the fossil between them. The Treptichnus pedum (Tp) would therefore be dated between 505 Ma BP and 620 Ma BP.",
+      "answersCouldInclude": [],
+      "number": "31(b)(i)",
+      "marks": 3,
+      "kind": "visual",
+      "stem": "Describe how scientists would use this sequence to determine the age of the Treptichnus pedum as accurately as possible.",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes how both relative and absolute dating can be used to give an accurate date for Treptichnus pedum (Tp) ; Demonstrates clear understanding of radiometric dating and superposition"
+        },
+        {
+          "marks": "2",
+          "text": "Describes how either relative or absolute dating is used to date Tp ; OR ; Identifies that relative and absolute dating are both used to date Tp"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information about the sequence or age"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": true,
+      "stimulus": "Treptichnus pedum marks a significant boundary in the geological time scale.\n[Geological Time Scale, titled 'Geological Time Scale' and printed at the back of the paper. Vertical axis 'Ma BP' from 0 at the top to 4000 at the bottom, with breaks in the axis. Four columns headed EON, ERA, PERIOD and EPOCH. The EON column names Phanerozoic, Proterozoic, Archaean, Hadean and Precambrian; the ERA column names Cenozoic, Mesozoic, Palaeozoic and Neoproterozoic; the PERIOD and EPOCH columns list the named periods and epochs, from Holocene and Quaternary at the top to Ediacaran at the bottom of the period column.]",
+      "assessedOn": [],
+      "sampleAnswer": "Either Ediacaran–Cambrian Boundary, End Ediacaran or Start of the Cambrian.",
+      "answersCouldInclude": [],
+      "number": "31(b)(ii)",
+      "marks": 1,
+      "kind": "visual",
+      "stem": "Using the Geological Time Scale provided, name the period boundary marked by the first occurrence of this trace fossil.",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the Ediacaran–Cambrian boundary"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": true,
+      "stimulus": "The images below show the shape of burrows made by an unknown organism that lived in the sea floor sediment of ancient seas. This trace fossil is known as Treptichnus pedum. Fossils of the unknown organism that formed the burrows have never been found.\nThe organism, perhaps a type of worm, would push through the sediment on the floor of the shallow sea and then push upwards, possibly looking for food or checking for predators. It would then move back down and repeat this behaviour, making a complicated path within the sea floor sediment.\nTreptichnus pedum is thought to indicate a new complexity of animal behaviour that had not been seen up to this point in the fossil record. They are found worldwide and while they are not found earlier than indicated in the geological timescale, they continue to be found up until about 99 Ma BP.",
+      "assessedOn": [],
+      "sampleAnswer": "Tp is an index fossil because it is only found at the beginning of the Cambrian and not before. The organism looked for food and checked for predators which is complex behaviour that was not seen before this time making it potentially a marker for the start of the Cambrian. Tp is also found worldwide which is another criterion for index fossils.",
+      "answersCouldInclude": [
+        "A supported negative logical argument.",
+        "A response identifying logical arguments for and against."
+      ],
+      "number": "31(b)(iii)",
+      "marks": 4,
+      "kind": "text",
+      "stem": "Justify whether Treptichnus pedum could be considered an index fossil. Support your answer with reference to the information provided throughout Question 31.",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Decides whether Tp is or is not an index fossil ; Provides at least two pieces of evidence taken from the question linking them to why Tp is or is not an index fossil"
+        },
+        {
+          "marks": "3",
+          "text": "Links index fossils to Tp, tying in the information and linking the two, showing how Tp is or is not an index fossil"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some relevant information about index fossils or Tp"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": false,
+      "stimulus": "",
+      "assessedOn": [],
+      "sampleAnswer": "Chemicals are leached from the rocks around the ‘Black Smokers’ as water percolates through the hot rocks. These chemicals could have been used to form the basic molecules, such as amino acids. The superheated water provides the energy for the reactions to occur. Pyrite, which is found in this environment, could have provided a template for the formation of organic molecules.",
+      "answersCouldInclude": [],
+      "number": "32",
+      "marks": 3,
+      "kind": "text",
+      "stem": "Explain how TWO conditions present at ‘Black Smokers’ may have resulted in the origin of organic molecules.",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains how TWO of the conditions found at black smokers would have been conducive to the formation of organic molecules"
+        },
+        {
+          "marks": "2",
+          "text": "Provides information about black smokers and the conditions needed for the formation of basic organic molecules"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information about the conditions or organic molecules"
+        }
+      ]
+    },
+    {
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–33. Allow about 2 hours and 25 minutes for this section.",
+      "needsStimulus": true,
+      "stimulus": "‘Some scientists are predicting the possibility of a new mass extinction event as a result of the impact of human activities.’",
+      "assessedOn": [],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "A clear analysis of the implications of the statement",
+        "Why only ‘some’ scientists?",
+        "‘Predicting’ on what evidence?",
+        "Mass extinction causes and examples from the past",
+        "Are current rates of extinction of the level required?",
+        "At least two Modules referenced.",
+        "Human impacts on the atmosphere, biosphere and hydrosphere",
+        "Earth Processes",
+        "Climate Science",
+        "Human impacts on species and their habitat",
+        "Hazards (bushfires)",
+        "Unprecedented rates of decline in Species",
+        "Resource Management (Sustainability)",
+        "Linking of the components and identification of the implications.",
+        "Judgement of possibility of statement coming to pass."
+      ],
+      "number": "33",
+      "marks": 8,
+      "kind": "text",
+      "stem": "Analyse this statement with reference to any TWO of the following modules of the Earth and Environmental Science course: Earth Processes, Hazards, Climate Science, Resource Management.",
+      "criteria": [
+        {
+          "marks": "8",
+          "text": "Demonstrates an extensive knowledge and understanding of mass extinctions and the effect of human activities on the planet ; Relates current activities to the possibility of a mass extinction ; Demonstrates a clear analysis of the statement ; Constructs a logical and coherent response leading to a reasoned discussion of implications contained in at least two Modules"
+        },
+        {
+          "marks": "6–7",
+          "text": "Demonstrates a thorough knowledge and/or understanding of mass extinction and the effect of human activities on the planet ; Relates current activities to the possibility of a mass extinction ; Demonstrates an analysis of the statement"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates sound knowledge and/or understanding of the effect of human activities on the planet ; Provides (or attempts to provide) links to extinction ; Makes a reasoned argument for the possibility of the statement"
+        },
+        {
+          "marks": "2–3",
+          "text": "Describes features of an extinction event and/or relates these to current human activities ; OR ; Provides relevant information on human activities and/or mass extinction"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ]
+    }
+  ]
+}

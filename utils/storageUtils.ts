@@ -174,7 +174,8 @@ import {
 // 2.72.0: Earth and Environmental Science past HSC questions from the 2019 paper (17, with 3 printed figures).
 // 2.73.0: History Extension past HSC questions from the 2019–2024 papers (12).
 // 2.74.0: Legal Studies past HSC questions from the 2019–2024 papers (86).
-export const DATA_VERSION = '2.74.0';
+// 2.75.0: Earth and Environmental Science past HSC questions from the 2020–2024 papers (96, with 29 printed figures).
+export const DATA_VERSION = '2.75.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

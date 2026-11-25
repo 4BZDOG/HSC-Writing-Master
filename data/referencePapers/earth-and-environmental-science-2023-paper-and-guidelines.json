@@ -1,0 +1,588 @@
+{
+  "year": 2023,
+  "course": "Earth and Environmental Science",
+  "papers": [
+    "2023-hsc-earth-and-environmental-science.pdf",
+    "2023-hsc-earth-and-environmental-science-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "22",
+      "reason": "Answer is written into a partly printed table (Sphere / Effect of photosynthesis); a complete-a-table response (brief)."
+    },
+    {
+      "number": "23",
+      "reason": "\"Complete the table\" to compare the natural and anthropogenic greenhouse effect; a complete-a-table response (brief)."
+    },
+    {
+      "number": "24",
+      "reason": "\"Annotate the diagram\"; answered by labelling a printed diagram (brief: label a diagram). The marking guideline prints no sample answer."
+    },
+    {
+      "number": "28",
+      "reason": "\"Construct a flow chart\"; a drawn response (brief: draw a flow chart). The marking guideline prints no sample answer."
+    },
+    {
+      "number": "30(b)",
+      "reason": "\"Complete the table by calculating the change in mass and percentage difference\"; a complete-a-table response with calculation (brief)."
+    },
+    {
+      "number": "32(a)",
+      "reason": "\"Draw a labelled cross-section\"; a drawn response (brief: draw a cross-section)."
+    },
+    {
+      "number": "34(a)",
+      "reason": "\"Draw the next THREE growth rings\"; a drawn response (brief)."
+    }
+  ],
+  "images": {
+    "27(b)": {
+      "file": "ees-2023-27b.png",
+      "alt": "Two drawn illustrations of seabed scenes, one above each column of the table."
+    },
+    "27(c)": {
+      "file": "ees-2023-27b.png",
+      "alt": "Two drawn illustrations of seabed scenes, one above each column of the table."
+    },
+    "29(a)": {
+      "file": "ees-2023-29a.png",
+      "alt": "Labelled schematic diagram of the Urey–Miller apparatus."
+    },
+    "35": {
+      "file": "ees-2023-35.png",
+      "alt": "Two composite images of Earth, Figure 1 during the day and Figure 2 at night."
+    }
+  },
+  "questions": [
+    {
+      "number": "21",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline the conditions required for an east coast low to be classified as a disaster.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines conditions that would classify an east coast low as a disaster"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The east coast low needs to produce enough rainfall to cause significant damage to property and major disruption to the people living in affected areas.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Define the term sustainability. Include an example in your response.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides a clear definition of sustainability, including a relevant example"
+        },
+        {
+          "marks": "1",
+          "text": "Defines sustainability ; OR ; Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Sustainability is the management of a resource in a manner that allows for long term, continuous use. For example, plantation timber forestry will provide long term timber.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Justify a strategy that is suitable for collecting information for this investigation.",
+      "stimulus": "A student wants to investigate a sustainability initiative in their local community.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Justifies a suitable strategy for collecting information"
+        },
+        {
+          "marks": "1",
+          "text": "Outlines a valid strategy for gathering relevant information"
+        }
+      ],
+      "sampleAnswer": "For an initiative developed by a local council, the council’s website should be consulted. Council employees involved in the initiative are likely to have direct input into the website resulting in accurate information.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "26",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "For a named resource, state whether the resource is renewable or non-renewable and recommend a strategy to improve the sustainable extraction and/or management of that resource.\nResource:",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Identifies a resource as renewable or non-renewable ; Provides a relevant extraction or management strategy for improvement and provides a sustainability-related reason in favour of the strategy"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a relevant extraction or management strategy ; Provides a sustainability-related reason in favour of the strategy OR identifies a resource as renewable or non-renewable"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a resource as renewable or non-renewable ; OR ; Outlines a sustainable extraction or management strategy"
+        }
+      ],
+      "sampleAnswer": "Resource: Water (renewable)\nWater can be extracted from rivers by pumping to nearby farms for irrigation. Farmers should manage water by using the minimum necessary for irrigation, thus keeping water tables and salt deep in the ground, enabling long-term water use. Excessive irrigation can raise water tables bringing salt to the surface, harming crops and making farming unsustainable.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "27(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 1,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Name ONE type of trace fossil likely to have been produced during either the Ediacaran or Cambrian Period.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Names a type of trace fossil"
+        }
+      ],
+      "sampleAnswer": "Burrows",
+      "answersCouldInclude": [
+        "Footprints, tracks, trails"
+      ]
+    },
+    {
+      "number": "27(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Describe the similarities and differences between the Ediacaran and Cambrian ecosystems.",
+      "stimulus": "In 2004, the International Union of Geological Sciences approved the addition of the Ediacaran Period to the geological time scale. Many fossil sites were used as evidence to support the addition of this period. An overview of the characteristics of species from the Ediacaran and Cambrian periods found at two of these sites is provided in the table.\n[Two drawn illustrations, one above each column of the table. Left (Ediacaran organisms): a sun above a wavy sea surface, two shell-like organisms in the water, and upright, branching and tube-like organisms on a grey seabed. Right (Cambrian organisms): a sun above a wavy sea surface, several swimming organisms in the water, including one larger segmented creature at the upper right, and worm-like and rounded organisms on a grey seabed.]\nEdiacaran organisms | Cambrian organisms\n(fossils discovered in the | (fossils discovered in the\nEdiacaran Hills) | Burgess Shale)\nCharacteristic | Species found | Characteristic | Species found\nHard shells | 0 | Hard shells | 72\nSoft bodied | 42 | Soft bodied | 88\nMovement | Attached | Yes | Attached | Yes\n| Burrowing | Yes | Burrowing | Yes\n| Swimming | Yes | Swimming | Yes\n| Walking | No | Walking | Yes\nDiet | Photosynthetic producers | Yes | Photosynthetic producers | Yes\n| Filter feeders | Yes | Filter feeders | Yes\n| Deposit feeders | Yes | Deposit feeders | Yes\n| Scavengers | Yes | Scavengers | Yes\n| Carnivores | No | Carnivores | Yes",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides similarities and differences between Ediacaran and Cambrian ecosystems"
+        },
+        {
+          "marks": "2",
+          "text": "Provides ONE similarity and ONE difference between the ecosystems"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Similarities:\n• Both ecosystems had soft bodied organisms present\n• Both ecosystems had attached, burrowing and swimming movement.\nDifferences:\n• The Ediacaran only had soft bodied organisms whilst the Cambrian had soft and hard body parts\n• The Cambrian had walking and carnivorous organisms while the Ediacaran did not.",
+      "answersCouldInclude": [
+        "Both were marine ecosystems",
+        "Most organisms in both ecosystems are extinct",
+        "The Cambrian had predation",
+        "The Cambrian ecosystem had more complex interactions than the Ediacaran",
+        "Cambrian organisms were more diverse than Ediacaran organisms."
+      ]
+    },
+    {
+      "number": "27(c)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain how relative dating can be used to determine the age of organisms such as those described at the two fossil sites.",
+      "stimulus": "In 2004, the International Union of Geological Sciences approved the addition of the Ediacaran Period to the geological time scale. Many fossil sites were used as evidence to support the addition of this period. An overview of the characteristics of species from the Ediacaran and Cambrian periods found at two of these sites is provided in the table.\n[Two drawn illustrations, one above each column of the table. Left (Ediacaran organisms): a sun above a wavy sea surface, two shell-like organisms in the water, and upright, branching and tube-like organisms on a grey seabed. Right (Cambrian organisms): a sun above a wavy sea surface, several swimming organisms in the water, including one larger segmented creature at the upper right, and worm-like and rounded organisms on a grey seabed.]\nEdiacaran organisms | Cambrian organisms\n(fossils discovered in the | (fossils discovered in the\nEdiacaran Hills) | Burgess Shale)\nCharacteristic | Species found | Characteristic | Species found\nHard shells | 0 | Hard shells | 72\nSoft bodied | 42 | Soft bodied | 88\nMovement | Attached | Yes | Attached | Yes\n| Burrowing | Yes | Burrowing | Yes\n| Swimming | Yes | Swimming | Yes\n| Walking | No | Walking | Yes\nDiet | Photosynthetic producers | Yes | Photosynthetic producers | Yes\n| Filter feeders | Yes | Filter feeders | Yes\n| Deposit feeders | Yes | Deposit feeders | Yes\n| Scavengers | Yes | Scavengers | Yes\n| Carnivores | No | Carnivores | Yes",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains how relative dating can be used to determine the age of fossilised organisms"
+        },
+        {
+          "marks": "2",
+          "text": "Describes a relative dating technique"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Relative dating uses techniques, such as the Law of Superposition, where older layers of rock are found under younger layers in an undisturbed sequence. This allows scientists to place fossils in order from younger to older and sequence them in the geological timescale.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "29(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain how the Urey–Miller experiment provides evidence for the origin of organic molecules in Earth’s early environment. In your response, include reference to TWO of the labelled components shown in the diagram.",
+      "stimulus": "The diagram shows a model of the Urey–Miller experiment.\n[Diagram, not captioned: labelled schematic of the Urey–Miller apparatus, with a 10 cm scale bar at the lower right. Labels: 'Electrodes' (two electrodes at the top of the chamber, marked '–' and '+'); 'Chamber' (large sphere at the upper right); 'Condenser' (upright tube section on the right, with arrows showing flow in and out); 'Trap' (U-shaped tube at the bottom centre); 'Water' (round flask at the lower left, with an arrow pointing to the water); 'Heat source' (flame beneath the flask, with an arrow). Further arrows show the direction of flow up the left-hand tube from the flask to the electrodes and down through the condenser and trap.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of how the Urey–Miller experiment provides evidence for the origin of organic molecules ; Includes reference to TWO components of the diagram"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of how the Urey–Miller experiment provides evidence for the origin of organic molecules"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The Urey–Miller experiment recreated the conditions thought to exist on early Earth. The chamber contained gases thought to be in the Earth’s early atmosphere, the electrodes represent lightning, the condenser represents rain and the trap models the oceans. The results showed that amino acids formed, providing evidence that organic molecules could form from non-organic gases in the right conditions.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "29(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Assess a model of the Plate Tectonic Supercycle (PTSC) using the given criteria.",
+      "stimulus": "For a scientific model to be useful, it should:\n• provide an explanation\n• allow for predictions\n• assist in solving problems.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a thorough knowledge of the usefulness of the Plate Tectonic Supercycle model using the given criteria ; Provides a supported judgement"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound knowledge of the usefulness of the Plate Tectonic Supercycle model using some of the given criteria ; Provides a supported judgement"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some knowledge of the usefulness of the Plate Tectonic Supercycle model and provides a judgement"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some knowledge of the Plate Tectonic Supercycle model or addresses a criterion"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The Plate Tectonic Supercycle (PTSC) can be modelled using playdough and creating a stop motion video to show the different stages of the PTSC including the formation and breakup of supercontinents. It is highly useful as a model as it helps explain what happens when two plates collide and the key features that are created at different plate boundaries. It can also assist in solving problems by enabling geologists to visualise the movement of tectonic plates and potential locations of earthquakes. However, it less useful for predictions because playdough doesn’t behave the same as rocks.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 1,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Identify the following variables in this experiment.\nIndependent variable\nDependent variable",
+      "stimulus": "A student investigated the effect of increasing levels of ocean acidity on the mass of oyster shells. Increased acidity is indicated by lower pH. The student used the following hypothesis:\nIncreasing ocean acidity levels lowers the mass of oyster shells.\nThe student was provided with the following equipment:\n• 3 oyster shells\n• 3 glass jars with airtight lids\n• Seawater\n• Hydrochloric acid dropper bottle\n• Digital pH meter\n• Digital scale.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the independent and dependent variables"
+        }
+      ],
+      "sampleAnswer": "Independent variable – pH level\nDependent variable – Change in mass of shell",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(c)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Justify a conclusion for this investigation.",
+      "stimulus": "A student investigated the effect of increasing levels of ocean acidity on the mass of oyster shells. Increased acidity is indicated by lower pH. The student used the following hypothesis:\nIncreasing ocean acidity levels lowers the mass of oyster shells.\nThe student was provided with the following equipment:\n• 3 oyster shells\n• 3 glass jars with airtight lids\n• Seawater\n• Hydrochloric acid dropper bottle\n• Digital pH meter\n• Digital scale.\nThe student obtained the following results.\npH level | Shell mass | Shell mass | Change in | Percentage\nbefore | after | mass | difference\n(g) | (g) | (g) | (%)\n8 | 32.1 | 32.5 | +0.4 | +1.2\n6 | 25.0 | 23.9 |  |\n3 | 26.8 | 22.7 |  |",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Justifies a conclusion for the investigation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A decrease in pH (which models increasing ocean acidity) lowers the mass of the shell as stated in the hypothesis. This is seen by the results which show a greater percentage loss of mass as pH level lowers from 8 to 3.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "31",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 7,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate the involvement of traditional owners in the planning procedures for a mine, mining practices during operation, and restoration of damaged lands after mining operations cease.\nYour response should identify relevant criteria and refer to a case study and/or a specific example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Describes in detail the involvement of traditional owners in mine planning, practices and restoration ; Identifies explicit criteria for the evaluation of mine planning, practice and restoration ; Refers to a relevant case study or a specific example ; Provides a well-supported judgement"
+        },
+        {
+          "marks": "6",
+          "text": "Describes in some detail the involvement of traditional owners in mine planning, practices and restoration ; Identifies relevant criteria for the evaluation of mine planning, practice and restoration ; Refers to a relevant case study or specific example ; Provides a judgement"
+        },
+        {
+          "marks": "4–5",
+          "text": "Describes the involvement of traditional owners in mine planning, practices and restoration ; Identifies or infers criteria for the evaluation of mine planning, practice and/or restoration ; Refers to a relevant case study or example ; Provides or infers a judgement"
+        },
+        {
+          "marks": "2–3",
+          "text": "Outlines the involvement of traditional owners in mine planning, practice or restoration ; AND/OR ; Identifies or infers criteria for evaluation of mine planning, practice or restoration"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Criterion 1: Protection of cultural sites",
+        "Consultation with traditional owners during the exploration of new mining areas allows important cultural sites to be identified and protected, for example, the Northparkes Copper Mine regularly engages with the Wiradjuri Executive Committee (WEC) who review site disturbance plans and advise the miners as to which areas should be avoided when mining or constructing infrastructure, thus effectively protecting cultural sites such as scarred trees.",
+        "Criterion 2: Community employment",
+        "Mining companies can work with Aboriginal communities by offering relevant training and recruiting within the community for mine workers. This benefits the mining operation by providing a skilled local workforce and benefits the local community by increasing employment opportunities. For example, Northparkes works through the WEC to offer scholarships and recruit local Aboriginal employees.",
+        "Criterion 3: Waterway protection",
+        "When restoring tailings dumps, topsoil is spread over the tailings and plants are used to stabilise the soil. Local traditional owners are well connected to Country and have relevant expertise to advise on suitable species to plant. Wise species choices will improve the stability of the new ecosystem, protecting soils and effectively preventing tailings from escaping into local waterways. The WEC would have been consulted when Northparkes recently decommissioned a tailings dam.",
+        "Judgement:",
+        "Involving traditional owners in mine planning, operation and rehabilitation has substantial benefits for both mining companies and Aboriginal communities."
+      ]
+    },
+    {
+      "number": "32(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Describe a technology that could be used to understand a named characteristic of this earthquake.",
+      "stimulus": "A satellite image of the region around Indonesia is shown. On 21 November 2022, an earthquake of magnitude 5.6 struck near Jakarta in the Indonesian volcanic island arc.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Describes a technology that could be used to understand a characteristic of the earthquake"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A seismometer could be used to determine the magnitude of the earthquake. This technology measures and records the movement of Earth’s crust at the seismometer’s location.",
+      "answersCouldInclude": [
+        "Ocean buoys, GPS stations"
+      ]
+    },
+    {
+      "number": "33(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Describe TWO hazards caused by this eruption.",
+      "stimulus": "On 15 June 1991, the second largest volcanic eruption of the twentieth century occurred at Mount Pinatubo, in the Philippines.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Names TWO hazards caused by the eruption and provides characteristics/features of each"
+        },
+        {
+          "marks": "2",
+          "text": "Provides the characteristics of ONE hazard"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Enormous pyroclastic flows – fast moving clouds of hot gases and ash came down the sides of the mountain, destroying everything in their path.\nLahars – flowing rivers of mud (with a wet concrete-like consistency) continued for years with large rainfall events, as the ash washed down the sides of the mountain.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "33(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Assess the impact of this eruption on the natural environment surrounding the volcano.",
+      "stimulus": "On 15 June 1991, the second largest volcanic eruption of the twentieth century occurred at Mount Pinatubo, in the Philippines.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes an effect of the 1991 eruption on the natural environment surrounding the volcano ; Makes a judgement about the impact of the eruption"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies an effect of the 1991 eruption on a natural environment ; OR ; Infers a judgement about the impact of the eruption on a natural environment"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The ash covered the ground and the plants themselves, preventing the growth of plants in the area around the volcano. Ash also mixed with water in streams causing lahars which blocked water sources and made them muddy and impure. This was devastating for local ecosystems.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "33(c)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Account for the explosivity of this eruption.",
+      "stimulus": "On 15 June 1991, the second largest volcanic eruption of the twentieth century occurred at Mount Pinatubo, in the Philippines.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Accounts for the explosivity of the eruption"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines TWO reasons why the eruption is explosive"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies TWO reasons why the eruption is explosive ; OR ; Outlines ONE reason"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The magma at Mt Pinatubo is formed by the partial melting of the subducting oceanic plate. This material is very viscous and makes a very gas-rich, hot and silica-rich felsic magma. When it erupts from the volcano, it does so very explosively as the gases escape, usually as a pyroclastic flow, tephra, ash or causing subsequent lahars, rather than as a lava flow.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "34(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Discuss the use of dendrochronology AND changes in rock types as evidence for past variation in global temperatures.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Demonstrates extensive knowledge and understanding of dendrochronology and changes in rock types as evidence of past variations in global temperature ; Provides advantages and/or limitations of dendrochronology and changes in rock types as evidence of past variations in global temperature"
+        },
+        {
+          "marks": "5",
+          "text": "Demonstrates thorough knowledge and understanding of dendrochronology and changes in rock types as evidence of past variations in global temperature ; Provides an advantage or limitation of dendrochronology and changes in rock types as evidence of past variations in global temperature"
+        },
+        {
+          "marks": "3–4",
+          "text": "Demonstrates sound knowledge and understanding of dendrochronology and/or changes in rock type as evidence of past variations in temperature ; Provides an advantage or limitation of dendrochronology or changes in rock type as evidence of past variations in temperature"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines dendrochronology or changes in rock type as evidence of past variations in temperature"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Dendrochronology is the study of past climates by using tree rings. The size of the annual tree ring can be linked to the conditions of its growth in a local area but limited to the lifetime of the tree. For example, a smaller ring than normal may indicate cooler conditions in a given year. However, the validity of these data is affected by other factors, such as rainfall. Tree rings are also limited to indicating local weather rather than global temperature variations.\nChanges in rock types provide evidence for ancient global temperature variation over a longer time frame than tree rings. For example, coal deposits in strata indicate the presence of a warm, swampy environment. This again is limited to the local area. However, the presence of glacial tillite indicates cooler climates, and depending on location, may suggest global cooling.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "35",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 8,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Analyse both images using your knowledge and understanding of natural processes and human influences.\nYour response should refer to both images and to concepts from at least TWO of the following modules: Earth’s Processes, Hazards, Climate Science, Resource Management.",
+      "stimulus": "The Earth and Environmental Science course explores human activities and natural processes that explain the current state of Earth.\n[Figure 1: composite image of Earth during the day, shown as a flat world map with no axes, scale or labels. The oceans are black; the continents appear in grey and white tones; the polar ice at the top and bottom of the map is white. Caption: 'A composite image of Earth during the day, showing the distribution of the continents, vegetation, water, deserts and ice.']\n[Figure 2: modified composite image of Earth at night, shown as a flat world map with no axes, scale or labels, on a dark grey background. Bright clusters of light appear across North America, Europe, South Asia, East Asia and south-east Australia; large areas of Africa, central South America, Siberia and central Australia are dark. Caption: 'A modified composite image of Earth at night, which is lit by artificial light.']",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "8",
+          "text": "Demonstrates an extensive knowledge and understanding of natural processes and human influences relating to the two images ; Integrates relevant examples from at least TWO modules"
+        },
+        {
+          "marks": "6–7",
+          "text": "Demonstrates a thorough knowledge and understanding of natural processes and human influences relating to the two images ; Integrates relevant examples from the modules"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates a sound knowledge and/or understanding of natural processes and/or human influences relating to the two images ; Identifies relevant examples"
+        },
+        {
+          "marks": "2–3",
+          "text": "Demonstrates some understanding of natural processes and/or human influences"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Figure 1 can clearly be linked to plate tectonics and the resulting climate change related to the current position of the continents and the resulting ocean currents around the planet. This has a clear impact on the climate and the resulting distribution of vegetation around the world. This can be seen in such cases where a cold ocean current along the west coast of South America influences the desert environment in Chile.",
+        "Natural Processes include:",
+        "Plate Tectonics",
+        "Plate tectonic supercycle",
+        "Water distribution",
+        "Resource distribution",
+        "Climate",
+        "Processes shaping topography.",
+        "Figure 2 shows the artificial light caused by human population distribution and resource management. This can then be related to energy demand and using Figure 1 it also shows the resulting environmental impact and potential habitat destruction due to human dominance and modification of the environment. Despite the potential impact of such hazards as tsunamis and weather patterns (East coast lows) that have resulted from the continental distribution, it is clear from the light distribution that many humans choose to live on the coast of many continents or islands such as Indonesia.",
+        "Human Influences include:",
+        "Population distribution",
+        "Land use patterns",
+        "Energy demand",
+        "Environmental impact",
+        "Habitat removal",
+        "Resource use and waste production",
+        "Distortion of continental shape due to map projection."
+      ]
+    }
+  ],
+  "edits": [
+    "33(c): ladder row 4 reworded to open with a third-person verb, as the app requires: \"Account for the explosivity of the eruption\" -> \"Accounts for the explosivity of the eruption\""
+  ]
+}

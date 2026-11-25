@@ -1,0 +1,698 @@
+{
+  "year": 2024,
+  "course": "Earth and Environmental Science",
+  "papers": [
+    "2024-hsc-earth-and-environmental-science-cc.pdf",
+    "2024-hsc-earth-and-environmental-science-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "26",
+      "reason": "Complete-a-table part (\"Complete the table to justify how TWO reclamation methods could be used...\"); answered by completing a table, which the brief skips."
+    }
+  ],
+  "edits": [
+    "22: ladder row 3 reworded to open with a third-person verb, as the app requires: \"Demonstrate some understanding of the present and future use\" -> \"Demonstrates some understanding of the present and future us\""
+  ],
+  "images": {
+    "23(a)": {
+      "file": "ees-2024-23a.png",
+      "alt": "Map of the North Island of New Zealand with the tectonic plates, active volcanoes and tectonic boundary labelled, titled Figure 1 in the paper."
+    },
+    "23(c)": {
+      "file": "ees-2024-23c.png",
+      "alt": "Hazard map of Mount Ruapehu (Figure 2) stacked above a set of safety advice infographics (Figure 3)."
+    },
+    "27": {
+      "file": "ees-2024-27.png",
+      "alt": "Two labelled diagrams, titled Low-intensity fire (cultural burning) and High-intensity fire, of forest cross-sections."
+    },
+    "29(a)": {
+      "file": "ees-2024-29.png",
+      "alt": "Black-and-white photograph of outlined piperock structures on a rock surface, with a coin in the frame."
+    },
+    "29(c)": {
+      "file": "ees-2024-29.png",
+      "alt": "Black-and-white photograph of outlined piperock structures on a rock surface, with a coin in the frame."
+    },
+    "30(b)": {
+      "file": "ees-2024-30.png",
+      "alt": "Two-axis line diagram of coral reef health and reef resilience against the number, frequency or intensity of disturbances."
+    },
+    "30(c)": {
+      "file": "ees-2024-30.png",
+      "alt": "Two-axis line diagram of coral reef health and reef resilience against the number, frequency or intensity of disturbances."
+    },
+    "32(a)": {
+      "file": "ees-2024-32a.png",
+      "alt": "Line graph of sea surface temperature difference in the Niño-3.4 region of the tropical Pacific, 1900 to about 2020."
+    }
+  },
+  "questions": [
+    {
+      "number": "21",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline a named strategy for managing solid waste.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines a named strategy for managing solid waste"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Strategy: Landfill involves putting household general waste into a red lid bin that is collected by a garbage truck and transported to a tip.",
+      "answersCouldInclude": [
+        "Battery collections",
+        "E-waste facilities",
+        "Chemical waste collection",
+        "Incineration",
+        "Traditional recycling",
+        "Compost",
+        "Green waste",
+        "Worm farms",
+        "Fabric recycling facilities"
+      ]
+    },
+    {
+      "number": "22",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the present and likely future use of a named resource.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of a named resource and its present and future use ; Makes a specific judgement"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of the present and future use of a named resource ; Makes an implied judgement"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines the present or future use of a resource"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Resource: Copper is an essential resource that is presently used worldwide as one of the main metals in electrical wiring and motors. It is likely that there will be an even greater demand for copper in the future for electrical and power resources, especially the transition to renewable energy resources.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the tectonic processes that led to the formation of Mount Ruapehu.",
+      "stimulus": "Mount Ruapehu is the largest active volcano in New Zealand.\n[Figure 1: Tectonic setting of Mount Ruapehu – North Island New Zealand. Map of the North Island of New Zealand. A box labelled 'Mount Ruapehu' has a line pointing to a volcano on the central part of the island. Labels: 'Australian Plate' at the lower left and 'Pacific Plate' at the lower right. Stars mark active volcanoes: clusters on the island and a line of stars running north-east in the sea. A boundary drawn with triangles runs along the bottom of the map, curves up the east side of the island and continues to the top right. A single arrow on the Pacific Plate points towards the north-west. KEY (right): star = Active volcano; line with triangles = Tectonic boundary; arrow = Direction of plate movement.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains a sequence of tectonic processes related to the formation of Mount Ruapehu, with reference to the diagram"
+        },
+        {
+          "marks": "3",
+          "text": "Explains some tectonic processes related to the formation of Mount Ruapehu"
+        },
+        {
+          "marks": "2",
+          "text": "Describes a tectonic process related to the formation of Mount Ruapehu"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The Pacific plate is subducted under the Australian plate due to the Pacific plate’s greater density. As it descended into the mantle, it melted, forming magma. This magma rose through the overriding Australian plate, erupting to form Mount Ruapehu.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain TWO likely hazards that could be caused by an eruption at Mount Ruapehu.",
+      "stimulus": "The area around Mount Ruapehu has become a tourist destination popular with hikers and campers. In winter, ski fields operate on the mountain. Figures 2 and 3 are infographics produced for visitors to Mount Ruapehu.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains TWO hazards related to Mount Ruapehu"
+        },
+        {
+          "marks": "3",
+          "text": "Describes TWO hazards related to Mount Ruapehu"
+        },
+        {
+          "marks": "2",
+          "text": "Describes ONE hazard related to volcanic eruptions ; OR ; Outlines TWO hazards related to volcanic eruptions"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Lahars occur when ash or rock from the volcano mixes with water from the crater lake. This mixture overflows causing a destructive mud flow that moves down the side of the volcano.\nMount Ruapehu could erupt explosively to produce a pyroclastic flow because the high viscosity magma traps gases under pressure.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Assess the extent to which both hazard mapping and public education can help to protect visitors to Mount Ruapehu. Refer to Figures 2 and 3 in your response.",
+      "stimulus": "The area around Mount Ruapehu has become a tourist destination popular with hikers and campers. In winter, ski fields operate on the mountain. Figures 2 and 3 are infographics produced for visitors to Mount Ruapehu.\n[Figure 2: Department of Conservation (DOC) hazard map of Mount Ruapehu, including the Whakapapa ski area. Map. Grey areas show past lahars and volcanic mudflows spreading down the mountain in several valleys; a dark area labelled 'Te Wai ā-moe (Crater Lake)' lies near the summit. Two dashed outlines mark a risk management zone: the inner outline is labelled '700 m' and the outer outline '1.5 km'. Callout boxes: 'DOC recommends you do not enter this area' (arrow pointing into the summit area) and 'DOC recommends you do not camp in this area' (arrow pointing up into the lower part of the map). 'Valley' is labelled with an arrow. Ski lifts (lines with a dot at each end) are shown at the bottom of the map, labelled 'Whakapapa ski area'. KEY: Ski lift (line with dots); Risk management zone (dashed outline); Past lahars; volcanic mudflows (grey); Lake (dark).]\n[Figure 3: Safety advice infographics for Mount Ruapehu. Left panel with a rounded border titled 'What to do in an eruption', with a warning symbol (an exclamation mark in a diamond) and the heading 'IF YOU ARE:'. Section 'In the summit hazard zone' has two bullets: 'Move down the mountain following the ridges.' and 'If you see flying rocks, or a steam and ash cloud coming towards you, take shelter behind a bank or ridge and cover your head with your pack.' Each bullet has a small pictogram: a person walking down a slope with an arrow, and a person crouching behind a bank. Section 'In a valley' has the bullet 'Move out of the valley (lahar path) to a ridge top.' with a pictogram of a person climbing a slope with an arrow. Right panel: a grey box reading 'CLOSER to Te Wai ā-moe CRATER LAKE' above a mountain outline and 'HIGHER RISK' with an upward arrow.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Assesses the extent to which both hazard mapping and public education contributes to the protection of visitors ; Provides thorough support with examples from both figures"
+        },
+        {
+          "marks": "3",
+          "text": "Explains how both hazard mapping and public education contributes to the protection of visitors ; Provides sound support with examples from both figures"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some understanding of how both hazard mapping and public education contribute to the protection of visitors"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Hazard mapping allows DOC to identify areas that are more dangerous such as near the summit crater lake. They put in place safety restrictions for visitors such as not camping within 1.5 km of the summit, as they may not be able to leave in time if an eruption occurred. This will keep visitors safe only to the extent to which they comply with the advice. DOC can use infographics to clearly communicate simple instructions for visitors. For example, moving out of a valley to the ridge top with a picture of a person walking up the slope. Using pictures increases the chance that visitors will understand the instructions.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain an impact of rising sea levels on the distribution of species.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains an impact of rising sea levels on the distribution of species"
+        },
+        {
+          "marks": "2",
+          "text": "Describes an impact of rising sea levels on species"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Rising sea levels will cause previously intertidal zones to be permanently covered by sea water. This means species previously living in these zones will need to migrate into zones higher up the shoreline.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how a community initiative could manage a resource sustainably.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains how a community initiative could manage a resource sustainably"
+        },
+        {
+          "marks": "2",
+          "text": "Describes how a community initiative could manage a resource"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "My local council has green waste bins to remove biodegradable material such as grass clippings from landfill and turn it into compost. This results in a reduction in the volume of general waste materials that are taken to the local landfill therefore increasing the lifetime of the landfill site for future generations to use whilst meeting current needs.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "27",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the importance of cultural burning as a process to support sustainability. Refer to both diagrams in your answer.",
+      "stimulus": "Cultural burning includes low-intensity burns and is practised by Aboriginal and Torres Strait Islander Peoples. This practice cares for Country/Place and may reduce the frequency of high-intensity burns. The effects of low and high-intensity burns is shown in the diagrams.\n[Diagram 1: Low-intensity fire (cultural burning). Two panels of a forest cross-section. Left panel 'Low-intensity burn' (thermometer symbol) shows smoke and small flames with labels: 1 Mineral soil; 2 Ladder fuels (eg branches); 3 Decaying leaf litter; 4 CO2 release; 5 Fine fuels (eg twigs, dead leaves). Right panel 'Burn recovery' (clock symbol) shows trees, a bird and new plants with labels: 6 Ongoing carbon capture; 7 Thicker bark; 8 Nutrient-rich mineral soil; 9 Fire break; 10 New plants.]\n[Diagram 2: High-intensity fire. Two panels. Left panel 'High-intensity burn' (thermometer symbol) shows tall flames and smoke among trees with labels: 1 Canopy destroyed; 2 Burned leaf litter; 3 Nutrients lost; 4 CO2 release. Right panel 'Burnt forest' shows bare dead trees and dark ground with labels: 5 Little carbon capture; 6 Ash; 7 Water resistant soil.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains the importance of cultural burning linking these to aspects of sustainability with reference to the diagrams"
+        },
+        {
+          "marks": "3",
+          "text": "Describes the importance of cultural burning with reference to the diagrams"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines the importance of cultural burning"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Cultural burning is often low intensity and is beneficial to the environment as it may reduce the frequency and intensity of bushfires over time. High-intensity fires damage soil structure by removing nutrient rich materials and making soil water resistant, whereas low-intensity cultural burning increases the nutrient composition of the soil and encourages new plant growth. Soils take hundreds of years to recover from high-intensity fires and thus cultural burning is beneficial as it maintains the soil in a healthy state for current and future generations, thus supporting sustainability.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "28(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Justify the use of different building codes in varied tectonic settings to minimise the impact of earthquakes.",
+      "stimulus": "On 22 February 2011, there was a magnitude 6.3 earthquake in Christchurch, New Zealand. This caused significant damage to buildings and infrastructure in the city. Houses in suburbs built on the sediments alongside the river were damaged by liquefaction. Liquefaction occurs when ground motion makes soil behave like a fluid. These houses were demolished and the suburbs rezoned for no future construction.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Justifies the need for different building codes linked to different levels of earthquake risk ; Links the tectonic settings to both high and low earthquake risk"
+        },
+        {
+          "marks": "2",
+          "text": "Justifies the need for a building code linked to the level of earthquake risk in one tectonic setting ; OR ; Links the tectonic setting of areas to both high and low earthquake risk"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Areas that are located near plate boundaries are at higher risk of earthquakes occurring. In order to protect buildings from damage, strict building codes are needed in these areas. For example, building houses is now banned in the rezoned suburbs as they could be damaged in future earthquakes. In areas that are away from plate boundaries that have lower risk of earthquakes, lower standards of buildings are acceptable making construction cheaper.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "28(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how ONE building technology can be used to reduce the damage due to a natural disaster occurring in a built environment.",
+      "stimulus": "On 22 February 2011, there was a magnitude 6.3 earthquake in Christchurch, New Zealand. This caused significant damage to buildings and infrastructure in the city. Houses in suburbs built on the sediments alongside the river were damaged by liquefaction. Liquefaction occurs when ground motion makes soil behave like a fluid. These houses were demolished and the suburbs rezoned for no future construction.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains how a building technology reduces damage to people or property"
+        },
+        {
+          "marks": "2",
+          "text": "Describes a building technology ; OR ; Outlines an outcome of a building technology"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "In earthquake prone areas, buildings could have base isolators like large rubber disks in their foundations that would absorb the shaking during an earthquake. This would mean the building is protected and doesn’t collapse and kill people.",
+      "answersCouldInclude": [
+        "In flood prone areas, houses could be built on stilts to keep the living areas above the expected water levels so that people’s belongings are not damaged, and they could continue to live there after the water went down."
+      ]
+    },
+    {
+      "number": "29(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 1,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Why did the photographer include a coin in the image?",
+      "stimulus": "This image shows outlined ‘piperock structures’, which are trace fossils of worm burrows, from 560 Ma BP.\n[Photograph: black-and-white image of a rock surface. White and black dotted lines outline the piperock structures near the centre of the image. A label box reading 'Worm burrows' has two arrows pointing to the outlined structures. A coin lies on the rock to the upper right of the structures.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Provides a reason for the inclusion of the coin"
+        }
+      ],
+      "sampleAnswer": "For scale",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "29(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline the formation process for trace fossils such as the piperock structures.",
+      "stimulus": "This image shows outlined ‘piperock structures’, which are trace fossils of worm burrows, from 560 Ma BP.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines relevant steps in the process of trace fossil formation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The empty worm burrow fills with mud, which hardens to rock over time and forms a cast of the burrow.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "29(c)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain the suitability of relative dating and absolute dating procedures for determining the age of fossils such as the piperock structures shown.",
+      "stimulus": "This image shows outlined ‘piperock structures’, which are trace fossils of worm burrows, from 560 Ma BP.\n[Photograph: black-and-white image of a rock surface. White and black dotted lines outline the piperock structures near the centre of the image. A label box reading 'Worm burrows' has two arrows pointing to the outlined structures. A coin lies on the rock to the upper right of the structures.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains the suitability of relative dating and absolute dating with a sound understanding of both techniques"
+        },
+        {
+          "marks": "2",
+          "text": "Explains the suitability of relative dating or absolute dating ; OR ; Outlines both techniques"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Fossils occur in sedimentary rocks and the photo shows sedimentary grains, so relative dating is suitable for these fossils if we know the age of lower, older strata, or higher, younger strata.\nAbsolute dating relies on measuring the decay of radioisotopes in igneous rocks. This could also be suitable if there is volcanic ash below or above the trace fossils to assist in narrowing the age range.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 1,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Identify ONE disturbance which could reduce reef resilience.",
+      "stimulus": "Coral reefs support one of the most diverse ecosystems, and protect coastlines from damage. Recent bleaching episodes in coral reefs indicate their susceptibility to changing ocean conditions. The relationship between reef resilience and reef health is given in the infographic.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies ONE disturbance"
+        }
+      ],
+      "sampleAnswer": "Cyclone",
+      "answersCouldInclude": [
+        "Pollution, rising sea levels, ocean acidification, increasing ocean temperatures"
+      ]
+    },
+    {
+      "number": "30(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Outline the relationship between the state of a coral reef and its resilience.",
+      "stimulus": "Coral reefs support one of the most diverse ecosystems, and protect coastlines from damage. Recent bleaching episodes in coral reefs indicate their susceptibility to changing ocean conditions. The relationship between reef resilience and reef health is given in the infographic.\n[Infographic: two vertical axes and a horizontal axis, with no numbers. Left vertical axis labelled 'Coral reef health: eg coral cover, diversity, biomass, ecosystems', running from Low (bottom) to High (top). Right vertical axis labelled 'Reef resilience: ability to recover and likelihood of recovery', running from Low (bottom) to High (top). Horizontal axis labelled 'Number, frequency or intensity of natural and anthropogenic disturbances', running from Low (left) to High (right). A solid line labelled “Peak” reef health runs from near High on the left axis down to a point part-way up the right axis. A dashed line labelled 'Resilience' runs from near High on the left axis down to Low on the right axis.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines the relationship linking reef health to resilience"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "As reef health decreases the resilience of the reef also decreases.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(c)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Propose a reason for the change in ‘peak’ reef health identified in the infographic.",
+      "stimulus": "Coral reefs support one of the most diverse ecosystems, and protect coastlines from damage. Recent bleaching episodes in coral reefs indicate their susceptibility to changing ocean conditions. The relationship between reef resilience and reef health is given in the infographic.\n[Infographic: two vertical axes and a horizontal axis, with no numbers. Left vertical axis labelled 'Coral reef health: eg coral cover, diversity, biomass, ecosystems', running from Low (bottom) to High (top). Right vertical axis labelled 'Reef resilience: ability to recover and likelihood of recovery', running from Low (bottom) to High (top). Horizontal axis labelled 'Number, frequency or intensity of natural and anthropogenic disturbances', running from Low (left) to High (right). A solid line labelled “Peak” reef health runs from near High on the left axis down to a point part-way up the right axis. A dashed line labelled 'Resilience' runs from near High on the left axis down to Low on the right axis.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides a reason for the change in reef health supported with interpretation of the graph"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Any single disturbance will reduce the reef’s ability to perform its function and so reduce its peak health. As the frequency of disturbances increases, it becomes more difficult for the reef to carry out its functions and this further reduces its health.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "31",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate the use of these stromatolite fossils as index fossils.",
+      "stimulus": "The oldest known evidence for photosynthetic cyanobacteria are Archaean stromatolite fossils found in just a few locations globally, including Western Australia.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a thorough understanding of index fossils and applies this to cyanobacteria/stromatolites ; Makes judgement based on criteria regarding the use of stromatolites as index fossils"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of index fossils and applies this to cyanobacteria/stromatolites ; Makes a judgement with a criterion regarding the use of stromatolites as index fossils"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a characteristic of index fossils and/or a characteristic of cyanobacteria/stromatolites"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Index fossils are distinctly identifiable species, widespread globally, and confined to a brief interval of geological time. They can therefore be used to precisely identify geological times. Stromatolites are sedimentary structures built by photosynthetic cyanobacteria but the organisms themselves are small and soft bodied, so they don’t form distinct fossils. Stromatolites are only found in a few locations. Stromatolites are unsuitable as index fossils because the species are not distinctly identifiable or widespread.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "32(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Compare the frequency and intensity of El Niño and La Niña events identified on the graph, before and after 1960.",
+      "stimulus": "El Niño and La Niña are climate-related patterns that occur in the Pacific Ocean. Sea surface temperature patterns over time are shown in the graph.\n[Graph: 'Sea surface temperature patterns in the Niño-3.4 region of tropical Pacific'. x-axis: Year, 1900 to about 2020, with 1960 marked by a vertical line. y-axis: Difference from average temperature (°C), from −3 to 3. A line plots yearly values; dotted horizontal lines mark the El Niño threshold (about +0.5 °C) and the La Niña threshold (about −0.5 °C). Arrows labelled 'Before 1960' and 'After 1960' lie above the plot on either side of the 1960 line. Values above the El Niño threshold and below the La Niña threshold are shaded. Approximate values read off the graph: highest about 2.4 °C (around 2016); lowest about −1.9 °C (around 1974 and 1989).]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Compares frequency and intensity of El Niño and La Niña events before and after 1960 ; Supports comparison with specific numerical references to the graph"
+        },
+        {
+          "marks": "2",
+          "text": "Compares frequency and/or intensity of El Niño and La Niña events before and after 1960"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The frequency of El Niño and La Niña events has remained fairly constant before and after 1960, however, the events have become more extreme in intensity since 1960. Three of the El Niño temperatures after 1960 have been higher in difference from average temperature >2°C than any of the events before 1960.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "32(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 7,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Justify ONE adaptation strategy for managing effects arising from El Niño and ONE adaptation strategy for managing effects arising from La Niña.",
+      "stimulus": "Generally in eastern Australia, El Niño events are associated with lower rainfall and higher temperatures. Similarly, La Niña is associated with heavy rainfall and cooler temperatures.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Demonstrates an extensive knowledge and understanding of the effects of rainfall and temperature variance ; Justifies ONE adaptation strategy for each of El Niño and La Niña"
+        },
+        {
+          "marks": "6",
+          "text": "Demonstrates a thorough knowledge and understanding of the effects of rainfall and temperature variance ; Justifies ONE adaptation strategy for each of El Niño and La Niña"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates a sound knowledge and/or understanding of the effects of rainfall and temperature variance ; Justifies ONE adaptation strategy"
+        },
+        {
+          "marks": "2–3",
+          "text": "Demonstrates some knowledge of rainfall and temperature variance and adaptation strategy(ies)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Drought and lack of rain associated with El Niño leads to shortfall in water supplies causing lack of drinking water, destabilisation of soil through loss of ground cover leading to soil erosion and increased dust storms. Loss of livestock and crop failure can occur due to lack of water.\nChanges to agricultural practices such as replacing water intensive crops like cotton and rice with crops with low water demand and replacing flood irrigation with drip irrigation, will help to conserve water during dry El Niño events.\nLa Niña can cause flooding, soil and river erosion, leading to infrastructure damage, loss of livestock and crop failure. Health issues due to contaminated water supplies and stress related mental health problems can occur. More intense rainfall increases the risk of flooding in previously low-risk areas.\nStrategies to reduce flood damage during La Niña events include flood rezoning to include areas not previously at high risk of flooding and changing building codes restricting construction of buildings in areas of increased risk of flooding.",
+      "answersCouldInclude": [
+        "Effects",
+        "Increased risk of bushfires",
+        "Reduction in wetland/riverine habitats",
+        "Injury or death from floodwaters",
+        "Interruption to food supply",
+        "Disrupted/closed transport networks.",
+        "Strategies",
+        "Desalination plants to increase drinking water supply",
+        "Use of recycled water for irrigation or industrial processes",
+        "Reducing impervious surfaces and improving drainage networks",
+        "Replanting trees on hillside in the catchment",
+        "Relocating infrastructure to higher areas safe from flooding."
+      ]
+    },
+    {
+      "number": "33",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Using TWO examples from the list below, analyse relationships between Earth’s interacting spheres and humans.",
+      "stimulus": "Earth’s spheres include the atmosphere, biosphere, cryosphere, geosphere and hydrosphere.\nPossible examples include:\n• Plate tectonic supercycle\n• Development of photosynthetic life\n• Natural disasters\n• Industrial revolution\n• Natural resources\n• Other relevant examples from the Earth and Environmental Science course.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "8",
+          "text": "Demonstrates extensive knowledge and understanding of relationships between Earth’s interacting spheres and humans ; Integrates relevant examples"
+        },
+        {
+          "marks": "6–7",
+          "text": "Demonstrates a thorough knowledge and understanding of relationships between Earth’s interacting spheres and humans ; Uses relevant example(s)"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates a sound knowledge and understanding of relationships between Earth’s interacting spheres and humans ; Uses relevant example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Demonstrates some understanding of Earth’s interacting spheres"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Photosynthetic cyanobacteria evolved during the Archean Period, using solar energy to draw carbon dioxide from the atmosphere into the biosphere, and returning oxygen to the hydrosphere and atmosphere. Oxygen converts to ozone in the upper atmosphere absorbing dangerous UV light, protecting humans from sunburn and skin cancer.\nDuring the Carboniferous and Permian periods, much organic matter from the biosphere was buried, modified and incorporated into the geosphere as coal. Human use of coal enabled the Industrial Revolution, vastly improving the standard of living for many people over centuries. Coal is mined and burned to generate electricity, providing employment and abundant, cheap energy which improves standards of living.",
+      "answersCouldInclude": [
+        "Plate tectonic supercycle and earthquakes or volcanoes changing climate or causing natural disasters.",
+        "Photosynthesis extracting CO2 from the atmosphere, affecting global warming and producing timber as a resource.",
+        "Burning coal increasing greenhouse gases causing climate change."
+      ]
+    },
+    {
+      "number": "34",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Using examples, explain the effects of Australia’s movement on both climate and evolution.",
+      "stimulus": "Australia and Antarctica were once connected as part of the Gondwana supercontinent. Australia has drifted northward, away from Antarctica.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a thorough explanation of change to both climate and evolution with integrated examples"
+        },
+        {
+          "marks": "3",
+          "text": "Provides a sound explanation of change to both climate and evolution with examples"
+        },
+        {
+          "marks": "2",
+          "text": "Describes changes to climate and/or evolution"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Sunlight is more intense near the equator. Australia’s northward drift towards the equator has consequently caused a warmer and drier climate, resulting in an increase in arid areas, such as deserts.\nAustralia’s northward drift has forced fauna evolution. Megafauna were adapted to cold climates. As Australia has warmed, the megafauna became extinct. Smaller mammals are better adapted to a warmer climate and they have flourished.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "35",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the ways in which new evidence provided by missions such as Perseverance might complement existing evidence for the meteorites/panspermia hypothesis for the origin of organic molecules on Earth.",
+      "stimulus": "NASA’s Perseverance rover is one of several missions searching for evidence of ancient life on Mars.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a thorough analysis of the existing and potential new evidence with implications for the panspermia hypothesis"
+        },
+        {
+          "marks": "3",
+          "text": "Provides a sound analysis of the existing and potential new evidence and an implication for the panspermia hypothesis"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some understanding of the panspermia hypothesis ; Identifies existing or potential new evidence"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The Panspermia hypothesis suggests life originated elsewhere in the solar system and came to Earth on a meteorite. Meteorites containing organic molecules and possible degraded fossils have been found. If Perseverance finds similar molecules or fossils on Mars, the hypothesis is supported as organic molecules could have arrived on both planets on meteorites from the same source.",
+      "answersCouldInclude": []
+    }
+  ]
+}
