@@ -1,0 +1,93 @@
+{
+  "year": 2022,
+  "course": "History Extension",
+  "papers": [
+    "2022-hsc-history-extension.pdf",
+    "2022-hsc-history-ext-mg.pdf"
+  ],
+  "skipped": [],
+  "edits": [
+    "2: the asterisk after \"academic\" (a glossary mark whose gloss is not carried) is dropped."
+  ],
+  "questions": [
+    {
+      "number": "1",
+      "section": "I",
+      "sectionHeading": "Section I (25 marks). Allow about 1 hour for this section.",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "To what extent has changing technology influenced approaches to history over time? Integrate Sources A and B and at least ONE other source throughout your argument.",
+      "stimulus": "Source A: an extract from Meg Foster, \"Online and Plugged In?: Public History and Historians in the Digital Age\", Public History Review, 2014. The extract is copyright and is not reproduced here; read it in the 2022 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-05/2022-hsc-history-extension.pdf\nSource B: an extract from Marnie Hughes-Warrington, Revisionist Histories, Edition 1, 2013. The extract is copyright and is not reproduced here; read it in the 2022 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-05/2022-hsc-history-extension.pdf",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of relevant issues of historiography",
+        "use relevant sources to support your argument",
+        "present a comprehensive, logical and sustained response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides a critical judgement on the extent to which changing technology has influenced the approaches to history over time ; Effectively constructs an argument supported by integrated and explicit references to Sources A and B, and at least ONE other relevant source ; Demonstrates extensive knowledge, complex understanding of, and critical insight into relevant historiographical issues raised in Sources A and B ; Constructs a comprehensive, logical and sustained response"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides an effective judgement on the extent to which changing technology has influenced the approaches to history over time ; Constructs an argument with explicit references to Sources A and B, and at least ONE other relevant source ; Demonstrates thorough knowledge and clear understanding of relevant historiographical issues raised in Sources A and B ; Constructs a logical and sustained response"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides some judgement on the extent to which changing technology has influenced the approaches to history over time ; Makes references to Sources A and B, and at least ONE other relevant source ; Demonstrates sound knowledge and understanding of historiographical issues raised in Sources A and/or B ; Constructs a clear response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides a limited narrative on the extent to which changing technology has influenced the approaches to history over time ; Makes limited reference to Sources A and B and possibly ONE other relevant source ; Demonstrates limited knowledge and understanding of historiographical issues ; Presents a limited response"
+        },
+        {
+          "marks": "1–5",
+          "text": "Provides isolated observations about changing technology and/or approaches to history ; Makes minimal reference to Sources A and/or B and possibly ONE other relevant source ; Demonstrates minimal knowledge of historiographical issues"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "2",
+      "section": "II",
+      "sectionHeading": "Section II (25 marks). Allow about 1 hour for this section.",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "To what extent do you agree with the view presented in Source C? In your response, refer to at least ONE area of debate from your case study. Identify your case study at the beginning of your answer.",
+      "stimulus": "Source C: The role of the academic is to make everything less simple. Mary Beard, © The Guardian.",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of an appropriate case study",
+        "engage with the historiography of the areas of debate selected for discussion",
+        "present a comprehensive, logical and sustained response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Communicates a critical historical judgement of Source C ; Constructs an argument with explicit references to Source C and at least ONE area of debate in their chosen case study ; Demonstrates extensive knowledge, complex understanding of, and critical insight into historiographical issues from the chosen area(s) of debate in their case study ; Constructs a comprehensive, logical and sustained response"
+        },
+        {
+          "marks": "16–20",
+          "text": "Communicates an effective historical judgement of Source C ; Constructs an argument with references to Source C and at least ONE area of debate in their chosen case study ; Demonstrates thorough knowledge and clear understanding of historiographical issues from the chosen area(s) of debate in their case study ; Constructs a logical and sustained response"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides some judgement of Source C ; Makes references to Source C and at least ONE area of debate in their chosen case study ; Demonstrates sound knowledge and understanding of historiographical issues from the chosen area(s) of debate in their case study ; Constructs a clear response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides a narrative relating to Source C ; Makes limited reference to Source C and/or at least ONE area of debate in their chosen case study ; Demonstrates limited knowledge and/or understanding of historiographical issues from the chosen area(s) of debate in their case study ; Presents a limited response"
+        },
+        {
+          "marks": "1–5",
+          "text": "Provides isolated observations about Source C ; May make reference to Source C and/or ONE area of debate in their chosen case study ; Demonstrates minimal knowledge of the chosen area(s) of debate in their case study"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    }
+  ],
+  "note": "Stimulus texts replaced by citations (copyright). The marking guidelines print no sample answers."
+}

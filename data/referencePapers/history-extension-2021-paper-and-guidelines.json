@@ -1,0 +1,100 @@
+{
+  "year": 2021,
+  "course": "History Extension",
+  "papers": [
+    "2021-hsc-history-extension.pdf",
+    "2021-hsc-history-extension-mg.pdf"
+  ],
+  "skipped": [],
+  "edits": [],
+  "note": "Stimulus texts replaced by citations and links (copyright). Figures are described in brackets.",
+  "questions": [
+    {
+      "number": "1",
+      "section": "I",
+      "sectionHeading": "Section I (25 marks). Allow about 1 hour for this section.",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "To what extent can historians be certain about the past? Integrate Sources A and B and at least ONE other source throughout your argument.",
+      "stimulus": "Source A: an extract from Katie Engelhart, \"History on Trial\", BBC History Magazine, 2013. The extract is copyright and is not reproduced here; read it in the 2021 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-05/2021-hsc-history-extension.pdf\n\nSource B: an extract from Richard J Evans, \"Postmodernism and History\", 22 October 2002, from the Great Debate on History and Postmodernism, University of New South Wales. The extract is copyright and is not reproduced here; read it in the 2021 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-05/2021-hsc-history-extension.pdf",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of relevant issues of historiography",
+        "use relevant sources to support your argument",
+        "present a comprehensive, logical and sustained response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides a critical judgement on the extent to which historians can be certain about the past ; Supports argument with integrated and explicit references to Sources A and B, and at least ONE other relevant source ; Demonstrates extensive knowledge, complex understanding of, and critical insight into, relevant historiographical issues raised in Sources A and B ; Constructs a cohesive, logical and sustained response"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides an effective judgement on the extent to which historians can be certain about the past ; Supports argument with explicit references to Sources A and B, and at least ONE other relevant source ; Demonstrates thorough knowledge and clear understanding of relevant historiographical issues raised in Sources A and B ; Constructs a logical and sustained response"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides some judgement on the extent to which historians can be certain about the past ; Makes references to Sources A and B, and at least ONE other relevant source ; Demonstrates sound knowledge and understanding of historiographical issues raised in Sources A and/or B ; Constructs a clear response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides a limited discussion on the extent to which historians can be certain about the past ; Makes limited reference to Sources A and B and possibly ONE other relevant source ; Demonstrates limited knowledge and understanding of historiographical issues ; Presents a limited response"
+        },
+        {
+          "marks": "1–5",
+          "text": "Provides isolated observations about historians and the past ; Makes minimal reference to Sources A and/or B and possibly ONE other relevant source ; Demonstrates minimal knowledge of historiographical issues"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "2",
+      "section": "II",
+      "sectionHeading": "Section II (25 marks). Allow about 1 hour for this section.",
+      "marks": 25,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Evaluate the influence of context in the construction of historical interpretations. In your response, refer to Source C and at least ONE area of debate in your case study. Identify your case study at the beginning of your answer.",
+      "stimulus": "[Source C: a cartoon, ©2010 baloocartoons.com. The cartoon is copyright and is not reproduced here; read it in the 2021 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-05/2021-hsc-history-extension.pdf. Description: two figures in animal-skin clothing stand at the left. The figure at the left says, in a speech bubble, 'DON'T BELIEVE EVERYTHING YOU READ.' At the right, a seated figure holds a stick to a rock wall, with a smaller figure beside it. On the wall is a drawing of an elephant with a long trunk, and an arrow drawn on the wall points at the elephant. The caption reads '©2010 baloocartoons.com'.]",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of an appropriate case study",
+        "engage with the historiography of the areas of debate selected for discussion",
+        "present a comprehensive, logical and sustained response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides a critical evaluation of the influence of context in the construction of historical interpretations ; Supports argument(s) with explicit references to Source C and at least ONE area of debate in their chosen case study ; Demonstrates extensive knowledge, complex understanding of, and critical insight into, historiographical issues from the chosen area(s) of debate in their case study ; Constructs a cohesive, logical and sustained response"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides an effective evaluation of the influence of context in the construction of historical interpretations ; Supports argument(s) with references to Source C and at least ONE area of debate in their chosen case study ; Demonstrates thorough knowledge and clear understanding of historiographical issues from the chosen area(s) of debate in their case study ; Constructs a logical and sustained response"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides some evaluation of the influence of context and the construction of historical interpretations ; Makes references to Source C and at least ONE area of debate in their chosen case study ; Demonstrates sound knowledge and understanding of historiographical issues from the chosen area(s) of debate in their case study ; Constructs a clear response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides a description about context and historical interpretations ; Makes limited reference to Source C and/or at least ONE area of debate in their chosen case study ; Demonstrates limited knowledge and/or understanding of historiographical issues from the chosen area(s) of debate in their case study ; Presents a limited response"
+        },
+        {
+          "marks": "1–5",
+          "text": "Provides isolated observations about context and/or historical interpretation(s) ; May make reference to Source C and/or ONE area of debate in their chosen case study ; Demonstrates minimal knowledge of the chosen area(s) of debate in their case study"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Perspective: audience and/ or creator",
+        "Historical interpretation.",
+        "The form of historical communication",
+        "Nature of historical truth",
+        "The role of audience",
+        "Temporal and/ or other contexts",
+        "Gender and history",
+        "The role of technology"
+      ]
+    }
+  ]
+}

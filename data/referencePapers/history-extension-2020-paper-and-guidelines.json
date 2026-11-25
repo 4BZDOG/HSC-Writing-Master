@@ -1,0 +1,91 @@
+{
+  "year": 2020,
+  "course": "History Extension",
+  "papers": [
+    "2020-hsc-history-extension.pdf",
+    "2020-hsc-history-extension-mg.pdf"
+  ],
+  "skipped": [],
+  "edits": [],
+  "note": "Stimulus texts replaced by citations and links (copyright). Figures are described in brackets.",
+  "questions": [
+    {
+      "number": "1",
+      "section": "I",
+      "sectionHeading": "Section I (25 marks). Allow about 1 hour for this section.",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Evaluate the significance of audience in the production of history. Use Sources A and B and at least ONE other source to support your argument.",
+      "stimulus": "Source A: an extract from Jorma Kalela, Making History: The Historian and Uses of the Past, 2012. The extract is copyright and is not reproduced here; read it in the 2020 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-05/2020-hsc-history-extension.pdf\n\nSource B: an extract from Jerome de Groot, Consuming History, 2016. The extract is copyright and is not reproduced here; read it in the 2020 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-05/2020-hsc-history-extension.pdf",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of relevant issues of historiography",
+        "use relevant sources to support your argument",
+        "present a comprehensive, logical and sustained response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides a critical evaluation of the significance of audience in the production of history ; Supports arguments with integrated and explicit references to Sources A and B, and at least ONE other relevant source ; Demonstrates extensive knowledge, clear understanding and critical insight into relevant historiographical issues raised in Sources A and B ; Presents a comprehensive, logical and sustained response"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides an effective evaluation of the significance of audience in the production of history ; Supports arguments with explicit references to Sources A and B, and at least ONE other relevant source ; Demonstrates thorough knowledge and clear understanding of relevant historiographical issues raised in Sources A and B ; Presents a logical and cohesive response"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides a sound evaluation of the significance of audience in the production of history ; Makes references to Sources A and B and at least ONE other relevant source ; Demonstrates sound knowledge and understanding of historiographical issues raised in Sources A and/or B ; Presents a coherent response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides a limited response addressing the significance of audience in the production of history ; Makes limited references to Sources A and B and possibly ONE other relevant source ; Demonstrates limited knowledge and understanding of historiographical issues ; Presents a limited response"
+        },
+        {
+          "marks": "1–5",
+          "text": "Demonstrates minimal knowledge of the significance of audience in the production of history ; Makes minimal references to Sources A and/or B and possibly ONE other relevant source ; Demonstrates minimal knowledge of historiographical issues ; Presents isolated observations"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "2",
+      "section": "II",
+      "sectionHeading": "Section II (25 marks). Allow about 1 hour for this section.",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "To what extent does historical debate inform our understanding of the past? In your response, make explicit reference to Source C and TWO areas of debate in your case study. Identify your case study at the beginning of your answer.",
+      "stimulus": "Source C: an extract from John Lewis Gaddis, The Landscape of History: How Historians Map the Past, 2002. The extract is copyright and is not reproduced here; read it in the 2020 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-05/2020-hsc-history-extension.pdf",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of an appropriate case study",
+        "engage with the historiography of the areas of debate selected for discussion",
+        "present a comprehensive, logical and sustained response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive knowledge, clear understanding and critical insight of the extent to which historical debate informs our understanding of the past ; Demonstrates highly effective use of Source C within the historiography of TWO areas of debate in the chosen case study ; Presents a comprehensive, logical and sustained response"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates thorough knowledge and clear understanding of the extent to which historical debate informs our understanding of the past ; Demonstrates effective use of Source C within the historiography of TWO areas of debate in the chosen case study ; Presents a logical and cohesive response"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates sound knowledge and some understanding of how historical debate informs our understanding of the past ; Demonstrates sound use of Source C within the historiography of at least ONE area of debate in the chosen case study ; Presents a coherent response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited knowledge and understanding of how historical debate informs our understanding of the past ; Demonstrates limited use of Source C with reference to the historiography of at least ONE area of debate in the chosen case study ; Presents a limited response"
+        },
+        {
+          "marks": "1–5",
+          "text": "Demonstrates minimal knowledge of how historical debate informs our understanding of the past ; Demonstrates minimal use of Source C with reference to at least ONE area of debate in the chosen case study ; Presents isolated observations"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    }
+  ]
+}

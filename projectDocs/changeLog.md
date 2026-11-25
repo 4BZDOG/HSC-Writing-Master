@@ -1,5 +1,18 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-25 (History Extension: six more years of HSC papers)
+
+- **Added (DATA_VERSION 2.73.0).** 12 past HSC questions from the 2019–2024 History Extension papers (2017 syllabus),
+  two a year: Section I Question 1 (the key questions, with Sources A and B) and Section II Question 2 (answered on
+  the student's case study). Each sits on the Constructing history dot point its question tests, as 2025's do.
+  - NESA prints no sample answers for these papers, so every exemplar is written: a 750–850 word full-mark essay, a
+    15-mark and a 5-mark answer. The Section II essays use a different case study each year (the Crusades,
+    Elizabeth I, the frontier in Australia, Appeasement, Napoleon, the Anzacs) and name only real historians and
+    works. A review checked every quotation from Sources A to C against the paper and corrected two details.
+  - The sources are copyright extracts, so each is a citation and a link to NESA's paper, as in 2025. 2021's Source
+    C cartoon is described in words.
+  - Extracts are in `data/referencePapers/history-extension-2019…2024-paper-and-guidelines.json`.
+
 ## [Unreleased] - 2026-11-25 (Earth and Environmental Science: the 2019 HSC paper)
 
 - **Added (DATA_VERSION 2.72.0).** 17 past HSC questions from the 2019 Earth and Environmental Science paper (2017
