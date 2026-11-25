@@ -1,5 +1,22 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-25 (Earth and Environmental Science: the 2020–2024 HSC papers)
+
+- **Added (DATA_VERSION 2.75.0).** 96 past HSC questions from the 2020–2024 Earth and Environmental Science papers
+  (2017 syllabus), each mapped to the 2025 dot point that covers it, as the 2019 and 2025 papers were (a few to Year 11
+  dot points). Earth and Environmental Science now has past questions from every paper since 2019. 29 printed graphs,
+  maps, diagrams, photographs and infographics ship as `scenarioImage` on 38 parts, with a text description in the scenario.
+  - NESA's sample answers are the full-mark exemplars, verbatim, for almost every part; the few with only "Answers
+    could include" get a written answer. Marker notes flag slips in NESA's samples (for example 2020 30 dates the
+    oldest stromatolites to 3.8 billion years; 2022 34 links Cambrian trilobites to the move onto land).
+  - Left out: multiple choice, parts answered by drawing, plotting or completing a table, and 2022 30, whose graphs
+    NESA withheld for copyright. 2022 27's news extract is printed by permission, so it is a citation, the paper link
+    and a summary of the facts it reports.
+  - Four NESA ladder rows reworded to open with a third-person verb, as the app requires ("Account for" →
+    "Accounts for", "Any relevant information" → "Provides any relevant information", "Demonstrate" → "Demonstrates");
+    each extract's `edits` records them.
+  - Extracts are in `data/referencePapers/earth-and-environmental-science-2020…2024-paper-and-guidelines.json`.
+
 ## [Unreleased] - 2026-11-25 (Legal Studies: six more years of HSC papers)
 
 - **Added (DATA_VERSION 2.74.0).** 86 past HSC questions from the 2019–2024 Legal Studies papers (2011 syllabus), each

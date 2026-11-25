@@ -1,0 +1,590 @@
+{
+  "year": 2022,
+  "course": "Earth and Environmental Science",
+  "papers": [
+    "2022-hsc-earth-and-environmental-science.pdf",
+    "2022-hsc-earth-and-enviro-sci-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "25(b)",
+      "reason": "Redraw the model in the space provided: a drawn response (brief)."
+    },
+    {
+      "number": "26",
+      "reason": "Draw and annotate a flow chart: a drawn response (brief)."
+    },
+    {
+      "number": "28(a)",
+      "reason": "Complete the calculator table and the footprint calculation: a completed-table response (brief)."
+    },
+    {
+      "number": "30(a)",
+      "reason": "Stimulus withheld for copyright and not printed: the temperature and oxygen isotope graphs read 'This material cannot be displayed due to copyright issues.' (brief)."
+    },
+    {
+      "number": "30(b)",
+      "reason": "Same withheld stimulus as 30(a): the graphs are not printed (brief)."
+    },
+    {
+      "number": "33(a)",
+      "reason": "Graph the MSLP data on the printed grid: a drawn response (brief)."
+    }
+  ],
+  "edits": [
+    "27(a), 27(b): the ABC News extract is replaced by a citation and is not reproduced (copyright, as in the 2025 extracts). The paper URL was not in the task, so the citation names the question and page instead.",
+    "28(b): the partly completed calculator is printed with checkbox symbols that the text layer garbles, so it is described in one bracketed line that keeps its sections, printed options, scores and blank cells.",
+    "33(b): the MSLP table is reproduced as rows; the rainfall chart is described in brackets and cropped.",
+    "27(a), 27(b): the ABC News item is printed by permission, so it is a citation with the paper link and a bracketed summary of the facts it reports, not the text.",
+    "24(b): ladder row 2 reworded to open with a third-person verb, as the app requires: \"Any two of ; Identifies the function or operation of a relev\" -> \"Provides any two of ; Identifies the function or operation o\""
+  ],
+  "images": {
+    "24(a)": {
+      "file": "ees-2022-24a.png",
+      "alt": "Photograph of a monitoring instrument on a post in a volcanic landscape."
+    },
+    "25(a)": {
+      "file": "ees-2022-25a.png",
+      "alt": "Simplified diagram of the greenhouse effect model, with its key."
+    },
+    "29(a)": {
+      "file": "ees-2022-29a.png",
+      "alt": "Diagram titled Time to Reproduce showing red snapper size and age and egg symbols for 1962, 1985 and today."
+    },
+    "29(b)": {
+      "file": "ees-2022-29a.png",
+      "alt": "Diagram titled Time to Reproduce showing red snapper size and age and egg symbols for 1962, 1985 and today."
+    },
+    "31": {
+      "file": "ees-2022-31.png",
+      "alt": "Diagram of labelled apparatus with a measuring cylinder, a filter funnel and a beaker of water."
+    },
+    "32(b)": {
+      "file": "ees-2022-32b.png",
+      "alt": "A photograph of a bushfire with fire trucks, and a satellite-style image of smoke over south-east Australia and the Tasman Sea."
+    },
+    "33(b)": {
+      "file": "ees-2022-33b.png",
+      "alt": "Column chart of daily rainfall at Shellharbour Airport from 16 to 27 March 2021."
+    },
+    "34": {
+      "file": "ees-2022-34.png",
+      "alt": "Three photographs labelled Stromatolites, Modern plants and Modern animals."
+    }
+  },
+  "questions": [
+    {
+      "number": "21",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Compare eras and periods in the Geological Time Scale. Your response should include TWO similarities or differences with reference to examples.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Identifies similarities or differences ; Supports similarities or differences with examples"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies similarities or differences ; OR ; Identifies one similarity or difference and supports with an example"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies one feature of an era or period ; OR ; Names an era or period correctly"
+        }
+      ],
+      "sampleAnswer": "Eras are longer than periods, for example, the Cenozoic Era covers more than 60 Ma but the Quaternary Period only covers about 2 Ma.\nEras and Periods are both defined by major changes in evolution, for example, the Palaeozoic Era and Cambrian Period were both marked by the first appearance of hard-shelled animals.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the role of blue carbon ecosystems in reducing the rate of global warming.",
+      "stimulus": "Blue carbon ecosystems such as saltmarshes, mangroves and seagrass forests can store 10 times more carbon in their soil than temperate forests, and 50 times more than rainforests. Most of the carbon in blue carbon ecosystems is stored in the soils rather than in the plants.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains how an increased capacity to capture carbon can reduce amount of carbon entering the atmosphere ; Links atmospheric carbon to global warming ; Makes a judgement of value of blue carbon ecosystems in terms of their role in slowing global warming"
+        },
+        {
+          "marks": "3",
+          "text": "Describes the role of carbon sinks in regulating carbon content in the atmosphere ; Links role of carbon to global warming ; Implies a judgement"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines one feature of blue carbon ecosystems that makes them a better carbon sink than terrestrial ecosystems ; OR ; Outlines how blue carbon ecosystems act as a carbon sink"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Blue carbon ecosystems are very important as they are able to store large amounts of carbon in their soils. This ability to store carbon in the soil prevents large amounts of carbon dioxide from entering the atmosphere, effectively slowing the rate of global warming as the carbon dioxide present in the atmosphere traps heat causing global warming.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Discuss the sustainability of ONE named waste management option.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Discusses points for and/or against the use of a named waste management option ; Demonstrates an understanding of sustainability ; Relates points to the sustainability of the management option"
+        },
+        {
+          "marks": "3",
+          "text": "Describes an issue or point for or against the use of a named waste management option ; Implies an understanding of sustainability ; Relates point to sustainability of the management option"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines an issue, point for or against the use of a waste management option"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The return-and-earn program has successfully kept a greater amount of resources such as aluminium in circulation reducing the need for further mining. This better preserves this resource for future generations. Many of the plastics retained through this program are not recycled. This may reduce the lifespan of landfill sites, reducing access for future generations.",
+      "answersCouldInclude": [
+        "Composting",
+        "incineration",
+        "landfill",
+        "recycling"
+      ]
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 1,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Name a type of monitoring technology shown in the image.",
+      "stimulus": "Mt Vesuvius is a volcano that erupted in 79 CE, destroying the towns of Pompeii and Herculaneum. The modern city of Naples is near Mt Vesuvius. Technology is now used to monitor the volcano, as shown.\n[Photo: a white instrument with a dome-shaped top mounted on a tall, sticker-covered white post, with a box-shaped housing partway up, a short horizontal rod and cables running down to the ground. Behind it are rocky cliffs under a clear sky.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Names a volcano monitoring technology"
+        }
+      ],
+      "sampleAnswer": "Seismometer",
+      "answersCouldInclude": [
+        "One of the following: gas sensor, tilt meter, ground temperature sensor or global positioning system (GPS)."
+      ]
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how technology can be used to prevent a volcanic hazard from causing a disaster.",
+      "stimulus": "Mt Vesuvius is a volcano that erupted in 79 CE, destroying the towns of Pompeii and Herculaneum. The modern city of Naples is near Mt Vesuvius. Technology is now used to monitor the volcano, as shown.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Distinguishes hazards and disasters explicitly or implicitly ; Outlines the function or operation of a relevant technology ; Outlines the harmful effects of a volcanic hazard ; Uses cause and effect relationships to link technology to a reduction in harm"
+        },
+        {
+          "marks": "3",
+          "text": "Identifies the function or operation of a relevant technology ; Identifies a harmful effect of a volcanic hazard ; Links the technology to a reduction in harm"
+        },
+        {
+          "marks": "2",
+          "text": "Provides any two of ; Identifies the function or operation of a relevant technology ; Identifies a harmful effect of a volcanic hazard ; Links the technology to a reduction in harm"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies the function or operation of a relevant technology ; OR ; Identifies the harmful effects of a volcanic hazard"
+        }
+      ],
+      "sampleAnswer": "Volcanic hazards cannot be prevented but seismometers can predict an impending eruption by detecting deep magma movements. Predictions enable cities such as Naples to be evacuated, protecting people from suffocating ash eruptions thus reducing disastrous loss of life.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Use this model to explain the natural greenhouse effect.",
+      "stimulus": "The simplified model shows the basic components of the greenhouse effect.\n[Diagram, with KEY: a sun at the top left; a hollow arrow labelled Sunlight in the KEY pointing down to a grey curved surface; filled grey circles (labelled Greenhouse gas in the KEY) and open circles (labelled Other gas) scattered in the space above the surface; a clock symbol (labelled Time passing in the KEY) on the surface; thin arrows (labelled Infrared radiation in the KEY) leaving the surface: one long arrow to the upper left, two arrows rising to the upper right, and a cluster of short arrows around one filled grey circle.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains the greenhouse effect ; Refers to the model in explanation including the role of greenhouse gases and infrared radiation"
+        },
+        {
+          "marks": "2",
+          "text": "Describes the greenhouse effect ; Refers to the model including the role of greenhouse gases and infrared radiation"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies one feature of the greenhouse effect"
+        }
+      ],
+      "sampleAnswer": "Sunlight, shown by the large arrow, is absorbed by the surface of the Earth, heating the Earth. The clock shows that some heat is later radiated away from the Earth in the form of infrared radiation. Some of this heat is trapped within the atmosphere as it strikes a greenhouse gas molecule and is scattered back through the atmosphere as shown by the short arrows in the model. This keeps the Earth and its atmosphere warm.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "27(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain why high magnitude earthquakes such as the 2021 Mansfield earthquake are rare on mainland Australia.",
+      "stimulus": "The following source contains information from an item published in ABC News online on 22 September 2021.\nSource: an extract from ABC News online, 'Mansfield magnitude-5.9 earthquake shakes Melbourne, regional Victoria, southern NSW, Sydney, Canberra, Adelaide and Launceston', 22 September 2021. The extract is copyright and is not reproduced here; read it in the 2022 HSC Earth and Environmental Science paper (Question 27, page 20): https://www.nsw.gov.au/sites/default/files/noindex/2025-05/2022-hsc-earth-and-environmental-science.pdf\n[Summary of what the item reports: Geoscience Australia detected the earthquake at about 9:15 am in the Alpine National Park south-east of Mansfield, Victoria, at a depth of 10 kilometres; it was one of the largest earthquakes in eastern Australia since European settlement; a photograph shows part of a building in Chapel Street, Melbourne, that crumbled; there were 100 requests for assistance, about 55 in metropolitan Melbourne, and most of the minor structural damage was to chimneys and facades; a spokesperson said it was fortunate the epicentre was in a less populated regional area.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Links high magnitude earthquakes to tectonic plate boundaries or low magnitude earthquakes to intra-plate faults ; Uses cause and effect to link Australia’s tectonic setting to earthquake magnitude"
+        },
+        {
+          "marks": "1",
+          "text": "Links high magnitude earthquakes to tectonic plate boundaries or low magnitude earthquakes to intra-plate faults ; OR ; Identifies the tectonic setting of Australia"
+        }
+      ],
+      "sampleAnswer": "High magnitude earthquakes usually occur on tectonic plate boundaries as the plates move relative to one another. There are no tectonic plate boundaries within the Australian continent, so high magnitude earthquakes are rare.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "27(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the effects of earthquakes such as the 2021 Mansfield earthquake on both the biosphere and the built environment.",
+      "stimulus": "The following source contains information from an item published in ABC News online on 22 September 2021.\nSource: an extract from ABC News online, 'Mansfield magnitude-5.9 earthquake shakes Melbourne, regional Victoria, southern NSW, Sydney, Canberra, Adelaide and Launceston', 22 September 2021. The extract is copyright and is not reproduced here; read it in the 2022 HSC Earth and Environmental Science paper (Question 27, page 20): https://www.nsw.gov.au/sites/default/files/noindex/2025-05/2022-hsc-earth-and-environmental-science.pdf\n[Summary of what the item reports: Geoscience Australia detected the earthquake at about 9:15 am in the Alpine National Park south-east of Mansfield, Victoria, at a depth of 10 kilometres; it was one of the largest earthquakes in eastern Australia since European settlement; a photograph shows part of a building in Chapel Street, Melbourne, that crumbled; there were 100 requests for assistance, about 55 in metropolitan Melbourne, and most of the minor structural damage was to chimneys and facades; a spokesperson said it was fortunate the epicentre was in a less populated regional area.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Describes the effects of earthquakes on the biosphere and built environment ; Makes a judgement as to the extent of effects on the biosphere and built environment"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines the effects of earthquakes on the biosphere and built environment ; Makes a judgement as to the extent of effects on the biosphere or built environment"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines the effects of earthquakes on the biosphere or built environment"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Earthquakes cause the ground to shake. Most trees and plants can withstand some movement so they are rarely damaged. Animals may, in rare cases, be hit by falling branches. Microorganisms are usually unaffected. Earthquakes such as the 2021 Mansfield earthquake generally have little effect on the biosphere.\nAustralian earthquakes are rare and weak, so the Australian built environment contains rigid structures that are often not designed to withstand movement. Brick structures can crack. Power lines can fall. Earthquakes such as the 2021 Mansfield earthquake have the potential to cause major damage if they occur under built environments.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "28(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Justify a strategy for reducing Cassie’s ecological footprint in terms of improving her management of at least one of Earth’s resources.",
+      "stimulus": "An ecological footprint is the impact a person has on the environment, expressed as the amount of land required to sustain their use of natural resources.\nCassie partially completed the Personal Ecological Footprint Calculator below.\n[Table: Personal Ecological Footprint Calculator, in four sections, with the score cells as printed. Water use: shower (1–3 minutes long (50); 4–9 minutes long (70); more than 10 minutes OR bath (90)), printed score 90; flush the toilet (using the full flush (40); using the half flush (20)), printed score 40; brush teeth (let the water run (40); turn the tap off (10)), printed score 10; wash dishes (hand wash (50); use a dishwasher (30)), printed score 30; SUBTOTAL printed 170. Energy: travel to school (car (200); public transport (40); bike or walking etc (5)); turn off laptop/computer when not in use (yes (100); no (200)); summer appliance (fan (20); air conditioner (200)); solar panels (yes (subtract 100); no (50)); score cells and SUBTOTAL blank. Food: diet (meat or fish (150); vegetarian (80)); compost food scraps (yes (subtract 20); sometimes (20); never (60)); throw out food on a typical day (a small portion of my food (100); about half of my food (200)); score cell and SUBTOTAL blank. Waste: weekly garbage fits into (snap lock bag (20); shopping bag (60); large garbage bag (200)); recycle paper, cans and glass (yes (subtract 20); sometimes (50); never (100)); avoid disposable/single use items (yes (subtract 20); most of the time (50); never (100)); score cells and SUBTOTAL blank. TOTAL SCORE blank. Credit: © Green Teacher.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Describes a strategy that could be implemented to reduce the ecological footprint, referencing part (a) ; Provides a reason why this strategy will improve management of a named resource"
+        },
+        {
+          "marks": "3",
+          "text": "Describes a strategy that could be implemented to reduce the ecological footprint ; Attempts to link to improved management of a named resource"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a strategy to reduce an ecological footprint"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The largest contributor to the ecological footprint was energy. A strategy for reducing air-conditioning use could be installing roller shutters on Cassie’s windows to block out the sunlight. These shutters stop the house from heating up by blocking the sun’s radiation. This would reduce her energy score by 200 points and reduce the electricity needed to power the air conditioner, consuming less coal, thus improving the management of a non-renewable resource.",
+      "answersCouldInclude": [
+        "Taking shorter showers / using grey water / using the half flush would lead to a reduction in use of water as a resource.",
+        "Cooking smaller portions of food or meal planning may assist in reducing food wastage.",
+        "Installing solar panels may reduce use of coal as a resource."
+      ]
+    },
+    {
+      "number": "29(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Recommend ONE improvement to the representation of data in this diagram.",
+      "stimulus": "This diagram shows data on the reproduction rate of red snapper since 1962.\nAlthough red snapper can live up to 54 years, today too few are older than 10 years. Older fish are the best breeders. Since the 1960s, the average weight, age, size and reproductive capacity of snapper have diminished.\n[Diagram: a boxed panel titled 'TIME TO REPRODUCE'. Three columns headed 1962, 1985 and Today. Each column shows a red snapper drawing above a horizontal scale bar, with its figures: 1962, 9.5 kg, 11 years old, 84 cm; 1985, 3.3 kg, 4 years old, 60 cm; Today, 0.5 kg, 2 years old, 40 cm. Below each fish are rows of small fish symbols, with the key '= 100 000 eggs'. Symbols counted: 1962, 34; 1985, 7; Today, 2 (the second is partly drawn).]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies ONE modification to the diagram ; Outlines how the modification improves the diagram"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "There are 23 years between 1962 and 1985 and 37 years between 1985 and today. This diagram could imply that each decline has occurred over the same time interval. The years should be distributed to scale so that the trend can be viewed over time.",
+      "answersCouldInclude": [
+        "Providing the number of eggs rather than having to work this out by counting the number of fish",
+        "Identification of the source for validity."
+      ]
+    },
+    {
+      "number": "29(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Account for the trends in this data.",
+      "stimulus": "This diagram shows data on the reproduction rate of red snapper since 1962.\nAlthough red snapper can live up to 54 years, today too few are older than 10 years. Older fish are the best breeders. Since the 1960s, the average weight, age, size and reproductive capacity of snapper have diminished.\n[Diagram: a boxed panel titled 'TIME TO REPRODUCE'. Three columns headed 1962, 1985 and Today. Each column shows a red snapper drawing above a horizontal scale bar, with its figures: 1962, 9.5 kg, 11 years old, 84 cm; 1985, 3.3 kg, 4 years old, 60 cm; Today, 0.5 kg, 2 years old, 40 cm. Below each fish are rows of small fish symbols, with the key '= 100 000 eggs'. Symbols counted: 1962, 34; 1985, 7; Today, 2 (the second is partly drawn).]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Outlines TWO trends in the data ; Provides thorough reasoning for the trends"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines at least ONE trend in the data ; Provides sound reasoning for the trend ; OR ; Outlines TWO trends in the data"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The average weight of snapper has decreased over time. This is because overfishing has removed snapper before they can grow to a larger weight.\nSnapper are laying fewer eggs because there are fewer old fish and older fish are the best breeders.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "31",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 7,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Design a valid procedure to test the student’s hypothesis. Your response should include a method for changing the independent variable, measurement of independent and dependent variables, management of controlled variables, use of a control and appropriate safe work practices.",
+      "stimulus": "A student wanted to investigate the effect of photosynthesising cyanobacteria on the oxygenation of the atmosphere. The student developed the following hypothesis:\nIncreasing light levels enables photosynthesising cyanobacteria to produce greater quantities of oxygen.\nThe student was provided with the following equipment:\n• 10 g living cyanobacteria culture (can be separated)\n• 10 light-proof cupboards\n• 10 lamps with variable brightness\n• 10 remote sensing light meters\n• 10 sets of glassware and water as shown in the following diagram\n• spatula\n• laboratory balance/scales\n• water.\n[Diagram of labelled apparatus: a graduated measuring cylinder, its upper part holding trapped oxygen, with its lower end extending into a filter funnel; the funnel sits in a beaker of water; oxygen bubbles rise through the funnel and cylinder; a grey mound labelled cyanobacteria culture lies in the bottom of the funnel. Labels: Trapped oxygen; Oxygen bubbles; Measuring cylinder; Beaker; Filter funnel; Water; Cyanobacteria culture.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Identifies variables explicitly or implicitly ; Describes all of the requirements for a valid procedure ; Provides a clear and logical sequence"
+        },
+        {
+          "marks": "5–6",
+          "text": "Outlines most of the requirements for a valid procedure ; Provides a clear and logical sequence"
+        },
+        {
+          "marks": "3–4",
+          "text": "Outlines some of the requirements for a valid procedure"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies some aspects of relevant experimental procedure"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies one aspect of relevant experimental procedure"
+        }
+      ],
+      "sampleAnswer": "Separate the cyanobacteria into ten equal samples. Place each sample under a funnel as shown in the diagram, ensuring no air is trapped in the measuring cylinder. Number the beakers 1−10.\nChanging and measuring the independent variable (light)\nPlace each sample in a lightproof cupboard. Beaker 1 (the control) should be left in the dark. Illuminate samples 2−10 with a lamp. Set lamp 2 to minimum brightness and set lamps 3−10 progressively brighter with lamp 10 set to maximum. Use a light meter in each cupboard to measure light levels throughout the experiment.\nManaging controlled variables\nWeigh each cyanobacteria sample to exactly one gram. Use markings on the beakers to ensure each sample has the same quantity of water. Use cupboards in the same room to ensure consistent temperature. Give each sample the same time to photosynthesise between set-up and oxygen measurement.\nMeasuring the dependent variable (oxygen production)\nMeasure the displaced water level in each measuring cylinder after one week to show oxygen production.\nSafety\nClean water spills promptly to avoid slips and falls. Take care with glass to avoid breakages and cuts.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "32(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline how land management practices in Australia could affect the magnitude of bushfires.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Sketches in general terms how a land management practice can reduce or increase the magnitude of bushfires"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Indigenous cool burns undertaken at night or in the morning when the ground is dewy are easier to manage than hazard reduction burns. These cool burns reduce the underbrush, clearing areas of land, leading to less fuel for bushfires and lower magnitude fires.",
+      "answersCouldInclude": [
+        "Construction of firebreaks",
+        "Weed management to reduce invasive introduced species",
+        "Maintenance of fire trails."
+      ]
+    },
+    {
+      "number": "32(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain how a change in the biosphere can affect the Earth’s atmosphere and climate. Refer to the images provided.",
+      "stimulus": "The photos show some aspects of bushfires in Australia.\n[Photo, titled 'Bushfire in Australia': a greyscale photograph of a bushfire, with dark smoke and flames behind a line of trees, and two fire trucks on grassland in the foreground.]\n[Image, titled 'Extent of bushfire smoke over south-east Australia and the Tasman Sea': a greyscale image of land and sea with a large pale, cloud-like area spreading across the land and out over the sea.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains a change to the biosphere specifically related to the images provided ; Links how this change affects the atmosphere and climate"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines a change to the biosphere specifically related to the images provided ; Links how this change affects the atmosphere and climate"
+        },
+        {
+          "marks": "2",
+          "text": "Describes changes to the biosphere, atmosphere or climate"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Bushfires burn large areas of vegetation. The combustion of this component of the biosphere releases carbon dioxide and causes vast smoke plumes, as shown in the second diagram, to rise into the atmosphere temporarily altering its composition, increasing air pollution, and reducing solar radiation reaching the surface of the Earth, causing temperature to drop by several degrees. Smoke from extreme fire events can reach the upper atmosphere and result in smoke-induced global cooling, thus affecting climate.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "32(c)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Predict the effect a change in the biosphere can have on the sustainability of resources.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes the effect a change in the biosphere can have on the sustainability of resources ; Infers specific consequences of the change and effect on the sustainability of resources"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a change in the biosphere ; Infers a consequence on sustainability"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Severe bushfires can destroy agricultural crops and forestry plantations. The destruction of plant life results in soil erosion due to the loss of roots holding soil together. Soil degradation reduces the long-term production of food resources. Burnt forests reduce the medium-term availability of timber resources because trees can take decades to grow back.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "33(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Assess the effectiveness of meteorological technology in predicting natural weather events. In your response, make reference to the pressure and rainfall data provided.",
+      "stimulus": "Atmospheric low pressure systems can cause severe weather and flood hazards.\nThe following table shows Mean Sea Level Pressure (MSLP) recorded daily from 16−27 March 2021 at Shellharbour Airport on the NSW coast.\nDate (March 2021) | MSLP (hPa)\n16 | 1026.5\n17 | 1026.6\n18 | 1025.4\n19 | 1027.2\n20 | 1024.5\n21 | 1025.7\n22 | 1023.8\n23 | 1009.5\n24 | 997.4\n25 | 1002.5\n26 | 1014.0\n27 | 1013.7\nReproduced by permission of the Bureau of Meteorology\n© 2022 Commonwealth of Australia.\nThe following chart shows rainfall recorded at Shellharbour Airport during the same time period.\n[Column chart titled 'Daily rainfall at Shellharbour Airport 16–27 March 2021'. y-axis: Daily rainfall (mm), 0 to 70 in steps of 10. x-axis: Date (March 2021), 16 to 27. Approximate values read off the chart: 16 March 0 mm; 17 March about 5 mm; 18 March about 12 mm; 19 March about 48 mm; 20 March about 20 mm; 21 March about 33 mm; 22 March about 65 mm; 23 March about 38 mm; 24 March about 31 mm; 25, 26 and 27 March 0 mm.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Outlines the impact of meteorological technology ; Links technology clearly to prediction of weather ; Integrates relevant data into response ; Provides a judgement of effectiveness"
+        },
+        {
+          "marks": "3",
+          "text": "Links technology to prediction of weather ; Identifies relevant data ; Provides a judgement of effectiveness"
+        },
+        {
+          "marks": "2",
+          "text": "Links technology to prediction of weather ; Identifies relevant data"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Technologies such as barometers are used to measure air pressure. Changes in pressure can be used to predict weather events. The rainfall weather event is associated with a drop in air pressure but the pressure reached a minimum of 997.4 hPa on 24/3/21, two days after the heaviest rainfall (~65 mm on 22/3/21). A single barometer is not always effective in predicting rainfall.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "34",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–34. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 7,
+      "kind": "visual",
+      "needsStimulus": false,
+      "stem": "Analyse how the current biosphere originated and developed. In your answer, use specific examples such as those in the images provided.",
+      "stimulus": "[Three greyscale photographs in a row, each with a caption. Left: 'Stromatolites', a rocky, mound-shaped formation in shallow water. Middle: 'Modern plants', a rose flower with leaves. Right: 'Modern animals', two kangaroos on grass.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Provides a detailed description of changes in the biosphere ; Identifies a relevant factor and clearly relates it to the origin of the biosphere ; Identifies relevant factors and clearly relates them to developments in the biosphere ; Integrates relevant examples into the response ; Provides a logical, coherent and concise progression of ideas"
+        },
+        {
+          "marks": "5–6",
+          "text": "Describes changes in the biosphere ; Identifies a relevant factor(s) and relates it to the origin of the biosphere ; Identifies relevant factors and relates them to developments in the biosphere ; Uses examples to support the response ; Provides a logical and coherent progression of ideas"
+        },
+        {
+          "marks": "3–4",
+          "text": "Outlines change(s)/development(s) in the biosphere and identifies an example ; Identifies a relevant factor and links it to the origin of the biosphere OR to a development in the biosphere"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a development in the biosphere and identifies an example ; OR ; Outlines a relevant factor"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a development in the biosphere ; OR ; Identifies a relevant factor ; OR ; Outlines the relevance of an example"
+        }
+      ],
+      "sampleAnswer": "Organic molecules found around black smokers in the ancient oceans organised themselves into simple cells which were able to obtain energy using chemicals emitted by the black smokers. Over time these cells evolved into photosynthesising cyanobacteria which can be found within ancient stromatolites. The development of hard body parts in organisms such as the Cambrian trilobites provided protection and greater mobility allowing fauna such as the labyrinthodont to move into terrestrial environments. This allowed the Earth’s biosphere to diversify as fauna inhabited a whole range of new and different ecosystems, eventually creating our present biosphere.",
+      "answersCouldInclude": [
+        "Formation of organic molecules (Urey−Miller, black smokers or panspermia)",
+        "photosynthetic cyanobacteria",
+        "the development of multicellular Ediacaran metazoans",
+        "the Cambrian explosion",
+        "the conquest of land",
+        "changes to the geosphere, atmosphere or hydrosphere",
+        "plate tectonic super cycle"
+      ]
+    }
+  ]
+}

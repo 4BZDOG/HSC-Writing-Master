@@ -1,0 +1,670 @@
+{
+  "year": 2020,
+  "course": "Earth and Environmental Science",
+  "papers": [
+    "2020-hsc-earth-and-environmental-science.pdf",
+    "2020-hsc-earth-and-environmental-science-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "33",
+      "reason": "Stem requires an annotated diagram drawn in the answer (\"Use an annotated diagram to support your answer\"); the top criteria depend on the diagram."
+    },
+    {
+      "number": "35(a)",
+      "reason": "Requires plotting a graph on the printed grid (\"Using the grid provided, graph the relationship\"), a drawn response."
+    }
+  ],
+  "edits": [
+    "29(a) and 29(b) stimulus and the 32 table use \"km3\" and \"km2\": the paper text layer prints the superscript 3 and 2 of km³ and km² that way."
+  ],
+  "images": {
+    "23": {
+      "file": "ees-2020-23.png",
+      "alt": "A map of the Broken Hill and Wentworth area showing the Darling River and the Murray River."
+    },
+    "24(a)": {
+      "file": "ees-2020-24a.png",
+      "alt": "A world map with the global ocean conveyor belt drawn as surface and deep currents, with a key."
+    },
+    "24(b)": {
+      "file": "ees-2020-24a.png",
+      "alt": "A world map with the global ocean conveyor belt drawn as surface and deep currents, with a key."
+    },
+    "26(a)": {
+      "file": "ees-2020-26a.png",
+      "alt": "A council poster titled 'Your organic waste collection service' showing items that can and cannot go in an organic waste bin."
+    },
+    "26(b)": {
+      "file": "ees-2020-26a.png",
+      "alt": "A council poster titled 'Your organic waste collection service' showing items that can and cannot go in an organic waste bin."
+    },
+    "29(a)": {
+      "file": "ees-2020-29a.png",
+      "alt": "A line graph of volcanoes active per year since 1800 with a second series for eruptions above 0.1 cubic kilometres and labelled events."
+    },
+    "29(b)": {
+      "file": "ees-2020-29a.png",
+      "alt": "A line graph of volcanoes active per year since 1800 with a second series for eruptions above 0.1 cubic kilometres and labelled events."
+    },
+    "32": {
+      "file": "ees-2020-32.png",
+      "alt": "A table of Australia's current land use categories, with percentages and areas in square kilometres."
+    },
+    "35(b)": {
+      "file": "ees-2020-35b.png",
+      "alt": "Two tables of earthquake focus depth against distance from the plate margin for Boundary A and Boundary B."
+    }
+  },
+  "questions": [
+    {
+      "number": "21",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe the use of index fossils in the development of a Geological Time Scale.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of how index fossils are used to create divisions of geologic time"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines the use of index fossils"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Index fossils should have a wide geographic distribution and appear for a short period of time in the fossil record. For this reason, they are useful in assisting geologists to generate the divisions of the geologic timescale as they indicate widespread environmental changes at their appearance in the fossil record.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain TWO effects that a volcanic eruption had on the atmosphere or the biosphere.\nName of volcanic eruption:",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Identifies a volcanic eruption/type ; Clearly presents the cause and effect relationship between aspect(s) of the eruption and TWO either atmospheric changes/biosphere changes"
+        },
+        {
+          "marks": "3",
+          "text": "Identifies a volcanic eruption/type ; Clearly presents the cause and effect relationship between aspect(s) of the eruption and ONE atmospheric change/biosphere ; Outlines another atmospheric/bioshere change resulting from the eruption"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies TWO general effects volcanic eruptions have on the atmosphere/biosphere ; OR ; Identifies a volcanic eruption ; Relates an aspect of the eruption to a relevant effect on the atmosphere/biosphere"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Name of volcanic eruption: Mount Pinatubo (1991)\nThe 1991 Mount Pinatubo eruption expelled large amounts of sulfur dioxide into the stratosphere producing aerosols and reflecting light causing a decrease in global atmospheric temperatures.\nEmissions of sulfur dioxide and water vapour in the atmosphere also produced sulfuric acid rain.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": false,
+      "stem": "Discuss possible impacts of this water management strategy.",
+      "stimulus": "In January 2019, a 270 km pipeline was completed to supply water to the City of Broken Hill from the Murray River. The pipeline started at the town of Wentworth. The locations of Wentworth and Broken Hill are shown on the map below.\n[Map, with no key. Flags mark 'Broken Hill' (upper left) and 'Wentworth' (on the river line at the left-hand side). Thick lines are labelled 'Darling River' (running from the top of the map down to Wentworth) and 'Murray River' (running from Wentworth to the lower right, where it meets a dashed line). Thin lines outline the surrounding area; dashed lines are unlabelled.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes advantages and/or disadvantages of the impact of the water management strategy"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines one advantage or disadvantage of the impact of the water management strategy ; OR ; Demonstrates an understanding of water availability in either area"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information about the strategy"
+        }
+      ],
+      "sampleAnswer": "There is very little water available near Broken Hill. The building of a pipeline to transport water from the Murray River in Wentworth to the City of Broken Hill has benefits in that it will provide the City of Broken Hill with a greater and more reliable source of water. However, there are drawbacks to the pipeline including that water is diverted from communities downstream of Wentworth. Even though the Darling River is closer to Broken Hill, the flows are more problematic and thus cannot be relied upon.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": false,
+      "stem": "Explain how a change in ocean circulation may affect Earth’s climate.",
+      "stimulus": "The image shows the global conveyor belt and the movement of water through the ocean basins.\n[Map: world map in an oval projection, with continents shaded light grey. Solid lines with arrows show surface currents and dashed lines with arrows show deep currents, forming loops around the ocean basins. KEY below the map: a solid line labelled 'Surface current' and a dashed line labelled 'Deep current'.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Demonstrates a thorough understanding of how a change to the circulation of ocean currents can affect climate"
+        },
+        {
+          "marks": "2",
+          "text": "Shows a basic understanding of the relationship between ocean circulation and climate ; OR ; Shows an understanding of ocean circulation and/or climate"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Ocean water currents transport heat from the equator to the poles which affects the water cycle as well as atmospheric temperatures. Increased ocean circulation warms the higher latitudes of both the northern and southern hemispheres. Similarly, a reduction in ocean circulation from the equator to the poles will reduce temperatures possibly producing a prolonged cooling event.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": false,
+      "stem": "Describe a possible flow-on effect of a change in ocean circulation on Earth’s weather.",
+      "stimulus": "The image shows the global conveyor belt and the movement of water through the ocean basins.\n[Map: world map in an oval projection, with continents shaded light grey. Solid lines with arrows show surface currents and dashed lines with arrows show deep currents, forming loops around the ocean basins. KEY below the map: a solid line labelled 'Surface current' and a dashed line labelled 'Deep current'.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Describes a possible flow-on effect of a change in ocean current on Earth’s weather"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Changes in atmospheric temperature have possible flow-on effects on weather. Increased temperature at the higher latitudes will produce higher evaporation rates over oceans and associated increases in precipitation events.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain TWO factors which allowed animals to move from an aquatic environment onto land.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides TWO factors that allowed animals to move from the aquatic environment onto land ; Uses cause and effect relationships to connect both factors to the challenges associated with living on land"
+        },
+        {
+          "marks": "2",
+          "text": "Provides ONE factor that allowed animals to move onto land ; Uses a cause and effect relationship to connect the factor to the challenges associated with living on land ; OR ; Describes TWO factors associated with the movement onto land by animals"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies at least ONE factor associated with the movement onto land by animals"
+        }
+      ],
+      "sampleAnswer": "Increasing oxygen levels in the atmosphere led to the formation of the ozone layer that in turn reduced incident UV radiation levels making it possible for life forms, including animals, to conquer the terrestrial environment.\nThe development of a hard outer shell retained water, enabling animals to spend time on land without drying out.",
+      "answersCouldInclude": [
+        "Development of ozone layer",
+        "Abundant resources",
+        "Lack of predators",
+        "Less competition",
+        "Evolution of various body structures eg skeletal structures, lungs, impermeable skin, internal fertilisation, eggs with protective covering preventing desiccation, lack of buoyancy."
+      ]
+    },
+    {
+      "number": "26(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Assess the effectiveness of this image in terms of its ability to communicate scientific information to the general public.",
+      "stimulus": "A council is encouraging residents to sort their waste into separate bins. The image below describes the use of an organic waste bin.\n[Poster titled 'Your organic waste collection service', with the subtitle 'Choose the RIGHT bin, don’t throw it in!'. The top section is headed 'What you CAN place in your organic waste bin' and shows four items, each with a tick and a picture: 'Fruit and vegetable scraps', 'Meat and bones', 'Used tissue and paper towel', 'Plants and small shrubs'. The bottom section is headed 'These items contaminate your recycling and MUST NOT be placed in your organic waste bin' and shows three items, each with a cross and a picture: 'Plastic bags (including biodegradable bags)', 'Engineered timber (broken down furniture, cabinets etc)', 'General waste (non recyclables &/or non compostables)'.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides a judgement on the effectiveness of the image in terms of its ability to communicate scientific information ; Relates specific features of the image to its ability to communicate"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a judgement on the effectiveness of the image in terms of its ability to communicate ; Refers to a feature of the image"
+        },
+        {
+          "marks": "1",
+          "text": "Provides an unsupported judgement of the image in terms of its ability to communicate ; OR ; Refers to a feature of the image without making a judgement"
+        }
+      ],
+      "sampleAnswer": "The intent of this image is to communicate what waste items should be placed in the organic waste bin. The use of photos, text and large ticks and crosses is very effective in communicating what can and what cannot be placed in these bins. Divisions of organic and non-organic waste which may not be obvious to the general public are clearly represented in this image.\nOverall, this is a highly effective image for its intended purpose.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "26(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": false,
+      "stem": "Explain TWO ways that the use of organic waste bins supports sustainability.",
+      "stimulus": "A council is encouraging residents to sort their waste into separate bins. The image below describes the use of an organic waste bin.\n[Poster titled 'Your organic waste collection service', with the subtitle 'Choose the RIGHT bin, don’t throw it in!'. The top section is headed 'What you CAN place in your organic waste bin' and shows four items, each with a tick and a picture: 'Fruit and vegetable scraps', 'Meat and bones', 'Used tissue and paper towel', 'Plants and small shrubs'. The bottom section is headed 'These items contaminate your recycling and MUST NOT be placed in your organic waste bin' and shows three items, each with a cross and a picture: 'Plastic bags (including biodegradable bags)', 'Engineered timber (broken down furniture, cabinets etc)', 'General waste (non recyclables &/or non compostables)'.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Uses cause and effect relationships to connect organic waste bin use to TWO aspects of sustainability"
+        },
+        {
+          "marks": "2",
+          "text": "Uses cause and effect relationships to connect organic waste bin use to ONE aspect of sustainability ; OR ; Describes TWO sustainability related aspects of organic waste bin use without clear cause and effect"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies at least ONE sustainability related aspect of organic waste bin use"
+        }
+      ],
+      "sampleAnswer": "The use of organic waste bins would significantly reduce the volume of waste going into landfill, which increases the longevity of the landfill site. The composting of the materials in the organic waste bin would lead to the production of compost resources which, when used, return nutrients to the soil improving the sustainability of agriculture.",
+      "answersCouldInclude": [
+        "Reduction of methane emissions",
+        "Economic sustainability of waste management through production of saleable compost."
+      ]
+    },
+    {
+      "number": "27(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline a safety precaution needed for this investigation.",
+      "stimulus": "Students are planning a practical investigation into the composition of household or organisational waste.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies a relevant risk and outlines a suitable precaution"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a relevant safety precaution ; OR ; Identifies a relevant risk"
+        }
+      ],
+      "sampleAnswer": "Students should wear gloves to prevent the possibility of contamination from waste materials.",
+      "answersCouldInclude": [
+        "Face masks",
+        "Enclosed shoes."
+      ]
+    },
+    {
+      "number": "27(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Justify steps required to ensure both the accuracy and reliability of the data collected.",
+      "stimulus": "Students are planning a practical investigation into the composition of household or organisational waste.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Proposes and supports a strategy to ensure accuracy of data ; AND ; Proposes and supports a strategy to ensure reliability of data"
+        },
+        {
+          "marks": "3",
+          "text": "Proposes and supports a strategy to ensure accuracy or reliability of data"
+        },
+        {
+          "marks": "2",
+          "text": "Proposes ONE strategies to ensure accuracy and/or reliability of data"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "For this investigation, accuracy is ensured by clearly defining the classification of different waste types and using scales to measure the mass of each waste type to the nearest kilogram.\nTo ensure the reliability of the data, multiple repeats would be carried out on different days and the results analysed and averaged, with any possible outliers being identified and investigated further to determine whether they should be removed from the dataset.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "28",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "For a mine that you have investigated, describe the involvement of traditional owners in the mining and the restoration of the land after mining has ceased.\nName of mine:",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Identifies a mine ; Demonstrates a thorough knowledge and understanding of the involvement of traditional owners in mining and restoration"
+        },
+        {
+          "marks": "3",
+          "text": "Identifies a mine ; Demonstrates sound knowledge and understanding of the involvement of traditional owners in mining and/or restoration"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines the involvement of traditional owners in mining or restoration in general terms"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Northparkes Mine\nIn planning expansions of the Northparkes copper mine in the Goonumbla area north of Parkes, traditional owners, the Wiradjuri people, provide insight into areas of cultural significance such as meeting places and burial sites that may be impacted by the mine site, ensuring future mine operations avoid such areas which effectively preserves significant places.\nWhen the Northparkes mine restores areas affected by mining operations the traditional owners, the Wiradjuri people, will be consulted on their extensive knowledge of native flora and fauna present in the area prior to mining processes and effectively ensure that the restoration re-establishes its previous ecological status.\nNorthparkes Mines has quarterly meetings with Wiradjuri elders to identify employment opportunities to support Wiradjuri people effectively in their communities.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "29(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Account for the trends in the data.",
+      "stimulus": "The graph shows data on all reported volcanic eruptions since 1800 CE and the frequency of large eruptions (> 0.1 km3).\n[Graph: no title printed. x-axis: 'Year', 1800 to about 2010, labelled 1800, 1850, 1900, 1950 and 2000. y-axis (left): 'Volcanoes active per year', 0 to 80. Unlabelled right-hand y-axis: 0, 2 and 4. Two series, each drawn as a thin line of annual values with a heavier line over it: 'All eruptions' (read against the left axis) and 'Eruptions > 0.1 km3' (read against the right axis). Labelled events with arrows or brackets: Krakatau 1883, Pelee 1902, WWI, WWII, CAVW, BVE and GVP.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Identifies TWO trends and accounts for both"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies TWO trends ; OR ; Identifies and accounts for ONE trend"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The apparent increase in all eruptions over the time period specified may have been due to improvements in technology which has allowed us to identify and report on volcanic eruptions especially those that occur some distance from established human populations which previously would have gone unreported.\nThe major volcanic eruptions data has remained relatively constant because the events are sufficiently noticeable for all to have been reported and recorded over the past two centuries.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "29(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Identify TWO modifications to the graph that would aid in the interpretation of the data.",
+      "stimulus": "The graph shows data on all reported volcanic eruptions since 1800 CE and the frequency of large eruptions (> 0.1 km3).\n[Graph: no title printed. x-axis: 'Year', 1800 to about 2010, labelled 1800, 1850, 1900, 1950 and 2000. y-axis (left): 'Volcanoes active per year', 0 to 80. Unlabelled right-hand y-axis: 0, 2 and 4. Two series, each drawn as a thin line of annual values with a heavier line over it: 'All eruptions' (read against the left axis) and 'Eruptions > 0.1 km3' (read against the right axis). Labelled events with arrows or brackets: Krakatau 1883, Pelee 1902, WWI, WWII, CAVW, BVE and GVP.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Recognises TWO ways to aid the interpretation of the graph"
+        },
+        {
+          "marks": "1",
+          "text": "Recognises ONE way to aid the interpretation of the graph"
+        }
+      ],
+      "sampleAnswer": "• Include a key to identify the various events indicated by acronyms on the ‘All eruptions’ curve\n• Include a label for the secondary vertical axis.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Using an example, explain a change in the geosphere that resulted from a development of the biosphere.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Demonstrates an extensive knowledge and understanding of how a change in the geosphere resulted from a development in the biosphere including references to a valid example"
+        },
+        {
+          "marks": "5",
+          "text": "Demonstrates thorough knowledge of how a change in the geosphere resulted from a development in the biosphere including references to a valid example"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates sound knowledge of how a change in the geosphere resulted from a development in the biosphere including references to a valid example"
+        },
+        {
+          "marks": "3",
+          "text": "Describes a change in the geosphere that resulted from a development in the biosphere"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a change in the Earth’s geosphere related to a development in the biosphere ; OR ; Outlines a relevant effect on the geosphere"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Fossil evidence suggests that approximately 3.8 billion years ago stromatolites were abundant in many shallow seas. These stromatolites contain cyanobacteria which had the capacity to use CO2 in a photosynthetic process, releasing oxygen gas.\nThe oxygen released into the aquatic environment initially reacted with the dissolved iron in the oceans to produce iron oxides which deposited and settled at the bottom of the oceans producing an iron oxide band in the strata. Alternating layers of iron oxide rich and silica rich sediments produced what is known as banded iron formations for prolonged periods of time.\nThe pollution of the oceans caused by cyanobacteria producing oxygen significantly affected the geosphere by the production of millions of tons of banded iron formations.",
+      "answersCouldInclude": [
+        "Coal formation",
+        "Bio-sedimentary rocks",
+        "Erosion formed by animals or plants."
+      ]
+    },
+    {
+      "number": "31",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the effectiveness of a method used to minimise the impact of a natural disaster.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains in detail how a specific method may reduce the impact of a related natural disaster ; Provides a judgement on the effectiveness of the method"
+        },
+        {
+          "marks": "3",
+          "text": "Explains how a specific method may reduce the impact of a related natural disaster ; Provides a judgement on the effectiveness of the method"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a method associated with minimising the impacts of natural disasters ; Provides a judgement"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "In earthquake prone regions, modern building codes require design elements enabling structures to withstand the ground-shaking motion caused by surface waves, for example the use of flexible materials such as steel for frameworks. These structures will bend when shaken by earthquake waves without breaking, and return to their original position following the earthquake, thus minimising infrastructure damage. By maintaining the structural integrity of a building it prevents structures from collapsing and causing injury or death.\nThese methods have been highly effective in minimising infrastructure damage and the loss of life associated with earthquakes compared to the use of rigid concrete structures.",
+      "answersCouldInclude": [
+        "Volcanism – predictive methods such as: satellite imagery, SO2 detectors, seismometers, spectrometers, temperature probes in water bodies.",
+        "Volcanism – building away from prevailing wind directions to reduce impact of ash falls, not building on topographic lows to avoid lava flows/pyroclastic flows; building a suitable distance from possible dangers associated with volcanism.",
+        "Earthquakes – detection methods including: seismometers (pre-quakes), anomalous animal behaviours, modern building codes."
+      ]
+    },
+    {
+      "number": "32",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 5,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain how changes in land use since human settlement have contributed to the enhanced greenhouse effect. Refer to the data provided.",
+      "stimulus": "Since human settlement, Australia’s land use has changed the natural land cover across the country. The table shows current land use categories.\nAustralia’s Current Land Use\nLand use | Percentage | Area (km2)\nGrazing (native vegetation) | 45% | 3 448 896\nConservation | 23% | 1 768 347\nGrazing (modified pastures) | 9% | 716 313\nCroplands and horticulture | 4% | 290 988\nForestry | 2% | 129 246\nUrban | < 1% | 17 632\nOther | 17% | 1 315 301",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates an extensive knowledge and understanding of how Australia’s land use has changed since human settlement ; Includes significant detail of the cause and effect relationship between changes in land use and the enhanced greenhouse effect ; Refers to the data"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates thorough knowledge and understanding of how Australia’s land use has changed since human settlement ; Includes some detail of the cause and effect relationship between changes in land use and the enhanced greenhouse effect ; Refers to the data"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates sound knowledge of how Australia’s land use has changed since human settlement ; Includes some detail of the cause and effect relationship between a change in land use and the enhanced greenhouse effect"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a change in Australia’s land use ; Makes some connection to the enhanced greenhouse effect"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The data shows that a significant area of land up to 45% is currently being used for grazing. Croplands, forestry and urban functions also make up approximately another 7–8% in total. An increase in grazing land for cattle leads to the production of methane, which is a very potent greenhouse gas. The removal of vast forests, to create grazing land, and urban development would significantly reduce the carbon dioxide sink leading to increased CO2 levels in our atmosphere and contributing to the enhanced greenhouse effect.\nWhile some horticulture and domestication of animals occurred following settlement by Aboriginal and Torres Strait Islander peoples, the extent was much less than today, and the impact on the enhanced greenhouse effect would have been minimal.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "34",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 7,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the environmental impacts of incorporating such practices.",
+      "stimulus": "It has been suggested that practices used by Aboriginal and Torres Strait Islander Peoples be adopted or adapted when preparing environmental management plans.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Demonstrates an extensive knowledge and understanding of Aboriginal and Torres Strait Islander peoples’ practices ; Relates the practices to possible environmental implications ; Draws out the usefulness of incorporating such practices ; Constructs a logical and coherent response"
+        },
+        {
+          "marks": "5–6",
+          "text": "Demonstrates thorough knowledge and understanding of Aboriginal and Torres Strait Islander peoples’ practices ; Relates the practices to possible environmental implications ; Draws out the usefulness of incorporating such practices ; Constructs a coherent response"
+        },
+        {
+          "marks": "3–4",
+          "text": "Demonstrates sound knowledge of Aboriginal and Torres Strait Islander peoples’ practices ; AND EITHER ; Relates the practices to possible environmental implications ; OR ; Draws out the usefulness of incorporating such practices"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates limited knowledge of Aboriginal and Torres Strait Islander peoples’ practices"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "The use of fire-stick farming involves Aboriginal peoples purposefully and regularly lighting fires both for the hunting of animals and for promoting regrowth of native vegetation. Its main purpose relates to caring for Country – environmental management including reducing fuel load, mitigation of bushfire, regeneration, nutrient recycling and seed germination. Adopting this practice into environmental management plans by routine hazard reduction burning would effectively reduce fuel loads and reduce net carbon dioxide outputs because small frequent fires do not burn the entire plant and thus encourage the storage of carbon resources under the ground such as in tubers. It also ensures that animals can escape danger and then return to their habitats.",
+        "The way in which Aboriginal and Torres Strait Islander peoples used seasonal occupation, whereby they moved from one region to another, reduced pressures on local food sources so that each ecosystem could regenerate when they moved on. This is not evident in European agricultural techniques where pastures are established on a permanent basis, often depleting soil nutrients and leading to erosion and salinity problems. While more sustainable, the adoption of practices such as cyclical/seasonal rotation of populations into modern agricultural techniques is not very practical given the size of populations which need to be sustained, practices such as crop rotation are more practical.",
+        "Answers could include Aboriginal and Torres Strait Islander peoples’ practices such as:",
+        "Reduction of large scale crops in favour of smaller ones, eg market gardens, community farm gardens",
+        "Mosaic burning",
+        "Fish traps."
+      ]
+    },
+    {
+      "number": "35(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Name the types of plate boundary at Boundary A and Boundary B. Justify your response.",
+      "stimulus": "Two tectonic plate boundaries run in a north–south direction. A geologist measured the depth of earthquakes, and the distance each occurred from the plate margin. The results are shown.\n[Two tables, one for each boundary. Boundary A: 'Distance from the plate margin (degrees of longitude)' −4.5, −3.5, −2.9, −2.5, −1.6, 0, +0.6, +1.8; 'Focus depth of earthquake (km)' 430, 390, 300, 200, 70, 5, 3, 2. Boundary B: 'Distance from the plate margin (degrees of longitude)' −1.8, −0.7, −0.4, 0.0, +0.4, +0.9, +1.6, +1.8; 'Focus depth of earthquake (km)' 10, 10, 10, 10, 10, 10, 10, 10. Caption under the tables: 'Distance from the plate margin and focus depth of the earthquake.']",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Identifies BOTH boundary types correctly ; Justifies boundary types with reference to the data"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies BOTH boundary types correctly with no justification ; OR ; Identifies ONE boundary type correctly ; Justifies boundary type with reference to the data"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Boundary A is an ocean/continent convergent plate boundary.\nThe graph shows the distribution and depth of earthquakes on either side of the plate margin typical of a subduction zone. The subducting ocean plate will penetrate deeper into the mantle as shown by the data.\nBoundary B is an ocean/ocean divergent plate boundary.\nThe graph shows the uniformity of earthquake depth on either side of the plate margin and that depth is not penetrating deep into the mantle.",
+      "answersCouldInclude": [
+        "Boundary A is an ocean/ocean convergent plate boundary.",
+        "Boundary B is a transform fault associated with a mid ocean ridge plate boundary.",
+        "Boundary B is a continental/continental divergent boundary."
+      ]
+    },
+    {
+      "number": "36",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the effects of both climatic phenomena and human activities on the frequency and magnitude of bushfires in Australia.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "8",
+          "text": "Demonstrates an extensive knowledge and understanding of the effect of climatic phenomena on both the frequency AND magnitude of bushfires ; Demonstrates an extensive knowledge and understanding of the effect of human activity on both the frequency AND magnitude of bushfires ; Constructs a logical and coherent response leading to a clear judgement for both criteria"
+        },
+        {
+          "marks": "6–7",
+          "text": "Demonstrates thorough knowledge and understanding of the effect of climatic phenomena on the frequency and magnitude of bushfires ; Demonstrates thorough knowledge and understanding of the effect of human activity on the frequency and magnitude of bushfires ; Constructs a logical and coherent response leading to a clear judgement for both criteria"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates sound knowledge of the effect of climatic phenomena on the frequency AND/OR magnitude of bushfires ; Demonstrates sound knowledge of the effect of human activity on the frequency AND/OR magnitude of bushfires ; Includes at least one clear judgement"
+        },
+        {
+          "marks": "2–3",
+          "text": "Demonstrates basic knowledge of the effect of climatic phenomena on the frequency OR magnitude of bushfires ; AND/OR ; Demonstrates basic knowledge of the effect of human activity on the frequency OR magnitude of bushfires"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Frequency criteria may include:",
+        "The duration of a fire season",
+        "Annual trends",
+        "Number of simultaneous fires etc.",
+        "Magnitude criteria may include:",
+        "Speed of propagation",
+        "Area of fire ground",
+        "Intensity etc.",
+        "Climatic phenomena may include:",
+        "Droughts",
+        "Increased frequency",
+        "Severity of weather events such as thunderstorms, strong winds or heatwaves",
+        "El Nino.",
+        "Human activities may include:",
+        "Backburning or lack thereof",
+        "Firefighting",
+        "Infrastructure development",
+        "Educational awareness",
+        "Law making and enforcement",
+        "Anthropogenic ignition sources eg cigarette butts and metal working."
+      ]
+    }
+  ]
+}
