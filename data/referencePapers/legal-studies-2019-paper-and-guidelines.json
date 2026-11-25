@@ -1,0 +1,736 @@
+{
+  "year": 2019,
+  "course": "Legal Studies",
+  "papers": [
+    "2019-hsc-legal-studies.pdf",
+    "2019-hsc-legal-studies-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted."
+    }
+  ],
+  "edits": [],
+  "questions": [
+    {
+      "number": "21",
+      "section": "II-A",
+      "marks": 4,
+      "stem": "Outline how the right to universal suffrage has developed over time.",
+      "stimulus": "",
+      "assessedOn": [],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Sketches in general terms the main features of the development over time of universal suffrage"
+        },
+        {
+          "marks": "3",
+          "text": "Sketches in general terms some features of the development over time of universal suffrage"
+        },
+        {
+          "marks": "2",
+          "text": "Makes statements about the development of universal suffrage"
+        },
+        {
+          "marks": "1",
+          "text": "Makes general statements about universal suffrage OR the development of human rights over time"
+        }
+      ],
+      "sampleAnswer": "Universal suffrage refers to the right of all adults to vote in government elections so they can be involved in how they are governed. At the beginning of the 19th century only some men and no women could vote. Indigenous and racial minorities could not vote. During the 20th century the right to vote was extended to women and minorities, becoming a feature of democratic societies. Suffrage is now recognised in international law as a universal human right. For example, the right to vote is recognised in Article One of the ICCPR.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "22",
+      "section": "II-A",
+      "marks": 4,
+      "stem": "How does the United Nations promote human rights?",
+      "stimulus": "",
+      "assessedOn": [],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a clear understanding of how the United Nations promotes human rights"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of how the United Nations promotes human rights"
+        },
+        {
+          "marks": "2",
+          "text": "Makes a statement about how the United Nations can promote human rights"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about the United Nations AND/OR human rights"
+        }
+      ],
+      "sampleAnswer": "The United Nations is an intergovernmental body which seeks to play an important role in the promotion of human rights. For example, the General Assembly provides a forum for all member governments to raise human rights issues and concerns. The Assembly passes declarations condemning human rights abuses. In contrast, the Security Council passes binding resolutions authorising humanitarian interventions. The Human Rights Council can investigate human rights abuses and hear individuals responding to violations. All of the actions promote human rights by increasing awareness and promoting international laws and compliance with these laws.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "23",
+      "section": "II-A",
+      "marks": 7,
+      "stem": "How effective are international responses in enforcing human rights? In your answer, refer to at least ONE contemporary issue.",
+      "stimulus": "",
+      "assessedOn": [],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Demonstrates a thorough understanding of international responses in enforcing human rights ; Makes an informed judgement about how effective international responses are in enforcing human rights ; Uses relevant example(s) to support the answer"
+        },
+        {
+          "marks": "5–6",
+          "text": "Demonstrates a sound understanding of international responses in enforcing human rights ; Makes some judgement about how effective international responses are in enforcing human rights ; Refers to relevant example(s)"
+        },
+        {
+          "marks": "3–4",
+          "text": "Demonstrates some understanding of international responses in enforcing human rights ; Attempts to make a judgement about how effective international responses are in enforcing rights ; Refers to an example"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes a general statement about international responses AND/OR human rights"
+        }
+      ],
+      "sampleAnswer": "International responses are not very effective in enforcing human rights. Human rights laws are expected to be recognised and enforced by all sovereign nations. When this does not occur there will have been human rights abuses. An example is where nations such as Syria and China suppress freedom of political expression for minority groups. International calls to end this suppression have been ignored. In this way, international responses to human rights abuses can be restricted by the exercise of state sovereignty. An example of when international responses can effectively respond to human rights issues is when countries allow humanitarian intervention to allow aid workers to provide food, water, shelter and medical treatment for people displaced by war, as is the case in Syria. However, other countries would use state sovereignty to restrict access, for example Venezuela. When nations use their sovereignty to deny human rights such as labour rights, it is difficult for the United Nations to intervene. There are international bodies that can intervene to prosecute individuals such as the International Criminal Court, but this happens after the breaches have occurred. Only three prosecutions have been launched.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "24",
+      "section": "II-B",
+      "marks": 15,
+      "stem": "Explain how post-sentencing considerations seek to balance community interests and individual rights and freedoms.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Demonstrates extensive knowledge of post-sentencing considerations ; Provides a thorough explanation of how post-sentencing considerations seek to balance community interests and individual rights and freedoms ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "10–12",
+          "text": "Demonstrates substantial knowledge of post-sentencing considerations ; Provides a sound explanation of how post-sentencing considerations seek to balance community interests and individual rights and freedoms ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Demonstrates some knowledge of post-sentencing considerations ; Provides some explanation of how post-sentencing considerations seek to balance community interests and individual rights and freedoms ; Makes reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates limited knowledge of the sentencing process ; Makes general statements about the sentencing process and community interests, individual rights and freedoms ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–3",
+          "text": "Writes in general terms about the criminal justice system AND/OR community interests, individual rights and freedoms ; May include reference to legislation, cases, media, international instruments and documents ; May use legal terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Security classification – adverse impact on individual while seeking to keep communities safe. Also increases risk to community if prisoner is radicalised or traumatised while in high security then released. It is very expensive to keep prisoners in maximum security. In contrast minimum security classification is designed to promote rehabilitation and successful reintegration into society for the prisoner. This is balanced against an increased risk of escape.",
+        "Protective custody – provided to offenders vulnerable to attack from other prisoners. It is expensive but needs to be balanced against the prisoners’ human rights.",
+        "Parole – conditional release of an offender after completion of the minimum term of their sentence. It seeks to maximise the chance that the prisoner will reintegrate into society and not reoffend so as to keep the community safe. The parole board needs to assess the risk of reoffending while on parole against the individual’s right to rejoin society.",
+        "Preventative detention – is highly controversial because an individual’s liberty is denied on the basis of the risk they pose. It restricts the rights of the offender but aims to protect the community. This is used in terrorist matters.",
+        "Continued detention – is the ongoing detention of a sex offender due to their high risk of reoffending in society after they have served their sentence. It aims to balance the protection of society against future crimes with facilitating the rehabilitation of the offender.",
+        "Sexual offenders registration – a database of offenders who have been convicted of certain sexual offences. This post-sentencing consideration aims to assist police to have updated information in order to protect society. There is debate about whether the database should be made public.",
+        "Deportation – the minister for immigration can deport a foreign national after they have served an Australian prison sentence. The future risk to society is balanced against the negative impact of deporting somebody."
+      ],
+      "sectionHeading": "Section II – 30 marks. Part B – Crime, 15 marks. Attempt Question 24. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "25(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Evaluate the effectiveness of legal redress and remedies in achieving consumer protection.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of legal redress and remedies for consumers ; Makes an informed judgement, using criteria, about the effectiveness of legal redress and remedies in achieving consumer protection ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of legal redress and remedies for consumers ; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of legal redress and remedies in achieving consumer protection ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of legal redress and remedies for consumers ; Makes some judgement about the effectiveness of legal redress and remedies in achieving consumer protection ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of legal redress and remedies for consumers ; Makes statements about the effectiveness of legal redress and remedies for consumers ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about consumer law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "25(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Assess the role of law reform in recognising the rights of consumers. In your response, refer to at least ONE contemporary issue.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of the role of law reform in relation to consumers ; Makes an informed judgement about the role of law reform in recognising the rights of consumers, with reference to at least one contemporary issue ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of the role of law reform in relation to consumers ; Makes a sound judgement about the role of law reform in recognising the rights of consumers, with reference to at least one contemporary issue ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of the role of law reform in relation to consumers ; Makes some judgement about the role of law reform in recognising the rights of consumers, with reference to at least one contemporary issue ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of the role of law reform in relation to consumers ; Makes statements about the role of law reform in recognising the rights of consumers. May refer to a contemporary issue ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about consumer law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "26(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Evaluate the effectiveness of international responses in protecting the global environment.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of international responses to global environmental protection ; Makes an informed judgement, using criteria, about the effectiveness of international responses in protecting the global environment ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of international responses to global environmental protection ; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of international responses in protecting the global environment ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of international responses to global environmental protection ; Makes some judgement about the effectiveness of international responses in protecting the global environment ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of international responses to global environmental protection ; Makes statements about the effectiveness of responses in protecting the global environment ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about global environmental protection ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "26(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Assess the role of law reform in protecting the global environment. In your response, refer to at least ONE contemporary issue.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of the role of law reform in relation to global environmental protection ; Makes an informed judgement about the role of law reform in protecting the global environment, with reference to at least one contemporary issue ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of the role of law reform in relation to global environmental protection ; Makes a sound judgement about the role of law reform in protecting the global environment, with reference to at least one contemporary issue ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of the role of law reform in relation to global environmental protection ; Makes some judgement about the role of law reform in protecting the global environment, with reference to at least one contemporary issue ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of the role of law reform in relation to global environmental protection ; Makes statements about the role of law reform in protecting the global environment. May refer to a contemporary issue ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about global environmental protection ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "27(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Evaluate the effectiveness of legal responses in achieving justice for parties involved in relationship breakdowns.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of legal responses to relationship breakdown ; Makes an informed judgement, using criteria, about the effectiveness of legal responses in achieving justice for parties involved in relationship breakdown ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of legal responses to relationship breakdown ; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of legal responses in achieving justice for parties involved in relationship breakdown ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of legal responses to relationship breakdown ; Makes some judgement about the effectiveness of legal responses in achieving justice for parties involved in relationship breakdown ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of legal responses to relationship breakdown ; Makes statements about the effectiveness of legal responses in achieving justice for parties involved in relationship breakdown ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about family relationships and/or family law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "27(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Assess the role of law reform in achieving just outcomes for family members. In your response, refer to at least ONE contemporary issue.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of the role of law reform in relation to family members ; Makes an informed judgement about the role of law reform in achieving just outcomes for family members, with reference to at least one contemporary issue ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of the role of law reform in relation to family members ; Makes a sound judgement about the role of law reform in achieving just outcomes for family members, with reference to at least one contemporary issue ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of the role of law reform in relation to family members ; Makes some judgement about the role of law reform in achieving just outcomes for family members, with reference to at least one contemporary issue ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of the role of law reform in relation to family members ; Makes statements about the role of law reform in achieving just outcomes for family members. May refer to a contemporary issue ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about family law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "28(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Evaluate the effectiveness of international responses in achieving justice for Indigenous peoples.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of laws relating to Indigenous peoples ; Makes an informed judgement, using criteria, about the effectiveness of international responses in achieving justice for Indigenous peoples ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of laws relating to Indigenous peoples ; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of international responses in achieving justice for Indigenous peoples ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of laws relating to Indigenous peoples ; Makes some judgement about the effectiveness of international responses in achieving justice for Indigenous peoples ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of laws relating to Indigenous peoples ; Makes statements about the effectiveness of responses in achieving justice for Indigenous peoples ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about the laws relating to Indigenous peoples ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "28(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Assess the role of law reform in recognising the rights of Indigenous peoples. In your response, refer to at least ONE contemporary issue.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of the role of law reform in relation to Indigenous peoples ; Makes an informed judgement about the role of law reform in recognising the rights of Indigenous peoples, with reference to at least one contemporary issue ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of the role of law reform in relation to Indigenous peoples ; Makes a sound judgement about the role of law reform in recognising the rights of Indigenous peoples, with reference to at least one contemporary issue ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of the role of law reform in relation to Indigenous peoples ; Makes some judgement about the role of law reform in recognising the rights of Indigenous peoples, with reference to at least one contemporary issue ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of the role of law reform in relation to Indigenous peoples ; Makes statements about the role of law reform in recognising the rights of Indigenous peoples. May refer to a contemporary issue ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about laws relating to Indigenous peoples ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "29(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Evaluate the effectiveness of legal protection and remedies in achieving justice for those securing shelter.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of legal protection and remedies relating to shelter ; Makes an informed judgement, using criteria, about the effectiveness of legal protection and remedies in achieving justice for those securing shelter ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of legal protection and remedies relating to shelter ; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of legal protection and remedies in achieving justice for those securing shelter ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of legal protection and/or remedies relating to shelter ; Makes some judgement about the effectiveness of legal protection and/or remedies in achieving justice for those securing shelter ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of legal protection and/or remedies relating to shelter ; Makes statements about the effectiveness of legal protection and/or remedies in achieving justice for those securing shelter ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about laws relating to shelter ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "29(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Assess the role of law reform in protecting the rights of those seeking shelter. In your response, refer to at least ONE contemporary issue.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of the role of law reform in relation to shelter ; Makes an informed judgement about the role of law reform in protecting the rights of those seeking shelter, with reference to at least one contemporary issue ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of the role of law reform in relation to shelter ; Makes a sound judgement about the role of law reform in protecting the rights of those seeking shelter, with reference to at least one contemporary issue ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of the role of law reform in relation to shelter ; Makes some judgement about the role of law reform in protecting the rights of those seeking shelter, with reference to at least one contemporary issue ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of the role of law reform in relation to shelter ; Makes statements about the role of law reform in protecting the rights of those seeking shelter. May refer to a contemporary issue ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about laws relating to shelter ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "30(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Evaluate the effectiveness of regulation of the workplace in protecting and recognising workplace rights.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of regulation of the workplace ; Makes an informed judgement, using criteria, about the effectiveness of regulation in protecting and recognising workplace rights ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of regulation of the workplace ; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of regulation in protecting and recognising workplace rights ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of regulation of the workplace ; Makes some judgement about the effectiveness of regulation in protecting and/or recognising workplace rights ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of regulation of the workplace ; Makes statements about the effectiveness of regulation in protecting and/or recognising workplace rights ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about regulation of the workplace ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "30(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Assess the role of law reform in recognising rights and enforcing responsibilities in the workplace. In your response, refer to at least ONE contemporary issue.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of the role of law reform in relation to the workplace ; Makes an informed judgement about the role of law reform in recognising rights and enforcing responsibilities in the workplace, with reference to at least one contemporary issue ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of the role of law reform in relation to the workplace ; Makes a sound judgement about the role of law reform in recognising rights and enforcing responsibilities in the workplace, with reference to at least one contemporary issue ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of the role of law reform in relation to the workplace ; Makes some judgement about the role of law reform in recognising rights and/or enforcing responsibilities in the workplace, with reference to at least one contemporary issue ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of the role of law reform in relation to the workplace ; Makes statements about the role of law reform in recognising rights and/or enforcing responsibilities in the workplace. May refer to a contemporary issue ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about workplace law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "31(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Evaluate the effectiveness of international responses in promoting peace and resolving conflicts to achieve world order.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of international responses to world order ; Makes an informed judgement, using criteria, about the effectiveness of international responses in promoting peace and resolving conflicts ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of international responses to world order ; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of international responses in promoting peace and resolving conflicts ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of international responses to world order ; Makes some judgement about the effectiveness of international responses in promoting peace and resolving conflicts ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of international responses to world order ; Makes statements about the effectiveness of international responses in promoting peace and resolving conflicts ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about world order ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "31(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Assess the role of law reform in promoting and maintaining world order. In your response, refer to at least ONE contemporary issue.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of the role of law reform in relation to world order ; Makes an informed judgement about the role of law reform in promoting and maintaining world order, with reference to at least one contemporary issue ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of the role of law reform in relation to world order ; Makes a sound judgement about the role of law reform in promoting and maintaining world order, with reference to at least one contemporary issue ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of the role of law reform in relation to world order ; Makes some judgement about the role of law reform in promoting and maintaining world order, with reference to at least one contemporary issue ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of the role of law reform in relation to world order ; Makes statements about the role of law reform in promoting and maintaining world order. May refer to a contemporary issue ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law relating to world order ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    }
+  ]
+}

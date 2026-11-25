@@ -17980,6 +17980,71 @@
                       }
                     ],
                     "scenario": "A court is deciding whether to impose a supervision order on a high-risk offender who has completed a sentence for a serious violent offence."
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2019-24",
+                    "question": "Explain how post-sentencing considerations seek to balance community interests and individual rights and freedoms.",
+                    "totalMarks": 15,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "LST-12-06",
+                      "LST-12-02",
+                      "LST-12-04"
+                    ],
+                    "markerNotes": [
+                      "The top row explains the mechanism of balance for each measure: what is imposed after sentence, who decides, on what test, and which safeguards limit the restriction on liberty. A list of measures without this mechanism stays in the lower rows.",
+                      "Explain at 15 marks needs more than description, so the top answer assesses whether the balance is struck fairly. Kable v DPP (NSW) (1996) shows a limit on state schemes that require a court to act incompatibly with its judicial role, and Fardon v Attorney-General (Qld) (2004) shows a scheme upheld as preventive rather than punitive.",
+                      "Cover post-sentencing considerations as a range, including classification and placement and parole, not only the high-risk orders. An answer confined to continuing detention misses the breadth of the question."
+                    ],
+                    "commonStudentErrors": [
+                      "Lists post-sentencing measures, such as parole, classification and the sex offenders register, without explaining how each one balances community interests against individual rights.",
+                      "Treats continuing detention or extended supervision orders as part of the original sentence, when the Supreme Court makes them at the end of the sentence.",
+                      "Says the High Court struck down all post-sentence detention, when Fardon v Attorney-General (Qld) (2004) upheld Queensland's scheme.",
+                      "Discusses community protection only, without mentioning the offender's liberty or the procedural protections that a court must apply."
+                    ],
+                    "keywords": [
+                      "post-sentencing considerations",
+                      "community interests",
+                      "individual rights and freedoms",
+                      "detention and supervision orders",
+                      "high-risk offenders",
+                      "continuing detention orders",
+                      "extended supervision orders",
+                      "parole"
+                    ],
+                    "markingCriteria": "13-15 marks: Demonstrates extensive knowledge of post-sentencing considerations; Provides a thorough explanation of how post-sentencing considerations seek to balance community interests and individual rights and freedoms; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n10-12 marks: Demonstrates substantial knowledge of post-sentencing considerations; Provides a sound explanation of how post-sentencing considerations seek to balance community interests and individual rights and freedoms; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n7-9 marks: Demonstrates some knowledge of post-sentencing considerations; Provides some explanation of how post-sentencing considerations seek to balance community interests and individual rights and freedoms; Makes reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n4-6 marks: Demonstrates limited knowledge of the sentencing process; Makes general statements about the sentencing process and community interests, individual rights and freedoms; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-3 marks: Writes in general terms about the criminal justice system AND/OR community interests, individual rights and freedoms; May include reference to legislation, cases, media, international instruments and documents; May use legal terminology",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2019-24-1",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Post-sentencing considerations are the legal decisions made after a court imposes a sentence. They decide where an offender is held, when they may be released and what supervision they face in the community. These decisions sit on a fault line. Community interests demand protection from people who have offended and may offend again, while individual rights and freedoms, including liberty, demand that restrictions are lawful, necessary and no greater than the risk requires. In New South Wales the balance is struck through classification and placement, parole, and detention and supervision orders for high-risk offenders, and each shifts the balance differently.\n\nClassification and placement operate inside the prison system. Corrective Services NSW assigns each inmate a security level based on the risk they pose and the risk of escape. A higher security placement protects the community, but it can mean greater isolation and fewer programs than the sentence requires. Protective custody shows the balance clearly: an inmate at risk of attack is separated from others, which protects their safety at the cost of additional restriction.\n\nParole is where community and individual interests meet most often. The offender is released early on conditions, such as reporting and not using drugs, and the State Parole Authority must be satisfied that release is appropriate. Section 3A of the Crimes (Sentencing Procedure) Act 1999 (NSW) lists protection of the community and rehabilitation among the purposes of sentencing, and parole serves both. Reintegration reduces reoffending, but the offender's liberty remains conditional and a breach can return them to custody.\n\nThe hardest balance arises where an offender is assessed as dangerous at the end of the sentence. The Crimes (High Risk Offenders) Act 2006 (NSW) allows the Supreme Court to make continuing detention orders, which keep the offender in custody, or extended supervision orders, which allow release under strict conditions. These orders are made by a court, not the executive. In Kable v DPP (NSW) (1996), the High Court struck down a NSW scheme of preventive detention because it required the Supreme Court to act incompatibly with its judicial role. In Fardon v Attorney-General (Qld) (2004), the High Court upheld a similar Queensland scheme because it was directed at risk rather than punishment. Judicial control is what keeps these orders within the balance.\n\nOther measures extend the balance beyond the sentence. The Child Protection (Offenders Registration) Act 2000 (NSW) requires certain sexual offenders to report personal details to police, which protects children but restricts privacy. Under s 501 of the Migration Act 1958 (Cth), a non-citizen with a substantial criminal record can have a visa cancelled, which removes them from the community after the sentence is served.\n\nPost-sentencing considerations seek to balance community interests and individual rights and freedoms through administrative decisions, parole and judicial orders. The International Covenant on Civil and Political Rights reflects the same tension, protecting against arbitrary detention in Article 9 while stating in Article 10(3) that the essential aim of the prison system is reformation and social rehabilitation. The balance is fairest when restrictions rest on assessed risk, are reviewed by an independent court, and are no broader than the risk requires. Where those safeguards are absent, as Kable shows, community protection comes at the cost of a process that protects everyone.",
+                        "feedback": "Meets the 13-15 row by explaining the mechanism for each measure and assessing whether the balance is fair, using Kable and Fardon, the Crimes (High Risk Offenders) Act 2006 (NSW) and the ICCPR. The conclusion weighs the safeguards that make the balance lawful, which is the sustained judgement the top row needs.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-24-2",
+                        "source": "AI",
+                        "mark": 9,
+                        "answer": "Post-sentencing considerations seek to balance community interests and individual rights and freedoms through classification, parole and detention orders. Parole releases an offender before the end of the sentence on conditions, which helps reintegration and protects the community if the conditions are followed. The State Parole Authority must be satisfied that release is appropriate, and the conditions restrict liberty. Parole also assumes that most offenders can be reintegrated, so the restriction is justified only while the risk remains manageable. For high-risk offenders, the Crimes (High Risk Offenders) Act 2006 (NSW) allows the Supreme Court to make continuing detention orders or extended supervision orders. These protect the community from serious reoffending, but they depend on a judicial finding of risk, which protects individual rights because liberty is not restricted by administrative decision alone. The High Court in Kable v DPP (NSW) (1996) found that a NSW scheme requiring the Supreme Court to detain people was invalid. That decision protects the individual, but it also limits what the state can do to protect the community. Classification also balances the two interests, because offenders are placed in security levels based on the risk they pose, though a higher security placement can restrict an offender more than the sentence requires. Corrective Services NSW makes these decisions, and they can be reviewed when circumstances change. The law tries to get this balance right, but it is not always clear where the line falls.",
+                        "feedback": "Meets the 7-9 row by giving some explanation of how the measures balance the two interests and referring to the Crimes (High Risk Offenders) Act and Kable. It does not explain the Fardon decision, and it asserts the balance without assessing whether it is fair, so it misses the 10-12 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-24-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "The criminal justice system tries to protect the community while also respecting the rights of people who have been convicted. After someone is sentenced, the government has different powers, such as keeping them in prison or letting them out on parole. These powers have to balance what is good for the community with the freedom of the offender, and this is a difficult thing to do.",
+                        "feedback": "Meets the 1-3 row by writing in general terms about the criminal justice system and about community interests and individual rights. It names no legislation or example and does not explain how the balance is struck, so it stays in this row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• • demonstrate knowledge and understanding of legal issues relevant to the question\n• • communicate using relevant legal terminology and concepts\n• • refer to relevant examples such as legislation, cases, media, international instruments and documents\n• • present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2019,
+                    "hscQuestionNumber": "24",
+                    "hscSection": "Section II – 30 marks. Part B – Crime, 15 marks. Attempt Question 24. Allow about 1 hour for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               }
@@ -19051,6 +19116,67 @@
                     "hscYear": 2022,
                     "hscQuestionNumber": "23",
                     "hscSection": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–24. Allow about 1 hour for this section."
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2019-21",
+                    "question": "Outline how the right to universal suffrage has developed over time.",
+                    "totalMarks": 4,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "LST-12-01",
+                      "LST-12-02",
+                      "LST-12-03"
+                    ],
+                    "markerNotes": [
+                      "The top row traces the development in order: suffrage limited to some men, extended to women and to Indigenous and racial minorities, and now recognised as a universal human right. A statement that everyone can now vote does not show development over time.",
+                      "Outline asks for the main features in brief, so one clear point on each stage of the extension is enough. Four marks do not need a list of Acts or countries.",
+                      "The NESA sample cites Article One of the ICCPR for the right to vote. That is incorrect: the right to vote is in Article 25, and Article 1 deals with self-determination. A student should cite Article 25, or name the ICCPR without an article number."
+                    ],
+                    "commonStudentErrors": [
+                      "Defines universal suffrage and stops, without saying how or when the right changed.",
+                      "Describes the right to vote as having always existed, which ignores the extension the question asks about.",
+                      "Writes about human rights in general, such as the Universal Declaration of Human Rights, without linking any instrument to the right to vote.",
+                      "Gives dates or Acts without connecting them to a stage of the development, for example naming the Commonwealth Franchise Act 1902 (Cth) without saying what it did for women."
+                    ],
+                    "keywords": [
+                      "universal suffrage",
+                      "human rights",
+                      "developing recognition of human rights",
+                      "International Covenant on Civil and Political Rights",
+                      "universal human right",
+                      "democratic societies"
+                    ],
+                    "markingCriteria": "4 marks: Sketches in general terms the main features of the development over time of universal suffrage\n3 marks: Sketches in general terms some features of the development over time of universal suffrage\n2 marks: Makes statements about the development of universal suffrage\n1 mark: Makes general statements about universal suffrage OR the development of human rights over time",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2019-21-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "Universal suffrage refers to the right of all adults to vote in government elections so they can be involved in how they are governed. At the beginning of the 19th century only some men and no women could vote. Indigenous and racial minorities could not vote. During the 20th century the right to vote was extended to women and minorities, becoming a feature of democratic societies. Suffrage is now recognised in international law as a universal human right. For example, the right to vote is recognised in Article One of the ICCPR.",
+                        "feedback": "Meets the 4-mark row by sketching the main features of how universal suffrage developed, from a vote for some men to a vote for women and minorities, and then recognition as a human right.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-21-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Universal suffrage means that all adults can vote in elections. Over time the right has been extended from some men to women and minority groups, and it is now recognised as a human right.",
+                        "feedback": "Meets the 2-mark row by making statements about how universal suffrage developed, from a vote for some to a vote for all adults. It does not sketch any features of the change, such as which groups were excluded and when, so it misses the 3-mark row.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-21-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Universal suffrage is the right of people to vote in elections. It is an important right in a democracy.",
+                        "feedback": "Meets the 1-mark row by making a general statement about universal suffrage, with no account of how it developed over time. Naming one stage in that development, such as the vote for women, would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2019,
+                    "hscQuestionNumber": "21",
+                    "hscSection": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section."
                   }
                 ]
               },
@@ -20231,6 +20357,68 @@
                       }
                     ],
                     "scenario": "Hypothetical: a government official is accused of directing forced disappearances in a country that has ratified the Rome Statute. Survivors ask whether an international court can hear their case if the national courts take no action."
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2019-23",
+                    "question": "How effective are international responses in enforcing human rights? In your answer, refer to at least ONE contemporary issue.",
+                    "totalMarks": 7,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "LST-12-02",
+                      "LST-12-06",
+                      "LST-12-07"
+                    ],
+                    "markerNotes": [
+                      "The top row makes an informed judgement about how effective international responses are, rather than describing them. The NESA sample reaches a position (not very effective) and tests it against cases where responses do work, such as access for aid in humanitarian crises. A top answer adds a second contemporary example and says what each response achieved.",
+                      "The NESA sample says that only three prosecutions have been launched. That is not accurate and should not be copied: the International Criminal Court began operating in July 2002 and has opened cases in several situations. A student who needs a figure should check the Court's published case records.",
+                      "The sample names Syria, China and Venezuela without identifying a specific response or outcome. A top answer names the response, such as a Security Council resolution, a referral to the ICC or a sanction, and says what happened."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes international bodies and their powers without judging how effective they are.",
+                      "Blames state sovereignty for every failure, without showing when responses do work, such as a Security Council resolution or a referral to the ICC.",
+                      "Confuses the International Criminal Court, which prosecutes individuals, with the International Court of Justice, which settles disputes between states.",
+                      "Uses a contemporary issue as a name only, such as the word Syria, without explaining the response or its outcome."
+                    ],
+                    "keywords": [
+                      "international responses",
+                      "enforcing human rights",
+                      "state sovereignty",
+                      "humanitarian intervention",
+                      "International Criminal Court",
+                      "breaches of human rights",
+                      "Security Council"
+                    ],
+                    "markingCriteria": "7 marks: Demonstrates a thorough understanding of international responses in enforcing human rights; Makes an informed judgement about how effective international responses are in enforcing human rights; Uses relevant example(s) to support the answer\n5-6 marks: Demonstrates a sound understanding of international responses in enforcing human rights; Makes some judgement about how effective international responses are in enforcing human rights; Refers to relevant example(s)\n3-4 marks: Demonstrates some understanding of international responses in enforcing human rights; Attempts to make a judgement about how effective international responses are in enforcing rights; Refers to an example\n1-2 marks: Makes a general statement about international responses AND/OR human rights",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2019-23-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 7,
+                        "answer": "International responses are not very effective in enforcing human rights. Human rights laws are expected to be recognised and enforced by all sovereign nations. When this does not occur there will have been human rights abuses. An example is where nations such as Syria and China suppress freedom of political expression for minority groups. International calls to end this suppression have been ignored. In this way, international responses to human rights abuses can be restricted by the exercise of state sovereignty. An example of when international responses can effectively respond to human rights issues is when countries allow humanitarian intervention to allow aid workers to provide food, water, shelter and medical treatment for people displaced by war, as is the case in Syria. However, other countries would use state sovereignty to restrict access, for example Venezuela. When nations use their sovereignty to deny human rights such as labour rights, it is difficult for the United Nations to intervene. There are international bodies that can intervene to prosecute individuals such as the International Criminal Court, but this happens after the breaches have occurred. Only three prosecutions have been launched.",
+                        "feedback": "Meets the 7-mark row by showing a thorough understanding of international responses, making a judgement about how effective they are, and using examples such as the ICC, humanitarian intervention and Syria.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-23-2",
+                        "source": "AI",
+                        "mark": 4,
+                        "answer": "International responses are only partly effective in enforcing human rights. The International Criminal Court can prosecute individuals for serious abuses, but it acts after the abuses have happened and depends on states cooperating. In Syria, aid workers have been restricted from reaching civilians by the government and by armed groups, and the Security Council has been divided, so responses have been slow. Where states do cooperate, international responses can make a real difference, but state sovereignty still limits them.",
+                        "feedback": "Meets the 3-4 row by attempting a judgement that international responses are only partly effective, and by referring to an example in Syria. It does not test that judgement against a second response or weigh the limits in detail, so it misses the 5-6 row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-23-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "International responses can help enforce human rights, for example through the International Criminal Court. Some countries do not cooperate with them.",
+                        "feedback": "Meets the 1-2 row by making a general statement about international responses and human rights, with no example of a response and no judgement of how effective it is. It names a body but does not say what it does or how well it works.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2019,
+                    "hscQuestionNumber": "23",
+                    "hscSection": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section."
                   }
                 ]
               },
@@ -21476,6 +21664,66 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2019-22",
+                    "question": "How does the United Nations promote human rights?",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "LST-12-04",
+                      "LST-12-05"
+                    ],
+                    "markerNotes": [
+                      "The top row explains how the UN promotes rights through named mechanisms: a forum for debate, declarations and resolutions, and investigation by bodies such as the Human Rights Council. A general claim that the UN is important for human rights stays in the lower rows.",
+                      "The NESA sample says the Security Council passes binding resolutions authorising humanitarian interventions. That is a simplification: Council decisions bind UN members under Article 25 of the UN Charter, and Chapter VII gives the Council its enforcement powers. Humanitarian intervention is one use of those powers, not a routine way of promoting rights. A student should not copy the link.",
+                      "A top answer can add that General Assembly resolutions are recommendations rather than binding law, which is a real limit on how far the UN can promote rights."
+                    ],
+                    "commonStudentErrors": [
+                      "Says the UN promotes human rights because it is a global organisation, without naming any body or mechanism.",
+                      "Says the General Assembly makes binding human rights laws, when its resolutions are recommendations and treaties are made separately by states.",
+                      "Refers to the Commission on Human Rights as the current body, when the Human Rights Council replaced it in 2006."
+                    ],
+                    "keywords": [
+                      "United Nations",
+                      "General Assembly",
+                      "Security Council",
+                      "Human Rights Council",
+                      "advocacy",
+                      "investigation",
+                      "binding resolutions"
+                    ],
+                    "markingCriteria": "4 marks: Demonstrates a clear understanding of how the United Nations promotes human rights\n3 marks: Demonstrates some understanding of how the United Nations promotes human rights\n2 marks: Makes a statement about how the United Nations can promote human rights\n1 mark: Makes a general statement about the United Nations AND/OR human rights",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2019-22-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "The United Nations is an intergovernmental body which seeks to play an important role in the promotion of human rights. For example, the General Assembly provides a forum for all member governments to raise human rights issues and concerns. The Assembly passes declarations condemning human rights abuses. In contrast, the Security Council passes binding resolutions authorising humanitarian interventions. The Human Rights Council can investigate human rights abuses and hear individuals responding to violations. All of the actions promote human rights by increasing awareness and promoting international laws and compliance with these laws.",
+                        "feedback": "Meets the 4-mark row by showing how the UN promotes human rights: a forum in the General Assembly, declarations, Security Council resolutions and investigation by the Human Rights Council.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-22-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The United Nations promotes human rights through the General Assembly, where member states discuss human rights issues. The Human Rights Council also examines human rights problems in member countries.",
+                        "feedback": "Meets the 2-mark row by making a statement about how the UN can promote human rights and naming two bodies. It does not explain what either body does to promote rights, so it misses the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-22-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The United Nations is an international organisation that works on human rights around the world.",
+                        "feedback": "Meets the 1-mark row by making a general statement about the United Nations and human rights, without saying how the UN promotes them. Naming one body and its role would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2019,
+                    "hscQuestionNumber": "22",
+                    "hscSection": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section."
                   }
                 ]
               },
@@ -22296,6 +22544,71 @@
                     "hscQuestionNumber": "26(b)",
                     "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
                     "bandCeiling": 6
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2019-25b",
+                    "question": "Assess the role of law reform in recognising the rights of consumers. In your response, refer to at least ONE contemporary issue.",
+                    "totalMarks": 25,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "LST-12-03",
+                      "LST-12-04",
+                      "LST-12-06"
+                    ],
+                    "markerNotes": [
+                      "The top answer assesses the role of law reform, meaning how reform recognised rights (from the 1962 statement of consumer rights to the ACL) and where reform stopped short, rather than describing consumer rights in general.",
+                      "The contemporary issue must test the role of reform. Digital marketplaces and scams show whether recognised rights work in practice, and the Consumer Data Right shows a new right created by statute.",
+                      "Assess asks for a judgement: state how much weight reform carries against other influences such as enforcement, consumer advocacy and media investigations."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes consumer rights and the ACL without assessing the role that law reform played in recognising them.",
+                      "Gives the history of reform as a list of Acts, without showing how any reform changed the position of consumers.",
+                      "Mentions a contemporary issue in the conclusion without using it to test whether reform has recognised consumer rights.",
+                      "Treats the UN Guidelines for Consumer Protection as binding on Australia, when the Guidelines are not a treaty."
+                    ],
+                    "keywords": [
+                      "law reform",
+                      "recognising the rights of consumers",
+                      "consumer protection",
+                      "international recognition",
+                      "Australian Consumer Law",
+                      "consumer rights",
+                      "Consumer Data Right",
+                      "UN Guidelines for Consumer Protection"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of the role of law reform in relation to consumers; Makes an informed judgement about the role of law reform in recognising the rights of consumers, with reference to at least one contemporary issue; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of the role of law reform in relation to consumers; Makes a sound judgement about the role of law reform in recognising the rights of consumers, with reference to at least one contemporary issue; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of the role of law reform in relation to consumers; Makes some judgement about the role of law reform in recognising the rights of consumers, with reference to at least one contemporary issue; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of the role of law reform in relation to consumers; Makes statements about the role of law reform in recognising the rights of consumers. May refer to a contemporary issue; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about consumer law; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2019-25b-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "Law reform matters to consumers because it turns broad ideas of fair treatment into rights that can be enforced. This answer assesses the role of law reform in recognising the rights of consumers in Australia. It argues that reform has been central to the formal recognition of consumer rights, but that its practical effect has been limited by weak enforcement and by the speed of change in digital markets. The modern idea of consumer rights was set out in 1962, when President John F Kennedy told the United States Congress that consumers had the right to safety, the right to be informed, the right to choose and the right to be heard. That statement became a template for national and international consumer policy, and the question for Australia is whether the law has turned those ideas into protection.\n\nInternational recognition came first. The United Nations General Assembly adopted the UN Guidelines for Consumer Protection in 1985, and these were expanded in 1999, setting out consumer protection principles as a benchmark for national governments. The Guidelines are not a treaty, so they do not bind Australia, but they gave policymakers a shared standard to measure against. Australia's Trade Practices Act 1974 (Cth) contained consumer protections in Part V, but these were mostly prohibitions on conduct, with only some implied terms giving consumers positive rights. The Productivity Commission's 2008 review of the consumer policy framework recommended a single national law, and the Australian Consumer Law (ACL), set out in Schedule 2 to the Competition and Consumer Act 2010 (Cth), commenced on 1 January 2011. The ACL made rights concrete by implying consumer guarantees into supplies of goods and services, including that goods are of acceptable quality and fit for any disclosed purpose.\n\nReform recognised consumer rights in three ways. It set out one national set of guarantees, with remedies that do not depend on proof of fault. It also set guarantees for services alongside those for goods. And it created protection against unfair terms in standard form contracts, which courts could not easily reach before. The unfair contract terms rules were later extended to small business contracts by the Competition and Consumer Amendment (Unfair Contract Terms) Act 2016 (Cth). That extension shows that reform can respond to recognised imbalances of power, rather than only to consumer complaints. Yet recognition on paper depends on consumers knowing and using their rights, and the cost of litigation deters most consumers from enforcing them.\n\nThe contemporary issue of digital markets tests whether reform has recognised consumer rights in practice. Online shopping, digital platforms and scams create harms that the ACL's categories did not anticipate. The ACCC's Digital Platforms Inquiry, released in 2019, concluded that consumers had limited bargaining power and limited information about how platforms use their data. One response has been to create new rights over data, such as the Consumer Data Right, which recognises a right for consumers to access and share their own data with accredited providers. That right was created by the Treasury Laws Amendment (Consumer Data Right) Act 2019 (Cth) and first applied to banking. It shows reform recognising a new right, but the right is only as useful as the trust and accreditation around it, and it does not stop a scammer who obtains data through deception.\n\nAssessing the role of reform requires separating formal recognition from practical protection. Reform has been decisive in creating the rights, because without the ACL and the Consumer Data Right they would rest on common law and case-by-case litigation. But reform is one influence among several. Enforcement by the ACCC, the advocacy of consumer groups such as CHOICE and media investigations often determine whether a right is respected, and reform frequently follows these pressures rather than leading them. Rights drafted for physical goods and traditional services have also been applied to digital products and platforms, which raises questions the drafting did not anticipate. On this view, reform has been important but reactive, and its effectiveness depends on enforcement and on the willingness to update rights as markets change.\n\nOverall, law reform has played a central role in recognising consumer rights in Australia, moving them from principles in international guidelines to enforceable guarantees, protection against unfair terms and a statutory right to data. The ACL and the Consumer Data Right show how reform can create rights where none existed, and the small business extension shows how reform can respond to imbalances of power. But recognition is not the same as consumer protection. The contemporary issue of digital markets shows that rights designed for traditional transactions need continual reform, and that enforcement, advocacy and access to justice decide whether recognised rights reach consumers in practice. The role of reform is substantial but incomplete.",
+                        "feedback": "Meets the 21-25 row by making an informed judgement about the role of law reform in recognising consumer rights, using the 1962 statement, the UN Guidelines, the ACL and the Consumer Data Right as examples. The digital markets issue is used to test that judgement, not only mentioned.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-25b-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Law reform has been important in recognising the rights of consumers in Australia. Before the Australian Consumer Law (ACL) commenced in 2011, consumer protection sat in the Trade Practices Act 1974 (Cth), and later reforms have given consumers clearer rights, such as consumer guarantees that apply automatically to goods and services. These guarantees recognise the consumer's right to goods that are of acceptable quality, and the prohibition of misleading conduct recognises the right to be informed. This shows that law reform has given consumers legal rights that they can enforce. Having one national law was also intended to reduce confusion across state borders.\n\nInternational ideas have also shaped reform. The United Nations Guidelines for Consumer Protection set out principles that governments can adopt, and Australia has followed similar principles. Reform in Australia has therefore responded to international expectations as well as to domestic problems. The Guidelines also treated consumer rights as a global concern rather than only a national one.\n\nA contemporary issue is online shopping and scams. Consumers now buy from digital platforms and overseas sellers, and the older rules did not always cover these transactions clearly. Law reform has had to respond to these changes, and the ACCC has investigated digital platforms. Public warnings from the ACCC help consumers recognise scams, but a warning does not give a legal remedy. Because the law changes slowly, consumers may still lack protection against some scams. Scams are a contemporary issue because they target people who may not know how to complain.\n\nOverall, law reform has been important in recognising consumer rights, but it has limits. The reforms have created rights that consumers can use, but these are only useful if consumers know about them and can enforce them against online traders. Consumer groups and governments have debated whether reform has kept pace with online markets, and some areas remain unreformed. Law reform is important but is not enough on its own to protect consumers fully. A strong answer would look at both the rights on paper and the practical access to them.",
+                        "feedback": "Meets the 11-15 row by making some judgement about the role of reform in recognising consumer rights, with a contemporary issue referred to. It describes reform rather than weighing its role against enforcement and other influences, so it stays in this row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-25b-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Law reform has recognised consumer rights in Australia. The Australian Consumer Law gave consumers guarantees about goods and services, which means a product must be of acceptable quality. Consumers also have the right to be protected against misleading conduct. These rights came from changes to the law, which were made to protect consumers better. However, consumers today face new problems, such as online shopping and scams, and the law may not deal with these well. Overall, reform has been helpful for consumers in Australia, although it has not solved every problem they face.",
+                        "feedback": "Meets the 1-5 row by writing in general terms about consumer rights and making a statement about reform, with no judgement about its role. A reference to one specific reform and how it recognised a right would lift it to the 6-10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• • demonstrate knowledge and understanding of legal issues relevant to the question\n• • communicate using relevant legal terminology and concepts\n• • refer to relevant examples such as legislation, cases, media, international instruments and documents\n• • present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2019,
+                    "hscQuestionNumber": "25(b)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -22773,6 +23086,70 @@
                     "hscQuestionNumber": "26(b)",
                     "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
                     "bandCeiling": 6
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2019-25a",
+                    "question": "Evaluate the effectiveness of legal redress and remedies in achieving consumer protection.",
+                    "totalMarks": 25,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "LST-12-02",
+                      "LST-12-06",
+                      "LST-12-07"
+                    ],
+                    "markerNotes": [
+                      "The top answer evaluates, using criteria such as accessibility, enforceability and resource efficiency, whether legal redress and remedies achieve consumer protection, and reaches a judgement on the extent of effectiveness. A description of the ACL's guarantees and remedies without a judgement stays in the middle rows.",
+                      "Separate the redress that one consumer can use (refund, repair, replacement, compensation, a tribunal claim) from the enforcement that regulators use (court action, penalties, public warnings). Strong answers show that the first is accessible but the second is needed when harm is widespread.",
+                      "Use the 2022 penalty increases and the 2016 extension of unfair contract terms protection to small business to show how reform affects effectiveness, then test the judgement with a contemporary issue such as online scams."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes the consumer guarantees and remedies without saying whether they achieve consumer protection in practice.",
+                      "Assumes that because a remedy exists, consumers can use it, without considering cost, delay and the evidence a claim needs.",
+                      "Treats the ACCC and NSW Fair Trading as having the same role, without distinguishing national enforcement from state complaint handling and dispute resolution.",
+                      "Ignores the consumer who does not complain, so the answer overstates how effective redress is."
+                    ],
+                    "keywords": [
+                      "legal redress",
+                      "remedies",
+                      "consumer protection",
+                      "Australian Consumer Law",
+                      "consumer guarantees",
+                      "ACCC",
+                      "NSW Fair Trading",
+                      "consumer rights"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of legal redress and remedies for consumers; Makes an informed judgement, using criteria, about the effectiveness of legal redress and remedies in achieving consumer protection; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of legal redress and remedies for consumers; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of legal redress and remedies in achieving consumer protection; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of legal redress and remedies for consumers; Makes some judgement about the effectiveness of legal redress and remedies in achieving consumer protection; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of legal redress and remedies for consumers; Makes statements about the effectiveness of legal redress and remedies for consumers; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about consumer law; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2019-25a-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "Legal redress and remedies are the tools that let a consumer recover a loss and let the state deter businesses from breaching consumer law. Their effectiveness in achieving consumer protection depends on whether they are accessible, enforceable and proportionate to the harm. The Australian Consumer Law (ACL), set out in Schedule 2 to the Competition and Consumer Act 2010 (Cth), is the national framework, and it replaced the consumer provisions of the Trade Practices Act 1974 (Cth) from 1 January 2011. This answer argues that legal redress is effective for serious and visible breaches, but is weaker where the loss is small, the trader is offshore or the harm is spread across many consumers.\n\nThe first form of redress is the consumer's own right to a remedy. The ACL implies consumer guarantees into most supplies of goods and services, including that goods are of acceptable quality (s 54), fit for any disclosed purpose (s 55) and correspond with their description (s 56). A major failure allows the consumer to reject the goods and obtain a refund, a replacement or compensation. A minor failure requires the supplier to repair the goods within a reasonable time, and if it does not, the consumer may seek a refund or replacement. These remedies do not depend on proving fault, which makes them effective in principle. Their practical weakness is that many consumers do not understand their rights, and the cost and delay of a claim can exceed the amount in dispute.\n\nThe ACL also protects consumer rights against conduct and terms that undermine a consumer's bargaining power. Section 18 prohibits misleading or deceptive conduct, and section 21 prohibits unconscionable conduct, and either can found a claim for compensation or an injunction. Section 23 makes unfair terms in standard form consumer contracts void, so a consumer can ask a court to declare a term void. The unfair contract terms regime was extended to small business contracts by the Competition and Consumer Amendment (Unfair Contract Terms) Act 2016 (Cth), which reflects the law's response to imbalances in bargaining power. These protections are effective in principle, but they depend on consumers knowing that a term is unfair and having the resources to challenge it.\n\nThe second form of redress is enforcement by regulators. The Australian Competition and Consumer Commission (ACCC) enforces the ACL nationally, while state agencies such as NSW Fair Trading handle complaints and state matters. The ACCC can seek penalties and injunctions in the Federal Court. Penalties were substantially increased in 2022 by the Treasury Laws Amendment (More Competition, Better Prices) Act 2022 (Cth), which signalled that breaches should not be treated as a cost of doing business. Part IVA of the Competition and Consumer Act 2010 (Cth) also allows representative proceedings, or class actions, where many consumers share the same claim. Regulator action deters large businesses and can compensate many consumers at once. Its limit is that the regulator chooses which cases to pursue, and penalties paid to the Commonwealth do not necessarily compensate the consumer who lost money.\n\nMeasured against the criteria of accessibility, enforceability and resource efficiency, the system is mixed. It is accessible in one sense, because consumer guarantees apply automatically, but many consumers do not know their rights and access is harder for people on low incomes. It is enforceable against traders in Australia who have assets, but judgements against overseas businesses are far harder to enforce. Resource efficiency is poor where a dispute over a few hundred dollars takes months to resolve. Specialist ombudsmen, such as the Telecommunications Industry Ombudsman and the Financial Ombudsman Service, provide free dispute resolution in their sectors.\n\nThe contemporary issue of online scams and digital marketplaces tests these remedies most sharply. A consumer who pays a scammer, or buys from an overseas seller, has the same guarantees on paper but often cannot identify the trader or serve legal proceedings on them. The ACCC's Digital Platforms Inquiry, whose final report was released in 2019, found that consumers had limited bargaining power against large platforms and limited ability to resolve complaints with them. The Scams Prevention Framework Act 2025 (Cth) now places duties on banks, telecommunications providers and digital platforms to act against scams, once their sectors are designated, which shifts part of that burden away from the individual. Their effectiveness will depend on whether accountability reaches the platform, not only the anonymous seller, because a remedy against an untraceable trader is of little practical use.\n\nLegal redress and remedies are effective in achieving consumer protection when a consumer can use them, and they are strongest where guarantees, the rules against misleading conduct and unfair terms, and regulator enforcement work together. Yet the redress that most consumers need, a quick and affordable remedy for a small loss, is the least accessible, and remedies are weakest against anonymous or overseas traders. On balance, the law protects consumers who can identify a trader and afford to pursue a claim, and the regulator reaches serious breaches, but it does not reach the consumer harmed by a scam. Consumer protection therefore depends as much on prevention and accessible dispute resolution as on remedies once the loss has occurred.",
+                        "feedback": "Meets the 21-25 row by making an informed judgement, using the criteria of accessibility, enforceability and resource efficiency, about whether redress achieves consumer protection. It integrates the ACL, the ACCC, unfair terms rules and the scams issue as examples.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-25a-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Consumers in Australia have several forms of legal redress, and the Australian Consumer Law (ACL) is the main framework. Under the ACL, consumer guarantees require goods to be of acceptable quality and fit for their purpose, and a consumer whose goods fail can seek a refund, a replacement or compensation. The ACL also prohibits misleading or deceptive conduct, so a consumer who is misled can seek compensation. These remedies are fairly effective because consumers can act themselves, for example by bringing a small claim in the NSW Civil and Administrative Tribunal, without waiting for a regulator to act.\n\nHowever, there are limits. A consumer who is misled by advertising must also show that the conduct was misleading, which many cannot do without legal help. Many consumers do not pursue small claims because the time and cost are greater than the loss, so the remedies do not reach them in practice. Enforcement by the ACCC is also important. The ACCC can take a business to the Federal Court for breaches of the ACL and seek penalties, and this works well for large companies that are visibly in breach. It does not deal with the many small breaches that happen every day, because the ACCC can only pursue a limited number of cases.\n\nThe effectiveness of redress also depends on the trader. Because a formal claim can take months, many consumers accept a partial refund or store credit instead of pursuing the law. A local business can be sued and pressured to pay, but an online seller based overseas, or a scammer who cannot be identified, is much harder to reach. Scams are a contemporary issue here, because a consumer may pay money and have no practical remedy at all.\n\nOverall, legal redress is effective in achieving consumer protection for consumers who can afford to use it against an identifiable trader, and the ACL has improved their position. It is less effective for the consumers who most need protection, such as those who are vulnerable or harmed by scams. Redress is most useful where it is simple to use and the trader can be found.",
+                        "feedback": "Meets the 11-15 row by making some judgement about the effectiveness of redress, with reference to the ACL, the NCAT and the ACCC. It does not apply the criteria explicitly or weigh the limits of each remedy against the others, so it stays in this row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-25a-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "The Australian Consumer Law protects consumers in Australia. It provides consumer guarantees, so that goods must be of acceptable quality, and it prohibits misleading conduct by businesses. A consumer whose rights are breached can get remedies such as a refund or a replacement. The Australian Competition and Consumer Commission is the main regulator and can take action against businesses that break the law. Legal redress is therefore available through individual claims and regulator action. Some people may not know their rights, or may find it hard to make a complaint, but consumer law is generally important for protecting consumers in Australia.",
+                        "feedback": "Meets the 1-5 row by writing in general terms about consumer law and the ACCC, without judging how effective legal redress is. A clear position on effectiveness, supported by one specific remedy, would lift it to the 6-10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• • demonstrate knowledge and understanding of legal issues relevant to the question\n• • communicate using relevant legal terminology and concepts\n• • refer to relevant examples such as legislation, cases, media, international instruments and documents\n• • present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2019,
+                    "hscQuestionNumber": "25(a)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section."
                   }
                 ]
               },
@@ -25471,6 +25848,71 @@
                     "hscQuestionNumber": "27(b)",
                     "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
                     "bandCeiling": 6
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2019-27b",
+                    "question": "Assess the role of law reform in achieving just outcomes for family members. In your response, refer to at least ONE contemporary issue.",
+                    "totalMarks": 25,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "LST-12-03",
+                      "LST-12-04",
+                      "LST-12-06"
+                    ],
+                    "markerNotes": [
+                      "The top answer shows how the concept of family has changed (de facto couples, same-sex marriage, kinship and the Aboriginal and Torres Strait Islander concept of family), then tests whether law reform has produced just outcomes for each group of family members.",
+                      "Reform must be assessed, not just described. A strong answer weighs what the reform achieved, such as the 2023 changes to parenting presumptions, against what it did not change, such as the protection of victims of family violence or the position of kinship carers.",
+                      "The Family Law Amendment Act 2023 (Cth) is a major recent reform in family law. A top answer describes it as in force from 6 May 2024, not as a proposal."
+                    ],
+                    "commonStudentErrors": [
+                      "Lists changes to family law in general terms without connecting any reform to outcomes for family members.",
+                      "Says same-sex marriage was recognised by the courts; it was recognised by Parliament through the Marriage Amendment (Definition and Religious Freedoms) Act 2017 (Cth).",
+                      "Assumes the best interests principle always produces just outcomes, without considering families harmed by how it is applied.",
+                      "Describes the 2023 reform as a proposal that might be introduced, rather than a law in force since 6 May 2024."
+                    ],
+                    "keywords": [
+                      "law reform",
+                      "just outcomes",
+                      "evolving concept of family",
+                      "family members",
+                      "Family Law Act 1975 (Cth)",
+                      "Family Law Amendment Act 2023 (Cth)",
+                      "de facto relationships",
+                      "best interests of the child"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of the role of law reform in relation to family members; Makes an informed judgement about the role of law reform in achieving just outcomes for family members, with reference to at least one contemporary issue; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of the role of law reform in relation to family members; Makes a sound judgement about the role of law reform in achieving just outcomes for family members, with reference to at least one contemporary issue; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of the role of law reform in relation to family members; Makes some judgement about the role of law reform in achieving just outcomes for family members, with reference to at least one contemporary issue; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of the role of law reform in relation to family members; Makes statements about the role of law reform in achieving just outcomes for family members. May refer to a contemporary issue; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about family law; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2019-27b-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "Family law reform responds to the changing shape of families, and the question asks whether reform has achieved just outcomes for family members. The evolving concept of family in Australian law has moved from a legal model centred on marriage towards a broader recognition of de facto couples, same-sex couples and kinship, and each step required reform. This answer argues that law reform has been essential in recognising these changes and in moving the focus to the child's best interests, but that outcomes remain incomplete where reform recognises a form of family without fully protecting the members who are harmed within it. The contemporary issue of family violence, and the most recent reforms, shows both the strengths and limits of reform.\n\nThe first change was the recognition of de facto relationships. Before the reforms of the late 2000s, de facto partners had far fewer rights when a relationship ended than married spouses. The Family Law Amendment (De Facto Financial Matters and Other Measures) Act 2008 (Cth) extended the Family Court's property and maintenance jurisdiction to de facto couples, giving a property remedy to partners who had built a shared life without marriage. This reform achieved more just outcomes for partners who would otherwise have had no claim, particularly where one party contributed unpaid labour. It is still imperfect, because the relationship must meet statutory criteria, such as its length and the nature of the relationship, and some genuine partnerships may fall outside them.\n\nThe second change was the recognition of same-sex marriage. The Marriage Amendment (Definition and Religious Freedoms) Act 2017 (Cth) changed the Marriage Act 1961 (Cth) so that marriage is between two people regardless of sex, and it took effect on 9 December 2017. The reform removed a legal distinction that had excluded same-sex couples from marriage and from the family law rules that follow from it. The outcome is clearly more just for couples who are now treated equally. The same Act included religious freedom provisions, which shows that reform balances competing values rather than delivering justice for one group alone.\n\nReform has been slower in recognising kinship systems, especially for Aboriginal and Torres Strait Islander families. In many communities family includes extended kin who share the care of children, yet the Family Law Act 1975 (Cth) organises parenting disputes around parents. Non-parent carers have limited standing in parenting proceedings compared with parents, and the reform's language suggests more recognition than the procedure delivers. Child protection placements show the same tension. Kinship care can achieve a just outcome for a child who stays connected to community, but a placement that moves a child away from kin may not.\n\nThe most significant recent reform is the Family Law Amendment Act 2023 (Cth), in force from 6 May 2024. It repealed the presumption of equal shared parental responsibility and the requirement to consider equal or substantial and significant time. The reform reflects changing community values about parenting, in which equal time had become a default, and it recognises that such a default can be unsafe where there has been violence. The contemporary issue of family violence tests the reform. A parent who has been violent or coercive may still seek equal time, and the court must now focus on safety and the best interests of the child rather than on an equal division. The reform does not resolve court delays, the cost of proceedings or the need for family violence training for judges and lawyers, so its outcomes depend on implementation.\n\nAssessing the role of reform requires weighing what it has changed against what it has not. Reform has been the main driver of recognition for de facto and same-sex couples, because courts could not extend these rights without legislation. But reform has tended to follow social change rather than lead it, and community values are often more advanced than the protections the law provides. The law now recognises families in their diversity, yet the process still relies on tests, such as the just and equitable standard for property, whose results depend on each party's resources and honesty. Reform is therefore essential but not sufficient, and its role in achieving just outcomes depends on how courts and agencies apply it.\n\nLaw reform has played a major role in achieving just outcomes for family members, most clearly by extending property and recognition rights to de facto and same-sex couples and by moving parenting law towards the best interests of the child and safety. The contemporary issue of family violence shows that reform can make the law fairer for some members while leaving others exposed, and that justice depends on implementation as well as on legislative text. On balance, reform has been an effective instrument of recognition and has produced more just outcomes than the law it replaced, but it has not yet protected all members, including children in kinship care and victims of coercive control, whose interests the reformed framework does not fully secure.",
+                        "feedback": "Meets the 21-25 row by making an informed judgement about the role of law reform in achieving just outcomes for family members. It integrates the 2008 de facto reforms, the 2017 marriage reform, the 2023 Act and family violence as the contemporary issue.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-27b-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Law reform has changed family law in Australia to reflect the changing concept of family. The Family Law Act 1975 (Cth) was amended to recognise de facto couples, and the Marriage Amendment (Definition and Religious Freedoms) Act 2017 (Cth) allowed same-sex couples to marry. It followed a national postal survey in 2017, which shows reform responding to community opinion. These reforms have made outcomes fairer for families who were previously excluded from legal protection, such as de facto partners who had no property claim. Some people in de facto relationships may still be unclear whether they qualify, and the reform has not fully resolved that.\n\nReform has also changed how the law treats children. The Family Law Amendment Act 2023 (Cth), which came into effect on 6 May 2024, removed the presumption of equal shared parental responsibility. The change followed public debate about parenting and family violence. This is an important reform because it puts the child's best interests and safety first. Many people think it is a fair response to family violence, because a presumption of equal time could be unsafe for a child whose parent has been violent.\n\nA contemporary issue is family violence. Victims may still face difficulties in court, such as pressure to attend mediation with an abusive former partner. Victims also face cost and delay, and courts have been criticised for delays, which can make the new rules hard to use. Others argue that the change needs more resources to work, because courts must still assess each family. Law reform has recognised family violence, but the law may still not protect all family members in practice. It also affects contact arrangements for children, which the reform must address.\n\nReform has improved outcomes, but not evenly. Overall, law reform has helped achieve just outcomes for many family members by reflecting the changing concept of family, but it has not solved every problem, and its effect depends on resources and implementation. The reforms show that the law responds to community values, but it does not always protect people who are vulnerable.",
+                        "feedback": "Meets the 11-15 row by making some judgement about the role of reform in achieving just outcomes, with family violence referred to as a contemporary issue. It describes each reform rather than weighing what it achieved against what it left unchanged, so it stays in this row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-27b-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Law reform has changed family law in Australia. The Family Law Act now recognises de facto couples, and same-sex couples can marry under the Marriage Act. Reform has also focused on the best interests of the child, so that children are protected when parents separate. These changes mean the law is fairer for many families. However, some families still face problems, such as family violence, and the law may not always meet their needs. Overall, law reform has helped family members in Australia, although more could be done to support them.",
+                        "feedback": "Meets the 1-5 row by describing changes to family law in general terms, without assessing how they relate to just outcomes. Connecting one reform to one outcome for a named group of family members would lift it to the 6-10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• • demonstrate knowledge and understanding of legal issues relevant to the question\n• • communicate using relevant legal terminology and concepts\n• • refer to relevant examples such as legislation, cases, media, international instruments and documents\n• • present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2019,
+                    "hscQuestionNumber": "27(b)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -27753,6 +28195,70 @@
                     "hscYear": 2022,
                     "hscQuestionNumber": "28(b)",
                     "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section."
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2019-27a",
+                    "question": "Evaluate the effectiveness of legal responses in achieving justice for parties involved in relationship breakdowns.",
+                    "totalMarks": 25,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "LST-12-05",
+                      "LST-12-06",
+                      "LST-12-07"
+                    ],
+                    "markerNotes": [
+                      "The top answer evaluates the legal responses against justice for the parties, rather than describing each one. For example, it asks whether family dispute resolution reaches a fair agreement when one party has been violent, whether the property power produces an equitable outcome, and whether parenting orders serve the best interests of the child.",
+                      "Separate the responses by party: spouses (divorce, property settlement, binding financial agreements), children (parenting orders, child support) and those affected by family violence (protection orders and the family violence provisions). A strong answer shows that one response can achieve justice for one party and fail another.",
+                      "Use the Family Law Amendment Act 2023 (Cth), in force from 6 May 2024, to show how the responses changed, and note the requirement to attend family dispute resolution before applying for parenting orders, with exceptions such as family violence."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes family law statutes and processes without saying whether they achieve justice for the parties.",
+                      "Treats the parties as having equal bargaining power, and so overlooks the imbalance in family dispute resolution where there has been family violence.",
+                      "Assumes the court's property power always produces equal shares, when section 79 requires an outcome that is just and equitable rather than an equal division.",
+                      "Confuses the divorce process, which requires twelve months of separation, with the parenting and property processes, which do not depend on the divorce being granted first."
+                    ],
+                    "keywords": [
+                      "relationship breakdown",
+                      "legal responses",
+                      "family dispute resolution",
+                      "Family Law Act 1975 (Cth)",
+                      "parenting orders",
+                      "property settlement",
+                      "child support",
+                      "best interests of the child"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of legal responses to relationship breakdown; Makes an informed judgement, using criteria, about the effectiveness of legal responses in achieving justice for parties involved in relationship breakdown; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of legal responses to relationship breakdown; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of legal responses in achieving justice for parties involved in relationship breakdown; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of legal responses to relationship breakdown; Makes some judgement about the effectiveness of legal responses in achieving justice for parties involved in relationship breakdown; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of legal responses to relationship breakdown; Makes statements about the effectiveness of legal responses in achieving justice for parties involved in relationship breakdown; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about family relationships and/or family law; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2019-27a-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "The legal responses to relationship breakdown are designed to resolve three sets of problems: whether the relationship ends, how property and money are divided, and who cares for any children and how. The question is whether those responses achieve justice for the parties, meaning a fair outcome that reflects each party's circumstances and protects those who are vulnerable. This answer argues that the responses work well for the formal and financial aspects of separation, but less well for children and for parties affected by family violence, where a formal process can entrench the imbalance it is meant to correct.\n\nThe first response is the statutory process for ending a marriage. Under the Family Law Act 1975 (Cth), a divorce can be granted only where the marriage has broken down irretrievably and the parties have been separated for at least twelve months. The no-fault basis is effective in a narrow sense: neither party needs to prove the other's wrongdoing, which reduces conflict and the need for a contested hearing. However, the twelve-month requirement can leave a party in a relationship that has ended in practice, and a divorce does not resolve property or children.\n\nThe second response is family dispute resolution (FDR). Parties must attend FDR before applying to the court for parenting orders under s 60I of the Act, unless an exemption applies. FDR aims to reach agreement cheaply and quickly, and agreed parenting plans can be made into consent orders. The response is effective where both parties negotiate with reasonable equality and reach agreement, which avoids litigation in many cases. Its limits are clear where there has been family violence. The Act provides exemptions from the FDR requirement in such cases, but the risk remains that a victim is pressured into negotiating with an abuser. Where FDR fails, the court must decide, and its orders are enforceable through contravention proceedings.\n\nThe third response is the property settlement power in Part VIII, which requires an outcome that is just and equitable (s 79). The court considers the contributions of each party and their future needs, which produces outcomes that reflect the economic reality of a relationship rather than strict legal title. This gives justice to a party who gave unpaid labour in the home, but the process is slow and expensive. Binding financial agreements under Part VIIIA allow parties to contract out of the court's power, which provides autonomy and certainty. Yet an agreement can disadvantage a party who had no independent advice or who signed under pressure. The property response is effective for most financial disputes, but only as far as the parties are honest and can afford to litigate.\n\nThe fourth response concerns children. Parenting orders are made in the best interests of the child, with the considerations in s 60CC of the Act, including the child's need to be protected from harm and the benefit of a meaningful relationship with both parents. The Family Law Amendment Act 2023 (Cth), in force from 6 May 2024, repealed the presumption of equal shared parental responsibility and the requirement to consider equal or substantial and significant time, and it moved the focus towards safety and the best interests of the child. This is a more just response in cases of family violence, because the court no longer starts from a presumption that both parents should share responsibility. Child support, administered by Services Australia under the Child Support (Assessment) Act 1989 (Cth), operates separately. It transfers income effectively, but disputes over payments can persist. Parenting orders are effective when they are enforced and reviewed, but a child's best interests are compromised when the child's views are not heard.\n\nThe contemporary issue of coercive control and family violence tests the legal responses most severely. Coercive control, a pattern of conduct that controls a partner, became a criminal offence in New South Wales under the Crimes Legislation Amendment (Coercive Control) Act 2022 (NSW), which commenced on 1 July 2024. Under the Crimes (Domestic and Personal Violence) Act 2007 (NSW), a court can make an apprehended domestic violence order to protect a party, and the two systems can produce conflicting orders that the parties must manage. The justice problem is that a party experiencing coercive control may be pressured into FDR, may face cross-examination by an abusive former partner, or may lose financial security during property proceedings. The responses have improved, but they depend on identifying family violence early.\n\nLegal responses to relationship breakdown are effective in resolving the formal and financial issues that separation creates. They are less effective where the parties are unequal, where family violence is present, where agreements are signed without independent advice, or where children's safety is in issue. The Family Law Amendment Act 2023 (Cth) tries to address the child-focused gap by moving the focus to safety, but its effect depends on how judges apply it and on the resources available to families. On balance, the legal responses achieve justice for parties who can use them, but justice for the most vulnerable depends on the system identifying the imbalance and designing responses that account for it.",
+                        "feedback": "Meets the 21-25 row by making an informed judgement, using the criteria of justice for each party, about whether the legal responses achieve justice in relationship breakdown. It integrates the Family Law Act, the 2023 amendments, the state domestic violence orders and child support as examples.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-27a-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Legal responses to relationship breakdown include divorce, family dispute resolution, property settlement and parenting orders, and each aims to produce a fair result for the parties. Under the Family Law Act 1975 (Cth), a couple can divorce after twelve months of separation, which allows the relationship to end without anyone proving fault. The divorce itself does not settle property, parenting or support, so the other responses are still needed in practice. Family dispute resolution is designed to help parties reach agreement without going to court, and it is usually cheaper and faster than litigation. It works best where the parties have roughly equal bargaining power.\n\nProperty is dealt with by the court under s 79 of the Act, which allows orders that are just and equitable. This can produce a fair result, particularly where one party has looked after the home, but it is expensive and can take years. Property disputes are often the most costly part of separation, and the resources of both parties can be drained. A party with fewer resources may settle for less than is fair.\n\nChildren are the most difficult issue. Parenting orders are made in the best interests of the child, and they can be varied when circumstances change. Child support is administered by Services Australia. These responses help children, but they can fail where a parent does not comply with orders, or where the arrangement is unsafe. Family violence is an important problem, and the law has responded with protection orders, but a victim may still feel pressure to attend mediation. A child's views may be considered, but they are not always heard in practice.\n\nOverall, the legal responses to relationship breakdown are effective in dealing with the financial and legal problems of separation. They are effective when both parties have resources and goodwill, and less effective when one party controls the process. They are less effective in achieving justice for parties who have unequal power, such as victims of family violence, and for children whose views and safety are not always properly considered.",
+                        "feedback": "Meets the 11-15 row by making some judgement about whether the legal responses achieve justice, with reference to the Family Law Act, property orders and family violence. It does not evaluate each response against criteria or weigh the responses against each other, so it stays in this row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-27a-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Relationship breakdown is dealt with under the Family Law Act 1975 (Cth). Parties can divorce after separating for twelve months, and they can ask the court to make parenting orders or property orders. Family dispute resolution is available before going to court. Child support is also dealt with under a separate scheme. These responses help the parties resolve their disputes and provide some justice, although they can take time. Family law is a complex area, and parties may need legal advice to understand their rights and what the orders will mean for them.",
+                        "feedback": "Meets the 1-5 row by writing in general terms about family law and naming the processes, without evaluating whether they achieve justice for the parties. A position on effectiveness, tied to one party, would lift it to the 6-10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• • demonstrate knowledge and understanding of legal issues relevant to the question\n• • communicate using relevant legal terminology and concepts\n• • refer to relevant examples such as legislation, cases, media, international instruments and documents\n• • present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2019,
+                    "hscQuestionNumber": "27(a)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section."
                   }
                 ]
               },
@@ -28980,6 +29486,70 @@
                     "isPastHSC": true,
                     "hscYear": 2024,
                     "hscQuestionNumber": "29(a)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2019-29b",
+                    "question": "Assess the role of law reform in protecting the rights of those seeking shelter. In your response, refer to at least ONE contemporary issue.",
+                    "totalMarks": 25,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "LST-12-03",
+                      "LST-12-06",
+                      "LST-12-02"
+                    ],
+                    "markerNotes": [
+                      "The top answer assesses how far reform has given domestic effect to the right to adequate housing, rather than describing the right, and identifies where reform has succeeded and where it has stalled.",
+                      "The Covenant is not directly enforceable in Australian courts, so the answer must explain that statute is the mechanism through which reform protects those seeking shelter.",
+                      "The contemporary issue, such as housing affordability or the 2025 NSW tenancy reforms, must be used to test the role of reform, not only mentioned."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes the right to adequate housing without identifying any law reform that gives it effect in Australia.",
+                      "Says that Australia is legally bound to provide housing under the Covenant, without noting that the Covenant is not part of domestic law.",
+                      "Treats reform as always protecting those seeking shelter, without considering supply, affordability or the effect on landlords."
+                    ],
+                    "keywords": [
+                      "law reform",
+                      "right to adequate housing",
+                      "obligation to provide shelter",
+                      "International Covenant on Economic, Social and Cultural Rights",
+                      "contemporary issue",
+                      "housing affordability",
+                      "Residential Tenancies Act 2010 (NSW)",
+                      "social housing"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of the role of law reform in relation to shelter; Makes an informed judgement about the role of law reform in protecting the rights of those seeking shelter, with reference to at least one contemporary issue; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of the role of law reform in relation to shelter; Makes a sound judgement about the role of law reform in protecting the rights of those seeking shelter, with reference to at least one contemporary issue; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of the role of law reform in relation to shelter; Makes some judgement about the role of law reform in protecting the rights of those seeking shelter, with reference to at least one contemporary issue; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of the role of law reform in relation to shelter; Makes statements about the role of law reform in protecting the rights of those seeking shelter. May refer to a contemporary issue; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about laws relating to shelter; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2019-29b-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "Law reform has played a real but limited role in protecting the rights of those seeking shelter. The right to adequate housing is recognised in international law, and Australia's obligation to provide shelter is given effect mainly through domestic statute rather than through the treaty itself. Reform has therefore been important in turning an international aspiration into enforceable rights for tenants and home buyers, but its effectiveness depends on whether parliaments keep the law responsive to changing community values and to the housing market. This response argues that reform has protected shelter most where it ties international standards to specific domestic rules, and least where it relies on general statements of principle.\n\nThe starting point is the right itself. Article 11(1) of the International Covenant on Economic, Social and Cultural Rights recognises the right of everyone to an adequate standard of living, including adequate housing, and Australia ratified the Covenant in 1975. The Committee on Economic, Social and Cultural Rights explained in General Comment No 4 (1991) that adequate housing includes security of tenure, affordability, habitability and accessibility. These elements provide the test against which reform can be assessed. The Covenant does not bind Australian courts, however. Its obligations reach Australian law only where parliament legislates, which makes reform the mechanism by which the obligation is given effect.\n\nThe clearest example of reform protecting the rights of those seeking shelter is the Residential Tenancies Act 2010 (NSW). It replaced earlier tenancy legislation and gave tenants enforceable rights to repairs and limits on rent increases, and it regulated the bond. It also required a landlord to obtain a tribunal order before removing a tenant who remained in occupation. These rules translate the idea of security of tenure into law that a tribunal can enforce, which is what the Covenant's standards require of a state.\n\nReform has also shown that the rights of tenants depend on how often the law is revised. For more than a decade, a landlord could end a periodic tenancy without giving a reason, provided the required notice was given, so the security of tenure the Act appeared to protect could be lost at short notice. The 2025 NSW reforms ended no-grounds terminations for most tenancies. This matters because it protects a tenant's home from termination unconnected to the tenant's conduct. It also shows that the law can change in response to community values that treat housing as more than a commodity, a view that the Covenant's framing of housing as a human right supports.\n\nThe contemporary issue of housing affordability tests whether reform has protected those seeking shelter in practice. Rising rents and low vacancy rates mean that a tenant who is evicted, or who faces a rent increase, may have few alternatives, so the right to remain in a home matters more than a right to compensation. Reform that improves security of tenure responds to this problem, but reform that leaves supply unchanged does not address the underlying shortage. Governments have responded through measures such as Commonwealth Rent Assistance, which supports low-income renters, and through social housing programs. These measures reach only part of the population seeking shelter, and their effect on affordability is contested.\n\nReform is also limited by its gaps. Rights under the Act are only as strong as their enforcement, and the Covenant offers no direct remedy to an individual before an Australian tribunal. A tenant who wants to rely on the right to adequate housing must instead rely on statute, which is drafted in terms of specific obligations rather than the general right. Where the statute is silent, as it is on many aspects of affordability, the Covenant standard has little practical effect. Anti-discrimination statutes, such as the Anti-Discrimination Act 1977 (NSW), protect against unfair refusal of accommodation, but they do not require a landlord to accept a tenant on any particular terms.\n\nOn balance, reform has protected the rights of those seeking shelter where it has given specific domestic effect to the international right. The statutory right to security of tenure and the tribunal process show how law reform can translate a broad obligation into enforceable rules. Its role is weaker where reform reacts to a single problem without addressing the housing market, or where the international standard is not reflected in enforcement mechanisms that tenants can use. Law reform protects shelter, but it cannot by itself guarantee adequate housing.\n\nThe right to adequate housing, the obligation to provide shelter and the response to housing affordability all show that law reform is the principal mechanism protecting those seeking shelter in Australia. Its effectiveness is measured by whether reform connects international standards to enforceable domestic rights and whether it addresses the conditions that make those rights hard to secure. The 2025 NSW reforms are a clear step forward in security of tenure, but they remain a partial answer to a problem that depends on supply, affordability and the enforcement of rights already in place.",
+                        "feedback": "Meets the 21–25 row by assessing how reform gives domestic effect to an international right, identifying where reform falls short, and testing the contemporary issue of housing affordability against the reform.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-29b-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Law reform has helped to protect the rights of people seeking shelter, mainly through tenancy legislation. International standards recognise a right to adequate housing, and Australia has responded by passing laws that give tenants rights. However, the role of reform is not complete, because the law changes slowly and housing problems continue. This answer considers how reform has helped, and then looks at a contemporary issue.\n\nAustralia is bound by international human rights treaties, including the International Covenant on Economic, Social and Cultural Rights, which recognises the right to adequate housing. This right is not directly part of Australian law, so reform is needed to make it effective. Parliament passes laws to give effect to these rights, and the courts then apply those laws. This is why the law made by parliament is important for people looking for a home.\n\nThe Residential Tenancies Act 2010 (NSW) is an example of reform. It gives tenants rights, including the right to have repairs made and protection from rent increases that are too frequent. Landlords must follow set rules before ending a tenancy, and a tribunal decides disputes. These are important protections for people renting homes, and they show that reform can make rights enforceable rather than only stated.\n\nReform has also changed in response to community views. Many people think that renters deserve more security, and the government has responded by changing the rules. In 2025 the NSW government changed the law so that landlords cannot end most tenancies without a reason. This was a major change that helps tenants feel more secure in their homes, and it shows that the law can respond when people's expectations change.\n\nA contemporary issue is housing affordability. Many people cannot afford rent and some are at risk of homelessness. Law reform cannot solve this problem alone because it does not build houses or lower rents directly. Governments have introduced other measures such as rent assistance and social housing, but these are not always enough to meet demand, and the gap between need and supply remains large.\n\nIn conclusion, law reform does play a role in protecting the rights of people seeking shelter, but it has limits. It can create enforceable rights, yet it cannot always guarantee that people can find an affordable home.",
+                        "feedback": "Meets the 11–15 row by making some judgement about reform and using the 2025 NSW tenancy change and housing affordability as examples. It does not weigh reform's limits against its successes, so it misses the 16–20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-29b-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Law reform protects the rights of people who need a home. Parliament can change laws to help tenants, and this has happened in New South Wales with tenancy law. International human rights treaties also say people have a right to housing. Governments often promise to help people find housing, and the law can be changed to improve things for renters. Reform is important because housing is a basic need. People who are homeless need protection, and there are still problems with housing in Australia today. The law will probably keep changing in the future.",
+                        "feedback": "Meets the 1–5 row by writing in general terms about reform and housing and naming the NSW tenancy law without explaining how it protects rights. It makes no judgement about the role of reform and has no developed contemporary issue, so it does not reach the 6–10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• • demonstrate knowledge and understanding of legal issues relevant to the question\n• • communicate using relevant legal terminology and concepts\n• • refer to relevant examples such as legislation, cases, media, international instruments and documents\n• • present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2019,
+                    "hscQuestionNumber": "29(b)",
                     "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
                     "bandCeiling": 6
                   }
@@ -30606,6 +31176,72 @@
                         "band": 2
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2019-29a",
+                    "question": "Evaluate the effectiveness of legal protection and remedies in achieving justice for those securing shelter.",
+                    "totalMarks": 25,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "LST-12-06",
+                      "LST-12-07",
+                      "LST-12-08"
+                    ],
+                    "markerNotes": [
+                      "The top answer judges effectiveness against explicit criteria, such as whether the law protects individual rights, whether remedies are accessible and whether orders can be enforced, and reaches a judgement on each.",
+                      "Remedies must be explained as they work in practice: NCAT hears tenancy disputes and can order repairs, compensation, return of bond or termination, and the answer tests whether tenants can actually reach it.",
+                      "Access to justice must be tied to the barriers the dot point names, complexity, cost and language barriers, with an example of how each stops a tenant pursuing a claim.",
+                      "Legal protection and remedies are separate ideas. A strong answer shows where a right exists but its remedy is hard to use, rather than treating the existence of a statute as justice."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes tenancy rights under the Residential Tenancies Act 2010 (NSW) without evaluating whether a tenant can enforce them.",
+                      "Treats NCAT as a free and instant remedy, without considering fees, delay and the evidence a tenant must gather.",
+                      "Calls the law either wholly effective or wholly ineffective, without setting out criteria such as access to justice or enforceability.",
+                      "Confuses a right with its remedy, for example saying a tenant has justice because a statute gives them a right."
+                    ],
+                    "keywords": [
+                      "legal protection",
+                      "remedies",
+                      "achieving justice",
+                      "access to justice",
+                      "complexity",
+                      "cost",
+                      "language barriers",
+                      "Residential Tenancies Act 2010 (NSW)",
+                      "NCAT"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of legal protection and remedies relating to shelter; Makes an informed judgement, using criteria, about the effectiveness of legal protection and remedies in achieving justice for those securing shelter; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of legal protection and remedies relating to shelter; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of legal protection and remedies in achieving justice for those securing shelter; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of legal protection and/or remedies relating to shelter; Makes some judgement about the effectiveness of legal protection and/or remedies in achieving justice for those securing shelter; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of legal protection and/or remedies relating to shelter; Makes statements about the effectiveness of legal protection and/or remedies in achieving justice for those securing shelter; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about laws relating to shelter; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2019-29a-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "Legal protection for people who secure shelter is extensive on paper, but its effectiveness in achieving justice depends on whether those protections can actually be used. In New South Wales, the Residential Tenancies Act 2010 (NSW) sets out the rights and duties of landlords and tenants, and tenancy disputes are heard by the NSW Civil and Administrative Tribunal (NCAT). The law is effective in its design, because it recognises tenants' rights clearly and provides a tribunal to enforce them. It is less effective in practice, because complexity, cost and language barriers mean that many people securing shelter cannot use the remedies the law provides.\n\nEffectiveness can be judged against three criteria: whether the law protects the individual rights of those securing shelter, whether its remedies are accessible, and whether the orders it produces can be enforced. Measured against these criteria, legal protection performs well on the first, poorly on the second and less well than it appears on the third. Achieving justice requires all three.\n\nThe core protection is security of tenure. A landlord cannot lawfully remove a tenant who is still in occupation without an order from the tribunal, and the Act sets out repair obligations, limits rent increases to once in any 12-month period and governs the bond a landlord may hold. These protections give a tenant a reasonable claim to a stable home. The Anti-Discrimination Act 1977 (NSW) prohibits discrimination in accommodation on grounds including race and disability, and the Racial Discrimination Act 1975 (Cth) and Disability Discrimination Act 1992 (Cth) apply across Australia. Together these laws give practical effect to Australia's obligations under the International Covenant on Economic, Social and Cultural Rights, which recognises the right to adequate housing.\n\nRemedies give those rights practical force. NCAT can order repairs, compensation, the return of bond money or the termination of a tenancy, and its process is designed to be less formal than a court's. A tenant who has been denied repairs can lodge an application without engaging a lawyer.\n\nAccess to justice is where the system falls short. The complexity of the process deters tenants who must prove a breach, calculate compensation and identify the correct provision of the Act. Cost is a further barrier. Application fees, time away from work for a hearing and the difficulty of gathering evidence weigh far more heavily on low-income tenants than on landlords who have professional managing agents, who know the process and can prepare documents in advance. Language barriers compound the problem. Notices and tenancy agreements are written in English, and tenants from culturally and linguistically diverse backgrounds may not know that a remedy exists or how to lodge a claim. A tenant facing an unlawful eviction is therefore often less able to contest it than the landlord is able to pursue it, and justice that depends on navigating a tribunal is unevenly distributed.\n\nEnforceability is the third limit. A compensation order against a landlord who has no assets is of little value, and an order against a tenant who has already left may be hard to enforce. Security of tenure has also been weaker than the statutory framework suggested. Until recently a landlord could end a periodic tenancy without giving a reason, provided the required notice was given. The 2025 NSW reforms ended these no-grounds terminations for most tenancies, a significant improvement in legal protection, but it took more than a decade after the Act began for the law to close this gap. Rising rents and low vacancy rates mean that a tenant who loses a home often cannot find another nearby, so a fair process matters more than a later award of money.\n\nThe international dimension shows a similar gap. The Committee on Economic, Social and Cultural Rights, which supervises the Covenant, explained in General Comment No 4 (1991) that all persons should possess a degree of security of tenure which guarantees legal protection against forced eviction. Yet the Committee can comment on Australia's compliance without making orders that bind a NSW landlord or tribunal, and the Covenant is not incorporated into domestic law. Protection for those securing shelter therefore rests on statutes that parliament can amend, rather than on a treaty a tenant can invoke. This is a strength, because statutes can be enforced in NCAT, and a weakness, because their content depends on political will.\n\nJudged against its own criteria, legal protection for those securing shelter is effective in recognising rights and creating remedies, but only partly effective in achieving justice. The Residential Tenancies Act 2010 (NSW) and the anti-discrimination statutes give people a clear claim to a stable and non-discriminatory home, and NCAT offers a forum designed for ordinary people. Yet complexity, cost and language barriers mean the remedies are used most by those who already have advantages, and enforcement depends on the resources of the parties. Until access to the tribunal is made more equal, the law's protection of shelter will remain strongest on paper and weakest for the tenants who need it most.",
+                        "feedback": "Meets the 21–25 row by judging effectiveness against explicit criteria, integrating named statutes, a tribunal and the Covenant, and sustaining the argument to a conclusion. The evaluation of access to justice is the strongest feature.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-29a-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Legal protection for people securing shelter is provided mainly by the Residential Tenancies Act 2010 (NSW), which sets out the rights of landlords and tenants, and by the tribunal that hears disputes. The law does protect tenants in several ways, but whether it achieves justice depends on how easily tenants can use it.\n\nThe Act protects tenants in a number of ways. A landlord cannot simply end a tenancy and must follow the correct process, including obtaining an order from the tribunal before removing a tenant who is still living in the home. Landlords must keep the premises in reasonable repair, and rent increases are limited. Tenants also have some protection from discrimination under the Anti-Discrimination Act 1977 (NSW), which covers things like race and disability in accommodation.\n\nRemedies are available through the NSW Civil and Administrative Tribunal. A tenant whose landlord has not carried out repairs can apply to the tribunal for an order, and the tribunal can order compensation, the return of bond money or other orders. This is useful because it is generally cheaper than going to court and does not require a lawyer.\n\nHowever, there are problems with access to justice. The process can be complicated for people who do not understand the law, and tenants may not know which part of the Act applies to their problem. Some tenants cannot afford to take time off work to attend a hearing or to pay the application fees. People from non-English speaking backgrounds may also find it hard to understand the forms and the process. These barriers mean that landlords with professional support, such as managing agents, may have an advantage over tenants.\n\nEnforcement is also a problem. If a landlord does not pay compensation that has been ordered, a tenant may have to take further steps to recover the money, and this takes more time and effort. Tenants who have already moved out may find it hard to pursue a claim at all. The remedy may therefore exist on paper without bringing justice to the tenant.\n\nIn conclusion, the law provides a reasonable level of protection for those securing shelter, and the tribunal gives them a way to enforce their rights. However, complexity, cost and language barriers mean the law is not always effective in achieving justice for all tenants.",
+                        "feedback": "Meets the 11–15 row by naming the Act and NCAT, describing some access barriers and giving a view on effectiveness. It does not weigh the criteria against each other or test enforcement with a specific example, so it misses the 16–20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-29a-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Tenants have legal protection when they rent a home. The main law in New South Wales is the Residential Tenancies Act 2010 (NSW), which sets out what landlords and tenants must do, including repairs. If a tenant has a problem, they can apply to the tribunal, which is called NCAT, and ask for an order. Tenancy law has changed over time and the government has made new laws. Renters should understand their rights so that they can use the law when they need to. Shelter is a basic need, so this area of law matters to many people.",
+                        "feedback": "Meets the 1–5 row by writing in general terms about tenancy law and naming NCAT. It makes no judgement about effectiveness and gives no specific example, so it does not reach the 6–10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• • demonstrate knowledge and understanding of legal issues relevant to the question\n• • communicate using relevant legal terminology and concepts\n• • refer to relevant examples such as legislation, cases, media, international instruments and documents\n• • present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2019,
+                    "hscQuestionNumber": "29(a)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section."
                   }
                 ]
               }
@@ -32549,6 +33185,70 @@
                       }
                     ],
                     "scenario": "Hypothetical scenario: A law reform group is preparing a briefing for a state parliament. Its paper argues that international agreements on war and weapons are valuable, but that some countries ignore them in practice."
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2019-31b",
+                    "question": "Assess the role of law reform in promoting and maintaining world order. In your response, refer to at least ONE contemporary issue.",
+                    "totalMarks": 25,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "LST-12-03",
+                      "LST-12-05",
+                      "LST-12-07"
+                    ],
+                    "markerNotes": [
+                      "The top answer treats law reform as the creation and revision of international instruments, such as the Rome Statute, and assesses whether those changes have promoted and maintained world order.",
+                      "State sovereignty must be explained as the reason reform binds only those states that consent, so the answer assesses the reach of the reform, not just its content.",
+                      "The contemporary issue, such as Russia's invasion of Ukraine and the warrant issued by the International Criminal Court, must test whether reform changed outcomes."
+                    ],
+                    "commonStudentErrors": [
+                      "Treats international instruments as binding on all nation-states, without explaining that treaties bind only those states that ratify or consent to them.",
+                      "Describes the International Criminal Court without assessing how its reach and effectiveness depend on cooperation from states.",
+                      "Confuses law reform with the actions of the United Nations, without identifying a change in the law."
+                    ],
+                    "keywords": [
+                      "law reform",
+                      "world order",
+                      "collective security",
+                      "international instruments",
+                      "Rome Statute",
+                      "International Criminal Court",
+                      "state sovereignty",
+                      "contemporary issue"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of the role of law reform in relation to world order; Makes an informed judgement about the role of law reform in promoting and maintaining world order, with reference to at least one contemporary issue; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of the role of law reform in relation to world order; Makes a sound judgement about the role of law reform in promoting and maintaining world order, with reference to at least one contemporary issue; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of the role of law reform in relation to world order; Makes some judgement about the role of law reform in promoting and maintaining world order, with reference to at least one contemporary issue; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of the role of law reform in relation to world order; Makes statements about the role of law reform in promoting and maintaining world order. May refer to a contemporary issue; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about law relating to world order; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2019-31b-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "Law reform has promoted and maintained world order by creating international instruments that set global standards for collective security, and by adding mechanisms to hold states and individuals to account. The reform has been significant, because it has defined the crimes and rules that the global community expects states to obey. Its effectiveness depends on state sovereignty, however, since international instruments bind only the states that consent to them. This response argues that reform has strengthened world order at the level of standards, but its maintenance depends on the willingness of states to comply.\n\nThe starting point is the Charter of the United Nations (1945), which succeeded the League of Nations system with a broader prohibition on the use of force in Article 2(4). That prohibition is subject to the right of self-defence in Article 51 and to the Security Council's enforcement powers under Chapter VII. The Kellogg-Briand Pact of 1928 had earlier renounced war as an instrument of national policy, but it had no enforcement mechanism and did not prevent the Second World War. The Charter linked collective security to the Security Council, whose veto power limited its effect from the start.\n\nThe Rome Statute of the International Criminal Court, adopted in 1998 and in force from 2002, is the most significant reform in individual accountability. It gave the International Criminal Court jurisdiction over genocide, crimes against humanity and war crimes and, through the Kampala amendments of 2010, the crime of aggression, which applies only to states that accept it. Australia gave effect to the Rome Statute through the International Criminal Court Act 2002 (Cth). The reform recognised that states cannot always be trusted to prosecute their own leaders, so it created a court that acts when national systems are unwilling or unable to act. The Court is a clear example of law reform that changed expectations of individual responsibility.\n\nA contemporary issue tests whether this reform has maintained world order. Russia's invasion of Ukraine on 24 February 2022 breached Article 2(4) of the Charter. The Security Council could not act because Russia vetoed the resolution that would have condemned the invasion and demanded its withdrawal, but the General Assembly, meeting in an emergency special session, adopted a resolution demanding withdrawal. The International Criminal Court issued an arrest warrant for President Putin in March 2023 for the unlawful deportation of children from occupied Ukrainian territory. Russia is not a party to the Rome Statute, so the warrant depends on states that are parties arresting him if he travels to them.\n\nState sovereignty limits this reform. International instruments depend on consent, so the Court's reach over nationals of states that have not ratified the Rome Statute is limited to crimes committed on the territory of a state party, situations the Security Council refers to it, and cases where the state accepts its jurisdiction. The United States, China and India are not parties to the Rome Statute, so the reform does not reach several of the most powerful states. This shows the limit of law reform in promoting world order: it sets standards that bind the willing and leaves the unwilling free to ignore them. Reform therefore changes expectations more than behaviour, and the question is whether expectations alone can restrain states that consider their interests at stake.\n\nReform has also strengthened collective security through mechanisms that are used in practice. The Convention on the Prevention and Punishment of the Crime of Genocide, adopted in 1948, has been relied on before the International Court of Justice. In The Gambia v Myanmar, the Court ordered provisional measures in 2020 to protect the Rohingya, although the case rests on the Convention's obligations rather than on military force. Under Article 94 of the Charter, each member undertakes to comply with an International Court of Justice decision in a case to which it is a party, but if it does not, the matter may be referred to the Security Council, where a permanent member can block enforcement.\n\nJudged by its ability to promote and maintain world order, the reform has been effective in setting the standards that define the obligations a global community expects of states, and in creating courts that can record and prosecute violations. It has been less effective in preventing violations, because instruments depend on consent and enforcement depends on powerful states. The reform works best where it aligns with the interests of states that can enforce it, and least where it challenges the sovereignty of those states.\n\nLaw reform has promoted world order by making the standards for collective security more precise and by creating institutions to prosecute individuals. The Rome Statute and the use of the Genocide Convention before the International Court of Justice show how instruments can hold states and leaders to account. The contemporary issue of Ukraine shows, however, that reform cannot maintain world order when the largest states are the violators or are outside the instruments altogether. The future effectiveness of reform depends less on new treaties than on whether states with the power to act are willing to treat international law as binding on themselves.",
+                        "feedback": "Meets the 21–25 row by assessing reform through the Rome Statute and the Genocide Convention cases, weighing state sovereignty against the reform, and testing the Ukraine issue against the warrant and the Security Council veto.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-31b-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Law reform has helped promote and maintain world order by creating international instruments that set rules for states. The United Nations Charter and the Rome Statute are the most important examples. Reform has made states more accountable, but the law still depends on states agreeing to be bound by it, and this limits its effect. This answer looks at the Charter, the Rome Statute and a contemporary issue.\n\nThe Charter of the United Nations, which came into force in 1945, prohibits states from using force against each other except in self-defence. The Security Council can authorise action to maintain peace, and it has done so in many cases. These rules are an important part of the collective security system, although the veto limits them, because a permanent member can prevent the Council from acting against its own interests.\n\nThe International Criminal Court was created by the Rome Statute in 1998 and began operating in 2002. It can prosecute people for war crimes, crimes against humanity and genocide when national courts do not act. Australia passed legislation to allow the Court to operate. This is an example of law reform that promotes world order by holding individuals responsible rather than only states, and it changed the expectation that leaders can avoid prosecution.\n\nA contemporary issue is the war in Ukraine. Russia invaded Ukraine in 2022 and the International Criminal Court issued an arrest warrant for President Putin in 2023 over the deportation of children. Russia is not a member of the Court, so the warrant is difficult to enforce, because the Court depends on states arresting people who travel to them. This shows that reform can create rules but cannot always make powerful states follow them.\n\nState sovereignty is the main reason the reform is limited. Countries such as the United States, China and India are not parties to the Rome Statute, so the Court's reach over them is limited to crimes on the territory of a state party, Security Council referrals and cases where they accept its jurisdiction. Reform therefore sets standards for those who accept them, but it does not reach all of the states that matter most for world order.\n\nIn conclusion, law reform has been useful in promoting world order, but state sovereignty means it is not always effective in maintaining it.",
+                        "feedback": "Meets the 11–15 row by describing the Charter and the Rome Statute and using Ukraine as a contemporary issue with a view on effectiveness. It does not show how reform changed outcomes, so it misses the 16–20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-31b-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Law reform helps promote world order because it changes the rules that countries follow. The United Nations has rules about the use of force, and the International Criminal Court can try people who commit crimes such as war crimes. Some countries do not follow these rules. There is a war in Ukraine at the moment which shows that the world still has problems with peace. Countries should agree to follow international law so that the world is more peaceful and orderly. Lawyers and governments work on these changes all the time.",
+                        "feedback": "Meets the 1–5 row by writing in general terms about international law and the Court, with no judgement about reform and no developed contemporary issue. It does not reach the 6–10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• • demonstrate knowledge and understanding of legal issues relevant to the question\n• • communicate using relevant legal terminology and concepts\n• • refer to relevant examples such as legislation, cases, media, international instruments and documents\n• • present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2019,
+                    "hscQuestionNumber": "31(b)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -34912,6 +35612,69 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2019-31a",
+                    "question": "Evaluate the effectiveness of international responses in promoting peace and resolving conflicts to achieve world order.",
+                    "totalMarks": 25,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "LST-12-05",
+                      "LST-12-02",
+                      "LST-12-07"
+                    ],
+                    "markerNotes": [
+                      "The top answer evaluates international responses against explicit criteria, such as whether conflict stopped, whether peace was sustained and whether the parties accepted the response, and separates peacekeeping from peacebuilding.",
+                      "The Security Council veto and state sovereignty are the main limits on responses, so the answer must explain them, not only describe peacekeeping.",
+                      "The contemporary issue, such as the conflict in Ukraine, must test the effectiveness of responses rather than only describing the conflict."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes peacekeeping as if it always ends conflict, without assessing its limits.",
+                      "Says the United Nations is either powerless or fully effective, without weighing the veto and the limits on the use of force in the Charter of the United Nations.",
+                      "Confuses peacekeeping, which generally requires the consent of the host state, with enforcement action under Chapter VII."
+                    ],
+                    "keywords": [
+                      "peacebuilding",
+                      "peacekeeping",
+                      "promoting peace",
+                      "resolving conflicts",
+                      "world order",
+                      "Security Council",
+                      "veto",
+                      "Charter of the United Nations"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of international responses to world order; Makes an informed judgement, using criteria, about the effectiveness of international responses in promoting peace and resolving conflicts; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of international responses to world order; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of international responses in promoting peace and resolving conflicts; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of international responses to world order; Makes some judgement about the effectiveness of international responses in promoting peace and resolving conflicts; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of international responses to world order; Makes statements about the effectiveness of international responses in promoting peace and resolving conflicts; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about world order; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2019-31a-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "International responses to conflict are central to promoting peace, but their effectiveness in achieving world order is uneven. Peacekeeping and peacebuilding have ended wars and helped build the institutions of new states. However, the central limits of the system, state sovereignty and the veto power of the permanent members of the Security Council, mean that responses work best where states consent and least where powerful states are divided. This response argues that international responses are effective in promoting peace where they are consensual, and limited in resolving conflicts that involve great powers.\n\nThe Charter of the United Nations of 1945 is the foundation of the modern order. Article 2(4) prohibits the threat or use of force between states, while Chapter VII allows the Security Council to authorise enforcement measures where it determines that a threat to the peace exists. Peacekeeping developed as a practical alternative to enforcement. Peacekeepers are generally deployed with the consent of the host state, act impartially and use force only in self-defence or to protect their mandate. Peacebuilding extends this work by supporting institutions, elections and the rule of law after fighting stops. Effectiveness can be judged against three criteria: whether conflict stops, whether peace is sustained, and whether the parties accept the response.\n\nPeacekeeping has achieved real success where consent exists. The Australian-led International Force East Timor (INTERFET), deployed in September 1999 under Security Council Resolution 1264, restored order after the violence that followed the independence referendum. It was followed by the United Nations Transitional Administration in East Timor, which helped the territory reach independence in 2002. The Regional Assistance Mission to Solomon Islands, from 2003 to 2017, shows how regional cooperation can support peacebuilding where a state needs help to restore law and order. These cases show that, with consent, international responses can stabilise conflict and build institutions that sustain peace.\n\nThe limits of the system are equally clear. The Security Council's five permanent members can veto substantive resolutions, so a permanent member that is party to a conflict can block a response from the Council. Russia's invasion of Ukraine on 24 February 2022 demonstrates this. Russia used its veto to block a Security Council resolution that would have demanded its withdrawal, and the General Assembly, meeting in an emergency special session, adopted a resolution demanding withdrawal. A resolution of the Assembly expresses world opinion but cannot authorise enforcement, so the response depends on states willing to act outside the Council.\n\nState sovereignty limits responses in a similar way. In Military and Paramilitary Activities in and against Nicaragua (1986), the International Court of Justice found the United States in breach of international law, but the United States rejected the judgment and did not comply with it. The case shows that a court can declare a violation while being unable to enforce its decision against a powerful state. Peacekeeping missions face similar constraints. The Srebrenica massacre of 1995 occurred in a United Nations safe area defended by Dutch peacekeepers whose mandate did not allow them to use force to protect the enclave, and the result was a failure that later international responses could not reverse.\n\nResponses that depend on law have had more success where they bind individuals. The International Criminal Tribunal for the former Yugoslavia, established by Security Council Resolution 827 in 1993, prosecuted individuals responsible for crimes in the Balkans, including crimes committed at Srebrenica. Economic sanctions have also been used. Resolution 661 imposed sanctions after Iraq's invasion of Kuwait in 1990, showing how quickly the Council could act, although the conflict was ultimately ended by military action rather than by sanctions alone. Responses of this kind show that the Security Council can act when its permanent members agree, and that the agreement itself is the limit.\n\nA contemporary issue tests the effectiveness of responses more sharply. The International Criminal Court issued an arrest warrant for President Putin in March 2023 for the unlawful deportation of children from Ukraine. Russia is not a party to the Rome Statute, however, so the warrant depends on states that are parties arresting him if he travels to them. Measured against the three criteria, responses are effective where they rest on consent and impartial peacekeeping, and least effective where the conflict involves a permanent member of the Security Council. The Ukraine conflict shows that a legal response can name wrongdoing without stopping it.\n\nInternational responses have promoted peace and resolved some conflicts, and the successes in East Timor and the Solomon Islands show that peacebuilding can work. World order is not secured by institutions alone, however. Sovereignty, the veto and the reluctance of the great powers mean that responses are strongest when they are consensual and weakest where they are most needed. A more stable order would require either greater willingness by the permanent members to accept limits on the veto, or more reliable mechanisms for responding to aggression without the consent of the aggressor. Until then, effectiveness will depend on who is willing to act, not only on what the law provides.",
+                        "feedback": "Meets the 21–25 row by judging the responses against explicit criteria, using East Timor, the Solomon Islands, the Security Council veto and Ukraine as evidence, and sustaining the argument to a conclusion.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-31a-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "International responses to conflict have promoted peace in some cases, but they have not always resolved conflicts. The United Nations is the main body responsible for maintaining peace, and it uses peacekeeping and peacebuilding to do this. Overall, these responses are fairly effective, although they depend on the agreement of states. This answer looks at what peacekeeping has achieved, where it has failed and the limits set by the Security Council.\n\nPeacekeeping is one of the main ways the United Nations promotes peace. Peacekeepers are sent to places where fighting has stopped, and they watch over ceasefires and help the parties keep their agreements. This has helped in many countries, because the presence of neutral forces can reduce the chance of fighting starting again. Peacebuilding helps a country after a war by supporting elections, building institutions and encouraging the rule of law.\n\nAustralia has contributed to peacekeeping. In East Timor, Australia led a force in 1999 after violence broke out following the referendum on independence. This helped to stop the fighting and allowed the territory to become independent in 2002. Australia also helped in the Solomon Islands through a regional mission from 2003. These are examples of successful responses, because the states involved agreed to the help.\n\nHowever, the United Nations has limits. The Security Council has permanent members who can use the veto, which stops it from acting when they disagree. This happened with Russia and Ukraine in 2022, when Russia vetoed a resolution that would have demanded it withdraw its forces. Peacekeepers also cannot always protect people, as shown by Srebrenica in 1995, where the peacekeepers were unable to stop the killing.\n\nThe International Criminal Tribunal for the former Yugoslavia was also set up by the Security Council in 1993 to prosecute people for war crimes. It shows that the Council can respond to conflict in ways other than sending forces. The tribunal has convicted some leaders, but it took many years to do so, and this delay means that the response did not stop the violence at the time.\n\nIn conclusion, international responses are effective at promoting peace in some situations, but the veto and the need for consent mean that world order is not always achieved. The successes in East Timor and the Solomon Islands show what can be done, while the failures show where the system needs to improve.",
+                        "feedback": "Meets the 11–15 row by explaining peacekeeping and peacebuilding with Australian examples and giving a view on effectiveness. It does not set out criteria or explain the veto in depth, so it misses the 16–20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-31a-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "The United Nations works to keep peace between countries. It sends peacekeepers to places where there is fighting and helps countries recover after war. Countries sometimes agree to work together through the United Nations, and this helps world peace. Australia has also been involved in peacekeeping in places like East Timor. There are still wars in the world and the United Nations cannot always stop them. Many countries want peace, and international law is designed to help them get it. The Security Council is one important part of the United Nations. Peace is important for all countries.",
+                        "feedback": "Meets the 1–5 row by writing in general terms about the United Nations and peacekeeping with one example and no evaluation. It does not reach the 6–10 row, which makes statements about effectiveness.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• • demonstrate knowledge and understanding of legal issues relevant to the question\n• • communicate using relevant legal terminology and concepts\n• • refer to relevant examples such as legislation, cases, media, international instruments and documents\n• • present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2019,
+                    "hscQuestionNumber": "31(a)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section."
                   }
                 ]
               },
@@ -35587,6 +36350,70 @@
                     "hscQuestionNumber": "31(b)",
                     "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
                     "bandCeiling": 6
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2019-30b",
+                    "question": "Assess the role of law reform in recognising rights and enforcing responsibilities in the workplace. In your response, refer to at least ONE contemporary issue.",
+                    "totalMarks": 25,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "LST-12-03",
+                      "LST-12-04",
+                      "LST-12-06"
+                    ],
+                    "markerNotes": [
+                      "The top answer shows how law reform has recognised employee rights and enforced employer responsibilities, and then assesses whether the outcome is just for both groups.",
+                      "International standards from the International Labour Organization must be linked to Australian law, since they do not form part of Australian law until domestic legislation gives them effect.",
+                      "The contemporary issue, such as gig work or the right to disconnect, must test whether reform has reached workers in new forms of employment, not only be named."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes reforms to workplace rights without assessing whether they also enforce the responsibilities of employers and employees.",
+                      "Says ILO conventions are directly enforceable in Australian courts, without explaining how they become part of domestic law.",
+                      "Treats gig workers as employees because the law protects employees, without explaining how classification as an independent contractor limits access to rights."
+                    ],
+                    "keywords": [
+                      "law reform",
+                      "employee rights",
+                      "labour market",
+                      "enforcing responsibilities",
+                      "International Labour Organization",
+                      "independent contractors",
+                      "contemporary issue",
+                      "Fair Work Act 2009 (Cth)"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of the role of law reform in relation to the workplace; Makes an informed judgement about the role of law reform in recognising rights and enforcing responsibilities in the workplace, with reference to at least one contemporary issue; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of the role of law reform in relation to the workplace; Makes a sound judgement about the role of law reform in recognising rights and enforcing responsibilities in the workplace, with reference to at least one contemporary issue; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of the role of law reform in relation to the workplace; Makes some judgement about the role of law reform in recognising rights and/or enforcing responsibilities in the workplace, with reference to at least one contemporary issue; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of the role of law reform in relation to the workplace; Makes statements about the role of law reform in recognising rights and/or enforcing responsibilities in the workplace. May refer to a contemporary issue; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about workplace law; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2019-30b-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "Law reform has been central to recognising the rights of employees in Australia and to enforcing responsibilities that go with them. Changes to the labour market, from the growth of casual work to the rise of digital platforms, have shown that rights recognised for one kind of worker do not automatically extend to others. The role of reform is therefore significant but incomplete. Its greatest achievement has been to turn international standards into enforceable domestic entitlements. Its weakest point has been responding to new forms of work, where the classification of a worker decides whether a right exists at all.\n\nThe International Labour Organization, founded in 1919, has long set standards for employee rights through its conventions. Its core conventions on freedom of association and collective bargaining express community values about fair treatment that have spread through international law. Australia's commitments under these standards, and its wider human rights obligations, give legitimacy to reform. However, ILO conventions do not form part of Australian law until legislation gives them effect, so reform is the mechanism by which an international standard becomes an enforceable right. The Fair Work Act 2009 (Cth) is the principal example.\n\nThe Fair Work Act recognised employee rights in a way the earlier law did not. It commenced on 1 July 2009, after the WorkChoices amendments of 2005 were widely seen as weakening protection, and it established the National Employment Standards, a set of minimum entitlements that cannot be removed by contract. Its protection against adverse action and its unfair dismissal regime gave employees enforceable claims against employers who breached those standards. This shows that changing community values about fairness at work can produce legal change.\n\nThe same reform also enforces responsibilities on both sides. Employers must pay at least the national minimum wage and observe modern awards, and enforcement agencies can require them to rectify breaches. The Act also imposes a duty on bargaining parties to negotiate in good faith. More recent reforms add to employer responsibilities. The Sex Discrimination Act 1984 (Cth) was amended in 2022 to impose a positive duty on employers to take reasonable and proportionate measures to eliminate sexual harassment in the workplace, following the Australian Human Rights Commission's Respect@Work report of 2020. This shows reform moving from reacting to complaints towards requiring employers to prevent harm.\n\nA contemporary issue tests whether reform has kept pace with the labour market. Gig-economy workers, including food delivery riders and rideshare drivers, are often engaged as independent contractors. That classification removes them from the National Employment Standards and from unfair dismissal protection, although the law looks at the substance of the relationship rather than the label. The High Court in Hollis v Vabu Pty Ltd (2001) held that bicycle couriers were employees because the company controlled how they worked. The reasoning in that case remains relevant to platform work, but each claim must be litigated, and the cost and delay mean few gig workers can use it in practice. Recent Commonwealth amendments have extended minimum protections to some digital platform workers, which recognises their rights but leaves the enforcement gap.\n\nReform also has limits where it treats the workplace as a set of rules rather than a relationship. The right to disconnect, introduced by the Commonwealth in 2024 for most employers and in 2025 for small business, lets employees refuse after-hours contact unless the refusal is unreasonable. It operates only for employees, so it depends on the same classification question, and its effectiveness is tested by the employees most likely to be affected, who may fear that refusing contact will cost them work. Reform recognises the right in a formal sense, while the practical capacity to exercise it depends on bargaining power.\n\nJudged against the twin aims of recognising rights and enforcing responsibilities, law reform has been effective for employees in standard employment. The Fair Work Act and the 2022 positive duty show a process that responds to community values, and international standards give those reforms a legitimate base. Its effectiveness declines where classification excludes workers from the framework and where enforcement depends on individual claims that are costly to bring. Reform is therefore strongest when it changes the relationship between workers and employers, and weakest when it adds rights without addressing who can claim them.\n\nLaw reform has played a substantial role in recognising the rights of employees and in enforcing employer responsibilities, drawing on international standards and on changing community values about fair work. Its success is incomplete. The labour market has moved faster than the classification rules on which many rights depend, so the protection of gig and contracted workers remains uncertain. The next stage of reform must make rights accessible as well as recognised, or the rights of workers will remain strongest for those already in secure employment.",
+                        "feedback": "Meets the 21–25 row by assessing law reform on both recognising rights and enforcing responsibilities, linking the International Labour Organization to Australian law, and testing the gig-economy issue against the classification rules.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-30b-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Law reform has helped recognise rights in the workplace and has made employers responsible for protecting workers. The Fair Work Act is the main example. International standards from the International Labour Organization also influence Australian law. However, reform has not kept up with changes in the labour market, so its role is limited. This answer looks at the recognition of rights, the enforcement of responsibilities and a contemporary issue.\n\nThe Fair Work Act 2009 (Cth) introduced the National Employment Standards, which give workers basic entitlements such as annual leave and parental leave. It also protects workers against unfair dismissal, and the Fair Work Commission can hear claims. These changes show that the law recognises employee rights as important, and workers can use the Commission to enforce them without needing a lawyer.\n\nReform has also required employers to take responsibility. In 2022 the law was changed to require employers to take steps to prevent sexual harassment, which is a positive duty rather than a duty that arises only after a complaint. This is an example of the law requiring more of employers rather than just reacting to complaints after they happen. Employers must also pay at least the minimum wage and follow modern awards, and enforcement agencies can act if they do not.\n\nA contemporary issue is gig work. Many people who deliver food or drive for ride-share companies are classed as independent contractors. This means they do not get the same protections as employees, such as paid leave and unfair dismissal protection. The law has tried to deal with this by giving some minimum protection to platform workers, but many still do not get the full benefits, and the classification question is often disputed.\n\nThe International Labour Organization sets standards that influence this area. Its conventions express community values about fair treatment at work, and Australia's commitments help shape reform. However, these standards only become enforceable once they are given effect in Australian law, so the Fair Work Act remains the real source of rights for workers.\n\nIn conclusion, law reform has played a useful role in recognising rights and enforcing responsibilities, but it is not complete. It works well for standard employees and less well for workers in new types of work who are classified as contractors.",
+                        "feedback": "Meets the 11–15 row by describing reforms and their purpose and giving a view on the gig economy. It does not test classification against the reform's purpose or assess how far reform has been enforced, so it misses the 16–20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-30b-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "The law about workplaces has changed over time. Workers now have more rights, such as holidays and protection from unfair dismissal, and employers have some duties to look after workers. The International Labour Organization is one body that talks about workers' rights. Changes to the law are made by parliament. There are still problems for workers today, such as people who work in jobs with no leave. Some people work for apps and are not sure whether they are employees. The government can change the law to help more people in the future.",
+                        "feedback": "Meets the 1–5 row by writing in general terms about workplace reform and mentioning changes without assessing their role. It names no developed contemporary issue, so it does not reach the 6–10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• • demonstrate knowledge and understanding of legal issues relevant to the question\n• • communicate using relevant legal terminology and concepts\n• • refer to relevant examples such as legislation, cases, media, international instruments and documents\n• • present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2019,
+                    "hscQuestionNumber": "30(b)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -35951,6 +36778,69 @@
                     "hscQuestionNumber": "30(a)",
                     "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
                     "bandCeiling": 6
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2019-30a",
+                    "question": "Evaluate the effectiveness of regulation of the workplace in protecting and recognising workplace rights.",
+                    "totalMarks": 25,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "LST-12-02",
+                      "LST-12-03",
+                      "LST-12-06"
+                    ],
+                    "markerNotes": [
+                      "The top answer evaluates regulation against its purpose of protecting and recognising workplace rights, and reaches a judgement about whether it does so for all workers or only for some.",
+                      "The Fair Work Commission and the Fair Work Ombudsman need to be explained by role: the Commission handles unfair dismissal and minimum wages, and the Ombudsman investigates and brings proceedings.",
+                      "A contemporary example, such as sham contracting or underpayment in franchises or platform work, must test whether the regulation works in practice, not only name the problem."
+                    ],
+                    "commonStudentErrors": [
+                      "Lists the Fair Work Act and the National Employment Standards without assessing whether they protect workers in practice.",
+                      "Confuses the roles of the Fair Work Commission and the Fair Work Ombudsman, for example saying the Ombudsman decides unfair dismissal claims.",
+                      "Makes broad claims that workers are always underpaid, without evidence from enforcement or a specific industry."
+                    ],
+                    "keywords": [
+                      "Fair Work Act 2009 (Cth)",
+                      "Fair Work Commission",
+                      "Fair Work Ombudsman",
+                      "National Employment Standards",
+                      "modern awards",
+                      "regulation of the workplace",
+                      "workplace rights",
+                      "Work Health and Safety Act 2011 (NSW)"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of regulation of the workplace; Makes an informed judgement, using criteria, about the effectiveness of regulation in protecting and recognising workplace rights; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of regulation of the workplace; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of regulation in protecting and recognising workplace rights; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of regulation of the workplace; Makes some judgement about the effectiveness of regulation in protecting and/or recognising workplace rights; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of regulation of the workplace; Makes statements about the effectiveness of regulation in protecting and/or recognising workplace rights; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about regulation of the workplace; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2019-30a-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "The regulation of the workplace in Australia is built around the Fair Work Act 2009 (Cth), which sets minimum standards, supports collective bargaining and creates institutions to enforce both. Measured against its purpose of protecting and recognising workplace rights, the regulation is effective in its design and broad in its reach. Its effectiveness is weakened, however, by the gap between the rights it recognises and the capacity of many workers to use them. This response argues that the regulation protects workplace rights well for employees with the resources to enforce them, but less well for the casual, contracted and vulnerable workers who most often need protection.\n\nThe Fair Work Act replaced the Workplace Relations Act 1996 (Cth), which the WorkChoices amendments of 2005 had weakened, when it commenced on 1 July 2009. It establishes the National Employment Standards, which give employees ten minimum entitlements, including annual leave, personal and carer's leave, parental leave and a maximum ordinary working week. Modern awards set minimum pay and conditions for industries and occupations, and the Act prohibits sham contracting arrangements and adverse action taken against a worker for exercising a workplace right.\n\nTwo institutions carry most of the enforcement. The Fair Work Commission is an independent tribunal that sets the national minimum wage each year, makes and varies modern awards and hears unfair dismissal claims, and it can resolve disputes through conciliation. The Fair Work Ombudsman investigates complaints of underpayment and other breaches, can require employers to rectify them and can commence proceedings in the courts. Together they make the regulation accessible in a way a court-based system would not, because a worker can lodge a complaint without a lawyer and receive an investigation at no cost.\n\nOn protecting rights, the regulation is effective where rights are clear and enforceable. The National Employment Standards give a worker a clear claim to paid annual leave, and an employer who denies it can be the subject of enforcement action. The Commission's power to hear unfair dismissal claims gives employees an accessible remedy, and the general protections stop employers from taking adverse action against workers for asserting their rights. These features show a system that treats workplace rights as legal entitlements rather than matters of goodwill.\n\nEnforcement evidence shows the limits. Underpayment has been widespread in some industries. The Fair Work Ombudsman's inquiry into the 7-Eleven franchise network, reported in 2016, found widespread underpayment of young and migrant workers, which showed that a framework can recognise rights on paper while employers exploit gaps in record-keeping and franchise structures. Sham contracting is a further problem. Employers who describe employees as independent contractors can avoid minimum entitlements, yet the High Court in Hollis v Vabu Pty Ltd (2001) held that a bicycle courier was an employee, so courts look at the real relationship rather than the label the parties choose. The workers most in need of protection are often the least able to bring a claim.\n\nA contemporary issue tests the regulation further. Platform workers and other gig-economy workers are often classified as independent contractors, which removes them from the National Employment Standards and from most protections given to employees. The test for employment status weighs several factors, and disputes are costly and slow to resolve. Recent Commonwealth amendments have extended some minimum protections to digital platform workers, but these are narrower than the protections available to standard employees. The regulation therefore recognises the workplace rights of standard employees well, while leaving the rights of workers in new forms of work contested.\n\nSafety is the other dimension of workplace rights, and it is regulated mainly by state and territory law. The Work Health and Safety Act 2011 (NSW) requires a person conducting a business or undertaking to ensure, so far as is reasonably practicable, the health and safety of workers. The duties are well drawn, but they depend on regulators with limited resources to inspect and prosecute. Safety is recognised as a right only if workers can refuse unsafe work and complain without fear, and the law protects them when they do. Casual and migrant workers, however, are the least likely to use these rights.\n\nJudged against its purpose, the regulation of the workplace is effective in recognising workplace rights as legal entitlements, and it has established institutions that enforce them at low cost. Its effectiveness in protecting those rights is uneven. The Fair Work Act and the National Employment Standards give employees clear protections, while the Commission and the Ombudsman make enforcement accessible. Yet franchise underpayment, sham contracting and platform work show that the regulation depends on workers being able to identify breaches and bring claims. Until enforcement reaches workers who are casual, contracted or unable to speak up, the regulation will protect workplace rights most effectively for those who already have the means to enforce them.",
+                        "feedback": "Meets the 21–25 row by evaluating the regulation against its purpose, using the Commission, the Ombudsman and a High Court decision as named evidence, and reaching a judgement on which workers it reaches.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-30a-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "The regulation of the workplace in Australia is mainly contained in the Fair Work Act 2009 (Cth), which sets out the National Employment Standards and provides for modern awards. The Act is supported by institutions such as the Fair Work Commission and the Fair Work Ombudsman. Overall the regulation is fairly effective at protecting workplace rights, although there are some problems.\n\nThe National Employment Standards give employees minimum entitlements such as annual leave, personal leave and parental leave. Employees can rely on these entitlements because they are set by law, and an employer cannot simply take them away by contract. Modern awards also set minimum wages and conditions for many industries and occupations. This shows that the law recognises workers' rights as legal entitlements rather than as favours from employers.\n\nThe Fair Work Commission deals with unfair dismissal claims and sets the national minimum wage each year. It is an independent body, and workers can lodge claims without a lawyer. The Fair Work Ombudsman investigates breaches of the Act, such as underpayment, and can require employers to fix them. These bodies help make sure the law is followed, and they make the system more accessible than going to court.\n\nHowever, some workers are not well protected. Casual workers may not receive paid annual leave, and some employers avoid the law by calling workers independent contractors. Underpayment is also a problem in some industries, particularly where workers are young or do not speak English well. Many workers do not complain because they are afraid of losing their jobs, even though the Act protects them against adverse action. The protection therefore depends on workers being willing to use it.\n\nWork health and safety is another part of workplace regulation. In New South Wales the Work Health and Safety Act 2011 (NSW) requires employers to keep workers safe, so far as is reasonably practicable. This protects workers in a different way, but it also depends on inspectors and on workers reporting problems. Where workers do not feel able to report, the regulation is less effective than it appears.\n\nOverall, the regulation of the workplace is effective in many ways, but its effectiveness depends on whether workers know their rights and can enforce them. The laws are clear and the institutions exist, so the regulation recognises workplace rights well. The gaps appear where workers are least able to use the system.",
+                        "feedback": "Meets the 11–15 row by describing the framework and its limits with a view on effectiveness. It has no case or enforcement example and does not test the regulation against its purpose, so it misses the 16–20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2019-30a-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "The workplace is regulated by laws that protect workers. The main law in Australia is the Fair Work Act, which covers things like wages and leave. Workers are protected from being treated badly by employers. There are government bodies that can help workers if they have a problem at work. Some employers do not follow the law and this can be a problem for workers. Workers should know their rights so they can ask for help. Many people work in jobs where these rules are important. The law has changed over time to try to protect workers better.",
+                        "feedback": "Meets the 1–5 row by writing in general terms about workplace law and naming the Fair Work Act without description. It gives no evaluation or example, so it does not reach the 6–10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• • demonstrate knowledge and understanding of legal issues relevant to the question\n• • communicate using relevant legal terminology and concepts\n• • refer to relevant examples such as legislation, cases, media, international instruments and documents\n• • present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2019,
+                    "hscQuestionNumber": "30(a)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section."
                   }
                 ]
               },
