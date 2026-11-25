@@ -1,5 +1,26 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-25 (Legal Studies: six more years of HSC papers)
+
+- **Added (DATA_VERSION 2.74.0).** 86 past HSC questions from the 2019–2024 Legal Studies papers (2011 syllabus), each
+  mapped to the 2025 dot point that covers it, as the 2025 paper was: Human Rights to International relations and
+  human rights, Crime to The criminal justice system, and the Consumers, Family, Shelter (Housing law), Workplace and
+  World order (Peace, conflict and the law) options.
+  - Left out: the Global environmental protection and Indigenous peoples options, which the 2025 syllabus drops, and
+    2024 27(b) on surrogacy and birth technologies, which no 2025 Family law dot point covers.
+  - NESA's sample answers are the full-mark exemplars, verbatim, for the Section II short-answer parts that have one.
+    The Crime extended responses and the 25-mark option essays get a complete written answer (about 750–850 words
+    for 25 marks), plus 15- and 5-mark samples.
+  - Every written answer was fact-checked against legislation, court and government sources and stated as the law
+    stands in 2025: for example, the 2024 repeal of the presumption of equal shared parental responsibility, the end
+    of "no grounds" terminations in NSW from 19 May 2025, compulsory recalls ordered by ministers rather than the
+    ACCC, and AFCA in place of the Financial Ombudsman Service.
+  - Marker notes flag slips in NESA's samples (2019 21 cites ICCPR Article 1 for the right to vote; 2021 22 calls the
+    Paris Agreement the "Paris Accord"; 2024 22 and 23 misname Lange and the Criminal Code Act). A guideline's "Note:
+    Students may…" line is not part of the sample and is left out of it.
+  - Extracts are in `data/referencePapers/legal-studies-2019…2024-paper-and-guidelines.json`. The 2020–2024 extracts
+    are the October 2026 calibration set split by year.
+
 ## [Unreleased] - 2026-11-25 (History Extension: six more years of HSC papers)
 
 - **Added (DATA_VERSION 2.73.0).** 12 past HSC questions from the 2019–2024 History Extension papers (2017 syllabus),

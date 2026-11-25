@@ -1,0 +1,734 @@
+{
+  "year": 2020,
+  "course": "Legal Studies",
+  "papers": [
+    "2020-hsc-legal-studies.pdf",
+    "2020-hsc-legal-studies-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted."
+    }
+  ],
+  "edits": [
+    "Converted from data/referencePapers/legal-studies-2020-2025-past-papers.json (October 2026 extraction, ladders re-cut against the PDF)."
+  ],
+  "questions": [
+    {
+      "number": "21",
+      "section": "II-A",
+      "marks": 3,
+      "stem": "How has the International Covenant on Civil and Political Rights contributed to the development of human rights?",
+      "stimulus": "",
+      "assessedOn": [],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Demonstrates an understanding of how the International Covenant on Civil and Political Rights has contributed to the development of human rights"
+        },
+        {
+          "marks": "2",
+          "text": "Makes statements about the International Covenant on Civil and Political Rights and the development of human rights"
+        },
+        {
+          "marks": "1",
+          "text": "Makes general statements about human rights"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "22",
+      "section": "II-A",
+      "marks": 5,
+      "stem": "Explain the role of intergovernmental organisations in enforcing human rights. Use an example to support your answer.",
+      "stimulus": "",
+      "assessedOn": [],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a thorough understanding of the role of IGOs in relation to human rights ; Provides an informed explanation of how IGOs enforce human rights, using an appropriate example"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of the role of IGOs in relation to human rights ; Provides an explanation of how IGOs enforce human rights, using an example"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates an understanding of IGOs and the enforcement of human rights ; May include an example"
+        },
+        {
+          "marks": "2",
+          "text": "Makes general statements about IGOs and human rights"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about human rights"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "23",
+      "section": "II-A",
+      "marks": 7,
+      "stem": "To what extent has compliance with international human rights law been achieved by nations?",
+      "stimulus": "",
+      "assessedOn": [],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Demonstrates a thorough understanding of international human rights law ; Makes an informed judgement about the extent to which compliance with international human rights law has been achieved by nations"
+        },
+        {
+          "marks": "5–6",
+          "text": "Demonstrates a sound understanding of international human rights law ; Makes a judgement about the extent to which compliance with international human rights law has been achieved by nations"
+        },
+        {
+          "marks": "3–4",
+          "text": "Demonstrates some understanding of international human rights law ; Makes statements about compliance with international human rights"
+        },
+        {
+          "marks": "2",
+          "text": "Makes general statements about international human rights law AND/OR compliance with human rights"
+        },
+        {
+          "marks": "1",
+          "text": "Makes general statements about human rights"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "24",
+      "section": "II-B",
+      "marks": 15,
+      "stem": "To what extent does the criminal trial process reflect the moral and ethical standards of society?",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Demonstrates extensive knowledge of the criminal trial process ; Makes an informed judgement about the extent to which the criminal trial process reflects the moral and ethical standards of society ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "10–12",
+          "text": "Demonstrates substantial knowledge of the criminal trial process ; Makes a sound judgement about the extent to which the criminal trial process reflects the moral and ethical standards of society ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Demonstrates some knowledge of the criminal trial process ; Makes a judgement about the extent to which the criminal trial process reflects the moral and ethical standards of society ; Makes reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates limited knowledge of the criminal trial process ; Makes general statements about the criminal trial process and the moral and ethical standards of society ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–3",
+          "text": "Writes in general terms about the criminal justice system AND/OR the moral and ethical standards of society ; May include reference to legislation, cases, media, international instruments and documents ; May use legal terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II – 30 marks. Part B – Crime, 15 marks. Attempt Question 24. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "25(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Evaluate the effectiveness of the legal system in addressing issues for consumers arising from technology.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of consumer law related to technology ; Makes an informed judgement, using criteria, about the effectiveness of the legal system in addressing issues for consumers arising from technology ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of consumer law related to technology ; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of the legal system in addressing issues for consumers arising from technology ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of consumer law related to technology ; Makes some judgement about the effectiveness of the legal system in addressing issues for consumers arising from technology ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of consumer law related to technology ; Makes statements about the effectiveness of the legal system in addressing issues for consumers ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about consumer law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "25(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Compliance with the law can be difficult to achieve. To what extent is this statement true in relation to consumer law?",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of consumer law ; Makes an informed judgement about the extent to which compliance can be difficult to achieve in relation to consumer law ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of consumer law ; Makes a sound judgement about the extent to which compliance can be difficult to achieve in relation to consumer law ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of consumer law ; Makes some judgement about the extent to which compliance can be difficult to achieve in relation to consumer law ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of consumer law ; Makes statements about the extent to which compliance can be difficult to achieve ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about consumer law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "26(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Evaluate the effectiveness of legal processes in addressing issues arising from global threats to the environment.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of law arising from global environmental threats ; Makes an informed judgement, using criteria, about the effectiveness of legal processes in addressing issues arising from global threats to the environment ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of law arising from global environmental threats ; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of legal processes in addressing issues arising from global threats to the environment ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of law arising from global environmental threats ; Makes some judgement about the effectiveness of legal processes in addressing issues arising from global threats to the environment ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of law arising from global environmental threats ; Makes statements about the effectiveness of legal processes in addressing issues in global environmental protection ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about global environmental protection ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "26(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Cooperation with the law can be difficult to achieve. To what extent is this statement true in relation to global environmental protection?",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of law relating to global environmental protection ; Makes an informed judgement about the extent to which cooperation can be difficult to achieve in relation to global environmental protection ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of law relating to global environmental protection ; Makes a sound judgement about the extent to which cooperation can be difficult to achieve in relation to global environmental protection ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of law relating to global environmental protection ; Makes some judgement about the extent to which cooperation can be difficult to achieve in relation to global environmental protection ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of law relating to global environmental protection ; Makes statements about the extent to which cooperation can be difficult to achieve ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law relating to global environmental protection ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "27(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Evaluate the effectiveness of the legal system in addressing issues relating to care and protection of children.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of law relating to care and protection of children ; Makes an informed judgement, using criteria, about the effectiveness of the legal system in addressing issues related to care and protection of children ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of law relating to care and protection of children ; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of the legal system in addressing issues related to care and protection of children ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of law relating to care and protection of children ; Makes some judgement about the effectiveness of the legal system in addressing issues related to care and protection of children ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of law relating to care and protection of children ; Makes statements about the effectiveness of the legal system in addressing issues for children ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about family law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "27(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Compliance with the law can be difficult to achieve. To what extent is this statement true in relation to family law?",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of family law ; Makes an informed judgement about the extent to which compliance can be difficult to achieve in relation to family law ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of family law ; Makes a sound judgement about the extent to which compliance can be difficult to achieve in relation to family law ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of family law ; Makes some judgement about the extent to which compliance can be difficult to achieve in relation to family law ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of family law ; Makes statements about the extent to which compliance can be difficult to achieve ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about family law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "28(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Evaluate the effectiveness of legal processes in addressing issues arising from the loss of indigenous peoples’ cultural rights.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of law relating to indigenous peoples’ cultural rights ; Makes an informed judgement, using criteria, about the effectiveness of legal processes in addressing issues for indigenous peoples arising from the loss of cultural rights ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of law relating to indigenous peoples’ cultural rights ; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of legal processes in addressing issues for indigenous peoples arising from the loss of cultural rights ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of law relating to indigenous peoples’ cultural rights ; Makes some judgement about the effectiveness of legal processes in addressing issues for indigenous peoples arising from the loss of cultural rights ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of law relating to indigenous peoples’ cultural rights ; Makes statements about the effectiveness of legal processes in addressing issues for indigenous peoples ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about the rights of indigenous peoples ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "28(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Cooperation with the law can be difficult to achieve. To what extent is this statement true in relation to indigenous peoples?",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of law relating to indigenous peoples ; Makes an informed judgement about the extent to which cooperation can be difficult to achieve in relation to indigenous peoples ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of law relating to indigenous peoples ; Makes a sound judgement about the extent to which cooperation can be difficult to achieve in relation to indigenous peoples ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of law relating to indigenous peoples ; Makes some judgement about the extent to which cooperation can be difficult to achieve in relation to indigenous peoples ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of law relating to indigenous peoples ; Makes statements about the extent to which cooperation be difficult to achieve ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law relating to indigenous peoples ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "29(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Evaluate the effectiveness of the legal system in addressing issues relating to the affordability of shelter.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of legal responses relating to affordability of shelter ; Makes an informed judgement, using criteria, about the effectiveness of the legal system in addressing issues related to the affordability of shelter ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of legal responses relating to affordability of shelter ; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of the legal system in addressing issues related to the affordability of shelter ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of legal responses relating to affordability of shelter ; Makes some judgement about the effectiveness of the legal system in addressing issues related to the affordability of shelter ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of legal responses relating to affordability of shelter ; Makes statements about the effectiveness of the legal system in addressing issues for those seeking shelter ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about legal responses relating to shelter ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "29(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Compliance with the law can be difficult to achieve. To what extent is this statement true in relation to laws governing shelter?",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of laws governing shelter ; Makes an informed judgement about the extent to which compliance can be difficult to achieve in relation to shelter ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of laws governing shelter ; Makes a sound judgement about the extent to which compliance can be difficult to achieve in relation to shelter ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of laws governing shelter ; Makes some judgement about the extent to which compliance can be difficult to achieve in relation to shelter ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of laws governing shelter ; Makes statements about the extent to which compliance can be difficult to achieve ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about laws governing shelter ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "30(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Evaluate the effectiveness of the legal system in addressing issues relating to workplace safety.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of law relating to workplace safety ; Makes an informed judgement, using criteria, about the effectiveness of the legal system in addressing issues related to workplace safety ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of law relating to workplace safety ; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of the legal system in addressing issues related to workplace safety ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of law relating to workplace safety ; Makes some judgement about the effectiveness of the legal system in addressing issues related to workplace safety ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of law relating to workplace safety ; Makes statements about the effectiveness of the legal system in addressing issues for workers ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about workplace law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "30(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Compliance with the law can be difficult to achieve. To what extent is this statement true in relation to workplace law?",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of workplace law ; Makes an informed judgement about the extent to which compliance can be difficult to achieve in relation to workplace law ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of workplace law ; Makes a sound judgement about the extent to which compliance can be difficult to achieve in relation to workplace law ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of workplace law ; Makes some judgement about the extent to which compliance can be difficult to achieve in relation to workplace law ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of workplace law ; Makes statements about the extent to which compliance can be difficult to achieve ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about workplace law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "31(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Evaluate the effectiveness of legal measures in addressing issues relating to rules regarding the conduct of hostilities.",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of law relating to the conduct of hostilities ; Makes an informed judgement, using criteria, about the effectiveness of legal measures in addressing issues related to rules regarding the conduct of hostilities ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of law relating to the conduct of hostilities ; Makes a sound judgement, using explicit or implicit criteria, about the effectiveness of legal measures in addressing issues related to rules regarding the conduct of hostilities ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of law relating to the conduct of hostilities ; Makes some judgement about the effectiveness of legal measures in addressing issues related to rules regarding the conduct of hostilities ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of law relating to the conduct of hostilities ; Makes statements about the effectiveness of legal measures in addressing issues related to the conduct of hostilities ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about world order ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "31(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "Cooperation with the law can be difficult to achieve. To what extent is this statement true in relation to world order?",
+      "stimulus": "",
+      "assessedOn": [
+        "• demonstrate knowledge and understanding of legal issues relevant to the question",
+        "• communicate using relevant legal terminology and concepts",
+        "• refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "• present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding of law relating to world order ; Makes an informed judgement about the extent to which cooperation can be difficult to achieve in relation to world order ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding of law relating to world order ; Makes a sound judgement about the extent to which cooperation can be difficult to achieve in relation to world order ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding of law relating to world order ; Makes some judgement about the extent to which cooperation can be difficult to achieve in relation to world order ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding of law relating to world order ; Makes statements about the extent to which cooperation can be difficult to achieve ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law relating to world order ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    }
+  ]
+}

@@ -1,0 +1,762 @@
+{
+  "year": 2021,
+  "course": "Legal Studies",
+  "papers": [
+    "2021-hsc-legal-studies.pdf",
+    "2021-hsc-legal-studies-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted."
+    }
+  ],
+  "edits": [
+    "Converted from data/referencePapers/legal-studies-2020-2025-past-papers.json (October 2026 extraction, ladders re-cut against the PDF)."
+  ],
+  "questions": [
+    {
+      "number": "21",
+      "section": "II-A",
+      "marks": 2,
+      "stem": "Define human rights.",
+      "stimulus": "",
+      "assessedOn": [],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "States the meaning of human rights"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about human rights"
+        }
+      ],
+      "sampleAnswer": "Basic rights and freedoms belong to all human beings. They are universal, inalienable and inherent in all people. For example: right to life, freedom of religion.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–24. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "22",
+      "section": "II-A",
+      "marks": 2,
+      "stem": "How are environmental rights recognised?",
+      "stimulus": "",
+      "assessedOn": [],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Demonstrates an understanding of how environmental rights are recognised internationally and/or domestically"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about environmental rights internationally and/or domestically"
+        }
+      ],
+      "sampleAnswer": "Environmental rights are a fundamental human right recognised in international instruments such as the Kyoto Protocol and the Paris Accord. Domestically (eg in Australia) the right is protected by Commonwealth, state and territory legislation.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–24. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "23",
+      "section": "II-A",
+      "marks": 4,
+      "stem": "Using an example, describe the relationship between state sovereignty and human rights.",
+      "stimulus": "",
+      "assessedOn": [],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a clear understanding of the relationship between state sovereignty and human rights ; Uses a relevant example"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of the relationship between state sovereignty and human rights ; Uses an example"
+        },
+        {
+          "marks": "2",
+          "text": "Makes a general statement about state sovereignty and human rights ; May refer to an example"
+        },
+        {
+          "marks": "1",
+          "text": "Makes a general statement about state sovereignty AND/OR human rights"
+        }
+      ],
+      "sampleAnswer": "State sovereignty is the ability of a nation state to make laws for its citizens without external interference. The relationship between state sovereignty and human rights influences whether there is recognition, protection or enforcement of such rights. For example, a sovereign state may recognise the fundamental human rights as listed in an international instrument (eg ICCPR) and then enact them into domestic legislation. Conversely, a sovereign state may refuse to cooperate with an international instrument, or organisation such as the United Nations, as such rights may not reflect the values of that nation state.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–24. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "24",
+      "section": "II-A",
+      "marks": 7,
+      "stem": "Discuss the effectiveness of Australian legal responses in enforcing human rights.",
+      "stimulus": "",
+      "assessedOn": [],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Provides informed arguments for AND/OR against the effectiveness of Australian legal responses in enforcing human rights ; Demonstrates a thorough understanding of Australian legal responses in enforcing human rights"
+        },
+        {
+          "marks": "5–6",
+          "text": "Provides arguments for AND/OR against the effectiveness of Australian legal responses in enforcing human rights ; Demonstrates a sound understanding of Australian legal responses in enforcing human rights"
+        },
+        {
+          "marks": "3–4",
+          "text": "Attempts to provide arguments for AND/OR against the effectiveness of Australian legal responses in enforcing human rights ; Demonstrates an understanding of Australian legal responses in enforcing human rights"
+        },
+        {
+          "marks": "1–2",
+          "text": "Makes general statements about Australian legal responses AND/OR human rights ; May provide an example"
+        }
+      ],
+      "sampleAnswer": "A number of important human rights have been protected in Australia, although their enforceability varies. For instance, there are explicit rights contained in the Australian Constitution such as the right to vote in Commonwealth elections (s. 41). Similarly, statute law has contributed to the enforcement of human rights through the application of legislation such as the Sex Discrimination Act 1984 (Cth). Common law also reveals how Australia responds and enforces human rights, such as Dietrich v The Queen 1992. The High Court of Australia recognised the importance of a fair trial if the accused represents themselves or has an unqualified person representing them. This right, however, does not automatically allow the accused to acquire legal assistance if they did not meet the criteria for legal aid. The Australian Human Rights Commission (AHRC) was establised by the AHRC Act 1986 (Cth). However, this legislation, while establishing the statutory authority, may not lead to binding or enforceable judgements. Some Australian responses to the implementation of international law can also limit the enforcement of human rights. This can be seen with Australia’s interpretation of the Refugee Convention 1951 (UN) through the Migration Act 1958 (Cth).",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–24. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "25",
+      "section": "II-B",
+      "marks": 15,
+      "stem": "‘The legal system focuses on punishing offenders rather than preventing crime.’ Assess this statement in reference to achieving justice through criminal processes and institutions.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Demonstrates an extensive understanding of achieving justice through criminal processes and institutions ; Makes an informed judgement, in reference to the statement, whether the legal system focuses on punishing offenders rather than preventing crime ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "10–12",
+          "text": "Demonstrates substantial understanding of achieving justice through criminal processes and institutions ; Makes a sound judgement, in reference to the statement, whether the legal system focuses on punishing offenders rather than preventing crime ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "7–9",
+          "text": "Demonstrates an understanding of achieving justice through criminal processes AND/OR institutions ; Makes some judgement, in reference to the statement, whether the legal system focuses on punishing offenders rather than preventing crime ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates limited understanding of achieving justice through criminal process(es) OR institution(s) ; Makes general statements about punishing offenders or preventing crime ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–3",
+          "text": "Writes in general terms about the criminal justice system ; May include reference to the statement AND/OR legislation, cases, media, international instruments and documents ; May use legal terminology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "An assessment of how criminal processes and institutions achieve justice with respect to the law, focusing on punishment and/or prevention.",
+        "Reference to a range of criminal processes and institutions, but not limited to:",
+        "Processes:",
+        "• investigation processes (police powers, arrest, bail and remand)",
+        "• trial processes (court proceedings, pleas, charge negotiation)",
+        "• sentencing processes (purpose of punishment, victim impact statements, diversionary programs, alternative methods of sentencing)",
+        "• law reform eg law reform commissions investigating and recommending legislative changes",
+        "• strategies for young people offenders.",
+        "Institutions:",
+        "• parliament",
+        "• police",
+        "• courts",
+        "• prison system",
+        "• non-legal institutions (NGOs, not-for-profit organisations)",
+        "• government agencies."
+      ],
+      "sectionHeading": "Section II – 30 marks. Part B – Crime, 15 marks. Attempt Question 25. Allow about 1 hour for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "26(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "To what extent do courts and tribunals achieve justice for consumers?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about courts AND tribunals ; Makes an informed judgement of the extent to which courts and tribunals achieve justice for consumers ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about courts AND tribunals ; Makes a sound judgement of the extent to which courts AND tribunals achieve justice for consumers ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about courts AND/OR tribunals ; Makes some judgement about the extent to which courts AND/OR tribunals achieve justice for consumers ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about courts OR tribunals ; Makes statements about the extent to which courts OR tribunals achieve justice for consumers ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law relating to consumers ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "26(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "‘Legal measures often fail to respond to change.’ Assess this statement with reference to the need to protect consumers.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about legal measures with reference to the need to protect consumers ; Makes an informed judgement on the effectiveness of legal measures to respond to change ; Integrates the statement AND relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about legal measures with reference to the need to protect consumers ; Makes a sound judgement of the effectiveness of legal measures to respond to change ; Uses the statement AND relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about legal measures AND/OR the need to protect consumers ; Makes some judgement about the effectiveness of legal measures to respond to change ; Makes some reference to the statement AND/OR examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about legal measures OR the need to protect consumers ; Makes statements about the effectiveness of legal measures to respond to change ; Makes limited reference to the statement AND/OR examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology."
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law relating to consumers ; May include reference to the statement AND/OR legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "27(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "To what extent do courts and conferences achieve protection of the global environment?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about courts AND conferences ; Makes an informed judgement of the extent to which courts and conferences achieve environmental protection ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about courts AND conferences ; Makes a sound judgement of the extent to which courts AND conferences achieve environmental protection ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about courts AND/OR conferences ; Makes some judgement about the extent to which courts AND/OR conferences achieve environmental protection ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about courts OR conferences ; Makes statements about the extent to which courts OR conferences achieve environmental protection ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law relating to global environments ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "27(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "‘Legal measures often fail to respond to change.’ Assess this statement with reference to the need to protect the global environment.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about legal measures with reference to the need to protect the global environment ; Makes an informed judgement on the effectiveness of legal measures to respond to change ; Integrates the statement AND relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about legal measures with reference to the need to protect the global environment ; Makes a sound judgement of the effectiveness of legal measures to respond to change ; Uses the statement AND relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about legal measures AND/OR the need to protect the global environment ; Makes some judgement about the effectiveness of legal measures to respond to change ; Makes some reference to the statement AND/OR examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about legal measures OR the need to protect the global environment ; Makes statements about the effectiveness of legal measures to respond to change ; Makes limited reference to the statement AND/OR examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law relating to global environments ; May include reference to the statement AND/OR legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "28(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "To what extent do courts and dispute resolution methods achieve justice for family members?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about courts AND dispute resolution methods ; Makes an informed judgement of the extent to which courts and dispute resolution methods achieve justice for family members ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about courts AND dispute resolution methods ; Makes a sound judgement of the extent to which courts AND dispute resolution methods achieve justice for family members ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about courts AND/OR dispute resolution methods ; Makes some judgement about the extent to which courts AND/OR dispute resolution methods achieve justice for family members ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about courts OR dispute resolution methods ; Makes statements about the extent to which courts OR dispute resolution methods achieve justice for family members ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about family law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "28(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "‘Legal measures often fail to respond to change.’ Assess this statement with reference to the need to protect family members.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about legal measures with reference to the need to protect family members ; Makes an informed judgement on the effectiveness of legal measures to respond to change ; Integrates the statement AND relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about legal measures with reference to the need to protect family members ; Makes a sound judgement of the effectiveness of legal measures to respond to change ; Uses the statement AND relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about legal measures AND/OR the need to protect family members ; Makes some judgement about the effectiveness of legal measures to respond to change ; Makes some reference to the statement AND/OR examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about legal measures OR the need to protect family members ; Makes statements about the effectiveness of legal measures to respond to change ; Makes limited reference to the statement AND/OR examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about family law ; May include reference to the statement AND/OR legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "29(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "To what extent do courts and the United Nations achieve justice for Indigenous peoples?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about courts AND the United Nations ; Makes an informed judgement of the extent to which courts AND the United Nations achieve justice for Indigenous peoples ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about courts AND the United Nations ; Makes a sound judgement of the extent to which courts AND the United Nations achieve justice for Indigenous peoples ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about courts AND/OR the United Nations ; Makes some judgement about the extent to which courts AND/OR the United Nations achieve justice for Indigenous peoples ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about courts OR the United Nations ; Makes statements about the extent to which courts OR the United Nations achieve justice for Indigenous peoples ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law relating to Indigenous people ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "29(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "‘Legal measures often fail to respond to change.’ Assess this statement with reference to the loss of rights of Indigenous peoples.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about legal measures with reference to the loss of rights of Indigenous peoples ; Makes an informed judgement on the effectiveness of legal measures to respond to change ; Integrates the statement AND relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about legal measures with reference to the loss of rights of Indigenous peoples ; Makes a sound judgement of the effectiveness of legal measures to respond to change ; Uses the statement AND relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about legal measures AND/OR the loss of rights of Indigenous peoples ; Makes some judgement about the effectiveness of legal measures to respond to change ; Makes some reference to the statememt AND/OR examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about legal measures OR the loss of rights of Indigenous peoples ; Makes statements about the effectiveness of legal measures to respond to change ; Makes limited reference to the statement AND/OR examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law relating to Indigenous people ; May include reference to the statement AND/OR legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "30(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "To what extent do courts and tribunals achieve justice for people seeking shelter?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about courts AND tribunals ; Makes an informed judgement of the extent to which courts AND tribunals achieve justice for people seeking shelter ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about courts AND tribunals ; Makes a sound judgement of the extent to which courts AND tribunals achieve justice for people seeking shelter ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about courts AND/OR tribunals ; Makes some judgement about the extent to which courts AND/OR tribunals achieve justice for people seeking shelter ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about courts OR tribunals ; Makes statements about the extent to which courts OR tribunals achieve justice for people seeking shelter ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law relating to shelter ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "30(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "‘Legal measures often fail to respond to change.’ Assess this statement with reference to the provision of shelter.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about legal measures with reference to the provision of shelter ; Makes an informed judgement on the effectiveness of legal measures to respond to change ; Integrates the statement AND relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about legal measures with reference to the provision of shelter ; Makes a sound judgement of the effectiveness of legal measures to respond to change ; Uses the statement AND relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about legal measures AND/OR the provision of shelter ; Makes some judgement about the effectiveness of legal measures to respond to change ; Makes some reference to the statement AND/OR examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about legal measures OR the provision of shelter ; Makes statements about the effectiveness of legal measures to respond to change ; Makes limited reference to the statement AND/OR examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law relating to shelter ; May include reference to the statement AND/OR legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "31(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "To what extent do courts and tribunals achieve justice in the workplace?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about courts AND tribunals ; Makes an informed judgement of the extent to which courts AND tribunals achieve justice in the workplace ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about courts AND tribunals ; Makes a sound judgement of the extent to which courts AND tribunals achieve justice in the workplace ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about courts AND/OR tribunals ; Makes some judgement about the extent to which courts AND/OR tribunals achieve justice in the workplace ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about courts OR tribunals ; Makes statements about the extent to which courts OR tribunals achieve justice in the workplace ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about workplace law ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "31(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "‘Legal measures often fail to respond to change.’ Assess this statement with reference to the need for protection in the workplace.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about legal measures with reference to the need for protection in the workplace ; Makes an informed judgement on the effectiveness of legal measures to respond to change ; Integrates the statement AND relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about legal measures with reference to the need for protection in the workplace ; Makes a sound judgement of the effectiveness of legal measures to respond to change ; Uses the statement AND relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about legal measures AND/OR the need for protection in the workplace ; Makes some judgement about the effectiveness of legal measures to respond to change ; Makes some reference to the statement AND/OR examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about legal measures OR the need for protection in the workplace ; Makes statements about the effectiveness of legal measures to respond to change ; Makes limited reference to the statement AND/OR examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about workplace law ; May include reference to the statement AND/OR legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "32(a)",
+      "section": "III",
+      "marks": 25,
+      "stem": "To what extent do courts and tribunals promote and maintain world order?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about courts AND tribunals ; Makes an informed judgement of the extent to which courts AND tribunals promote and maintain world order ; Integrates relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about courts AND tribunals ; Makes a sound judgement of the extent to which courts AND tribunals promote and maintain world order ; Uses relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about courts AND/OR tribunals ; Makes some judgement about the extent to which courts AND/OR tribunals promote and maintain world order ; Makes some reference to examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about courts OR tribunals ; Makes statements about the extent to which courts OR tribunals promote and maintain world order ; Makes limited reference to examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law relating to world order ; May include reference to legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    },
+    {
+      "number": "32(b)",
+      "section": "III",
+      "marks": 25,
+      "stem": "‘Legal measures often fail to respond to change.’ Assess this statement with reference to resolving conflict between nation states.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of legal issues relevant to the question",
+        "communicate using relevant legal terminology and concepts",
+        "refer to relevant examples such as legislation, cases, media, international instruments and documents",
+        "present a sustained, logical and cohesive response"
+      ],
+      "alternativeOf": "",
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive understanding about legal measures with reference to the need to resolve conflict between nation states ; Makes an informed judgement on the effectiveness of legal measures to respond to change ; Integrates the statement AND relevant examples such as legislation, cases, media, international instruments and documents ; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates substantial understanding about legal measures with reference to the need to resolve conflict between nation states ; Makes a sound judgement of the effectiveness of legal measures to respond to change ; Uses the statement AND relevant examples such as legislation, cases, media, international instruments and documents ; Presents a logical and cohesive response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates an understanding about legal measures AND the need to resolve conflict between nation states ; Makes some judgement about the effectiveness of legal measures to respond to change ; Makes some reference to the statement AND/OR examples such as legislation, cases, media, international instruments and documents ; Presents a structured response to the question using relevant legal terminology and concepts"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited understanding about legal measures OR the need to resolve conflict between nation states ; Makes statements about the effectiveness of legal measures to respond to change ; Makes limited reference to the statement AND/OR examples such as legislation, cases, media, international instruments and documents ; Uses some relevant legal terminology"
+        },
+        {
+          "marks": "1–5",
+          "text": "Writes in general terms about law relating to world order ; May include reference to the statement AND/OR legislation, cases, media, international instruments and documents ; May refer to general legal terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section III — Options, 50 marks. Attempt TWO questions from Questions 26–32, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+      "kind": "text",
+      "needsStimulus": false
+    }
+  ]
+}
