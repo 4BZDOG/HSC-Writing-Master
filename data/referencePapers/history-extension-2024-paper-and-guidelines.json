@@ -1,0 +1,91 @@
+{
+  "year": 2024,
+  "course": "History Extension",
+  "papers": [
+    "2024-hsc-history-extension-cc.pdf",
+    "2024-hsc-history-extension-mg.pdf"
+  ],
+  "skipped": [],
+  "edits": [],
+  "questions": [
+    {
+      "number": "1",
+      "section": "I",
+      "sectionHeading": "Section I (25 marks). Allow about 1 hour for this section.",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Evaluate the role of historians in changing interpretations and perspectives of history. Integrate Sources A and B and at least TWO other sources throughout your response.",
+      "stimulus": "Source A: an extract from Tom Holt, Thinking Historically: Narrative, Imagination and Understanding, 1990. The extract is copyright and is not reproduced here; read it in the 2024 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-07/2024-hsc-history-extension-cc.pdf\nSource B: an extract from Rita Luís and Chrysi Rapanta, \"Towards (Re-)Defining historical reasoning competence: A review of theoretical and empirical research\", Educational research review, 2020. The extract is copyright and is not reproduced here; read it in the 2024 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-07/2024-hsc-history-extension-cc.pdf",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of relevant issues of historiography",
+        "use relevant sources to support your argument",
+        "present a comprehensive, logical and sustained response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides an insightful judgement of the role of historians in changing interpretations and perspectives of history ; Supports the response with sustained integration of Sources A and B, and at least TWO other relevant sources ; Demonstrates extensive knowledge and complex understanding of, and critical insight into, relevant historiographical issues ; Constructs a comprehensive, logical and sustained response"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides an effective judgement of the role of historians in changing interpretations and perspectives of history ; Makes explicit references to Sources A and B, and supports the response with at least TWO other relevant sources ; Demonstrates thorough knowledge and clear understanding of relevant historiographical issues ; Constructs a logical and sustained response"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides some judgement of the role of historians in changing interpretations and perspectives of history ; Makes references to Sources A and B, and at least TWO other relevant sources ; Demonstrates sound knowledge and understanding of historiographical issues ; Constructs a structured response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides a description of the role of historians and/or changing interpretations and/or perspectives of history ; Makes limited references to Sources A and/or B, and at least ONE other source ; Demonstrates limited knowledge and understanding of historiographical issues ; Constructs a limited response"
+        },
+        {
+          "marks": "1–5",
+          "text": "Provides isolated observations on historians and/or the changing interpretations and/or perspectives of history ; Makes minimal references to Sources A and/or B, and/or at least ONE other source ; Demonstrates minimal knowledge of historiographical issues"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "2",
+      "section": "II",
+      "sectionHeading": "Section II (25 marks). Allow about 1 hour for this section.",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "To what extent is the recording of history shaped by historians’ individual contexts? In your response, make explicit reference to ONE area of debate in your case study. Identify your case study at the beginning of your answer.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of an appropriate case study",
+        "engage with the historiography of the areas of debate selected for discussion",
+        "present a comprehensive, logical and sustained response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Presents an insightful judgement of how the recording of history is shaped by historians’ individual contexts ; Supports the response with detailed and explicit references to ONE area of debate in their chosen case study ; Demonstrates extensive knowledge, complex understanding of, and critical insight into historiographical issues from the chosen area(s) of debate in their case study ; Constructs a comprehensive, logical and sustained response"
+        },
+        {
+          "marks": "16–20",
+          "text": "Presents an effective judgement of the relevance of how the recording of history is shaped by historians’ individual contexts ; Supports the response with detailed references to ONE area of debate in their chosen case study ; Demonstrates thorough knowledge and clear understanding of historiographical issues from the chosen area(s) of debate in their case study ; Constructs a logical and sustained response"
+        },
+        {
+          "marks": "11–15",
+          "text": "Presents some judgement of how the recording of history is shaped by historians’ individual contexts ; Constructs a response with references to ONE area of debate in their chosen case study ; Demonstrates sound knowledge and understanding of historiographical issues from the chosen area(s) of debate in their case study ; Constructs a structured response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Presents a description of how the recording of history is shaped by historians’ individual contexts ; Constructs a response with limited reference to ONE area of debate in their chosen case study ; Demonstrates limited knowledge and/or understanding of historiographical issues from the chosen area(s) of debate in their case study ; Presents a limited response"
+        },
+        {
+          "marks": "1–5",
+          "text": "Presents isolated observations on how the recording of history is shaped by historians’ individual contexts ; May refer to ONE area of debate in their chosen case study ; Demonstrates minimal knowledge of the chosen area(s) of debate in their case study"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    }
+  ],
+  "note": "Stimulus texts replaced by citations (copyright). The marking guidelines print no sample answers."
+}

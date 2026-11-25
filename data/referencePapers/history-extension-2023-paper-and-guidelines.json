@@ -1,0 +1,91 @@
+{
+  "year": 2023,
+  "course": "History Extension",
+  "papers": [
+    "2023-hsc-history-extension_20240311_unredacted.pdf",
+    "2023-hsc-history-ext-mg.pdf"
+  ],
+  "skipped": [],
+  "edits": [],
+  "questions": [
+    {
+      "number": "1",
+      "section": "I",
+      "sectionHeading": "Section I (25 marks). Allow about 1 hour for this section.",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "Evaluate the role of historiographical debate in approaches to the construction of history over time. Use Sources A and B and at least TWO other sources to support your argument.",
+      "stimulus": "Source A: an extract from Samuel De Canio, \"Counterfactual history: an interview with historian Niall Ferguson\", The Governance Podcast, 2022. The extract is copyright and is not reproduced here; read it in the 2023 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-05/2023-hsc-history-extension_20240311_unredacted.pdf\nSource B: an extract from Mads Mordhorst, \"From counterfactual history to counternarrative history\", Management & Organizational History, 2008. The extract is copyright and is not reproduced here; read it in the 2023 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-05/2023-hsc-history-extension_20240311_unredacted.pdf",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of relevant issues of historiography",
+        "use relevant sources to support your argument",
+        "present a comprehensive, logical and sustained response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides a critical judgement of the role of historiographical debate in approaches to the construction of history over time ; Supports an argument with explicit references to Sources A and B, and at least TWO other relevant sources ; Demonstrates extensive knowledge, complex understanding of, and critical insight into relevant historiographical issues ; Constructs a comprehensive, logical and sustained response"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides an effective judgement of the role of historiographical debate in approaches to and/or the construction of history ; Makes explicit references to Sources A and B, and supports an argument with at least TWO other relevant sources ; Demonstrates thorough knowledge and clear understanding of relevant historiographical issues ; Constructs a logical and sustained response"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides some judgement of debate in relation to approaches to and/or the construction of history ; Makes references to Sources A and/or B, and at least TWO other relevant sources ; Demonstrates sound knowledge and understanding of relevant historiographical issues ; Constructs a clear response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides a description of approaches to and/or the construction of history ; Makes limited reference to Sources A and/or B and at least ONE other relevant source ; Demonstrates limited knowledge and understanding of historiographical issues ; Presents a limited response"
+        },
+        {
+          "marks": "1–5",
+          "text": "Provides isolated observations about the construction of history ; Makes minimal reference to Sources A and/or B and/or ONE other relevant source ; Demonstrates minimal knowledge of historiographical issues"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "2",
+      "section": "II",
+      "sectionHeading": "Section II (25 marks). Allow about 1 hour for this section.",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how the form of communication has influenced historical interpretations. In your response, refer to at least ONE area of historical debate in your case study. Identify your case study at the beginning of your answer.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of an appropriate case study",
+        "engage with the historiography of the areas of debate selected for discussion",
+        "present a comprehensive, logical and sustained response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Presents a comprehensive and insightful explanation of how the form of communication has influenced historical interpretations ; Constructs a response with detailed and explicit references to at least ONE area of debate in their chosen case study ; Demonstrates extensive knowledge, complex understanding of, and critical insight into historiographical issues from the chosen area(s) of debate in their case study ; Constructs a comprehensive, logical and sustained response"
+        },
+        {
+          "marks": "16–20",
+          "text": "Presents a detailed explanation about form(s) of communication and historical interpretations ; Constructs a response with explicit references to at least ONE area of debate in their chosen case study ; Demonstrates thorough knowledge and clear understanding of historiographical issues from the chosen area(s) of debate in their case study ; Constructs a logical and sustained response"
+        },
+        {
+          "marks": "11–15",
+          "text": "Presents some explanation about form(s) of communication and historical interpretations ; Constructs a response with references to at least ONE area of debate in their chosen case study ; Demonstrates sound knowledge and understanding of historiographical issues from the chosen area(s) of debate in their case study ; Constructs a clear response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides a narrative about form(s) of communication and/or historical interpretations ; Makes limited reference to at least ONE area of debate in their chosen case study ; Demonstrates limited knowledge and/or understanding of historiographical issues from the chosen area(s) of debate in their case study ; Presents a limited response"
+        },
+        {
+          "marks": "1–5",
+          "text": "Provides isolated observations about form(s) of communication and/or historical interpretations ; May refer to ONE area of debate in their chosen case study ; Demonstrates minimal knowledge of the chosen area(s) of debate in their case study"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    }
+  ],
+  "note": "Stimulus texts replaced by citations (copyright). The marking guidelines print no sample answers."
+}

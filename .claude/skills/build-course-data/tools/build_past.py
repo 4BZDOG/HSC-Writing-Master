@@ -41,7 +41,8 @@ US = re.compile(r'\b(analyz|color(?!ado)|organiz|behavior|center\b|centers\b|fav
                 r'utiliz|realiz|minimiz|maximiz|labor\b|catalog\b|defense|license\b)', re.I)
 PROPER = re.compile(r'\b(Australian Labor Party|Labor Party|Labor government|Labor|Strategic Defense Initiative|'
                     r'Department of Defense|Defense Department|World Health Organization|International Labour Organization|'
-                    r'United Nations Educational, Scientific and Cultural Organization|Pearl Harbor|Center for [A-Z]\w+)\b')
+                    r'United Nations Educational, Scientific and Cultural Organization|Pearl Harbor|Center for [A-Z]\w+|'
+                    r'(?:[A-Z]\w+ )+Organization)\b')
 # the canonical command terms (data/commandTerms.ts), read from the source so the two cannot drift
 _terms = open(__file__.rsplit('/.claude/', 1)[0] + '/data/commandTerms.ts', encoding='utf-8').read()
 VERBS = set(re.findall(r"\bterm:\s*'([A-Z ]+)'", _terms))

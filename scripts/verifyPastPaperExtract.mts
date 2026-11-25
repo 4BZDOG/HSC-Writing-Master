@@ -76,7 +76,9 @@ const verbatim = (text: string | undefined, corpus: string, where: string): void
 for (const q of extract.questions) {
   const at = `${extract.year} Q${q.number}`;
   verbatim(q.stem, paper, `${at} stem`);
-  verbatim(q.stimulus, paper, `${at} stimulus`);
+  // a figure is carried as one bracketed description on its own line ("[Graph 1: …]"); it is the extractor's
+  // words, not NESA's, so it is left out of the verbatim check
+  verbatim(q.stimulus?.replace(/^\[[^\n]*\]$/gm, ''), paper, `${at} stimulus`);
   q.assessedOn?.forEach((b) => verbatim(b, paper, `${at} assessedOn`));
   for (const row of q.criteria)
     for (const bullet of row.text.split(' ; '))

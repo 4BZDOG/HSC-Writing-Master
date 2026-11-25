@@ -1,0 +1,574 @@
+{
+  "year": 2019,
+  "course": "Earth and Environmental Science",
+  "papers": [
+    "2019-hsc-earth-and-environmental-science.pdf",
+    "2019-hsc-earth-and-environmental-science-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "22",
+      "reason": "Answer is a drawn flow diagram (\"Construct a flow diagram\"); drawn answer (brief)."
+    },
+    {
+      "number": "23(a)",
+      "reason": "Answer is a completed graph (\"Complete the graph for Organics\"); drawn answer (brief)."
+    },
+    {
+      "number": "23(b)",
+      "reason": "Answer is a completed table with calculated PTR values (\"Complete the table by adding the missing data\"); table-completion answer (brief)."
+    },
+    {
+      "number": "24(a)",
+      "reason": "Answer is a completed table (\"Complete the table by adding the missing data\"); table-completion answer (brief)."
+    }
+  ],
+  "edits": [
+    "23(c): the PTR formula, a typeset fraction the text layer garbles, is written as a bracketed line in the stimulus from the rendered page 21.",
+    "23(c) and 24(b): the printed tables (page 20 data table; Table 1 and the part (a) table on pages 22 to 23) are carried as bracketed descriptions listing every printed value, and cropped into img/.",
+    "29: the \"Answers could include\" entries are three printed paragraphs, not bullets; each paragraph is one entry in answersCouldInclude.",
+    "30(b): the sample answer is a two-column grid written as \"Column | Column\" rows. The \"Answers could include\" grid is four entries, grid position not carried; the identical Biosphere entry printed under both explosive and effusive volcanism is listed once.",
+    "35: only the bullets under \"Answers could include\" are carried; the unlabelled prose printed after them on marking guideline pages 17 to 18 is not carried.",
+    "35: the prose passage NESA prints after the \"Answers could include\" bullets (marking guidelines pp. 17–18) is carried as the sample answer."
+  ],
+  "images": {
+    "23(c)": {
+      "file": "ees-2019-23c.png",
+      "alt": "A data table of generation, energy recovery, recycling and disposal in megatonnes for metals, organics, paper and cardboard, plastics and glass."
+    },
+    "24(b)": {
+      "file": "ees-2019-24b.png",
+      "alt": "A block diagram of the study area with Units 1 to 10 and a key, a graph of potassium-40 proportion against age, and the part (a) table to complete."
+    },
+    "26": {
+      "file": "ees-2019-26.png",
+      "alt": "A graph of atmospheric oxygen and carbon dioxide concentrations and the relative deposition of banded iron formations against time."
+    }
+  },
+  "questions": [
+    {
+      "number": "21",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the sustainability of processes used by Aboriginal Peoples or Torres Strait Islander Peoples as resource managers. Use examples to support your answer.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates an understanding of Aboriginal Peoples or Torres Strait Islander Peoples as sustainable resource managers ; Makes judgements supported by arguments regarding the sustainability of their processes ; Provides appropriate examples which link the judgements to sustainable resource management ; Uses specific and appropriate terminology and progression of thought"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a detailed knowledge of Aboriginal Peoples or Torres Strait Islander Peoples as sustainable resource managers ; Makes a judgement supported by arguments regarding the sustainability of their processes ; Provides appropriate examples which link the judgements to sustainable resource management ; Uses appropriate terminology and progression of thought"
+        },
+        {
+          "marks": "3",
+          "text": "Recalls basic knowledge of Aboriginal Peoples or Torres Strait Islander Peoples as sustainable resource managers ; Makes a judgement regarding the sustainability of their processes ; Provides a link between the judgements and sustainable resource management ; Uses suitable terminology and progression of thought"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information on Aboriginal Peoples or Torres Strait Islander Peoples as sustainable resource managers"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Sustainable resource management refers to the usage of a resource such that the resource is not used up and is therefore available for use by future generations.\nAboriginal Peoples or Torres Strait Islander Peoples have traditionally demonstrated an effective use of resources that has been sustainable over a long period of time.\nOne example of such a process includes the way in which Aboriginal Peoples move around their Country guided by seasonal changes and breeding patterns of native flora and fauna. This ensures that, the population hunted or harvested has time to regenerate before the next visit. This demonstrates an effective sustainability practice because of the maintenance of populations for future use.\nAnother practice used by Aboriginal Peoples in the east was that of fire stick farming. Aboriginal People used certain burn patterns to ensure native animal habitats were not completely destroyed by extreme fires because of fuel build up. Therefore, sustaining the population of the animals that they ate and the regeneration of useful plant species, this practice demonstrates they were sustainable managers of their environment because stable ecosystems were maintained.\nOverall, the practices outlined are examples of how indigenous peoples maintained sustainable resources for use over generations.",
+      "answersCouldInclude": [
+        "Land councils’ negotiations over proposed developments",
+        "Conservation of places of cultural significance",
+        "Seeking legislation.",
+        "Totems, fish farming, transport of eels/fisheries",
+        "Middens as indicators."
+      ]
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Identify the material with the lowest percentage total recovery (PTR) and justify a strategy to improve its recovery rate.",
+      "stimulus": "The table gives information about the generation and the reuse of some materials in Australia in 2016.\n[Table as printed on page 20: columns Metals, Organics, Paper and cardboard, Plastics and Glass. Generation (Mt): 5.2, 12.8, 5.3, 2.5, 1.1. Energy recovery (Mt): 0.0, 1.4, 0.5, 0.02, 0.0. Recycling (Mt): 4.6, 5.2, 3.2, 0.3, 0.6. Disposal (Mt): 0.6, 6.2, 1.6, 2.2, 0.5.]\nIn the table on page 20, the recovery rates of different classes of materials are given as ‘Energy recovery’ and ‘Recycling’ rates. ‘Energy recovery’ is where the material is converted into some form of energy and reused in this fashion, whereas ‘Recycling’ is where the material is reused to make new products.\nThe percentage total recovery (PTR) can be calculated as\n[Formula as printed, a fraction: PTR = (Energy recovery (Mt) + Recycling (Mt)) / Generation (Mt) × 100/1]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Identifies the material with lowest PTR ; Describes a strategy to improve recovery rate ; Justifies the use of the strategy"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies the material with lowest PTR ; Outlines a strategy to improve recovery rate ; Justifies the use of the strategy ; OR ; Identifies the material with the lowest PTR ; Describes a strategy to improve recovery rate ; OR ; Describes a strategy to improve the recovery rate of a category other than plastics"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The plastics category has the lowest PTR. One strategy that would improve the recovery rate of this category would be to introduce a refundable deposit for all plastic containers. This strategy would encourage more people to recycle more plastic containers and the recovery rate for the plastics category would increase.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "What is the likely age of Unit 7? Give reasons for your answer.",
+      "stimulus": "The diagram shows the relationship between various geological units in a study area.\n[Diagram 1, Block diagram of a study area, NOT TO SCALE. A vertical section of layers labelled Unit 1 (top) to Unit 10 (bottom), each with an arrow. A wavy vertical band with a diagonal dash pattern cuts through the layers from Unit 1 down. Units 2 to 6 are patterned horizontal bands; Unit 7 is an unpatterned band between Unit 6 and Unit 8; Unit 8 has a brick pattern; Unit 9 has a dashed pattern; Unit 10 is a cross-pattern body on the right-hand side of the section at the base. Key: Dolerite, Limestone, Basalt, Shale, Sandstone, Granite, Muddy limestone, each shown by a pattern.]\nTable 1 shows marine index fossils for various geological periods. Graph 1 is a section of a potassium–argon decay curve. A Geological Time Scale is provided at the back of this paper.\n[Table 1, Marine index fossils, by period (two fossils per period): Quaternary: Pecten gibbus, Neptunea tabulata. Neogene: no fossils printed. Paleogene: Calyptraphorus velatus, Venericardia planicosta. Cretaceous: Scaphites hippocrepis, Inoceramus labiatus. Jurassic: Perisphinctes tiziani, Nerinea trinodosa. Triassic: Tropites subbullatus, Monotis subcircularis. Permian: Leptodus americanus, Parafusulina bosei. Carboniferous: Cactocrinus multibrachiatus, Prolecanites gurleyi. Devonian: Mucrospirifer mucronatus, Palmatolepus unicornis. Silurian: Cystiphyllum niagarense, Hexamoceras hertzeri. Ordovician: Bathyurus extans, Tetragraptus fructicosus. Cambrian: Paradoxides pinus, Billingsella corrugata.]\n[Graph 1, Section of a potassium–argon decay curve. x-axis: Age (millions of years), 0 to 400. y-axis: Proportion of potassium-40 remaining, 0.84 to 1.00. One straight line starts at 1.00 at age 0 and falls to 0.84 at about 320 million years. Approximate values read off the graph: 0.95 at about 100 million years; 0.90 at about 200 million years.]\n[Table to complete in part (a), as printed: columns Unit, Lithology, An index fossil, Proportion potassium-40 remaining, Geological Period, Absolute age in millions of years. Printed entries: Unit 1, proportion 0.99. Unit 2, Basalt, proportion 0.96, Cretaceous, 80. Unit 3, Sandstone, Perisphinctes tiziani, Jurassic. Unit 4, Muddy limestone, Triassic. Unit 6, Muddy limestone, Triassic. Unit 8, Cystiphyllum niagarense. Unit 9, Shale, Tetragraptus fructicosus, Ordovician. Unit 10, Granite, proportion 0.865, Permian. Other cells are blank or hatched.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Suggests an age ; Demonstrates a sound knowledge of dating methods ; Links the features of the unit to dating techniques"
+        },
+        {
+          "marks": "3",
+          "text": "Suggests an age ; Demonstrates a basic knowledge of dating methods ; Links some features of the unit to dating techniques"
+        },
+        {
+          "marks": "2",
+          "text": "Provides information on absolute or relative dating ; OR ; Gives reasons for the suggested age"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Suggested age is Devonian or Carboniferous. Unit 7 is conformable with units 6 and 8 and is probably a sedimentary rock. The Law of superposition would therefore be an appropriate method to determine the age of unit 7.\nAs Unit 7 is below Unit 6, it must be older than the Triassic. It’s above Unit 8 and must be younger than Unit 8 which is Silurian. Unit 7 is intruded by Unit 10 which is of Permian age (270 million years old). Therefore Unit 7 has to be Devonian or Carboniferous.\nIf the unit was studied again and index fossils were found these could be used to give the best relative age.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How can the reliability of the data from a first-hand investigation be tested?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Demonstrates an understanding of reliability and includes repetition and similarity of results"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "To test the reliability of data you would check if the investigation had been undertaken several times under identical circumstances and then look to see if the results were similar.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "26",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain how the biosphere has influenced Earth’s atmosphere and hydrosphere over time. Use information from the graph to support your answer.",
+      "stimulus": "The graph shows the abundance of oxygen and carbon dioxide in Earth’s atmosphere and the relative abundance of banded iron formations (BIF) produced over time.\n[Graph, no title. Left y-axis: Atmospheric O2 concentration, labels from 10^-8 ppm at the bottom to 100% at the top. Right y-axis: Atmospheric CO2 concentration, labels from 0.1 ppm at the bottom to 100% at the top. x-axis: Time (billions of years before present), 4.0 at the left to 0 at the right. Dotted line labelled Oxygen; dashed line labelled Carbon dioxide; stippled shaded area labelled Relative deposition of BIF, with two arrows pointing to its two peaks, the larger at about 2.4 billion years and the smaller at about 0.7 billion years.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound knowledge of the biosphere ; Links changes in the biosphere to both changes in the atmosphere and hydrosphere ; Provides numeric information from components of the graph"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some knowledge of the biosphere ; Links changes in the biosphere to either changes in the atmosphere and banded iron formations ; Provides numeric information from a component of the graph"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates basic knowledge of the biosphere ; Gives some information from the graph"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information from the graph ; OR ; Provides some relevant information about the biosphere"
+        }
+      ],
+      "sampleAnswer": "The earliest photosynthetic organisms lived in water and any oxygen produced dissolved in the water and thus there was no oxygen in the atmosphere until 2.3 billion years ago. Until then dissolved oxygen combined with iron to form banded iron formations (BIF) with maximum BIF deposition occurring at 2.5 billion years ago. After 2.3 billion years ago, more oxygen was produced than was needed for BIF deposition and oxygen escaped to the atmosphere. There was a small increase in atmospheric oxygen levels, to present day levels, before 500 million years ago as photosynthetic organisms increased in number, in the hydrosphere, and eventually also in terrestrial environments. This increase in atmospheric oxygen eventually led to the production of ozone in the atmosphere. At 500 million years ago there was a rapid decrease in carbon dioxide from more than 1% of the atmosphere to approximately 700 ppm, possibly due to the evolution of land plants which consumed the gas as a reactant in the photosynthesis process.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "27",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "How can the iridium content of BOTH meteorites and Earth’s crust be used to support the theory that the end-Cretaceous mass extinction was caused by a meteorite impact?",
+      "stimulus": "The average abundance of iridium in meteorites is 0.5 ppm and the average abundance of iridium in general crustal rocks is less than 0.001 ppm.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Compares iridium content in rocks and meteorites ; Refers to the data given ; Links iridium to the stated theory"
+        },
+        {
+          "marks": "2",
+          "text": "Compares iridium content in rocks and meteorites"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The end-Cretaceous mass extinction occurred at the boundary between the Cretaceous and the Paleogene. It resulted in the disappearance of numerous organisms including all the dinosaurs. To support the theory that a meteor caused the extinction, the following criteria need to be met:\nthe impact resulted in the disintegration of the meteor causing widespread distribution of the dust and particles from the meteor\nthe dust and particles from the meteor had to become part of sediments at the time of impact\nsince meteors have much higher iridium content, 0.05 ppm in this case, than normal terrestrial rocks, the sedimentary rocks deposited at the boundary should have a higher iridium content, that is, greater than 0.001 ppm due to the contamination of iridium from the meteor.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "28",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how BOTH tsunamis and lahars are produced.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Relates causes and effects of both tsunami and lahar production"
+        },
+        {
+          "marks": "3",
+          "text": "Relates cause and effect of either tsunami or lahar production ; Describes both tsunami or lahar"
+        },
+        {
+          "marks": "2",
+          "text": "Describes either tsunami and lahar"
+        },
+        {
+          "marks": "1",
+          "text": "Gives some relevant knowledge"
+        }
+      ],
+      "sampleAnswer": "Tsunami: These are waves of various sizes that result from an oceanic volcanic eruption, earthquake or landslide that causes the displacement of water. As earthquakes occur, water is displaced and the tsunami wave is formed.\nLahar: A type of flooding unique to volcanic eruptions. Fast flowing water mixes with ash and loose rubble. The water may come from melted snow and ice, displaced lakes or heavy rain during eruption. The mixture moves down slopes because of gravity.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "29",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 7,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate technologies used in meteorology to predict extreme weather events.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Demonstrates thorough knowledge and understanding of technologies used in predicting extreme weather events ; Provides a thorough evaluation based on relevant and appropriate criteria"
+        },
+        {
+          "marks": "6",
+          "text": "Demonstrates sound knowledge and understanding of technologies used in predicting extreme weather events ; Provides a sound evaluation based on relevant and appropriate criteria"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates some knowledge and understanding of technology/technologies used in predicting extreme weather events ; Provides a satisfactory evaluation based on relevant and appropriate criteria"
+        },
+        {
+          "marks": "2–3",
+          "text": "Demonstrates some knowledge of extreme weather events and technologies used to predict such events"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Extreme meteorological events such as: floods, coastal erosion, tornado, cyclone, hurricane, gale, storm surge, lightning, drought, snow storms, hail storms, heatwaves, east coast lows and thunderstorms.",
+        "Technologies such as: weather satellites, balloon aircraft or ship-borne instruments, doplar radar, thermometers, barometers, resistance temperature detectors (RTD), drifting ocean buoys, tipping bucket rain gauge.",
+        "Relevant and appropriate criteria such as cost, effectiveness, accuracy, accessibility and reliability."
+      ]
+    },
+    {
+      "number": "30(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Account for the difference in the depth at which earthquakes originate at divergent and convergent boundaries.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Links each boundary type to the depth at which earthquakes occur ; States reasons why earthquakes occur at these depths"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some knowledge about the depths at which earthquakes occur and boundary types"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Convergent boundaries typically produce deep focused earthquakes as the oceanic crust penetrates deep into the mantle. A divergent boundary found at a mid-ocean ridge is where the oceanic crust is relatively close to the surface and it will produce shallow focused earthquakes.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Compare the effects of explosive and effusive volcanism on BOTH the biosphere and atmosphere.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates sound knowledge and understanding of the similarities and/or differences between both types of volcanism and their effects on the biosphere and the atmosphere"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some knowledge of the similarities and/or differences between both types of volcanism and their effects on the biosphere and the atmosphere"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some knowledge of the similarities or differences between both types of volcanism and the effects of either on the biosphere or the atmosphere"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Biosphere\nExplosive volcanism | Effusive volcanism\n• Massive destruction of local plants and animals with such hazards as lahars, tsunami and pyroclastic flows. | • Massive destruction of local plants and animals with such hazards as lava flows and acid rain.\nAtmosphere\nExplosive volcanism | Effusive volcanism\n• Typically a local and global impact on atmospheric composition due to the particles and gases emitted. | • Typically a local impact on atmospheric composition due to the limited dispersion of particles and gases emitted.",
+      "answersCouldInclude": [
+        "Long-term impact on the fertility of local soil through mineral replenishment for the plants and animals.",
+        "A decrease in global temperature due to the extensive scale of the eruption and ash cloud.",
+        "An increase in acid rain due to local weather patterns."
+      ]
+    },
+    {
+      "number": "31",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Why are some scientists investigating the current trend of increasing atmospheric CO2 when Earth’s history has shown the planet has undergone several periods of increasing levels of atmospheric CO2?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides reasons why some scientists are investigating the current trend of increasing CO2 ; Compares the current trend of increasing CO2 with past increases ; Links the reasons for the current investigation to the differences between the current trend and past increases"
+        },
+        {
+          "marks": "3",
+          "text": "Provides reasons why some scientists are investigating the current trend of increasing CO2 ; Compares the current trend of increasing CO2 with past increases"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some understanding of the current trend of increasing CO2 ; AND/OR ; Shows some understanding of past increases of CO2 ; AND/OR ; Provides reason(s) why some scientists are investigating the current trend of increasing CO2"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "There have been periods through time when atmospheric CO2 concentration has increased. For example, over the past 800 000 years up until the 1950s, CO2 concentrations went up and down on multiple occasions varying within the range of approximately 170 to 300 ppm. The increases had been slow, spanning thousands of years. In contrast, atmospheric CO2 concentrations have increased from 300 ppm to over 400 ppm over the last 70 years. In the past, the sources of atmospheric CO2 have been natural, that is volcanic eruptions, asteroid bombardment, respiration and other natural processes. Nowadays, while these natural processes still occur more sources such as industries, cars, more livestock and greater world population emit CO2. At the same time, there has been deforestation.\nThe differences between then and now are the magnitude of increase, the rate of increase and the sources of CO2 and the lack of CO2 sequestration due to deforestation. This is why some scientists are investigating the current trend of increasing atmospheric CO2 to see how it may affect ecosystems.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "32(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how oceans become acidified.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides the relationship between atmospheric and oceanic CO2 ; Outlines how carbonic acid is produced ; Links increase in atmospheric CO2 to increase in oceanic CO2 and increase in acidification"
+        },
+        {
+          "marks": "2",
+          "text": "Provides the relationship between atmospheric and oceanic CO2 ; Links to changes in acidity"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "CO2 from the atmosphere normally dissolves in the ocean. Some of this CO2 reacts with water to make carbonic acid. When there is extra CO2 in the atmosphere, more will dissolve and react and more carbonic acid will be produced. Thus the oceans will become acidified.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "32(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe ONE effect of ocean acidification.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Describes an effect of ocean acidification"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The more acidic the ocean becomes, the more corrosive it becomes. This is likely to affect organisms that make their shells out of carbonate minerals, as carbonates will dissolve in acidic conditions.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "33(a)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How can Aboriginal art be used as evidence of the changing biodiversity of Australia?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Describes how Aboriginal art can be used as evidence of the changing biodiversity of Australia"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Aboriginal art is a record of the animals and plants seen by the first Australians at the time the art was done. Thus over tens of thousands of years, the art gives the record of biodiversity seen at specific locations through time as rock art can be dated to give an absolute date to the presence of organisms pictured. This can be analysed for changes through time.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "33(b)",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how scientists can interpret past environments from the study of sedimentary rocks. Support your answer using examples.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of the formation of sedimentary rocks ; Provides appropriate examples of how a scientist would study rocks ; Links characteristics of rocks to information about past environments"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some knowledge about the formation of sedimentary rocks ; Uses appropriate examples of how a scientist would study rocks ; Links characteristics of rocks to information about past environments"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates basic knowledge about the formation of sedimentary rocks ; OR ; Links a characteristic of rocks to information about past environments ; Provides one appropriate example of how a scientist could analyse rocks"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Rocks can tell you a range of things dependent on the type of analysis. Varves are changes in the thickness of layers that are a result of changing sedimentation rates. These changed rates are usually seasonal and due to influxes of meltwater/rainwater carrying sediment thus allowing scientists to get an idea of the environments producing the layers, eg the thicker layers of sediment may indicate when the meltwaters are flowing and carrying lots of fresh sediment with them for deposition. Fossil analysis can allow you to deduce marine and/or aquatic environments based on the types of fossils found. This also leads to certain environmental conditions being deduced through the presence of specific fossils and fossil assemblages. An example is the presence of coral fossils indicating shallow marine conditions. Further isotopic analysis of the ratio of O16 and O18 planktonic fossil shells can yield information about the global temperature. For example, the more O16 present the warmer the temperatures were, as usually the O16 is locked up in glaciers and ice and only released when these melt. The plankton that incorporate this O16 in their shells can become temperature indicators.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "34",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the use of ONE geo-engineering strategy in mitigating global temperature increases.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes an appropriate method of geo-engineering ; Makes a judgement supported by argument regarding the effectiveness of the chosen method for mitigating global temperature rise"
+        },
+        {
+          "marks": "2",
+          "text": "Describes an appropriate method of geo-engineering ; OR ; Makes a judgement supported by argument regarding the effectiveness of the chosen method for mitigating global temperature rise"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Carbon capture and sequestration allows CO2 to be extracted from industrial processes and forced into underground fluids where it is stored. This means the CO2 is held underground instead of released into the atmosphere. This subsequently means it is not increasing the atmospheric concentration of CO2 and thus not contributing to a rise in global temperature. This technique is effective in theory but is still largely experimental and very site specific so may not be utilised enough to make a significant impact.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "35",
+      "section": "II",
+      "sectionHeading": "Section II (80 marks). Attempt Questions 21–35. Allow about 2 hours and 25 minutes for this section.",
+      "marks": 9,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the use of working scientifically skills in BOTH investigating major anthropogenic environmental problems facing Australia AND developing management strategies to minimise the effects of these problems. Use examples to support your answer.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "9",
+          "text": "Demonstrates a depth or breadth and comprehension of knowledge and understanding of anthropogenic environmental problems ; Shows how the application of multiple components of working scientifically has helped in terms of investigating problems and developing management strategies for the problems ; Provides appropriate examples ; Demonstrates a coherent and logical progression of thought and consistently uses appropriate scientific terminology"
+        },
+        {
+          "marks": "7–8",
+          "text": "Demonstrates a detailed knowledge and understanding of anthropogenic environmental problems ; Shows how the application of working scientifically has helped in terms of investigating problems and developing management strategies for problems ; Provides appropriate examples ; Demonstrates a coherent and logical progression of thought and consistently uses appropriate terminology"
+        },
+        {
+          "marks": "5–6",
+          "text": "Demonstrates knowledge of anthropogenic environmental problems ; Shows how the application of at least one of the working scientifically skills has helped in terms of investigating at least one problem and developing management strategies for the problem ; Provides appropriate examples ; Uses relevant terminology and/or progression of thought"
+        },
+        {
+          "marks": "3–4",
+          "text": "Recalls basic information regarding anthropogenic environmental problems ; Gives examples of working scientifically ; Uses suitable terminology"
+        },
+        {
+          "marks": "1–2",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Scientists have used ‘working scientifically’ to understand and try to solve human caused environmental problems. One of the major problems facing Australia is climate variation.\nTo investigate climate variation scientists undertake questioning and predicting, planning investigations, conducting investigations. An example of this is where scientists have questioned if CO2 is the cause for global warming. To see if this was true they planned investigations to collect data of different forms. Some data was collected via weather balloons to measure atmospheric CO2 levels, and some data was collected from ice cores which allowed scientists to sample the atmosphere back through time to compare current CO2 levels with pre-human levels.\nProcessing data and information, analysing data and information they found that there was an increase in the amount of atmospheric CO2 in the current atmosphere and a correlation between the increase in CO2 and temperature.\nThis knowledge is used to encourage the development of management strategies such as renewable energy sources including solar and wind power. These emerging technologies can be analysed for their efficiency and greenhouse emissions as an alternative to established fossil fuel use. Problem solving is a working scientifically skill used to develop management strategies. Scientific communication of these strategies in educating the public is important to influence change in practice.",
+      "answersCouldInclude": [
+        "Climate change (global warming, enhanced greenhouse effect)",
+        "Ocean acidification/coral bleaching",
+        "Land degradation due to farming practices eg salinity, erosion",
+        "Depletion of ozone",
+        "Decreasing biodiversity/Overharvesting",
+        "Waste management",
+        "Sustainable resource management/Mining degradation",
+        "Water use and management",
+        "Anthropogenic drought",
+        "Human caused bushfire."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "year": 2019,
+  "course": "History Extension",
+  "papers": [
+    "2019-hsc-history-extension.pdf",
+    "2019-hsc-history-extension-mg.pdf"
+  ],
+  "skipped": [],
+  "edits": [],
+  "note": "Stimulus texts replaced by citations and links (copyright). Figures are described in brackets.",
+  "questions": [
+    {
+      "number": "1",
+      "section": "I",
+      "sectionHeading": "Section I (25 marks). Allow about 1 hour for this section.",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "To what extent does historical evidence shape the construction of history? Use Sources A and B and at least ONE other source to support your argument.",
+      "stimulus": "Source A: an extract from Norman J Wilson, History in Crisis? Recent Directions in Historiography, 2005. The extract is copyright and is not reproduced here; read it in the 2019 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-05/2019-hsc-history-extension.pdf\n\nSource B: an extract from Giselle Byrnes, The Myths We Live By: Reframing History for the 21st Century, 2012. The extract is copyright and is not reproduced here; read it in the 2019 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-05/2019-hsc-history-extension.pdf",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of relevant issues of historiography",
+        "use relevant sources to support your argument",
+        "present a comprehensive, logical and sustained response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates a critical assessment of the role of evidence in the construction of history ; Supports arguments with integrated and explicit references to Sources A and B, and at least ONE other relevant source ; Demonstrates extensive knowledge, clear understanding and critical insight into relevant historiographical issues raised in Sources A and B ; Provides a comprehensive, logical and sustained response"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates an effective assessment of the role of evidence in the construction of history ; Supports arguments with explicit references to Sources A and B, and at least ONE other relevant source ; Demonstrates thorough knowledge and clear understanding of relevant historiographical issues raised in Sources A and B ; Provides a logical and cohesive response"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates sound assessment of the role of evidence in the construction of history ; Makes references to Sources A and B and at least ONE other relevant source ; Demonstrates sound knowledge and understanding of historiographical issues raised in Sources A and B ; Provides a coherent response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited assessment of the role of evidence in the construction of history ; Makes limited references to Sources A and B, and/or ONE other relevant source ; Demonstrates limited knowledge and understanding of historiographical issues ; Provides a limited response"
+        },
+        {
+          "marks": "1–5",
+          "text": "Demonstrates minimal knowledge of the role of evidence in the construction of history ; Makes minimal references to Sources A and/or B and possibly ONE other relevant source ; Demonstrates minimal knowledge of historiographical issues ; Provides isolated observations"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "2",
+      "section": "II",
+      "sectionHeading": "Section II (25 marks). Allow about 1 hour for this section.",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How have changing methods of historians shaped interpretations of at least ONE area of debate in your case study?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of an appropriate case study",
+        "engage with the historiography of the areas of debate selected for discussion",
+        "present a comprehensive, logical and sustained response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Demonstrates extensive knowledge, clear understanding and critical insight into changing methods of historians that have shaped interpretations of at least ONE area of debate in the chosen case study ; Demonstrates effective integration of the impact of changing methods of historians on interpretations of at least ONE area of debate in the chosen case study ; Communicates a perceptive judgement in a comprehensive, logical and sustained response"
+        },
+        {
+          "marks": "16–20",
+          "text": "Demonstrates thorough knowledge and clear understanding of changing methods of historians that have shaped interpretations of at least ONE area of debate in the chosen case study ; Demonstrates integration of the impact of changing methods of historians on interpretations of at least ONE area of debate in the chosen case study ; Communicates a reasoned judgement in a logical and cohesive response"
+        },
+        {
+          "marks": "11–15",
+          "text": "Demonstrates sound knowledge and understanding of changing methods of historians that have shaped interpretations of at least ONE area of debate in the chosen case study ; Demonstrates some integration of the impact of changing methods of historians on interpretations of at least ONE area of debate in the chosen case study ; Communicates a coherent narrative with some attempt at judgement"
+        },
+        {
+          "marks": "6–10",
+          "text": "Demonstrates limited knowledge and understanding of ONE area of debate in the chosen case study ; Provides limited reference to methods of historians and/or interpretations of at least ONE area of debate in the chosen case study ; Communicates a limited narrative"
+        },
+        {
+          "marks": "1–5",
+          "text": "Demonstrates minimal knowledge of ONE area of debate in the chosen case study ; Provides minimal reference to methods of historians and/or interpretations of at least ONE area of debate in the chosen case study ; Communicates isolated observations"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    }
+  ]
+}
